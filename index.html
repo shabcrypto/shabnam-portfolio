@@ -19,141 +19,132 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Manrope', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
 
-/* NAV */
+/* NAV — top right vertical */
 nav {
   position: fixed;
-  top: 20px; left: 50%; transform: translateX(-50%);
+  top: 32px; right: 36px;
   z-index: 100;
-  display: flex; align-items: center; gap: 4px;
-  background: rgba(14,13,12,0.88);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-med);
-  border-radius: 100px;
-  padding: 8px 8px 8px 20px;
-  white-space: nowrap;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
 }
-.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; list-style: none; }
 .nav-links a {
-  font-size: 12px; font-weight: 600; color: var(--white-3);
-  text-decoration: none; padding: 8px 16px; border-radius: 100px;
-  letter-spacing: 0.04em; transition: all 0.2s;
+  font-size: 13px; font-weight: 600; color: var(--black);
+  text-decoration: none; letter-spacing: 0.04em; padding: 4px 0;
+  position: relative; transition: color 0.2s;
 }
-.nav-links a:hover { color: var(--white); background: rgba(240,237,230,0.07); }
+.nav-links a::after {
+  content:''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1.5px; background: var(--black);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.2s ease;
+}
+.nav-links a:hover::after { transform: scaleX(1); }
 .nav-cta {
-  font-size: 12px; font-weight: 700; color: var(--black);
+  font-size: 13px; font-weight: 700; color: var(--black);
   background: var(--white); padding: 10px 20px; border-radius: 100px;
-  text-decoration: none; letter-spacing: 0.04em; margin-left: 8px; transition: opacity 0.2s;
+  text-decoration: none; letter-spacing: 0.04em; margin-top: 8px;
+  border: 2px solid var(--black); transition: background 0.2s, color 0.2s;
 }
-.nav-cta:hover { opacity: 0.85; }
+.nav-cta:hover { background: var(--black); color: var(--white); }
 
 /* HERO */
-.hero-outer {
-  background: var(--black);
-  min-height: 100vh;
-  padding: 20px;
-  display: flex; flex-direction: column;
-}
+.hero-outer { background: var(--black); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; }
 .hero-red {
-  background: var(--red);
-  border-radius: 24px;
-  flex: 1;
-  min-height: calc(82vh - 40px);
-  padding: 100px 56px 56px;
-  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--red); border-radius: 24px; flex: 1;
+  min-height: calc(82vh - 40px); padding: 80px 56px 56px;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px;
   position: relative; overflow: hidden;
 }
+.hero-left { display: flex; flex-direction: column; align-items: flex-start; position: relative; z-index: 5; }
 .hero-eyebrow {
-  font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
-  text-transform: uppercase; color: rgba(14,13,12,0.45);
-  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(14,13,12,0.45); display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
 }
 .hero-eyebrow::before { content:''; width:24px; height:1.5px; background:rgba(14,13,12,0.3); display:block; }
 .hero-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(72px, 11vw, 148px);
-  line-height: 0.88; color: var(--black); letter-spacing: 0.01em; margin-top: 16px;
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(64px, 8vw, 120px);
+  line-height: 0.88; color: var(--black); letter-spacing: 0.01em; margin-bottom: 20px;
 }
 .hero-name .outline { -webkit-text-stroke: 2.5px var(--black); color: transparent; display: block; }
-
-.collage {
-  position: absolute; right: 56px; top: 50%; transform: translateY(-50%);
-  width: 300px; height: 300px;
-}
-.collage-card {
-  position: absolute; width: 150px; height: 190px; border-radius: 16px;
-  background: rgba(14,13,12,0.1); border: 2px solid rgba(14,13,12,0.07);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; color: rgba(14,13,12,0.2);
-}
-.collage-card:nth-child(1) { top:0; left:0; transform: rotate(-7deg); z-index:1; }
-.collage-card:nth-child(2) { top:16px; left:70px; transform: rotate(2deg); z-index:2; }
-.collage-card:nth-child(3) { top:50px; left:145px; transform: rotate(-3deg); z-index:3; }
-.collage-card:nth-child(4) { top:90px; left:90px; transform: rotate(6deg); z-index:4; }
-
-.hero-bottom {
-  display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;
-  position: relative; z-index: 5;
-}
 .hero-sub {
-  font-size: 15px; font-weight: 400; line-height: 1.75;
-  color: rgba(14,13,12,0.6); max-width: 420px;
+  font-size: 15px; font-weight: 400; line-height: 1.8;
+  color: rgba(14,13,12,0.6); max-width: 400px; margin-bottom: 28px;
 }
 .hero-sub strong { color: var(--black); font-weight: 700; }
-.hero-actions { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
+.hero-actions { display: flex; gap: 12px; align-items: center; }
 .btn-dark {
   font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--red); background: var(--black); padding: 14px 28px; border-radius: 100px; text-decoration: none;
+  color: var(--white); background: var(--black); padding: 14px 28px; border-radius: 100px;
+  text-decoration: none; transition: opacity 0.2s;
 }
+.btn-dark:hover { opacity: 0.85; }
 .btn-outline {
   font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--black); border: 1.5px solid rgba(14,13,12,0.3); padding: 13px 24px; border-radius: 100px; text-decoration: none;
+  color: var(--black); border: 1.5px solid rgba(14,13,12,0.4); padding: 13px 24px;
+  border-radius: 100px; text-decoration: none; transition: border-color 0.2s;
 }
+.btn-outline:hover { border-color: var(--black); }
+
+/* CARD REEL */
+.card-reel { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 5; }
+.card-stage { position: relative; width: 240px; height: 320px; }
+.reel-card {
+  position: absolute; inset: 0; border-radius: 18px; padding: 28px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  opacity: 0; transform: rotate(4deg) scale(0.93);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+}
+.reel-card.active { opacity: 1; transform: rotate(-2deg) scale(1); z-index: 10; }
+.rc-1 { background: #0E0D0C; }
+.rc-2 { background: #F0EDE6; }
+.rc-3 { background: #1A1832; }
+.rc-4 { background: #0E0D0C; }
+.rc-label { font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; }
+.rc-1 .rc-label, .rc-3 .rc-label, .rc-4 .rc-label { color: #4A4740; }
+.rc-2 .rc-label { color: rgba(14,13,12,0.4); }
+.rc-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 0.95; letter-spacing: 0.01em; }
+.rc-1 .rc-title, .rc-3 .rc-title { color: #F0EDE6; }
+.rc-2 .rc-title { color: #0E0D0C; }
+.rc-4 .rc-title { color: #E8430A; }
+.rc-body { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 500; line-height: 1.6; margin-top: 8px; }
+.rc-1 .rc-body, .rc-3 .rc-body, .rc-4 .rc-body { color: rgba(240,237,230,0.55); }
+.rc-2 .rc-body { color: rgba(14,13,12,0.5); }
+.rc-photo {
+  flex: 1; border-radius: 10px; background: rgba(240,237,230,0.08);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+  font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,237,230,0.2);
+}
+.reel-dots { display: flex; gap: 6px; justify-content: center; margin-top: 20px; }
+.reel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(14,13,12,0.2); transition: background 0.3s; }
+.reel-dot.active { background: #0E0D0C; }
 
 /* MARQUEE */
-.marquee-bar {
-  background: var(--black); padding: 13px 0; overflow: hidden; white-space: nowrap;
-  border-bottom: 1px solid var(--border);
-}
-.marquee-inner {
-  display: inline-block; animation: marquee 22s linear infinite;
-  font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-4);
-}
+.marquee-bar { background: var(--black); padding: 13px 0; overflow: hidden; white-space: nowrap; border-bottom: 1px solid var(--border); }
+.marquee-inner { display: inline-block; animation: marquee 22s linear infinite; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-4); }
 .marquee-inner span { margin: 0 24px; }
 .marquee-inner .sep { color: var(--red); margin: 0; }
 @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
 /* CASE STUDIES */
 .section { padding: 72px 48px; background: var(--black); border-bottom: 1px solid var(--border); }
-.section-label {
-  font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red);
-  display: flex; align-items: center; gap: 10px; margin-bottom: 32px;
-}
+.section-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
 .section-label::before { content:''; width:20px; height:1px; background:var(--red); display:block; }
-
 .cs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.cs-card {
-  border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
-  text-decoration: none; display: block; transition: border-color 0.25s, transform 0.25s;
-}
+.cs-card { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; text-decoration: none; display: block; transition: border-color 0.25s, transform 0.25s; }
 .cs-card:hover { border-color: rgba(240,237,230,0.2); transform: translateY(-4px); }
 .cs-thumb { width: 100%; height: 240px; display: flex; align-items: center; justify-content: center; }
 .cs-thumb-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,237,230,0.15); }
 .cs-body { padding: 24px 28px 28px; }
 .cs-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-.cs-tag {
-  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--white-3); border: 1px solid var(--border-med); padding: 4px 10px; border-radius: 100px;
-}
+.cs-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white-3); border: 1px solid var(--border-med); padding: 4px 10px; border-radius: 100px; }
 .cs-title { font-size: 20px; font-weight: 800; color: var(--white); line-height: 1.25; letter-spacing: -0.01em; margin-bottom: 10px; }
 .cs-desc { font-size: 13px; font-weight: 400; color: var(--white-3); line-height: 1.7; margin-bottom: 20px; }
 .cs-metrics { display: flex; gap: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 .cs-mv { font-size: 22px; font-weight: 800; color: var(--white); letter-spacing: -0.02em; line-height: 1; margin-bottom: 3px; }
 .cs-ml { font-size: 9px; font-weight: 600; color: var(--white-4); letter-spacing: 0.08em; text-transform: uppercase; }
-.cs-cta {
-  display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white);
-}
+.cs-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); }
 .cs-card:hover .cs-cta svg { transform: translateX(4px); }
 .cs-cta svg { transition: transform 0.2s; }
 
@@ -167,11 +158,7 @@ nav {
 .interests { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 .interest { font-size: 11px; font-weight: 600; color: var(--white-3); background: rgba(240,237,230,0.05); border: 1px solid var(--border); padding: 6px 14px; border-radius: 100px; }
 .cloud { position: relative; height: 210px; margin-top: 16px; }
-.trait {
-  position: absolute; font-size: 12px; font-weight: 700; color: var(--white-3);
-  background: rgba(240,237,230,0.05); border: 1px solid var(--border);
-  padding: 7px 16px; border-radius: 100px; white-space: nowrap;
-}
+.trait { position: absolute; font-size: 12px; font-weight: 700; color: var(--white-3); background: rgba(240,237,230,0.05); border: 1px solid var(--border); padding: 7px 16px; border-radius: 100px; white-space: nowrap; }
 
 /* TESTIMONIALS */
 .testimonials { padding: 72px 48px; background: var(--black); border-top: 1px solid var(--border); }
@@ -182,18 +169,11 @@ nav {
 .testi-role { font-size: 11px; font-weight: 500; color: var(--white-4); }
 
 /* FOOTER */
-footer {
-  padding: 48px; display: flex; align-items: center; justify-content: space-between;
-  border-top: 1px solid var(--border);
-}
-.footer-left { }
+footer { padding: 48px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
 .footer-name { font-size: 14px; font-weight: 700; color: var(--white-3); margin-bottom: 4px; }
 .footer-email { font-size: 12px; color: var(--white-4); }
 .footer-links { display: flex; gap: 12px; }
-.footer-link {
-  font-size: 12px; font-weight: 600; color: var(--white-3); text-decoration: none;
-  border: 1px solid var(--border-med); padding: 10px 20px; border-radius: 100px; transition: border-color 0.2s;
-}
+.footer-link { font-size: 12px; font-weight: 600; color: var(--white-3); text-decoration: none; border: 1px solid var(--border-med); padding: 10px 20px; border-radius: 100px; transition: border-color 0.2s; }
 .footer-link:hover { border-color: rgba(240,237,230,0.25); color: var(--white); }
 
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
@@ -212,33 +192,52 @@ footer {
   <a href="mailto:shabnam.rs.work@gmail.com" class="nav-cta">Contact Me</a>
 </nav>
 
-<!-- HERO -->
 <div class="hero-outer">
   <div class="hero-red f1">
-    <div class="hero-eyebrow">Product Designer + Builder</div>
-    <div class="collage">
-      <div class="collage-card">Photo</div>
-      <div class="collage-card">Photo</div>
-      <div class="collage-card">Photo</div>
-      <div class="collage-card">Photo</div>
-    </div>
-    <div class="hero-name f2">
-      SHABNAM
-      <span class="outline">RAGHAVAN</span>
-    </div>
-    <div class="hero-bottom f3">
-      <div class="hero-sub">
-        I design products where <strong>operational failure costs a hospital bed per hour.</strong> 3 years building for 21,000+ hospitals across India.
+    <div class="hero-left">
+      <div class="hero-eyebrow">Product Designer + Builder</div>
+      <div class="hero-name f2">SHABNAM<span class="outline">RAGHAVAN</span></div>
+      <div class="hero-sub f3">
+        6 years across design. <strong>3 in Healthcare and InsurTech.</strong> <strong>Shipped B2B SaaS used by 21,000+ hospitals.</strong> Contributed to <strong>IHX's acquisition by Perfios.</strong>
       </div>
-      <div class="hero-actions">
+      <div class="hero-actions f4">
         <a href="#work" class="btn-dark">See the work</a>
         <a href="#" class="btn-outline">Resume</a>
+      </div>
+    </div>
+
+    <div class="card-reel f4">
+      <div class="card-stage">
+        <div class="reel-card rc-1 active">
+          <div class="rc-photo">Your photo</div>
+          <div class="rc-label">Who I am</div>
+          <div class="rc-title">COLLECTOR OF MEMORIES AND EXPERIENCES.</div>
+        </div>
+        <div class="reel-card rc-2">
+          <div class="rc-label">Process</div>
+          <div class="rc-title">SCIENCE AND ART.</div>
+          <div class="rc-body">My design process is an amalgamation of both.</div>
+        </div>
+        <div class="reel-card rc-3">
+          <div class="rc-label">Philosophy</div>
+          <div class="rc-title">FIND PROOF FIRST.</div>
+          <div class="rc-body">I think with structure and find proof before committing to answers.</div>
+        </div>
+        <div class="reel-card rc-4">
+          <div class="rc-label">Purpose</div>
+          <div class="rc-title">FOR PEOPLE WHO CANNOT AFFORD A WRONG CLICK.</div>
+        </div>
+      </div>
+      <div class="reel-dots">
+        <div class="reel-dot active"></div>
+        <div class="reel-dot"></div>
+        <div class="reel-dot"></div>
+        <div class="reel-dot"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- MARQUEE -->
 <div class="marquee-bar">
   <div class="marquee-inner">
     <span>Healthcare</span><span class="sep">·</span><span>InsurTech</span><span class="sep">·</span>
@@ -251,20 +250,15 @@ footer {
   </div>
 </div>
 
-<!-- CASE STUDIES -->
 <div class="section f4" id="work">
   <div class="section-label">Featured Work</div>
   <div class="cs-grid">
     <a href="/ihx_case_study.html" class="cs-card">
-      <div class="cs-thumb" style="background:#1A1F2E;">
-        <span class="cs-thumb-label">IHX Dashboard Screenshot</span>
-      </div>
+      <div class="cs-thumb" style="background:#1A1F2E;"><span class="cs-thumb-label">IHX Dashboard Screenshot</span></div>
       <div class="cs-body">
-        <div class="cs-tags">
-          <span class="cs-tag">B2B SaaS</span><span class="cs-tag">WebApp</span><span class="cs-tag">Health InsurTech</span>
-        </div>
+        <div class="cs-tags"><span class="cs-tag">B2B SaaS</span><span class="cs-tag">WebApp</span><span class="cs-tag">Health InsurTech</span></div>
         <div class="cs-title">IHX Ops Dashboard — Enabling Smarter, Faster Claim Workflows</div>
-        <div class="cs-desc">Restructured the IA of a hospital claims platform used by 21,000+ hospitals. Two user teams. One broken screen. Rebuilt from the ground up.</div>
+        <div class="cs-desc">Restructured the IA of a hospital claims platform. Two user teams. One broken screen. Rebuilt from the ground up.</div>
         <div class="cs-metrics">
           <div><div class="cs-mv">67%</div><div class="cs-ml">Revenue increase</div></div>
           <div><div class="cs-mv">51%</div><div class="cs-ml">Task time cut</div></div>
@@ -274,15 +268,11 @@ footer {
       </div>
     </a>
     <a href="#" class="cs-card">
-      <div class="cs-thumb" style="background:#1A1832;">
-        <span class="cs-thumb-label">WiseWoman Screenshot</span>
-      </div>
+      <div class="cs-thumb" style="background:#1A1832;"><span class="cs-thumb-label">WiseWoman Screenshot</span></div>
       <div class="cs-body">
-        <div class="cs-tags">
-          <span class="cs-tag">B2C</span><span class="cs-tag">FemTech</span><span class="cs-tag">AI</span><span class="cs-tag">MVP</span>
-        </div>
+        <div class="cs-tags"><span class="cs-tag">B2C</span><span class="cs-tag">FemTech</span><span class="cs-tag">AI</span><span class="cs-tag">MVP</span></div>
         <div class="cs-title">WiseWoman — Cycle-Aware AI Smart Planner for Women</div>
-        <div class="cs-desc">Designed and built a full AI-native productivity app in 5 days. Cycle-aware scheduling, voice task capture, hybrid AI architecture that keeps costs at zero for users.</div>
+        <div class="cs-desc">Designed and built a full AI-native productivity app in 5 days. Cycle-aware scheduling, voice task capture, hybrid AI architecture.</div>
         <div class="cs-metrics">
           <div><div class="cs-mv">5</div><div class="cs-ml">Days to ship</div></div>
           <div><div class="cs-mv">$0</div><div class="cs-ml">Cost to users</div></div>
@@ -294,7 +284,6 @@ footer {
   </div>
 </div>
 
-<!-- ABOUT -->
 <div class="about-section" id="about">
   <div class="about-card">
     <div class="panel-heading">Who am I?</div>
@@ -327,12 +316,11 @@ footer {
   </div>
 </div>
 
-<!-- TESTIMONIALS -->
 <div class="testimonials">
   <div class="section-label">Peer Reviews</div>
   <div class="testi-grid">
     <div class="testi-card">
-      <p class="testi-text">"Shabnam consistently brought clarity and simplicity to complex workflows, making our platform much more intuitive for hospitals and payers. Her attention to detail and ability to translate ideas into clean user journeys made a big difference to the overall product experience."</p>
+      <p class="testi-text">"Shabnam consistently brought clarity and simplicity to complex workflows, making our platform much more intuitive for hospitals and payers. Her attention to detail and ability to translate ideas into clean user journeys made a big difference."</p>
       <div class="testi-name">Aditya Pathak</div>
       <div class="testi-role">Director of Product, IHX</div>
     </div>
@@ -349,9 +337,8 @@ footer {
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <div class="footer-left">
+  <div>
     <div class="footer-name">Shabnam Raghavan</div>
     <div class="footer-email">shabnam.rs.work@gmail.com · +91 7022665338</div>
   </div>
@@ -361,5 +348,18 @@ footer {
   </div>
 </footer>
 
+<script>
+const cards = document.querySelectorAll('.reel-card');
+const dots = document.querySelectorAll('.reel-dot');
+let current = 0;
+function next() {
+  cards[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = (current + 1) % cards.length;
+  cards[current].classList.add('active');
+  dots[current].classList.add('active');
+}
+setInterval(next, 1800);
+</script>
 </body>
 </html>
