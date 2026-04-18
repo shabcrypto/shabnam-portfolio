@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IHX Ops Dashboard — Shabnam Raghavan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0E0D0C;
+  --red: #E8430A;
+  --white: #F0EDE6;
+  --white-2: #C4C0B8;
+  --white-3: #857F78;
+  --white-4: #4A4740;
+  --indigo: #3C3ADA;
+  --indigo-light: #6E6CF0;
+  --teal: #00B894;
+  --amber: #F5A623;
+  --border: rgba(240,237,230,0.08);
+  --border-med: rgba(240,237,230,0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 20px; left: 50%; transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(14,13,12,0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-med);
+  border-radius: 100px;
+  padding: 8px 8px 8px 20px;
+}
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links a {
+  font-size: 12px; font-weight: 600; color: var(--white-3);
+  text-decoration: none; padding: 8px 16px; border-radius: 100px;
+  letter-spacing: 0.04em; transition: all 0.2s;
+}
+.nav-links a:hover { color: var(--white); background: rgba(240,237,230,0.07); }
+.nav-cta {
+  font-size: 12px; font-weight: 700; color: var(--black);
+  background: var(--white); padding: 10px 20px; border-radius: 100px;
+  text-decoration: none; letter-spacing: 0.04em; margin-left: 8px;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  padding: 120px 80px 80px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.hero-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--red);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+}
+.hero-label::before { content:''; width:20px; height:1px; background:var(--red); display:block; }
+
+.hero-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.hero-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--white-3); border: 1px solid var(--border-med);
+  padding: 5px 12px; border-radius: 2px;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 8vw, 110px);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: var(--white);
+  margin-bottom: 32px;
+  max-width: 900px;
+}
+
+.hero-subtitle {
+  font-size: 18px; font-weight: 300; line-height: 1.75;
+  color: var(--white-2); max-width: 640px; margin-bottom: 56px;
+}
+
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(4, auto) 1fr;
+  gap: 40px;
+  border-top: 1px solid var(--border);
+  padding-top: 40px;
+  align-items: start;
+}
+
+.meta-block {}
+.meta-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--white-4); margin-bottom: 6px;
+}
+.meta-value { font-size: 13px; font-weight: 600; color: var(--white-2); line-height: 1.5; }
+
+.hero-outcomes {
+  display: flex; gap: 0;
+  border-left: 1px solid var(--border);
+  padding-left: 40px;
+}
+
+.outcome {
+  padding-right: 40px;
+  border-right: 1px solid var(--border);
+  margin-right: 40px;
+}
+.outcome:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+.outcome-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px; color: var(--white); line-height: 1; margin-bottom: 4px;
+}
+.outcome-value span { color: var(--red); }
+.outcome-label { font-size: 10px; font-weight: 600; color: var(--white-4); letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* SECTIONS */
+section {
+  padding: 80px 80px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--red);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 40px;
+}
+.section-label::before { content:''; width:20px; height:1px; background:var(--red); display:block; }
+
+.section-heading {
+  font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+  color: var(--white); line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.section-sub {
+  font-size: 16px; font-weight: 300; line-height: 1.8;
+  color: var(--white-2); max-width: 640px; margin-bottom: 48px;
+}
+
+/* PLATFORM */
+.platform-stats {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 1px;
+  background: var(--border); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; margin-bottom: 40px;
+}
+.stat-cell {
+  background: var(--black); padding: 32px 28px;
+}
+.stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--white); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 11px; font-weight: 500; color: var(--white-4); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.4; }
+
+.callout {
+  background: rgba(240,237,230,0.03);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  border-radius: 4px;
+  padding: 24px 28px;
+  font-size: 14px; font-weight: 400; color: var(--white-2); line-height: 1.75;
+}
+.callout strong { color: var(--white); font-weight: 700; }
+
+/* PROBLEM FRAMING */
+.split-panel {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px;
+}
+.panel {
+  border: 1px solid var(--border); border-radius: 12px; padding: 32px;
+}
+.panel-top-bar {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: 2px; display: inline-block; margin-bottom: 20px;
+}
+.panel-red .panel-top-bar { background: rgba(232,67,10,0.15); color: var(--red); }
+.panel-indigo .panel-top-bar { background: rgba(60,58,218,0.15); color: var(--indigo-light); }
+.panel h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 10px; line-height: 1.2; }
+.panel p { font-size: 13px; font-weight: 400; color: var(--white-3); line-height: 1.75; }
+
+.assumption-row {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; margin-bottom: 40px;
+}
+.assumption-box {
+  border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px;
+}
+.assumption-label { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white-4); margin-bottom: 8px; }
+.assumption-text { font-size: 14px; font-weight: 600; color: var(--white-2); line-height: 1.5; }
+.vs-badge {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.1em; color: var(--white-4);
+  border: 1px solid var(--border); padding: 8px 14px; border-radius: 100px; text-align: center;
+}
+
+/* EVIDENCE */
+.evidence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+.evidence-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 28px;
+}
+.evidence-card h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white-4); margin-bottom: 16px; }
+.evidence-stat { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--white); line-height: 1; margin-bottom: 6px; }
+.evidence-stat span { color: var(--red); }
+.evidence-desc { font-size: 13px; font-weight: 400; color: var(--white-3); line-height: 1.7; }
+
+.quotes-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin-bottom: 40px; }
+.quote-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px;
+  border-left: 3px solid var(--indigo);
+}
+.quote-text { font-size: 14px; font-weight: 400; color: var(--white-2); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
+.quote-attr { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white-4); }
+
+.coverage-row { display: flex; gap: 32px; }
+.coverage-stat { text-align: center; }
+.coverage-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--white); line-height: 1; }
+.coverage-label { font-size: 10px; font-weight: 600; color: var(--white-4); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
+
+/* USERS */
+.user-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 40px; }
+.user-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 28px; position: relative;
+}
+.user-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 2px; display: inline-flex; align-items: center; gap: 6px;
+  margin-bottom: 20px;
+}
+.badge-red { background: rgba(232,67,10,0.12); color: var(--red); }
+.badge-teal { background: rgba(0,184,148,0.12); color: var(--teal); }
+.badge-amber { background: rgba(245,166,35,0.12); color: var(--amber); }
+.user-card h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 12px; line-height: 1.2; }
+.user-card ul { list-style: none; }
+.user-card li {
+  font-size: 13px; font-weight: 400; color: var(--white-3); line-height: 1.7;
+  padding-left: 16px; position: relative; margin-bottom: 4px;
+}
+.user-card li::before { content: '—'; position: absolute; left: 0; color: var(--white-4); }
+.user-tension {
+  margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);
+  font-size: 11px; font-weight: 600; color: var(--white-4); line-height: 1.5;
+}
+
+/* IA */
+.ia-container {
+  background: rgba(240,237,230,0.02); border: 1px solid var(--border);
+  border-radius: 12px; padding: 40px; margin-bottom: 40px;
+}
+
+.ia-views { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.ia-view-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--indigo-light); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
+}
+.ia-view-label::before { content:''; width:12px; height:12px; border-radius:2px; background:var(--indigo); display:block; }
+.ia-view-label.teal-view { color: var(--teal); }
+.ia-view-label.teal-view::before { background: var(--teal); }
+
+.bucket-list { display: flex; flex-direction: column; gap: 8px; }
+.bucket-item {
+  border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.bucket-name { font-size: 13px; font-weight: 600; color: var(--white-2); }
+.bucket-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 100px;
+}
+.tag-urgent { background: rgba(232,67,10,0.12); color: var(--red); }
+.tag-finance { background: rgba(0,184,148,0.12); color: var(--teal); }
+.tag-new { background: rgba(60,58,218,0.12); color: var(--indigo-light); }
+
+.scale-callout {
+  margin-top: 32px; padding: 24px 28px;
+  background: rgba(60,58,218,0.06); border: 1px solid rgba(60,58,218,0.2);
+  border-radius: 8px;
+}
+.scale-callout p { font-size: 13px; font-weight: 400; color: var(--white-2); line-height: 1.75; }
+.scale-callout strong { color: var(--indigo-light); font-weight: 700; }
+
+/* DESIGN DECISIONS */
+.decisions-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border-radius: 12px; overflow: hidden; }
+.decision-row {
+  background: var(--black); padding: 32px 36px;
+  display: grid; grid-template-columns: 48px 1fr auto; gap: 28px; align-items: start;
+}
+.decision-num {
+  font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--white-4); line-height: 1;
+}
+.decision-content {}
+.decision-title { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 8px; line-height: 1.2; }
+.decision-desc { font-size: 13px; font-weight: 400; color: var(--white-3); line-height: 1.75; max-width: 600px; }
+.decision-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: 2px; white-space: nowrap; flex-shrink: 0;
+}
+.badge-ia { background: rgba(60,58,218,0.15); color: var(--indigo-light); }
+.badge-visual { background: rgba(0,184,148,0.12); color: var(--teal); }
+.badge-test { background: rgba(245,166,35,0.12); color: var(--amber); }
+.badge-sticky { background: rgba(232,67,10,0.12); color: var(--red); }
+
+/* TESTING */
+.testing-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.round-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 24px;
+}
+.round-num {
+  font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--white-4); line-height: 1; margin-bottom: 12px;
+}
+.round-title { font-size: 14px; font-weight: 800; color: var(--white); margin-bottom: 12px; line-height: 1.3; }
+.round-outcome {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 12px;
+}
+.round-desc { font-size: 12px; font-weight: 400; color: var(--white-3); line-height: 1.65; }
+
+/* CONSTRAINTS */
+.constraints-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+.constraint-card {
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+}
+.constraint-header {
+  padding: 20px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border); cursor: pointer;
+}
+.constraint-header h4 { font-size: 15px; font-weight: 700; color: var(--white); }
+.constraint-status {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 100px;
+}
+.status-shipped { background: rgba(0,184,148,0.12); color: var(--teal); }
+.status-deferred { background: rgba(245,166,35,0.12); color: var(--amber); }
+.status-retained { background: rgba(60,58,218,0.12); color: var(--indigo-light); }
+.status-contract { background: rgba(232,67,10,0.12); color: var(--red); }
+
+.constraint-body {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 0;
+}
+.constraint-col {
+  padding: 24px 28px; border-right: 1px solid var(--border);
+}
+.constraint-col:last-child { border-right: none; }
+.col-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.col-red { color: var(--red); }
+.col-indigo { color: var(--indigo-light); }
+.col-teal { color: var(--teal); }
+.constraint-col p { font-size: 13px; font-weight: 400; color: var(--white-3); line-height: 1.75; }
+
+.throughline {
+  background: rgba(240,237,230,0.02); border: 1px solid var(--border);
+  border-radius: 12px; padding: 36px; display: grid; grid-template-columns: repeat(3,1fr); gap: 32px;
+}
+.tl-item {}
+.tl-principle { font-size: 14px; font-weight: 800; color: var(--white); margin-bottom: 8px; line-height: 1.3; }
+.tl-desc { font-size: 12px; font-weight: 400; color: var(--white-3); line-height: 1.65; }
+
+/* IMPACT */
+.impact-heroes { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 32px; }
+.impact-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 32px;
+  position: relative; overflow: hidden;
+}
+.impact-card::before {
+  content:''; position: absolute; top:0; left:0; right:0; height:2px; background: var(--indigo);
+}
+.impact-value { font-family: 'Bebas Neue', sans-serif; font-size: 64px; color: var(--white); line-height: 1; margin-bottom: 6px; }
+.impact-value span { color: var(--red); }
+.impact-desc { font-size: 13px; font-weight: 400; color: var(--white-3); line-height: 1.65; }
+
+.impact-secondary { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.impact-sec-card { border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; }
+.impact-sec-value { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--white); line-height: 1; margin-bottom: 4px; }
+.impact-sec-label { font-size: 10px; font-weight: 600; color: var(--white-4); letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.4; }
+
+/* RETROSPECTIVE */
+.retro-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.retro-card { border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+.retro-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--white-4); line-height: 1; margin-bottom: 12px; }
+.retro-title { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 10px; line-height: 1.3; }
+.retro-desc { font-size: 13px; font-weight: 400; color: var(--white-3); line-height: 1.75; }
+
+/* FOOTER */
+footer {
+  padding: 60px 80px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--border);
+}
+.footer-name { font-size: 13px; font-weight: 700; color: var(--white-3); }
+.footer-back {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 8px;
+  border: 1px solid var(--border-med); padding: 12px 24px; border-radius: 100px;
+  transition: border-color 0.2s;
+}
+.footer-back:hover { border-color: rgba(240,237,230,0.25); }
+
+/* PLACEHOLDER IMG */
+.img-placeholder {
+  width: 100%; border-radius: 8px;
+  background: rgba(240,237,230,0.04); border: 1px dashed rgba(240,237,230,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(240,237,230,0.15);
+}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+.hero > * { animation: fadeUp 0.6s both; }
+.hero > *:nth-child(1) { animation-delay: 0.05s; }
+.hero > *:nth-child(2) { animation-delay: 0.1s; }
+.hero > *:nth-child(3) { animation-delay: 0.15s; }
+.hero > *:nth-child(4) { animation-delay: 0.2s; }
+.hero > *:nth-child(5) { animation-delay: 0.28s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#work">Work</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="#">Resume</a></li>
+  </ul>
+  <a href="mailto:shabnam.rs.work@gmail.com" class="nav-cta">Contact Me</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Case Study · IHX · April 2025</div>
+
+  <div class="hero-tags">
+    <span class="hero-tag">Health InsurTech</span>
+    <span class="hero-tag">B2B SaaS</span>
+    <span class="hero-tag">WebApp</span>
+    <span class="hero-tag">Information Architecture</span>
+    <span class="hero-tag">Product Design · UI/UX</span>
+  </div>
+
+  <h1 class="hero-title">Reimagining IHX Nucleus<br>Ops Dashboard</h1>
+
+  <p class="hero-subtitle">A 4-bucket layout was hiding a multi-stage, two-team operation across 35 insurance payers. Nobody had fixed it because nobody had asked how hospital teams actually work. We did.</p>
+
+  <div class="hero-meta">
+    <div class="meta-block">
+      <div class="meta-label">Role</div>
+      <div class="meta-value">Product Design · UX Research<br>IA · UI · Prototyping</div>
+    </div>
+    <div class="meta-block">
+      <div class="meta-label">Team</div>
+      <div class="meta-value">1 PM · 1 PD (me)<br>2 Developers</div>
+    </div>
+    <div class="meta-block">
+      <div class="meta-label">Timeframe</div>
+      <div class="meta-value">3 weeks<br>Mar–Apr 2025</div>
+    </div>
+    <div class="meta-block">
+      <div class="meta-label">Also Covered</div>
+      <div class="meta-value">Dev Handoff · Design Review<br>Stakeholder Management</div>
+    </div>
+    <div class="hero-outcomes">
+      <div class="outcome">
+        <div class="outcome-value"><span>↑</span>67%</div>
+        <div class="outcome-label">Revenue per claim</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-value">3</div>
+        <div class="outcome-label">Enterprise contracts</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-value">4.6</div>
+        <div class="outcome-label">CSAT score</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 01 PLATFORM -->
+<section>
+  <div class="section-label">01 — Platform</div>
+  <h2 class="section-heading">What is IHX?</h2>
+  <p class="section-sub">The digital backbone for hospital insurance operations across India. Hospitals manage the full claim lifecycle without logging into 35 different insurer portals.</p>
+
+  <div class="platform-stats">
+    <div class="stat-cell">
+      <div class="stat-value">2L+</div>
+      <div class="stat-label">Claims processed monthly</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">21K+</div>
+      <div class="stat-label">Active hospitals on platform</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">40%</div>
+      <div class="stat-label">India's overall claim volume</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">35</div>
+      <div class="stat-label">Insurance payers connected</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Architectural reality:</strong> Of 35 payers — 7 via direct API, 28 via RPA and email extraction. When automation fails, claims disappear. The hospital has zero visibility. We had to design for that failure mode.
+  </div>
+</section>
+
+<!-- 02 PROBLEM FRAMING -->
+<section>
+  <div class="section-label">02 — Problem Framing</div>
+  <h2 class="section-heading">The Brief vs The Real Problem</h2>
+
+  <div class="assumption-row">
+    <div class="assumption-box">
+      <div class="assumption-label">Assumption</div>
+      <div class="assumption-text">This is a UI problem. Make it look better. Clean up the UI.</div>
+    </div>
+    <div class="vs-badge">VS</div>
+    <div class="assumption-box">
+      <div class="assumption-label">Root Cause</div>
+      <div class="assumption-text">Information architecture problem. A multi-stage, two-team operation flattened into 4 buckets.</div>
+    </div>
+  </div>
+
+  <div class="split-panel">
+    <div class="panel panel-red">
+      <div class="panel-top-bar">The Brief</div>
+      <h3>Redesign the dashboard. Make it look better.</h3>
+      <p>Clean up the UI. Better visual design. The brief was surface-level and treated a structural problem as a cosmetic one.</p>
+    </div>
+    <div class="panel panel-indigo">
+      <div class="panel-top-bar">The Real Problem</div>
+      <h3>A multi-stage, two-team operation hidden inside 4 buckets.</h3>
+      <p>Pre-auth, enhancement, discharge, settlement, reconciliation across 35 payers — all flattened into one screen that reflected the logic of the company that built it, not the people using it.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    The platform had been inherited from a parent insurance company. When IHX became its own entity, nobody had gone back and asked how hospital teams actually work. The screen reflected the logic of the company that built it — not the people using it.
+  </div>
+</section>
+
+<!-- 03 EVIDENCE -->
+<section>
+  <div class="section-label">03 — Evidence</div>
+  <h2 class="section-heading">What the Data Showed</h2>
+  <p class="section-sub">Three sources of evidence shaped the direction before any design decisions. Hotjar session recordings, Google Analytics event data, and user feedback direct and indirect routed through account managers.</p>
+
+  <div class="evidence-grid">
+    <div class="evidence-card">
+      <h4>Hotjar Session Heatmap</h4>
+      <div class="img-placeholder" style="height:200px; margin-bottom:16px;">Hotjar Heatmap Screenshot</div>
+      <p class="evidence-desc">Heat concentrated at the top of the screen — New Admission, search fields, and Approval Pending bucket. The table body was cold. Users were not browsing. They were searching as a workaround.</p>
+    </div>
+    <div class="evidence-card">
+      <h4>Google Analytics Events</h4>
+      <div class="evidence-stat"><span>42</span>%</div>
+      <p class="evidence-desc">Of all column level searches used just 2 parameters: Patient Name and Claim Number. UTR had low usage — relevant only to Claims team after settlement, and reconciliation was not widely adopted at the time.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-bottom:40px;">
+    <strong>Synthesis across Hotjar + GA:</strong> The cold table in Hotjar and 42% of search events concentrated on just two parameters in GA point to one conclusion — users were not finding what they needed through the bucket structure. They were relying on search as a workaround.
+  </div>
+
+  <div class="quotes-grid">
+    <div class="quote-card">
+      <p class="quote-text">"If there is a query pending at the discharge stage, I do not even get to know. I cannot tell my team to start working on it."</p>
+      <div class="quote-attr">Hospital Insurance Head</div>
+    </div>
+    <div class="quote-card">
+      <p class="quote-text">"Our claims are all mixed up. Patients come and ask us what the status is, I have to search the claim every time, we are really busy you know?"</p>
+      <div class="quote-attr">Hospital Insurance Staff</div>
+    </div>
+    <div class="quote-card">
+      <p class="quote-text">"So much work! I keep searching for claims ready for discharge. If I miss one, patient discharge gets delayed and my supervisor scolds me."</p>
+      <div class="quote-attr">Hospital Insurance Staff, Pre-Auth</div>
+    </div>
+    <div class="quote-card">
+      <p class="quote-text">"Hospitals scold us asking why are we paying — why can you not add a global search feature?"</p>
+      <div class="quote-attr">IHX Account Manager</div>
+    </div>
+  </div>
+
+  <div class="coverage-row">
+    <div class="coverage-stat"><div class="coverage-num">15+</div><div class="coverage-label">Users interviewed</div></div>
+    <div class="coverage-stat"><div class="coverage-num">5+</div><div class="coverage-label">Hospitals covered</div></div>
+    <div class="coverage-stat"><div class="coverage-num">6+</div><div class="coverage-label">Teams represented</div></div>
+  </div>
+</section>
+
+<!-- 04 USERS -->
+<section>
+  <div class="section-label">04 — User Understanding</div>
+  <h2 class="section-heading">A hospital insurance operation<br>is not one workflow. It is two.</h2>
+  <p class="section-sub">I spoke with account managers, sat with the PM, and had direct conversations with hospital staff. Two distinct operations — each with different pressures, timelines, and a completely different relationship with the platform.</p>
+
+  <div class="user-grid">
+    <div class="user-card">
+      <div class="user-badge badge-red">⚡ Time Critical · Patient Facing</div>
+      <h3>Pre-Auth Team</h3>
+      <ul>
+        <li>Initiates the claim before the patient is admitted</li>
+        <li>Responds to insurer queries on missing documents</li>
+        <li>Raises enhancement requests mid-treatment</li>
+        <li>Initiates discharge when patient is medically ready</li>
+      </ul>
+      <div class="user-tension">Every unanswered query increases TAT. A delayed discharge costs the hospital a bed per hour.</div>
+    </div>
+    <div class="user-card">
+      <div class="user-badge badge-teal">💰 Finance Critical · Settlement Focused</div>
+      <h3>Claims Team</h3>
+      <ul>
+        <li>Submits the formal claim after discharge is approved</li>
+        <li>Initiates settlement in bulk at end of day</li>
+        <li>Resolves finance-level queries on settlement timeline</li>
+        <li>Reconciles payments against hospital contracted tariff</li>
+      </ul>
+      <div class="user-tension">Every delay means money already spent on care sitting unreturned, impacting operational capital.</div>
+    </div>
+    <div class="user-card">
+      <div class="user-badge badge-amber">⚡ Management Critical · CXO Facing</div>
+      <h3>Supervisors & Team Heads</h3>
+      <ul>
+        <li>Opens dashboard to understand team workload at a glance</li>
+        <li>Does not take action directly — oversight only</li>
+        <li>If a query sits unanswered, calls staff immediately</li>
+        <li>Needs multiple sub-statuses visible simultaneously</li>
+      </ul>
+      <div class="user-tension">The dashboard is a supervision tool, not an action tool. They are accountable for team turnaround time.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    Two teams. Two urgency profiles. Two completely different reasons to open the platform. The old UI treated them as one user with one need.
+  </div>
+</section>
+
+<!-- 05 IA -->
+<section>
+  <div class="section-label">05 — Solution</div>
+  <h2 class="section-heading">Information Architecture Revamped</h2>
+  <p class="section-sub">I had two options — improve the existing screen or restructure the underlying information architecture. I chose the harder one.</p>
+
+  <div class="ia-container">
+    <div class="ia-views">
+      <div>
+        <div class="ia-view-label">PA View — Pre-Auth Team</div>
+        <div class="bucket-list">
+          <div class="bucket-item"><span class="bucket-name">Query Reply Pending</span><span class="bucket-tag tag-urgent">Highest Urgency</span></div>
+          <div class="bucket-item"><span class="bucket-name">Discharges Today / Tomorrow</span><span class="bucket-tag tag-urgent">Time Critical</span></div>
+          <div class="bucket-item"><span class="bucket-name">Approval Pending</span><span class="bucket-tag tag-urgent">Action Required</span></div>
+          <div class="bucket-item"><span class="bucket-name">Approved</span></div>
+          <div class="bucket-item"><span class="bucket-name">Denied / Cancelled</span><span class="bucket-tag tag-urgent">New</span></div>
+          <div class="bucket-item"><span class="bucket-name">NHI — Need Human Intervention</span><span class="bucket-tag tag-new">New · RPA Failures</span></div>
+          <div class="bucket-item"><span class="bucket-name">PA Utilisation Pending</span><span class="bucket-tag tag-new">New</span></div>
+          <div class="bucket-item"><span class="bucket-name">All Processed</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="ia-view-label teal-view">Claim View — Claims Team</div>
+        <div class="bucket-list">
+          <div class="bucket-item"><span class="bucket-name">Draft Pending</span></div>
+          <div class="bucket-item"><span class="bucket-name">Due for Claim Submission</span><span class="bucket-tag tag-finance">Renamed</span></div>
+          <div class="bucket-item"><span class="bucket-name">Claim Query</span><span class="bucket-tag tag-urgent">Finance Critical</span></div>
+          <div class="bucket-item"><span class="bucket-name">Claim in Progress</span></div>
+          <div class="bucket-item"><span class="bucket-name">Settled</span></div>
+          <div class="bucket-item"><span class="bucket-name">Denied</span></div>
+          <div class="bucket-item"><span class="bucket-name">NHI — Need Human Intervention</span><span class="bucket-tag tag-new">New · RPA Failures</span></div>
+          <div class="bucket-item"><span class="bucket-name">PA Utilisation Pending</span><span class="bucket-tag tag-new">New</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scale-callout">
+      <p><strong>The scalable architecture:</strong> The PA View / Claim View template became the foundation for the Government Scheme module, Self-Funded Corporate module, Recon module, IHX Nucleus mobile app, and Reporting & Analytics — all on the same pattern without additional architectural work.</p>
+    </div>
+  </div>
+
+  <div class="img-placeholder" style="height:280px;">IA Diagram / Before-After Screenshot</div>
+</section>
+
+<!-- 06 DESIGN DECISIONS -->
+<section>
+  <div class="section-label">06 — Design Decisions</div>
+  <h2 class="section-heading">Key decisions and why.</h2>
+
+  <div class="decisions-list">
+    <div class="decision-row">
+      <div class="decision-num">01</div>
+      <div class="decision-content">
+        <div class="decision-title">Separated PA View and Claim View at primary navigation</div>
+        <p class="decision-desc">Two tabs, two user groups, two bucket hierarchies. Pre-Auth buckets are timestamped — Awaiting Discharge shows today and tomorrow separately. Claims buckets are settlement-state-oriented. Navigation is a single click; cross-view search results redirect automatically.</p>
+      </div>
+      <span class="decision-badge badge-ia">Core IA Decision</span>
+    </div>
+    <div class="decision-row">
+      <div class="decision-num">02</div>
+      <div class="decision-content">
+        <div class="decision-title">Nested bucket hierarchy with consistent visual cues across all modules</div>
+        <p class="decision-desc">The bucket card — primary label, count, urgency indicator, secondary filter chips — communicates stage, volume, and action at a glance. Colour coding is consistent: indigo for approval states, amber for queries, teal for discharge, red for denied. Users learn the system once and it works everywhere. The same component was reused across 7 modules with no additional design or dev work.</p>
+        <div class="img-placeholder" style="height:140px; margin-top:16px;">Bucket component across modules — PA View · Claim View · Gov Scheme · Corporate · Recon · Mobile · Analytics</div>
+      </div>
+      <span class="decision-badge badge-visual">Scalable Visual Design</span>
+    </div>
+    <div class="decision-row">
+      <div class="decision-num">03</div>
+      <div class="decision-content">
+        <div class="decision-title">Secondary filters evolved from single-select chips to checkbox multi-select</div>
+        <p class="decision-desc">Initial design used horizontal tag chips — clean for single selections. Testing revealed supervisors needed to select multiple statuses simultaneously. Evolved to checkbox-based multi-select in a dropdown — serves both the staff member needing a focused filter and the supervisor needing a cross-status overview.</p>
+      </div>
+      <span class="decision-badge badge-test">Testing Driven Change</span>
+    </div>
+    <div class="decision-row">
+      <div class="decision-num">04</div>
+      <div class="decision-content">
+        <div class="decision-title">Cross-view search bridge for empty state handling</div>
+        <p class="decision-desc">Splitting views created a problem. A Claim Number search in Claim View returns empty results because the claim lived in Pre-Auth View. Users assumed the claim was missing. Fix: when a search returns no results, the platform shows how many results exist in the other view with a direct link to switch. One line of copy. Now one of the most-used interaction patterns post-launch.</p>
+      </div>
+      <span class="decision-badge badge-ia">Core Design Decision</span>
+    </div>
+    <div class="decision-row">
+      <div class="decision-num">05</div>
+      <div class="decision-content">
+        <div class="decision-title">Follow-up feature — from workflow fix to contract requirement</div>
+        <p class="decision-desc">Hospital staff were leaving IHX to send follow-up emails from their inbox when claims sat in Approval Pending with no insurer response. Introduced email follow-up through a CTA in the actions column with elapsed time. Configurable per payer in Manage Configuration — a fixed default would have been wrong for most hospitals. This feature was a dealbreaker for several enterprise hospitals during contract negotiations.</p>
+      </div>
+      <span class="decision-badge badge-sticky">Platform Stickiness</span>
+    </div>
+  </div>
+</section>
+
+<!-- 08 TESTING -->
+<section>
+  <div class="section-label">08 — Testing</div>
+  <h2 class="section-heading">4 Rounds. Testing as process,<br>not just validation.</h2>
+  <p class="section-sub">2–3 hospitals per round, covering Pre-Auth staff, Claims staff, and supervisors. Key decisions were made or remade through testing.</p>
+
+  <div class="testing-grid">
+    <div class="round-card">
+      <div class="round-num">01</div>
+      <div class="round-outcome">PA / Claim Split Validated</div>
+      <div class="round-title">Both user groups navigated to their views without guidance</div>
+      <p class="round-desc">The core architectural decision confirmed. Discharge Tomorrow bucket flagged as irrelevant for Pre-Auth team — removed. Buckets recommended per user group.</p>
+    </div>
+    <div class="round-card">
+      <div class="round-num">02</div>
+      <div class="round-outcome">Label Refinement Needed</div>
+      <div class="round-title">Nested structure understood — bucket names needed adjustment</div>
+      <p class="round-desc">Bucket names adjusted to hospital vocabulary. Date filter requested. Supervisors flagged need to view multiple statuses simultaneously — informed multi-select filter decision.</p>
+    </div>
+    <div class="round-card">
+      <div class="round-num">03</div>
+      <div class="round-outcome">Filters & Search Locked</div>
+      <div class="round-title">Bucket names finalised. Multi-select and date filter added.</div>
+      <p class="round-desc">Bucket names finalised from 5 hospitals. Checkbox multi-select built. Date filter introduced. Global search flagged as engineering constraint — scoped search decision initiated.</p>
+    </div>
+    <div class="round-card">
+      <div class="round-num">04</div>
+      <div class="round-outcome">Scoped Search Accepted</div>
+      <div class="round-title">Search and follow-up feature validated</div>
+      <p class="round-desc">Partial-match search across Patient Name, Claim Number, UTR accepted. Follow-up feature validated. Per-payer elapsed time configuration confirmed as necessary.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 CONSTRAINTS -->
+<section>
+  <div class="section-label">09 — Constraints, Tradeoffs & Stakeholder Management</div>
+  <h2 class="section-heading">What I worked around, held on,<br>and let go.</h2>
+
+  <div class="constraints-list">
+    <div class="constraint-card">
+      <div class="constraint-header">
+        <h4>Engineering Constraint — Global search was infeasible. I used GA data to figure out what to build instead.</h4>
+        <span class="constraint-status status-shipped">Shipped</span>
+      </div>
+      <div class="constraint-body">
+        <div class="constraint-col">
+          <div class="col-label col-red">Situation</div>
+          <p>Hospitals had been requesting global search since the platform launched. Engineering assessed ElasticSearch as infeasible — too expensive and architecturally complex at this scale. Non-negotiable constraint.</p>
+        </div>
+        <div class="constraint-col">
+          <div class="col-label col-indigo">How I approached it</div>
+          <p>Pulled Google Analytics event data on column-level searches. Patient Name: 68% · Claim Number: 20% · UTR: 12%. Over 80% of searches fell into three parameters. Built scoped search across those three — data-backed, constraint-aware, faster in practice.</p>
+        </div>
+        <div class="constraint-col">
+          <div class="col-label col-teal">Result</div>
+          <p>Scoped partial-match search across Patient Name, Claim Number, and UTR Number. Zero additional infra cost. Covers the real use cases. Typing "yash" surfaces all patients with that string.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="constraint-card">
+      <div class="constraint-header">
+        <h4>Stakeholder Management — One enterprise hospital pushed to remove the Discharge bucket. I held the line. They signed anyway.</h4>
+        <span class="constraint-status status-retained">Client Retained</span>
+      </div>
+      <div class="constraint-body">
+        <div class="constraint-col">
+          <div class="col-label col-red">Situation</div>
+          <p>During testing, one enterprise hospital pushed hard to remove the Discharge bucket. Their workflow had specific reasons. The account manager was under pressure to accommodate them.</p>
+        </div>
+        <div class="constraint-col">
+          <div class="col-label col-indigo">How I approached it</div>
+          <p>The platform serves thousands of hospitals on a single interface. Accepting one hospital's structural preference would create inconsistency for every other. Four other hospitals confirmed the Discharge bucket structure was right for the majority.</p>
+        </div>
+        <div class="constraint-col">
+          <div class="col-label col-teal">Result</div>
+          <p>Held the line, communicated the reasoning through the AM, documented the feedback. Platform IA integrity maintained. The hospital signed anyway.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="constraint-card">
+      <div class="constraint-header">
+        <h4>MVP Scope — Settlement in bulk was painful. We designed it. We did not ship it.</h4>
+        <span class="constraint-status status-deferred">Deliberately Deferred</span>
+      </div>
+      <div class="constraint-body">
+        <div class="constraint-col">
+          <div class="col-label col-red">Situation</div>
+          <p>Hotjar confirmed the Claims team was doing bulk settlement case by case every evening — a known operational pain point with a designed solution ready.</p>
+        </div>
+        <div class="constraint-col">
+          <div class="col-label col-indigo">How I approached it</div>
+          <p>Prioritised shipping a stable, tested IA first. Bulk Workspace was added to v2 roadmap with documented rationale — deferral was a decision, not a failure.</p>
+        </div>
+        <div class="constraint-col">
+          <div class="col-label col-teal">Result</div>
+          <p>MVP launched with stable IA. Bulk Initiate Settlement on v2 roadmap with data to justify prioritisation in next sprint.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="constraint-card">
+      <div class="constraint-header">
+        <h4>Design Thinking — The Follow-Up Feature went from workflow fix to contract requirement.</h4>
+        <span class="constraint-status status-contract">Contract Secured</span>
+      </div>
+      <div class="constraint-body">
+        <div class="constraint-col">
+          <div class="col-label col-red">Situation</div>
+          <p>Hospital staff were leaving IHX to send follow-up emails from their inbox when claims sat in Approval Pending with no insurer response. Every exit broke the workflow.</p>
+        </div>
+        <div class="constraint-col">
+          <div class="col-label col-indigo">How I approached it</div>
+          <p>The feature itself was straightforward. The real design work was the configuration layer — elapsed time configurable per payer, because different insurers operate on different timelines and each hospital has its own MOU.</p>
+        </div>
+        <div class="constraint-col">
+          <div class="col-label col-teal">Result</div>
+          <p>Staff send follow-up emails directly from IHX. Configurable per payer. This feature was a dealbreaker for several enterprise hospitals during contract negotiations — not a nice-to-have, a requirement to sign.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="throughline">
+    <div class="tl-item">
+      <div class="tl-principle">Use data to answer design questions, not just validate them.</div>
+      <p class="tl-desc">Search decision came from GA. Stakeholder pushback was settled by cohort testing. If I can get data, I get data first.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-principle">Platform decisions have to hold for everyone, not just the loudest user.</div>
+      <p class="tl-desc">One hospital's workflow preference cannot drive structural changes to a platform used by thousands.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-principle">Deferring is a decision, not a failure. It needs a reason and a record.</div>
+      <p class="tl-desc">Bulk Settlement was ready. It was deliberately deprioritised and added to v2 with documented rationale.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 IMPACT -->
+<section>
+  <div class="section-label">10 — Impact</div>
+  <h2 class="section-heading">Design decisions tied to<br>business outcomes.</h2>
+
+  <div class="impact-heroes">
+    <div class="impact-card">
+      <div class="impact-value"><span>↑</span>67%</div>
+      <p class="impact-desc">Revenue per claim — from ₹90 to ₹120. New and existing clients opting for the new Ops Dashboard.</p>
+    </div>
+    <div class="impact-card">
+      <div class="impact-value">3</div>
+      <p class="impact-desc">Group hospital enterprise contracts secured — the follow-up feature was the dealbreaker in each negotiation.</p>
+    </div>
+    <div class="impact-card">
+      <div class="impact-value">4.6</div>
+      <p class="impact-desc">CSAT score post-launch, improved from 4.1.</p>
+    </div>
+  </div>
+
+  <div class="impact-secondary">
+    <div class="impact-sec-card">
+      <div class="impact-sec-value">51%</div>
+      <div class="impact-sec-label">Reduction in avg time on task — 3.23 min to 1.56 min</div>
+    </div>
+    <div class="impact-sec-card">
+      <div class="impact-sec-value">34%</div>
+      <div class="impact-sec-label">Increase in task efficiency</div>
+    </div>
+    <div class="impact-sec-card">
+      <div class="impact-sec-value">4K+</div>
+      <div class="impact-sec-label">Clicks in first 30 days across 10 pilot hospitals</div>
+    </div>
+    <div class="impact-sec-card">
+      <div class="impact-sec-value">287</div>
+      <div class="impact-sec-label">Denied cases surfaced on one hospital's live dashboard — previously invisible</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 RETROSPECTIVE -->
+<section>
+  <div class="section-label">11 — Retrospective</div>
+  <h2 class="section-heading">What do I do differently?</h2>
+
+  <div class="retro-grid">
+    <div class="retro-card">
+      <div class="retro-num">01</div>
+      <div class="retro-title">Dive deeper into the journey before designing.</div>
+      <p class="retro-desc">Direct observation sessions with hospital teams at the start would have surfaced the two-user-group insight faster. The brief was wrong. The Hotjar data told a different story. Getting there earlier saves rework.</p>
+    </div>
+    <div class="retro-card">
+      <div class="retro-num">02</div>
+      <div class="retro-title">Bulk Initiate Settlement should have been in the MVP.</div>
+      <p class="retro-desc">Hotjar showed the real operational cost — Claims team doing bulk settlement case by case every evening. I had the data. I should have made the stronger case for including it in scope.</p>
+    </div>
+    <div class="retro-card">
+      <div class="retro-num">03</div>
+      <div class="retro-title">Follow-up feature configuration onboarding needs work.</div>
+      <p class="retro-desc">Some hospitals have not set up the elapsed time configuration per payer, which means the feature is not working at full value for them. Onboarding for configuration-heavy features needs its own design attention.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Shabnam Raghavan · shabnam.rs.work@gmail.com</div>
+  <a href="/" class="footer-back">
+    ← Back to Portfolio
+  </a>
+</footer>
+
+</body>
+</html>
