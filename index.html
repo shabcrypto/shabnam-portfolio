@@ -13,81 +13,95 @@
   --white-2: #C4C0B8;
   --white-3: #857F78;
   --white-4: #4A4740;
-  --border: rgba(240,237,230,0.08);
-  --border-med: rgba(240,237,230,0.12);
+  --border: rgba(240,237,230,0.12);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Manrope', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
 
-/* NAV — top right vertical */
-nav {
-  position: fixed;
-  top: 32px; right: 36px;
-  z-index: 100;
-  display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+/* HERO OUTER — black canvas with padding */
+.hero-outer {
+  background: var(--black);
+  min-height: 82vh;
+  padding: 16px;
+  display: flex; flex-direction: column;
 }
-.nav-links { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; list-style: none; }
-.nav-links a {
-  font-size: 13px; font-weight: 600; color: var(--black);
-  text-decoration: none; letter-spacing: 0.04em; padding: 4px 0;
-  position: relative; transition: color 0.2s;
+
+/* RED RECTANGLE — contains nav + content */
+.hero-red {
+  background: var(--red);
+  border-radius: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
-.nav-links a::after {
-  content:''; position: absolute; bottom: 0; left: 0; right: 0;
-  height: 1.5px; background: var(--black);
-  transform: scaleX(0); transform-origin: right;
-  transition: transform 0.2s ease;
+
+/* NAV inside red rectangle */
+.hero-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  flex-shrink: 0;
 }
-.nav-links a:hover::after { transform: scaleX(1); }
-.nav-cta {
-  font-size: 13px; font-weight: 700; color: var(--black);
-  background: var(--white); padding: 10px 20px; border-radius: 100px;
-  text-decoration: none; letter-spacing: 0.04em; margin-top: 8px;
+.hero-nav-logo {
+  font-size: 13px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(14,13,12,0.5);
+  text-decoration: none;
+}
+.hero-nav-right { display: flex; align-items: center; gap: 4px; }
+.hero-nav-links { display: flex; gap: 2px; list-style: none; }
+.hero-nav-links a {
+  font-size: 13px; font-weight: 600; color: rgba(14,13,12,0.55);
+  text-decoration: none; padding: 8px 14px; border-radius: 100px;
+  letter-spacing: 0.03em; transition: color 0.2s;
+}
+.hero-nav-links a:hover { color: var(--black); }
+.hero-nav-cta {
+  font-size: 13px; font-weight: 700; color: var(--white);
+  background: var(--black); padding: 10px 20px; border-radius: 100px;
+  text-decoration: none; letter-spacing: 0.04em; margin-left: 8px;
   border: 2px solid var(--black); transition: background 0.2s, color 0.2s;
 }
-.nav-cta:hover { background: var(--black); color: var(--white); }
+.hero-nav-cta:hover { background: transparent; color: var(--black); }
 
-/* HERO */
-.hero-outer { background: var(--black); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; }
-.hero-red {
-  background: var(--red); border-radius: 24px; flex: 1;
-  min-height: calc(82vh - 40px); padding: 80px 56px 56px;
-  display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px;
-  position: relative; overflow: hidden;
+/* HERO CONTENT grid */
+.hero-content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 40px;
+  padding: 20px 40px 56px;
 }
-.hero-left { display: flex; flex-direction: column; align-items: flex-start; position: relative; z-index: 5; }
+
+.hero-left { display: flex; flex-direction: column; align-items: flex-start; }
 .hero-eyebrow {
   font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(14,13,12,0.45); display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  color: rgba(14,13,12,0.5); display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
 }
-.hero-eyebrow::before { content:''; width:24px; height:1.5px; background:rgba(14,13,12,0.3); display:block; }
+.hero-eyebrow::before { content:''; width:24px; height:1.5px; background:rgba(14,13,12,0.35); display:block; }
 .hero-name {
-  font-family: 'Bebas Neue', sans-serif; font-size: clamp(64px, 8vw, 120px);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(60px, 7.5vw, 112px);
   line-height: 0.88; color: var(--black); letter-spacing: 0.01em; margin-bottom: 20px;
 }
 .hero-name .outline { -webkit-text-stroke: 2.5px var(--black); color: transparent; display: block; }
 .hero-sub {
   font-size: 15px; font-weight: 400; line-height: 1.8;
-  color: rgba(14,13,12,0.6); max-width: 400px; margin-bottom: 28px;
+  color: rgba(14,13,12,0.65); max-width: 400px; margin-bottom: 28px;
 }
 .hero-sub strong { color: var(--black); font-weight: 700; }
-.hero-actions { display: flex; gap: 12px; align-items: center; }
 .btn-dark {
   font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--white); background: var(--black); padding: 14px 28px; border-radius: 100px;
   text-decoration: none; transition: opacity 0.2s;
 }
-.btn-dark:hover { opacity: 0.85; }
-.btn-outline {
-  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--black); border: 1.5px solid rgba(14,13,12,0.4); padding: 13px 24px;
-  border-radius: 100px; text-decoration: none; transition: border-color 0.2s;
-}
-.btn-outline:hover { border-color: var(--black); }
+.btn-dark:hover { opacity: 0.82; }
 
 /* CARD REEL */
-.card-reel { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 5; }
-.card-stage { position: relative; width: 240px; height: 320px; }
+.card-reel { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.card-stage { position: relative; width: 240px; height: 300px; }
 .reel-card {
   position: absolute; inset: 0; border-radius: 18px; padding: 28px;
   display: flex; flex-direction: column; justify-content: flex-end;
@@ -101,80 +115,98 @@ nav {
 .rc-3 { background: #1A1832; }
 .rc-4 { background: #0E0D0C; }
 .rc-label { font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; }
-.rc-1 .rc-label, .rc-3 .rc-label, .rc-4 .rc-label { color: #4A4740; }
-.rc-2 .rc-label { color: rgba(14,13,12,0.4); }
+.rc-1 .rc-label, .rc-3 .rc-label, .rc-4 .rc-label { color: #857F78; }
+.rc-2 .rc-label { color: rgba(14,13,12,0.45); }
 .rc-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 0.95; letter-spacing: 0.01em; }
 .rc-1 .rc-title, .rc-3 .rc-title { color: #F0EDE6; }
 .rc-2 .rc-title { color: #0E0D0C; }
 .rc-4 .rc-title { color: #E8430A; }
 .rc-body { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 500; line-height: 1.6; margin-top: 8px; }
-.rc-1 .rc-body, .rc-3 .rc-body, .rc-4 .rc-body { color: rgba(240,237,230,0.55); }
-.rc-2 .rc-body { color: rgba(14,13,12,0.5); }
+.rc-1 .rc-body, .rc-3 .rc-body, .rc-4 .rc-body { color: #C4C0B8; }
+.rc-2 .rc-body { color: rgba(14,13,12,0.55); }
 .rc-photo {
-  flex: 1; border-radius: 10px; background: rgba(240,237,230,0.08);
+  flex: 1; border-radius: 10px; background: rgba(240,237,230,0.1);
   display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
   font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,237,230,0.2);
+  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,237,230,0.3);
 }
-.reel-dots { display: flex; gap: 6px; justify-content: center; margin-top: 20px; }
-.reel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(14,13,12,0.2); transition: background 0.3s; }
-.reel-dot.active { background: #0E0D0C; }
+.reel-dots { display: flex; gap: 6px; justify-content: center; margin-top: 16px; }
+.reel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(14,13,12,0.25); transition: background 0.3s; }
+.reel-dot.active { background: var(--black); }
+
+/* PEEK STRIP */
+.peek-strip { background: var(--black); padding: 0 16px; }
+.peek-inner {
+  border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border); border-radius: 0 0 20px 20px;
+  padding: 28px 40px 36px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.peek-label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white-3); }
+.peek-titles { display: flex; gap: 32px; }
+.peek-item { font-size: 14px; font-weight: 700; color: var(--white-2); }
+.peek-item span { color: var(--white-3); font-weight: 400; font-size: 12px; margin-left: 8px; }
 
 /* MARQUEE */
-.marquee-bar { background: var(--black); padding: 13px 0; overflow: hidden; white-space: nowrap; border-bottom: 1px solid var(--border); }
-.marquee-inner { display: inline-block; animation: marquee 22s linear infinite; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-4); }
+.marquee-bar {
+  background: var(--black); padding: 14px 0; overflow: hidden; white-space: nowrap;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: 32px;
+}
+.marquee-inner {
+  display: inline-block; animation: marquee 22s linear infinite;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-2);
+}
 .marquee-inner span { margin: 0 24px; }
 .marquee-inner .sep { color: var(--red); margin: 0; }
 @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
 /* CASE STUDIES */
 .section { padding: 72px 48px; background: var(--black); border-bottom: 1px solid var(--border); }
-.section-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
-.section-label::before { content:''; width:20px; height:1px; background:var(--red); display:block; }
+.section-heading { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--white); letter-spacing: 0.02em; margin-bottom: 32px; }
 .cs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .cs-card { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; text-decoration: none; display: block; transition: border-color 0.25s, transform 0.25s; }
-.cs-card:hover { border-color: rgba(240,237,230,0.2); transform: translateY(-4px); }
+.cs-card:hover { border-color: rgba(240,237,230,0.3); transform: translateY(-4px); }
 .cs-thumb { width: 100%; height: 240px; display: flex; align-items: center; justify-content: center; }
-.cs-thumb-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,237,230,0.15); }
+.cs-thumb-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,237,230,0.25); }
 .cs-body { padding: 24px 28px 28px; }
 .cs-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-.cs-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white-3); border: 1px solid var(--border-med); padding: 4px 10px; border-radius: 100px; }
+.cs-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white-2); border: 1px solid rgba(240,237,230,0.2); padding: 4px 10px; border-radius: 100px; }
 .cs-title { font-size: 20px; font-weight: 800; color: var(--white); line-height: 1.25; letter-spacing: -0.01em; margin-bottom: 10px; }
-.cs-desc { font-size: 13px; font-weight: 400; color: var(--white-3); line-height: 1.7; margin-bottom: 20px; }
+.cs-desc { font-size: 13px; font-weight: 400; color: var(--white-2); line-height: 1.7; margin-bottom: 20px; }
 .cs-metrics { display: flex; gap: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 .cs-mv { font-size: 22px; font-weight: 800; color: var(--white); letter-spacing: -0.02em; line-height: 1; margin-bottom: 3px; }
-.cs-ml { font-size: 9px; font-weight: 600; color: var(--white-4); letter-spacing: 0.08em; text-transform: uppercase; }
+.cs-ml { font-size: 9px; font-weight: 600; color: var(--white-3); letter-spacing: 0.08em; text-transform: uppercase; }
 .cs-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); }
 .cs-card:hover .cs-cta svg { transform: translateX(4px); }
 .cs-cta svg { transition: transform 0.2s; }
 
 /* ABOUT */
-.about-section { padding: 72px 48px; background: var(--black); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.about-section { padding: 72px 48px; background: var(--black); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-bottom: 1px solid var(--border); }
 .about-card { border: 1px solid var(--border); border-radius: 16px; padding: 36px; }
-.panel-heading { font-size: 13px; font-weight: 700; color: var(--white-4); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
-.panel-heading::before { content:''; width:16px; height:1px; background:var(--white-4); display:block; }
-.about-text { font-size: 14px; font-weight: 400; color: var(--white-3); line-height: 1.75; margin-bottom: 10px; }
+.panel-heading { font-size: 11px; font-weight: 700; color: var(--white-2); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.1em; }
+.panel-heading::before { content:''; width:16px; height:1px; background:var(--white-3); display:block; }
+.about-text { font-size: 14px; font-weight: 400; color: var(--white-2); line-height: 1.75; margin-bottom: 10px; }
 .about-text strong { color: var(--white); font-weight: 600; }
 .interests { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-.interest { font-size: 11px; font-weight: 600; color: var(--white-3); background: rgba(240,237,230,0.05); border: 1px solid var(--border); padding: 6px 14px; border-radius: 100px; }
+.interest { font-size: 11px; font-weight: 600; color: var(--white-2); background: rgba(240,237,230,0.07); border: 1px solid rgba(240,237,230,0.15); padding: 6px 14px; border-radius: 100px; }
 .cloud { position: relative; height: 210px; margin-top: 16px; }
-.trait { position: absolute; font-size: 12px; font-weight: 700; color: var(--white-3); background: rgba(240,237,230,0.05); border: 1px solid var(--border); padding: 7px 16px; border-radius: 100px; white-space: nowrap; }
+.trait { position: absolute; font-size: 12px; font-weight: 700; color: var(--white-2); background: rgba(240,237,230,0.07); border: 1px solid rgba(240,237,230,0.15); padding: 7px 16px; border-radius: 100px; white-space: nowrap; }
 
 /* TESTIMONIALS */
-.testimonials { padding: 72px 48px; background: var(--black); border-top: 1px solid var(--border); }
+.testimonials { padding: 72px 48px; background: var(--black); }
 .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
 .testi-card { border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; }
 .testi-text { font-size: 14px; font-weight: 400; color: var(--white-2); line-height: 1.75; margin-bottom: 24px; font-style: italic; }
 .testi-name { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
-.testi-role { font-size: 11px; font-weight: 500; color: var(--white-4); }
+.testi-role { font-size: 11px; font-weight: 500; color: var(--white-3); }
 
 /* FOOTER */
 footer { padding: 48px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
-.footer-name { font-size: 14px; font-weight: 700; color: var(--white-3); margin-bottom: 4px; }
-.footer-email { font-size: 12px; color: var(--white-4); }
+.footer-name { font-size: 14px; font-weight: 700; color: var(--white-2); margin-bottom: 4px; }
+.footer-email { font-size: 12px; color: var(--white-3); }
 .footer-links { display: flex; gap: 12px; }
-.footer-link { font-size: 12px; font-weight: 600; color: var(--white-3); text-decoration: none; border: 1px solid var(--border-med); padding: 10px 20px; border-radius: 100px; transition: border-color 0.2s; }
-.footer-link:hover { border-color: rgba(240,237,230,0.25); color: var(--white); }
+.footer-link { font-size: 12px; font-weight: 600; color: var(--white-2); text-decoration: none; border: 1px solid rgba(240,237,230,0.2); padding: 10px 20px; border-radius: 100px; transition: all 0.2s; }
+.footer-link:hover { border-color: var(--white); color: var(--white); }
 
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 .f1{animation:fadeUp 0.6s 0.05s both} .f2{animation:fadeUp 0.6s 0.15s both}
@@ -183,61 +215,82 @@ footer { padding: 48px; display: flex; align-items: center; justify-content: spa
 </head>
 <body>
 
-<nav>
-  <ul class="nav-links">
-    <li><a href="#about">About Me</a></li>
-    <li><a href="#work">My Work</a></li>
-    <li><a href="#">Resume</a></li>
-  </ul>
-  <a href="mailto:shabnam.rs.work@gmail.com" class="nav-cta">Contact Me</a>
-</nav>
-
+<!-- HERO — red rectangle contains nav + content -->
 <div class="hero-outer">
   <div class="hero-red f1">
-    <div class="hero-left">
-      <div class="hero-eyebrow">Product Designer + Builder</div>
-      <div class="hero-name f2">SHABNAM<span class="outline">RAGHAVAN</span></div>
-      <div class="hero-sub f3">
-        6 years across design. <strong>3 in Healthcare and InsurTech.</strong> <strong>Shipped B2B SaaS used by 21,000+ hospitals.</strong> Contributed to <strong>IHX's acquisition by Perfios.</strong>
+
+    <!-- NAV inside red -->
+    <nav class="hero-nav">
+      <a href="/" class="hero-nav-logo">SR</a>
+      <div class="hero-nav-right">
+        <ul class="hero-nav-links">
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#work">My Work</a></li>
+          <li><a href="#">Resume</a></li>
+        </ul>
+        <a href="mailto:shabnam.rs.work@gmail.com" class="hero-nav-cta">Contact Me</a>
       </div>
-      <div class="hero-actions f4">
-        <a href="#work" class="btn-dark">See the work</a>
-        <a href="#" class="btn-outline">Resume</a>
+    </nav>
+
+    <!-- CONTENT -->
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-eyebrow f2">Product Designer + Builder</div>
+        <div class="hero-name f2">SHABNAM<span class="outline">RAGHAVAN</span></div>
+        <div class="hero-sub f3">
+          6 years across design. <strong>3 in Healthcare and InsurTech.</strong> <strong>Shipped B2B SaaS used by 21,000+ hospitals.</strong> Contributed to <strong>IHX's acquisition by Perfios.</strong>
+        </div>
+        <div class="f4">
+          <a href="#work" class="btn-dark">See the work</a>
+        </div>
+      </div>
+
+      <div class="card-reel f4">
+        <div class="card-stage">
+          <div class="reel-card rc-1 active">
+            <div class="rc-photo">Your photo</div>
+            <div class="rc-label">Who I am</div>
+            <div class="rc-title">COLLECTOR OF MEMORIES AND EXPERIENCES.</div>
+          </div>
+          <div class="reel-card rc-2">
+            <div class="rc-label">Process</div>
+            <div class="rc-title">SCIENCE AND ART.</div>
+            <div class="rc-body">My design process is an amalgamation of both.</div>
+          </div>
+          <div class="reel-card rc-3">
+            <div class="rc-label">Philosophy</div>
+            <div class="rc-title">FIND PROOF FIRST.</div>
+            <div class="rc-body">I think with structure and find proof before committing to answers.</div>
+          </div>
+          <div class="reel-card rc-4">
+            <div class="rc-label">Purpose</div>
+            <div class="rc-title">FOR PEOPLE WHO CANNOT AFFORD A WRONG CLICK.</div>
+          </div>
+        </div>
+        <div class="reel-dots">
+          <div class="reel-dot active"></div>
+          <div class="reel-dot"></div>
+          <div class="reel-dot"></div>
+          <div class="reel-dot"></div>
+        </div>
       </div>
     </div>
 
-    <div class="card-reel f4">
-      <div class="card-stage">
-        <div class="reel-card rc-1 active">
-          <div class="rc-photo">Your photo</div>
-          <div class="rc-label">Who I am</div>
-          <div class="rc-title">COLLECTOR OF MEMORIES AND EXPERIENCES.</div>
-        </div>
-        <div class="reel-card rc-2">
-          <div class="rc-label">Process</div>
-          <div class="rc-title">SCIENCE AND ART.</div>
-          <div class="rc-body">My design process is an amalgamation of both.</div>
-        </div>
-        <div class="reel-card rc-3">
-          <div class="rc-label">Philosophy</div>
-          <div class="rc-title">FIND PROOF FIRST.</div>
-          <div class="rc-body">I think with structure and find proof before committing to answers.</div>
-        </div>
-        <div class="reel-card rc-4">
-          <div class="rc-label">Purpose</div>
-          <div class="rc-title">FOR PEOPLE WHO CANNOT AFFORD A WRONG CLICK.</div>
-        </div>
-      </div>
-      <div class="reel-dots">
-        <div class="reel-dot active"></div>
-        <div class="reel-dot"></div>
-        <div class="reel-dot"></div>
-        <div class="reel-dot"></div>
-      </div>
+  </div>
+</div>
+
+<!-- PEEK -->
+<div class="peek-strip">
+  <div class="peek-inner">
+    <div class="peek-label">Featured Work</div>
+    <div class="peek-titles">
+      <div class="peek-item">IHX Ops Dashboard <span>B2B SaaS · Health InsurTech</span></div>
+      <div class="peek-item">WiseWoman <span>FemTech · AI · MVP</span></div>
     </div>
   </div>
 </div>
 
+<!-- MARQUEE -->
 <div class="marquee-bar">
   <div class="marquee-inner">
     <span>Healthcare</span><span class="sep">·</span><span>InsurTech</span><span class="sep">·</span>
@@ -250,8 +303,9 @@ footer { padding: 48px; display: flex; align-items: center; justify-content: spa
   </div>
 </div>
 
-<div class="section f4" id="work">
-  <div class="section-label">Featured Work</div>
+<!-- CASE STUDIES -->
+<div class="section" id="work">
+  <div class="section-heading">Featured Work</div>
   <div class="cs-grid">
     <a href="/ihx_case_study.html" class="cs-card">
       <div class="cs-thumb" style="background:#1A1F2E;"><span class="cs-thumb-label">IHX Dashboard Screenshot</span></div>
@@ -284,6 +338,7 @@ footer { padding: 48px; display: flex; align-items: center; justify-content: spa
   </div>
 </div>
 
+<!-- ABOUT -->
 <div class="about-section" id="about">
   <div class="about-card">
     <div class="panel-heading">Who am I?</div>
@@ -316,8 +371,9 @@ footer { padding: 48px; display: flex; align-items: center; justify-content: spa
   </div>
 </div>
 
+<!-- TESTIMONIALS -->
 <div class="testimonials">
-  <div class="section-label">Peer Reviews</div>
+  <div class="section-heading">Peer Reviews</div>
   <div class="testi-grid">
     <div class="testi-card">
       <p class="testi-text">"Shabnam consistently brought clarity and simplicity to complex workflows, making our platform much more intuitive for hospitals and payers. Her attention to detail and ability to translate ideas into clean user journeys made a big difference."</p>
