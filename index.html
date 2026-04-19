@@ -27,43 +27,46 @@ body.ready { overflow-y: auto; }
   display: flex; align-items: center; justify-content: center;
   z-index: 9999;
 }
-.intro-dot {
+#introPill {
   width: 56px; height: 56px;
-  border-radius: 50%;
+  border-radius: 100px;
   background: var(--red);
-  position: absolute;
-  transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1),
-              border-radius 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex; align-items: center;
+  overflow: hidden;
+  transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
 }
-.intro-search {
-  width: 480px; height: 56px; border-radius: 100px;
-  background: var(--red);
-  display: flex; align-items: center; padding: 0 22px; gap: 14px;
-  opacity: 0; position: absolute; transition: opacity 0.4s ease;
+#introContent {
+  display: flex; align-items: center;
+  padding: 0 20px;
+  min-width: 480px;
+  opacity: 0; transition: opacity 0.5s ease;
+  justify-content: space-between; gap: 12px;
 }
-.intro-search-icon { width: 20px; height: 20px; flex-shrink: 0; position: relative; }
-.intro-search-icon::before {
-  content: ''; position: absolute; width: 11px; height: 11px;
-  border-radius: 50%; border: 2.5px solid rgba(14,13,12,0.65);
-  top: 0; left: 0;
+#introText {
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px; font-weight: 600;
+  color: #ffffff; letter-spacing: 0.02em;
+  white-space: nowrap; flex: 1;
+  display: inline;
 }
-.intro-search-icon::after {
-  content: ''; position: absolute; width: 2.5px; height: 7px;
-  background: rgba(14,13,12,0.65); bottom: 0; right: 2px;
-  transform: rotate(-45deg); border-radius: 2px;
+#introText::after {
+  content: '';
+  display: inline-block;
+  width: 2px; height: 16px;
+  background: rgba(255,255,255,0.85);
+  margin-left: 2px;
+  vertical-align: middle;
+  border-radius: 1px;
+  animation: cursorBlink 0.9s step-end infinite;
 }
-.intro-text-wrap { flex: 1; display: flex; align-items: center; }
-.intro-typing {
-  font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 600;
-  color: rgba(14,13,12,0.85); letter-spacing: 0.02em; white-space: nowrap;
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
-.intro-cursor {
-  display: inline-block; width: 2px; height: 17px;
-  background: rgba(14,13,12,0.7); margin-left: 2px;
-  vertical-align: middle; border-radius: 1px;
-}
+#introIcon { flex-shrink: 0; display: flex; align-items: center; }
 #intro.lifting {
-  transition: transform 1.3s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: transform 1.4s cubic-bezier(0.76, 0, 0.24, 1);
   transform: translateY(-100%);
 }
 
@@ -112,18 +115,22 @@ body.ready { overflow-y: auto; }
   align-items: center; gap: 40px; padding: 20px 40px 56px;
 }
 .hero-left { display: flex; flex-direction: column; align-items: flex-start; }
-.hero-eyebrow {
-  font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700;
-  letter-spacing: 0.18em; text-transform: uppercase; color: rgba(14,13,12,0.5);
-  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
-}
-.hero-eyebrow::before { content:''; width:24px; height:1.5px; background:rgba(14,13,12,0.35); display:block; }
+
 .hero-name {
-  font-family: 'Satoshi', 'Manrope', sans-serif;
-  font-size: clamp(56px, 7.5vw, 108px); font-weight: 900;
-  line-height: 0.9; color: var(--black); letter-spacing: -0.02em; margin-bottom: 20px;
+  display: flex; flex-direction: column;
+  margin-bottom: 20px;
 }
-.hero-name .outline { -webkit-text-stroke: 2.5px var(--black); color: transparent; display: block; }
+.hero-name-line {
+  font-family: 'Satoshi', 'Manrope', sans-serif;
+  font-weight: 900; line-height: 0.88; color: var(--black);
+  letter-spacing: -0.02em; display: block; width: 100%;
+}
+#heroShabnam { font-size: clamp(64px, 8.57vw, 123px); }
+#heroRaghavan { font-size: clamp(56px, 7.5vw, 108px); }
+.hero-name-line.outline {
+  -webkit-text-stroke: 2.5px var(--black); color: transparent;
+}
+
 .hero-sub {
   font-size: 15px; font-weight: 400; line-height: 1.8;
   color: rgba(14,13,12,0.7); max-width: 400px; margin-bottom: 28px;
@@ -240,20 +247,6 @@ body.ready { overflow-y: auto; }
 .interests { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 .interest-dark { font-size: 11px; font-weight: 600; color: #E8DFD0; background: #0E0D0C; border: 1px solid rgba(14,13,12,0.3); padding: 6px 14px; border-radius: 100px; }
 
-/* Crossfade carousel */
-.crossfade-card {
-  border-radius: 16px; overflow: hidden;
-  position: relative; min-height: 400px;
-}
-.cf-slide {
-  position: absolute; inset: 0;
-  opacity: 0; transition: opacity 1.2s ease;
-  background-size: cover; background-position: center;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,237,230,0.2);
-}
-.cf-slide.active { opacity: 1; }
 
 /* ============ TESTIMONIALS ============ */
 /* TESTIMONIALS */
@@ -323,17 +316,79 @@ footer { padding: 48px; display: flex; align-items: center; justify-content: spa
 .footer-links { display: flex; gap: 12px; }
 .footer-link { font-size: 12px; font-weight: 600; color: #D4CFC8; text-decoration: none; border: 1px solid rgba(240,237,230,0.2); padding: 10px 20px; border-radius: 100px; transition: all 0.2s; }
 .footer-link:hover { border-color: #E8DFD0; color: #E8DFD0; }
+
+.hero-arrow { margin-bottom: 16px; }
+.hero-title-line {
+  display: flex; align-items: center;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(14,13,12,0.38);
+  margin-bottom: 12px; gap: 4px;
+}
+.hero-title-static { white-space: nowrap; }
+.hero-title-scroll {
+  overflow: hidden; height: 1.3em;
+  display: inline-block; vertical-align: middle;
+}
+.scroll-track {
+  display: flex; flex-direction: column;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.scroll-track span {
+  display: block; height: 1.3em;
+  line-height: 1.3em; white-space: nowrap;
+}
+
+
+/* PORTRAIT SCROLL STRIP */
+.portrait-strip-wrap {
+  overflow: hidden;
+  border-radius: 16px;
+  height: 100%;
+  min-height: 400px;
+  position: relative;
+}
+.portrait-track {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+  animation: portraitScroll 14s linear infinite;
+  width: max-content;
+}
+.portrait-track:hover { animation-play-state: paused; }
+.portrait-card {
+  width: 200px;
+  height: 100%;
+  min-height: 400px;
+  border-radius: 12px;
+  background: #1A1F2E;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.portrait-card img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+@keyframes portraitScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 </style>
 </head>
 <body>
 
 <!-- INTRO -->
 <div id="intro">
-  <div class="intro-dot" id="introDot"></div>
-  <div class="intro-search" id="introSearch">
-    <div class="intro-search-icon"></div>
-    <div class="intro-text-wrap">
-      <span class="intro-typing" id="introTyping"></span><span class="intro-cursor" id="introCursor"></span>
+  <div id="introPill">
+    <div id="introContent">
+      <span id="introText"></span>
+      <div id="introIcon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(255,255,255,0.75)" stroke-width="1.8"/>
+          <path d="M11.5 11.5L15.5 15.5" stroke="rgba(255,255,255,0.75)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
     </div>
   </div>
 </div>
@@ -354,10 +409,28 @@ footer { padding: 48px; display: flex; align-items: center; justify-content: spa
     </nav>
     <div class="hero-content">
       <div class="hero-left">
-        <div class="hero-eyebrow">Product Designer + Builder</div>
-        <div class="hero-name">SHABNAM<span class="outline">RAGHAVAN</span></div>
+        <div class="hero-arrow">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 4v20M6 16l8 8 8-8" stroke="rgba(14,13,12,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="hero-title-line">
+          <span class="hero-title-static">Product Designer + </span>
+          <span class="hero-title-scroll" id="scrollWord">
+            <span class="scroll-track" id="scrollTrack">
+              <span>Builder</span>
+              <span>Thinker</span>
+              <span>Researcher</span>
+              <span>Builder</span>
+            </span>
+          </span>
+        </div>
+        <div class="hero-name">
+          <span class="hero-name-line" id="heroShabnam">SHABNAM</span>
+          <span class="hero-name-line outline" id="heroRaghavan">RAGHAVAN</span>
+        </div>
         <div class="hero-sub">
-          6 years across design. <strong>3 in Healthcare and InsurTech.</strong> <strong>Shipped B2B SaaS used by 21,000+ hospitals.</strong> Contributed to <strong>IHX's acquisition by Perfios.</strong>
+          6 years across design. <strong>3 in Healthcare and InsurTech.</strong> <strong>Shipped B2B SaaS used by 21,000+ hospitals,</strong> contributing to <strong>IHX's acquisition by Perfios.</strong>
         </div>
         <a href="#work" class="btn-dark">See the work</a>
       </div>
@@ -507,13 +580,16 @@ footer { padding: 48px; display: flex; align-items: center; justify-content: spa
     </div>
   </div>
 
-  <!-- Crossfade image slideshow -->
-  <div class="crossfade-card" id="cfCard">
-    <div class="cf-slide active" style="background:#1A1832;"><span>Image 1</span></div>
-    <div class="cf-slide" style="background:#1C1208;"><span>Image 2</span></div>
-    <div class="cf-slide" style="background:#0E1A12;"><span>Image 3</span></div>
-    <div class="cf-slide" style="background:#1A0E0E;"><span>Image 4</span></div>
-    <div class="cf-slide" style="background:#0E0E1A;"><span>Image 5</span></div>
+  <!-- Portrait scroll strip -->
+  <div class="portrait-strip-wrap">
+    <div class="portrait-track" id="portraitTrack">
+      <div class="portrait-card"><img src="portrait1.jpg" alt="Portrait 1" onerror="this.parentElement.style.background='#1A1F2E'"></div>
+      <div class="portrait-card"><img src="portrait2.jpg" alt="Portrait 2" onerror="this.parentElement.style.background='#1A1832'"></div>
+      <div class="portrait-card"><img src="portrait3.jpg" alt="Portrait 3" onerror="this.parentElement.style.background='#1C1208'"></div>
+      <div class="portrait-card"><img src="portrait1.jpg" alt="Portrait 1" onerror="this.parentElement.style.background='#1A1F2E'"></div>
+      <div class="portrait-card"><img src="portrait2.jpg" alt="Portrait 2" onerror="this.parentElement.style.background='#1A1832'"></div>
+      <div class="portrait-card"><img src="portrait3.jpg" alt="Portrait 3" onerror="this.parentElement.style.background='#1C1208'"></div>
+    </div>
   </div>
 </div>
 
@@ -585,51 +661,60 @@ footer { padding: 48px; display: flex; align-items: center; justify-content: spa
 <script>
 // INTRO
 (function() {
-  const dot = document.getElementById('introDot');
-  const search = document.getElementById('introSearch');
-  const typing = document.getElementById('introTyping');
-  const cursor = document.getElementById('introCursor');
+  const pill = document.getElementById('introPill');
+  const content = document.getElementById('introContent');
+  const textEl = document.getElementById('introText');
   const intro = document.getElementById('intro');
   const text = 'Shabnam Raghavan';
   let i = 0;
 
-  // Step 1: dot sits as 56x56 circle in center for 700ms
-  // Step 2: expands symmetrically outward from center to full search bar width
+  // Step 1: circle sits for 900ms, then gently expands to pill
   setTimeout(() => {
-    dot.style.width = '480px';
-    dot.style.borderRadius = '100px';
-  }, 700);
+    pill.style.width = '480px';
+  }, 900);
 
-  // Step 3: search bar content fades in over the expanded dot
+  // Step 2: content fades in after expansion
   setTimeout(() => {
-    search.style.opacity = '1';
-    dot.style.opacity = '0';
-  }, 2000);
+    content.style.opacity = '1';
+  }, 2700);
 
+  // Step 3: type characters one by one — cursor follows naturally via ::after
   setTimeout(() => {
     const typeInterval = setInterval(() => {
       if (i < text.length) {
-        typing.textContent += text[i]; i++;
+        textEl.textContent += text[i]; i++;
       } else {
         clearInterval(typeInterval);
-        let blinks = 0;
-        const blinkInterval = setInterval(() => {
-          cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
-          blinks++;
-          if (blinks >= 4) {
-            clearInterval(blinkInterval);
-            cursor.style.opacity = '1';
-            setTimeout(() => {
-              intro.style.transition = 'transform 1.3s cubic-bezier(0.76, 0, 0.24, 1)';
-              intro.style.transform = 'translateY(-100%)';
-              document.body.classList.add('ready');
-              setTimeout(() => { intro.style.display = 'none'; }, 1300);
-            }, 500);
-          }
-        }, 400);
+        // Step 4: cursor blinks twice more then screen lifts
+        setTimeout(() => {
+          // Remove blinking cursor
+          textEl.style.setProperty('--cursor-opacity', '0');
+          const style = document.createElement('style');
+          style.textContent = '#introText::after { animation: none; opacity: 0; }';
+          document.head.appendChild(style);
+          // Step 5: screen lifts
+          setTimeout(() => {
+            intro.style.transition = 'transform 1.4s cubic-bezier(0.76, 0, 0.24, 1)';
+            intro.style.transform = 'translateY(-100%)';
+            document.body.classList.add('ready');
+            setTimeout(() => { intro.style.display = 'none'; }, 1400);
+          }, 300);
+        }, 900);
       }
     }, 75);
-  }, 2700);
+  }, 2950);
+})();
+
+
+// SCROLL WORD
+(function() {
+  const track = document.getElementById('scrollTrack');
+  const words = ['Builder', 'Thinker', 'Researcher'];
+  let idx = 0;
+  setInterval(() => {
+    idx = (idx + 1) % words.length;
+    track.style.transform = 'translateY(-' + (idx * 1.3) + 'em)';
+  }, 2000);
 })();
 
 // CARD REEL
@@ -693,15 +778,7 @@ setInterval(nextCard, 1800);
   animate();
 })();
 
-// CROSSFADE SLIDESHOW
-const slides = document.querySelectorAll('.cf-slide');
-let cfCurrent = 0;
-function nextSlide() {
-  slides[cfCurrent].classList.remove('active');
-  cfCurrent = (cfCurrent + 1) % slides.length;
-  slides[cfCurrent].classList.add('active');
-}
-setInterval(nextSlide, 3000);
+
 </script>
 </body>
 </html>
