@@ -155,7 +155,7 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 /* ── CARD REEL ── */
 .card-reel { display:flex; flex-direction:column; align-items:center; justify-content:center; }
 .card-stage { position:relative; width:320px; height:400px; }
-.reel-card {
+.reel-card { position:relative;
   position:absolute; inset:0; border-radius:20px; padding:32px;
   display:flex; flex-direction:column; justify-content:flex-end;
   opacity:0; transform:rotate(4deg) scale(0.93);
@@ -326,19 +326,7 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 .pg-caption-type { font-size:11px; font-weight:300; color:#D4CFC8; font-style:italic; margin-top:3px; }
 
 
-.reel-card.rc-2::before, .reel-card.rc-3::before, .reel-card.rc-4::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
-  border-radius: 20px;
-  pointer-events: none;
-  z-index: 0;
-}
-.reel-card.rc-2 > *, .reel-card.rc-3 > *, .reel-card.rc-4 > * {
-  position: relative;
-  z-index: 1;
-}
+
 
 </style>
 </head>
@@ -403,19 +391,14 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
             <div class="rc-label">Who I am</div>
             <div class="rc-title">COLLECTOR OF MEMORIES AND EXPERIENCES.</div>
           </div>
-          <div class="reel-card rc-2" style="background-image:url(hero-card-2.jpg);background-size:cover;background-position:center;">
-            <div class="rc-label">Process</div>
-            <div class="rc-title">SCIENCE AND ART.</div>
-            <div class="rc-body">My design process is an amalgamation of both.</div>
+          <div class="reel-card rc-2" style="background-image:url(hero-card-2.jpg);background-size:cover;background-position:center;overflow:hidden;">
+  
           </div>
-          <div class="reel-card rc-3" style="background-image:url(hero-card-3.jpg);background-size:cover;background-position:center;">
-            <div class="rc-label">Philosophy</div>
-            <div class="rc-title">FIND PROOF FIRST.</div>
-            <div class="rc-body">I think with structure and find proof before committing to answers.</div>
+          <div class="reel-card rc-3" style="background-image:url(hero-card-3.jpg);background-size:cover;background-position:center;overflow:hidden;">
+  
           </div>
-          <div class="reel-card rc-4" style="background-image:url(hero-card-4.jpg);background-size:cover;background-position:center;">
-            <div class="rc-label">Purpose</div>
-            <div class="rc-title">FOR PEOPLE WHO CANNOT AFFORD A WRONG CLICK.</div>
+          <div class="reel-card rc-4" style="background-image:url(hero-card-4.jpg);background-size:cover;background-position:center;overflow:hidden;">
+  
           </div>
         </div>
         <div class="reel-dots">
