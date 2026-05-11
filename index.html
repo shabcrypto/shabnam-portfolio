@@ -207,17 +207,19 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 }
 .cs-card:hover { border-color:rgba(240,237,230,0.3); transform:translateY(-4px); }
 .cs-placeholder { opacity:0.55; }
-.cs-thumb { width:100%; height:240px; display:flex; align-items:center; justify-content:center; }
+.cs-thumb { width:100%; height:340px; display:flex; align-items:center; justify-content:center; }
+.cs-thumb img { object-position: top; }
 .cs-thumb-label { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(240,237,230,0.25); }
 .cs-body { padding:24px 28px 28px; }
-.cs-tags { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.cs-tags { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; opacity:0.6; }
 .cs-tag { font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--cream-2); border:1px solid rgba(240,237,230,0.2); padding:4px 10px; border-radius:100px; }
-.cs-title { font-size:20px; font-weight:800; color:var(--cream); line-height:1.25; letter-spacing:-0.01em; margin-bottom:10px; }
-.cs-desc { font-size:13px; font-weight:400; color:var(--cream-2); line-height:1.7; margin-bottom:20px; }
-.cs-metrics { display:flex; gap:24px; padding-top:20px; border-top:1px solid var(--border); }
+.cs-title { font-size:20px; font-weight:800; color:var(--cream); line-height:1.25; letter-spacing:-0.01em; margin-bottom:10px; opacity:0.7; }
+.cs-desc { font-size:13px; font-weight:400; color:var(--cream-2); line-height:1.7; margin-bottom:20px; opacity:0.6; }
+.cs-metrics-row { display:flex; align-items:flex-end; justify-content:space-between; padding-top:20px; border-top:1px solid var(--border); }
+.cs-metrics { display:flex; gap:24px; }
 .cs-mv { font-size:22px; font-weight:800; color:var(--cream); letter-spacing:-0.02em; line-height:1; margin-bottom:3px; }
 .cs-ml { font-size:9px; font-weight:600; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
-.cs-cta { display:inline-flex; align-items:center; gap:8px; margin-top:20px; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cream); }
+.cs-cta { display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cream); white-space:nowrap; }
 .cs-card:hover .cs-cta svg { transform:translateX(4px); }
 .cs-cta svg { transition:transform 0.2s; }
 .view-more-wrap { display:flex; justify-content:flex-end; margin-top:40px; }
@@ -421,12 +423,14 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
         <div class="cs-tags"><span class="cs-tag">B2B SaaS</span><span class="cs-tag">WebApp</span><span class="cs-tag">Health InsurTech</span></div>
         <div class="cs-title">IHX Ops Dashboard — Enabling Smarter, Faster Claim Workflows</div>
         <div class="cs-desc">Restructured the IA of a hospital claims platform. Two user teams. One broken screen. Rebuilt from the ground up.</div>
-        <div class="cs-metrics">
-          <div><div class="cs-mv">67%</div><div class="cs-ml">Revenue increase</div></div>
-          <div><div class="cs-mv">51%</div><div class="cs-ml">Task time cut</div></div>
-          <div><div class="cs-mv">3</div><div class="cs-ml">Enterprise contracts</div></div>
+        <div class="cs-metrics-row">
+          <div class="cs-metrics">
+            <div><div class="cs-mv">67%</div><div class="cs-ml">Revenue increase</div></div>
+            <div><div class="cs-mv">51%</div><div class="cs-ml">Task time cut</div></div>
+            <div><div class="cs-mv">3</div><div class="cs-ml">Enterprise contracts</div></div>
+          </div>
+          <div class="cs-cta">View Case Study <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M7 2l5 5-5 5" stroke="#E8DFD0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="cs-cta">View Case Study <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M7 2l5 5-5 5" stroke="#E8DFD0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
     </a>
     <a href="#" class="cs-card">
@@ -435,12 +439,14 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
         <div class="cs-tags"><span class="cs-tag">B2C</span><span class="cs-tag">FemTech</span><span class="cs-tag">AI</span><span class="cs-tag">MVP</span></div>
         <div class="cs-title">WiseWoman — Cycle-Aware AI Smart Planner for Women</div>
         <div class="cs-desc">Designed and built a full AI-native productivity app in 5 days. Cycle-aware scheduling, voice task capture, hybrid AI architecture.</div>
-        <div class="cs-metrics">
-          <div><div class="cs-mv">5</div><div class="cs-ml">Days to ship</div></div>
-          <div><div class="cs-mv">$0</div><div class="cs-ml">Cost to users</div></div>
-          <div><div class="cs-mv">Live</div><div class="cs-ml">Real users</div></div>
+        <div class="cs-metrics-row">
+          <div class="cs-metrics">
+            <div><div class="cs-mv">5</div><div class="cs-ml">Days to ship</div></div>
+            <div><div class="cs-mv">$0</div><div class="cs-ml">Cost to users</div></div>
+            <div><div class="cs-mv">Live</div><div class="cs-ml">Real users</div></div>
+          </div>
+          <div class="cs-cta">View Case Study <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M7 2l5 5-5 5" stroke="#E8DFD0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="cs-cta">View Case Study <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M7 2l5 5-5 5" stroke="#E8DFD0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
     </a>
     <a href="#" class="cs-card cs-placeholder">
