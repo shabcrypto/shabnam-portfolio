@@ -21,21 +21,21 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cream); overflow-x:hidden; }
 
-/* ── INTRO ── */
+/* ── INTRO / CURTAIN ── */
 #intro {
   position:fixed; inset:0; background:var(--black);
   display:flex; align-items:center; justify-content:center;
   z-index:9999; overflow:hidden;
 }
 #introWrap {
-  display:flex; flex-direction:column; align-items:flex-start;
-  gap:0;
+  display:flex; flex-direction:column; align-items:center;
+  gap:0; position:relative; z-index:2;
 }
 .intro-line {
   font-family:'Satoshi','Manrope',sans-serif;
-  font-size:clamp(28px,4vw,52px); font-weight:800;
+  font-size:clamp(28px,4vw,52px); font-weight:700;
   color:#E8DFD0; letter-spacing:-0.02em; line-height:1.15;
-  display:flex; flex-wrap:wrap; gap:0.28em;
+  display:flex; flex-wrap:wrap; gap:0.28em; justify-content:center;
   padding-bottom:0.15em;
 }
 .intro-line.line2 { margin-top:0.3em; }
@@ -48,12 +48,20 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 .iw.show { opacity:1; transform:translateY(0); }
 .iw.nogap { margin-left:-0.22em; }
 .iw.orange { color:#E8430A; }
+#curtainTop, #curtainBottom {
+  position:fixed; left:0; right:0; background:var(--black); z-index:9998;
+  transition:transform 1s cubic-bezier(0.76,0,0.24,1);
+}
+#curtainTop { top:0; height:50vh; }
+#curtainBottom { bottom:0; height:50vh; }
+#curtainTop.open { transform:translateY(-100%); }
+#curtainBottom.open { transform:translateY(100%); }
 @keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
 
 /* ── HERO ── */
 .hero-outer { background:var(--black); min-height:92vh; padding:16px; display:flex; flex-direction:column; align-items:center; }
 .hero-red {
-  background:var(--red); border-radius:20px; flex:1;
+  background:transparent; border-radius:20px; flex:1;
   display:flex; flex-direction:column; overflow:hidden; position:relative;
   width:100%; max-width:1400px;
 }
@@ -85,46 +93,47 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 .hero-nav-cta:hover { background:#E8DFD0; color:var(--black); border-color:#E8DFD0; }
 
 .hero-content {
-  flex:1; display:grid; grid-template-columns:1fr 1fr;
-  align-items:center; gap:40px; padding:20px 40px 56px;
+  flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  padding:40px 40px 80px; text-align:center;
 }
-.hero-left { display:flex; flex-direction:column; align-items:flex-start; }
+.hero-left { display:flex; flex-direction:column; align-items:center; }
+
+.hero-intro-name {
+  font-family:'Manrope',sans-serif; font-size:15px; font-weight:500;
+  color:rgba(232,223,208,0.55); margin-bottom:20px;
+  letter-spacing:0.02em;
+}
+.hero-intro-name strong { color:rgba(232,223,208,0.55); font-weight:500; }
+
+.hero-name { display:flex; flex-direction:column; align-items:center; margin-bottom:0; }
+.hero-name-line1 {
+  font-family:'Satoshi','Manrope',sans-serif; font-weight:900;
+  font-size:clamp(64px,9vw,140px); line-height:0.9;
+  color:#E8DFD0; letter-spacing:0.018em; display:block;
+}
 
 .hero-title-line {
-  display:flex; align-items:center; gap:8px;
-  font-family:'Manrope',sans-serif; font-size:13px; font-weight:700;
-  letter-spacing:0.1em; text-transform:uppercase;
-  color:#7A1500; margin-bottom:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Satoshi','Manrope',sans-serif; font-size:clamp(64px,9vw,140px); font-weight:900;
+  color:transparent; -webkit-text-stroke:2.5px rgba(232,67,10,0.7);
+  letter-spacing:-0.02em; margin-bottom:32px; line-height:0.95;
 }
 .hero-scroll-word {
-  overflow:hidden; height:1.3em; display:inline-block; vertical-align:middle;
+  overflow:hidden; height:1.2em; display:inline-block; vertical-align:bottom;
 }
 .hero-scroll-track {
   display:flex; flex-direction:column;
   transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);
 }
 .hero-scroll-track span {
-  display:block; height:1.3em; line-height:1.3em; white-space:nowrap;
-}
-
-.hero-name { display:flex; flex-direction:column; margin-bottom:20px; }
-.hero-name-shabnam {
-  font-family:'Satoshi','Manrope',sans-serif; font-weight:900;
-  font-size:clamp(58px,7.95vw,114px); line-height:0.9;
-  color:var(--black); letter-spacing:0.018em; display:block;
-}
-.hero-name-raghavan {
-  font-family:'Satoshi','Manrope',sans-serif; font-weight:900;
-  font-size:clamp(56px,7.5vw,108px); line-height:0.9;
-  color:transparent; -webkit-text-stroke:2.5px var(--black);
-  letter-spacing:-0.02em; display:block;
+  display:block; height:1.2em; line-height:1.2em; white-space:nowrap;
 }
 
 .hero-sub {
-  font-size:15px; font-weight:400; line-height:1.8;
-  color:rgba(14,13,12,0.65); max-width:100%; margin-bottom:32px;
+  font-size:15px; font-weight:300; line-height:1.8;
+  color:rgba(232,223,208,0.55); max-width:600px; margin-bottom:32px; text-align:center;
 }
-.hero-sub strong { color:var(--black); font-weight:700; }
+.hero-sub strong { color:rgba(232,223,208,0.55); font-weight:500; }
 
 .keep-scrolling {
   display:flex; flex-direction:column; align-items:center; gap:8px;
@@ -133,28 +142,28 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 }
 .keep-scrolling-text::after {
   content:''; position:absolute; bottom:-2px; left:0; right:0;
-  height:1.5px; background:var(--black);
+  height:1.5px; background:#E8DFD0;
   transform:scaleX(0); transform-origin:left; transition:transform 0.2s ease;
 }
-.keep-scrolling:hover .keep-scrolling-text { color:var(--black); }
+.keep-scrolling:hover .keep-scrolling-text { color:#E8DFD0; }
 .keep-scrolling:hover .keep-scrolling-text::after { transform:scaleX(1); }
 .keep-scrolling-text {
   font-family:'Manrope',sans-serif; font-size:10px; font-weight:700;
-  letter-spacing:0.18em; text-transform:uppercase; color:rgba(14,13,12,0.5);
+  letter-spacing:0.18em; text-transform:uppercase; color:rgba(232,223,208,0.35);
 }
 .mouse-icon {
   width:24px; height:36px; border-radius:12px;
-  border:2px solid rgba(14,13,12,0.4);
+  border:2px solid rgba(232,223,208,0.25);
   display:flex; align-items:flex-start; justify-content:center; padding-top:5px;
 }
 .mouse-wheel {
-  width:3px; height:7px; border-radius:2px; background:rgba(14,13,12,0.5);
+  width:3px; height:7px; border-radius:2px; background:rgba(232,223,208,0.35);
   animation:mouseScroll 1.6s ease-in-out infinite;
 }
 @keyframes mouseScroll { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(6px);opacity:0} }
 
-/* ── CARD REEL ── */
-.card-reel { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+/* ── CARD REEL (hidden) ── */
+.card-reel { display:none; }
 .card-stage { position:relative; width:320px; height:400px; }
 .reel-card { position:relative;
   position:absolute; inset:0; border-radius:20px; padding:32px;
@@ -212,17 +221,17 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
 .cs-grid { display:flex; flex-direction:column; gap:16px; }
 .cs-card {
-  border:1px solid rgba(240,237,230,0.08); border-radius:16px; overflow:hidden;
+  border:1px solid rgba(240,237,230,0.2); border-radius:16px; overflow:hidden;
   text-decoration:none; display:flex; flex-direction:row; align-items:stretch;
-  background:#161513;
+  background:var(--black);
   transition:border-color 0.25s, transform 0.25s;
 }
-.cs-card:hover { border-color:rgba(240,237,230,0.2); transform:translateY(-2px); }
+.cs-card:hover { border-color:#E8430A; transform:translateY(-2px); }
 .cs-placeholder { opacity:0.5; }
 .cs-body { flex:0 0 45%; padding:36px 36px; display:flex; flex-direction:column; justify-content:space-between; }
 .cs-body-top { display:flex; flex-direction:column; }
 .cs-body-bottom { display:flex; flex-direction:column; }
-.cs-thumb-wrap { flex:0 0 55%; padding:24px; display:flex; align-items:center; justify-content:center; background:#161513; }
+.cs-thumb-wrap { flex:0 0 55%; padding:24px; display:flex; align-items:center; justify-content:center; background:var(--black); }
 .cs-thumb { width:100%; aspect-ratio:16/10; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#1A1F2E; }
 .cs-thumb img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; transition:transform 0.4s ease; }
 .cs-card:hover .cs-thumb img { transform:scale(1.02); }
@@ -255,45 +264,50 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 /* ── ABOUT ── */
 .about-section {
   padding:80px 48px; background:var(--black);
-  border-bottom:1px solid var(--border);
 }
 .about-inner {
   max-width:1200px; margin:0 auto;
-  display:grid; grid-template-columns:1fr 1fr; gap:20px;
 }
-.about-red-card { background:var(--red); border-radius:16px; padding:36px; }
-.about-red-label {
-  font-size:11px; font-weight:700; color:rgba(14,13,12,0.5);
-  text-transform:uppercase; letter-spacing:0.1em; margin-bottom:24px;
-  display:flex; align-items:center; gap:10px;
+.about-label {
+  font-family:'Satoshi','Manrope',sans-serif; font-size:48px; font-weight:900;
+  color:var(--cream); letter-spacing:-0.02em;
 }
-.about-red-label::before { content:''; width:16px; height:1px; background:rgba(14,13,12,0.4); display:block; }
-.about-red-text { font-size:14px; font-weight:400; color:rgba(14,13,12,0.75); line-height:1.75; margin-bottom:10px; }
-.about-red-text strong { color:var(--black); font-weight:700; }
-.interests { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
-.interest-pill {
+.about-grid {
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:40px; align-items:stretch;
+}
+.about-left {
+  font-size:15px; font-weight:400; color:var(--cream-2); line-height:1.8;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.about-left-bottom { }
+.about-left .about-name {
+  font-size:16px; font-weight:700; color:var(--cream); margin-bottom:8px;
+}
+.about-center {
+  display:flex; align-items:center; justify-content:center;
+}
+.about-portrait {
+  width:100%; aspect-ratio:3/4; border-radius:12px; overflow:hidden;
+  background:#1A1F2E;
+}
+.about-portrait img { width:100%; height:100%; object-fit:cover; display:block; }
+.about-right {
+  font-size:14px; font-weight:400; color:var(--cream-2); line-height:1.8;
+  align-self:end;
+}
+.about-traits {
+  font-size:13px; font-weight:500; color:var(--muted); margin-top:16px;
+  line-height:1.8;
+}
+.about-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+.about-tag {
   font-size:11px; font-weight:600; color:#E8DFD0;
-  background:#0E0D0C; border:1px solid rgba(240,237,230,0.15);
+  background:transparent; border:1px solid rgba(240,237,230,0.18);
   padding:6px 14px; border-radius:100px;
 }
-.portrait-strip-wrap { overflow:hidden; border-radius:16px; height:100%; min-height:420px; position:relative; }
-.portrait-track {
-  display:flex; gap:16px; height:100%;
-  animation:portraitScroll 14s linear infinite; width:max-content;
-}
-.portrait-track:hover { animation-play-state:paused; }
-.portrait-card {
-  width:260px; height:100%; min-height:420px; border-radius:12px;
-  background:#1A1F2E; flex-shrink:0; overflow:hidden;
-  display:flex; align-items:center; justify-content:center;
-  font-size:9px; font-weight:700; color:rgba(240,237,230,0.2);
-  letter-spacing:0.1em; text-transform:uppercase;
-}
-.portrait-card img { width:100%; height:100%; object-fit:cover; }
-@keyframes portraitScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
 /* ── TESTIMONIALS ── */
-.testimonials { padding:80px 48px; background:var(--black); position:relative; overflow:hidden; border-bottom:1px solid var(--border); }
+.testimonials { padding:80px 48px; background:var(--black); position:relative; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 #atomCanvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
 .testi-inner { position:relative; z-index:1; max-width:1200px; margin:0 auto; }
 .testi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
@@ -342,7 +356,7 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 .pg-img-wrap { position:relative; border-radius:12px; overflow:hidden; cursor:pointer; aspect-ratio:4/3; transition:transform 0.3s ease, box-shadow 0.3s ease; }
 .pg-img-wrap:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,0.5); }
 .pg-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
-.pg-hover { position:absolute; inset:0; border-radius:12px; background:rgba(14,13,12,0.82); display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; padding:18px; opacity:0; transition:opacity 0.3s ease; }
+.pg-hover { position:absolute; inset:0; border-radius:12px; background:rgba(14,13,12,0.82); display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding:18px; opacity:0; transition:opacity 0.3s ease; }
 .pg-img-wrap:hover .pg-hover { opacity:1; }
 .pg-caption-title { font-size:12px; font-weight:700; color:#E8DFD0; letter-spacing:0.06em; text-transform:uppercase; line-height:1.4; }
 .pg-caption-type { font-size:11px; font-weight:300; color:#D4CFC8; font-style:italic; margin-top:3px; }
@@ -372,6 +386,8 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
     <div class="intro-line line3" id="iLine3"></div>
   </div>
 </div>
+<div id="curtainTop"></div>
+<div id="curtainBottom"></div>
 
 <!-- HERO -->
 <div class="hero-outer">
@@ -390,25 +406,21 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
   <div class="hero-red">
     <div class="hero-content">
       <div class="hero-left">
+        <div class="hero-intro-name">I am <strong>Shabnam Raghavan</strong></div>
+        <div class="hero-name">
+          <span class="hero-name-line1">PRODUCT</span>
+        </div>
         <div class="hero-title-line">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M3 9h12M10 4l5 5-5 5" stroke="#7A1500" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span>Product Designer +&nbsp;</span>
           <span class="hero-scroll-word">
             <span class="hero-scroll-track" id="scrollTrack">
-              <span>Builder</span>
-              <span>Thinker</span>
-              <span>Researcher</span>
-              <span>Builder</span>
+              <span>THINKER</span>
+              <span>DESIGNER</span>
+              <span>BUILDER</span>
+              <span>THINKER</span>
             </span>
           </span>
         </div>
-        <div class="hero-name">
-          <span class="hero-name-shabnam">SHABNAM</span>
-          <span class="hero-name-raghavan">RAGHAVAN</span>
-        </div>
-        <div class="hero-sub">6 years across design. <strong>3 in Healthcare and InsurTech.</strong> <strong>Shipped B2B SaaS used by 21,000+ hospitals,</strong> contributing to <strong>IHX's acquisition by Perfios.</strong></div>
+        <div class="hero-sub">6 years in design, 3+ in high-stakes Health InsurTech UX. I shipped B2B SaaS used by 21,000+ hospitals across India, with work extending to the GCC and Kenya. A designer who builds end to end, I take AI products from discovery and strategy through design to deployed code. Built at IHX, acquired by Perfios.</div>
       </div>
       <div class="card-reel">
         <div class="card-stage">
@@ -439,6 +451,36 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
       <div class="mouse-icon"><div class="mouse-wheel"></div></div>
       <span class="keep-scrolling-text">Keep Scrolling</span>
     </a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="about-section" id="about">
+  <div class="about-inner">
+    <div class="about-grid">
+      <div class="about-left">
+        <div class="about-label">About Me</div>
+        <div class="about-left-bottom">
+          <div class="about-name">/ Shabnam Raghavan /</div>
+          <p>Calls herself a collector of memories, conversations, experiences.</p>
+        </div>
+      </div>
+      <div class="about-center">
+        <div class="about-portrait"><img src="about_me_image.png" alt="Shabnam Raghavan" onerror="this.style.display='none'"></div>
+      </div>
+      <div class="about-right">
+        <p>She defines herself as a seeker. Finds purpose in whatever she does. Believes learning is a continuous process and career is a journey.</p>
+        <div class="about-traits">Ambivert. Objective. Inquisitive. Allergic to generic.</div>
+        <div class="about-tags">
+          <span class="about-tag">Reading</span>
+          <span class="about-tag">Travel</span>
+          <span class="about-tag">Art & Culture</span>
+          <span class="about-tag">Human Behaviour</span>
+          <span class="about-tag">Techno & Afro House</span>
+          <span class="about-tag">Socialising</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -669,36 +711,6 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
   </div>
 </div>
 
-<!-- ABOUT -->
-<div class="about-section" id="about">
-  <div class="about-inner">
-  <div class="about-red-card">
-    <div class="about-red-label">Who am I?</div>
-    <p class="about-red-text"><strong>/ Shabnam Raghavan /</strong> calls herself a collector of memories, conversations, experiences.</p>
-    <p class="about-red-text">She defines herself as a seeker — finds purpose in whatever she does. Believes learning is a continuous process and career is a journey.</p>
-    <p class="about-red-text">Ambivert. Objective. Inquisitive. Allergic to generic.</p>
-    <div class="interests">
-      <span class="interest-pill">📚 Reading</span>
-      <span class="interest-pill">✈️ Travel</span>
-      <span class="interest-pill">🎨 Art & Culture</span>
-      <span class="interest-pill">🧠 Human Behaviour</span>
-      <span class="interest-pill">🎵 Techno & Afro House</span>
-      <span class="interest-pill">🤝 Socialising</span>
-    </div>
-  </div>
-  <div class="portrait-strip-wrap">
-    <div class="portrait-track">
-      <div class="portrait-card"><img src="portrait1.jpg" alt="Portrait 1" onerror="this.style.display='none'">Portrait 1</div>
-      <div class="portrait-card"><img src="portrait2.jpg" alt="Portrait 2" onerror="this.style.display='none'">Portrait 2</div>
-      <div class="portrait-card"><img src="portrait3.jpg" alt="Portrait 3" onerror="this.style.display='none'">Portrait 3</div>
-      <div class="portrait-card"><img src="portrait1.jpg" alt="Portrait 1" onerror="this.style.display='none'">Portrait 1</div>
-      <div class="portrait-card"><img src="portrait2.jpg" alt="Portrait 2" onerror="this.style.display='none'">Portrait 2</div>
-      <div class="portrait-card"><img src="portrait3.jpg" alt="Portrait 3" onerror="this.style.display='none'">Portrait 3</div>
-    </div>
-  </div>
-  </div>
-</div>
-
 <!-- TESTIMONIALS -->
 <div class="testimonials">
   <canvas id="atomCanvas"></canvas>
@@ -797,46 +809,47 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
   }
 
   function exitAll(cb) {
+    // Fade out the text
     [l1, l2, l3].forEach(function(el, i) {
-      el.style.transition = 'transform 0.55s cubic-bezier(0.76,0,0.24,1), opacity 0.45s ease';
+      el.style.transition = 'transform 0.45s cubic-bezier(0.76,0,0.24,1), opacity 0.35s ease';
       el.style.transitionDelay = (i * 0.06) + 's';
       el.style.transform = 'translateY(-28px)';
       el.style.opacity = '0';
     });
     setTimeout(function() {
-      intro.style.transition = 'opacity 0.5s ease';
-      intro.style.opacity = '0';
+      // Hide intro overlay
+      intro.style.display = 'none';
+      // Split curtain open
+      document.getElementById('curtainTop').classList.add('open');
+      document.getElementById('curtainBottom').classList.add('open');
+      // Remove curtains after animation
       setTimeout(function() {
-        intro.style.display = 'none';
+        document.getElementById('curtainTop').style.display = 'none';
+        document.getElementById('curtainBottom').style.display = 'none';
         if (cb) cb();
-      }, 520);
+      }, 1100);
     }, 500);
   }
 
-  // Phase 1 — Hi 👋
+  // Phase 1 — Hello 👋
   setTimeout(function() {
-    makeWords(l1, [{text:'Hi'}, {text:'👋'}]);
+    makeWords(l1, [{text:'Hello'}, {text:'👋'}]);
     showWords(l1, 60);
 
     setTimeout(function() {
       exitLine(l1, function() {
 
-        // Phase 2 — I am Shabnam Raghavan
-        makeWords(l2, [
-          {text:'I'}, {text:'am'}, {text:'Shabnam', orange:true}, {text:'Raghavan', orange:true}
+        // Phase 2 — Welcome to Shabnam Raghavan's Portfolio
+        makeWords(l1, [
+          {text:'Welcome'}, {text:'to'}
         ]);
-        showWords(l2, 60);
+        makeWords(l2, [
+          {text:'Shabnam', orange:true}, {text:'Raghavan\'s', orange:true}, {text:'Portfolio'}
+        ]);
+        showWords(l1, 60);
+        setTimeout(function() { showWords(l2, 60); }, 300);
 
-        setTimeout(function() {
-          exitLine(l2, function() {
-
-            // Phase 3 — Welcome to my portfolio of work.
-            makeWords(l1, [{text:'Welcome'}, {text:'to'}, {text:'my'}, {text:'portfolio'}, {text:'of'}, {text:'work'}, {text:'.', nogap:true}]);
-            showWords(l1, 60);
-
-            setTimeout(function() { exitAll(); }, 3200);
-          });
-        }, 2000);
+        setTimeout(function() { exitAll(); }, 3000);
 
       });
     }, 1800);
@@ -846,11 +859,19 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 // ── SCROLL WORD ──
 (function() {
   var track = document.getElementById('scrollTrack');
-  var words = ['Builder','Thinker','Researcher'];
+  var total = 3;
   var idx = 0;
   setInterval(function() {
-    idx = (idx + 1) % words.length;
-    track.style.transform = 'translateY(-' + (idx * 1.3) + 'em)';
+    idx++;
+    track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+    track.style.transform = 'translateY(-' + (idx * 1.2) + 'em)';
+    if (idx >= total) {
+      setTimeout(function() {
+        track.style.transition = 'none';
+        track.style.transform = 'translateY(0)';
+        idx = 0;
+      }, 550);
+    }
   }, 2000);
 })();
 
