@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WiseWoman — Shabnam Raghavan</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --bg:#0E0D0C;
+  --red:#E8430A;
+  --v1:#8B5CF6;
+  --v2:#B08CF5;
+  --v3:#9493F8;
+  --v-glow:rgba(139,92,246,0.16);
+  --app-dark:#1A1832;
+  --app-mid:#252538;
+  --app-card:#161719;
+  --app-purple:#393447;
+  --w1:#F0EDE6;
+  --w2:#D8D4CC;
+  --w3:#B0ABA2;
+  --w4:#8A8278;
+  --lime:#A3E635;
+  --line:rgba(240,237,230,0.10);
+  --line-2:rgba(240,237,230,0.06);
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--w1);
+  font-family:'Manrope',sans-serif;
+  font-size:14px;
+  line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--v1);color:#fff;}
+
+.display{font-family:'Satoshi','Manrope',sans-serif;}
+
+/* ── TOPBAR ── */
+.tb{
+  height:44px;background:var(--red);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;position:sticky;top:0;z-index:100;
+}
+.tb-n{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.92);}
+.tb-l{font-size:9px;font-weight:600;color:rgba(255,255,255,.7);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;}
+.tb-l:hover{color:#fff;}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 48px 72px;
+  position:relative;overflow:hidden;
+}
+.hero-canvas{position:absolute;inset:0;z-index:1;pointer-events:none;}
+.hero-kicker{
+  position:relative;z-index:2;
+  font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--red);margin-bottom:28px;
+  display:flex;align-items:center;gap:14px;
+}
+.hero-kicker::before{content:'';width:36px;height:1px;background:var(--red);}
+.hero-giant{
+  font-family:'Satoshi','Manrope',sans-serif;
+  font-size:clamp(72px,13vw,176px);
+  font-weight:900;letter-spacing:-.05em;line-height:.86;
+  color:var(--w1);position:relative;z-index:2;
+}
+.hero-giant .accent{color:var(--v2);}
+.hero-sub{
+  position:relative;z-index:2;
+  max-width:540px;margin-top:32px;
+  font-size:17px;font-weight:300;line-height:1.7;color:var(--w2);
+}
+.hero-meta-strip{
+  display:flex;flex-wrap:wrap;gap:56px;margin-top:52px;
+  padding-top:30px;border-top:1px solid var(--line);
+  position:relative;z-index:2;
+}
+.hm{display:flex;flex-direction:column;gap:5px;}
+.hm-l{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w4);}
+.hm-v{font-size:13px;font-weight:600;color:var(--w2);}
+
+/* ── SECTION RHYTHM ── */
+.sec{padding:130px 48px;position:relative;max-width:1200px;margin:0 auto;}
+.sec-num{
+  font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--red);margin-bottom:22px;
+}
+.sec-head{
+  font-family:'Satoshi','Manrope',sans-serif;
+  font-size:clamp(34px,5.2vw,60px);font-weight:900;
+  letter-spacing:-.03em;line-height:1.0;color:var(--w1);
+  max-width:920px;
+}
+.sec-lede{
+  margin-top:26px;max-width:640px;
+  font-size:16px;font-weight:300;line-height:1.78;color:var(--w2);
+}
+.divider{height:1px;background:var(--line-2);max-width:1200px;margin:0 auto;}
+
+/* ── 01 PROBLEM — failure modes (no boxes) ── */
+.fail-grid{margin-top:72px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.fail{padding:0 40px;border-left:1px solid var(--line);}
+.fail:first-child{padding-left:0;border-left:none;}
+.fail-i{font-family:'Satoshi';font-size:46px;font-weight:900;color:var(--v2);letter-spacing:-.04em;}
+.fail-t{margin-top:18px;font-size:16px;font-weight:700;color:var(--w1);}
+.fail-d{margin-top:12px;font-size:13.5px;font-weight:300;line-height:1.72;color:var(--w3);}
+
+/* gap analysis as bar lengths */
+.gap{margin-top:96px;}
+.gap-title{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--w4);margin-bottom:8px;}
+.gap-legend{display:flex;gap:28px;margin-bottom:38px;}
+.gap-legend span{font-size:11px;font-weight:600;color:var(--w3);display:flex;align-items:center;gap:8px;}
+.gap-legend i{width:18px;height:8px;border-radius:2px;display:inline-block;}
+.gap-row{padding:26px 0;border-top:1px solid var(--line-2);display:grid;grid-template-columns:230px 1fr;gap:40px;align-items:center;}
+.gap-row:last-child{border-bottom:1px solid var(--line-2);}
+.gap-reality{font-size:15px;font-weight:600;color:var(--w1);}
+.gap-reality small{display:block;font-size:12px;font-weight:300;color:var(--w4);margin-top:4px;}
+.gap-bars{display:flex;flex-direction:column;gap:12px;}
+.gap-bar{height:9px;border-radius:5px;position:relative;}
+.gap-bar.apps{background:var(--w4);opacity:.45;}
+.gap-bar.need{background:linear-gradient(90deg,var(--v1),var(--v2));}
+.gap-bar span{position:absolute;left:calc(100% + 12px);top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;white-space:nowrap;}
+.gap-bar.apps span{color:var(--w4);}
+.gap-bar.need span{color:var(--v2);}
+
+.callout{
+  margin-top:80px;padding-left:28px;border-left:3px solid var(--v1);
+  max-width:760px;
+}
+.callout b{font-family:'Satoshi';font-size:21px;font-weight:700;color:var(--w1);letter-spacing:-.01em;display:block;margin-bottom:12px;}
+.callout p{font-size:14.5px;font-weight:300;line-height:1.75;color:var(--w2);}
+
+/* ── 02 RESEARCH — full-bleed stats + scattered reviews ── */
+.method{margin-top:60px;max-width:680px;font-size:15px;font-weight:300;line-height:1.8;color:var(--w2);}
+.method b{color:var(--w1);font-weight:600;}
+.stats{margin-top:88px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.stat{padding:0 44px;border-left:1px solid var(--line);}
+.stat:first-child{padding-left:0;border-left:none;}
+.stat-n{font-family:'Satoshi';font-size:clamp(48px,6vw,82px);font-weight:900;color:var(--w1);letter-spacing:-.04em;line-height:.9;}
+.stat-n.v{color:var(--v2);}
+.stat-l{margin-top:18px;font-size:13px;font-weight:400;line-height:1.6;color:var(--w3);}
+.stat-src{margin-top:8px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--w4);}
+
+.reviews{margin-top:104px;position:relative;}
+.rev-eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w4);margin-bottom:48px;}
+.rev-flow{display:grid;grid-template-columns:repeat(12,1fr);row-gap:64px;}
+.rev{position:relative;}
+.rev q{font-family:'Satoshi';font-style:normal;font-size:clamp(22px,2.6vw,32px);font-weight:700;line-height:1.18;color:var(--w1);letter-spacing:-.01em;display:block;quotes:none;}
+.rev q::before{content:'\201C';color:var(--v2);margin-right:2px;}
+.rev q::after{content:'\201D';color:var(--v2);margin-left:2px;}
+.rev cite{display:block;margin-top:16px;font-style:normal;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--w4);}
+.rev.a{grid-column:1/7;}
+.rev.b{grid-column:8/13;margin-top:40px;}
+.rev.c{grid-column:1/6;}
+.rev.d{grid-column:7/13;margin-top:-20px;}
+
+/* ── 03 MARKET ── */
+.mkt{margin-top:72px;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:start;}
+.mkt-text p{font-size:15px;font-weight:300;line-height:1.8;color:var(--w2);margin-bottom:20px;}
+.mkt-text p b{color:var(--w1);font-weight:600;}
+.mkt-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.mkt-cell{padding:30px;border-top:1px solid var(--line);border-left:1px solid var(--line);}
+.mkt-cell:nth-child(odd){border-left:none;}
+.mkt-cell:nth-child(1),.mkt-cell:nth-child(2){border-top:none;}
+.mkt-cell .n{font-family:'Satoshi';font-size:40px;font-weight:900;color:var(--w1);letter-spacing:-.03em;}
+.mkt-cell .n.v{color:var(--v2);}
+.mkt-cell .l{margin-top:10px;font-size:12px;font-weight:500;color:var(--w3);line-height:1.5;}
+
+.comp{margin-top:96px;}
+.comp-row{display:grid;grid-template-columns:200px 1fr 1fr;gap:32px;padding:26px 0;border-top:1px solid var(--line-2);align-items:baseline;}
+.comp-row:last-child{border-top:1px solid var(--v1);border-bottom:1px solid var(--v1);}
+.comp-row .who{font-family:'Satoshi';font-size:18px;font-weight:700;color:var(--w1);}
+.comp-row.us .who{color:var(--v2);}
+.comp-row .does{font-size:13.5px;font-weight:400;color:var(--w2);}
+.comp-row .gap-c{font-size:13.5px;font-weight:300;color:var(--w4);}
+.comp-row.us .gap-c{color:var(--v2);font-weight:500;}
+.comp-head{display:grid;grid-template-columns:200px 1fr 1fr;gap:32px;padding-bottom:14px;}
+.comp-head span{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--w4);}
+
+/* ── 04 SYSTEM LOGIC — planning chain + ai table ── */
+.chain{margin-top:80px;position:relative;padding:40px 0;}
+.chain-line{position:absolute;left:0;right:0;top:50%;height:2px;background:linear-gradient(90deg,var(--v1),var(--v3),var(--v2));opacity:.55;}
+.chain-nodes{position:relative;display:flex;justify-content:space-between;}
+.node{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;width:18%;}
+.node .dot{width:16px;height:16px;border-radius:50%;background:var(--v2);box-shadow:0 0 0 6px var(--v-glow),0 0 22px var(--v1);}
+.node .lab{font-size:12.5px;font-weight:700;color:var(--w1);}
+.node .desc{font-size:11px;font-weight:300;color:var(--w4);line-height:1.5;}
+
+.aitable{margin-top:104px;}
+.ai-head{display:grid;grid-template-columns:1.4fr 1fr 1.4fr;gap:28px;padding-bottom:14px;}
+.ai-head span{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--w4);}
+.ai-row{display:grid;grid-template-columns:1.4fr 1fr 1.4fr;gap:28px;padding:22px 0;border-top:1px solid var(--line-2);align-items:center;}
+.ai-row .fn{font-size:14.5px;font-weight:600;color:var(--w1);}
+.ai-row .in{font-size:13px;font-weight:400;color:var(--w3);}
+.ai-tag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;}
+.ai-tag::before{content:'';width:8px;height:8px;border-radius:2px;}
+.ai-tag.rule{color:var(--lime);}
+.ai-tag.rule::before{background:var(--lime);}
+.ai-tag.llm{color:var(--v2);}
+.ai-tag.llm::before{background:var(--v1);}
+.ai-tag.det{color:var(--w2);}
+.ai-tag.det::before{background:var(--w3);}
+.ai-row .note{display:block;font-size:11px;font-weight:300;color:var(--w4);margin-top:4px;}
+
+/* ── 05 AI ARCHITECTURE ── */
+.flows{margin-top:76px;display:grid;grid-template-columns:1fr 1fr;gap:72px;}
+.flow-t{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--v2);margin-bottom:28px;}
+.flow-step{display:flex;gap:18px;padding:14px 0;align-items:flex-start;}
+.flow-step .i{font-family:'Satoshi';font-size:13px;font-weight:700;color:var(--v3);min-width:22px;}
+.flow-step .x{font-size:13.5px;font-weight:400;color:var(--w2);line-height:1.5;}
+.flow-step .x b{color:var(--w1);font-weight:600;}
+
+.split{margin-top:104px;}
+.split-title{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--w4);margin-bottom:24px;}
+.split-bar{display:flex;height:54px;border-radius:6px;overflow:hidden;}
+.split-bar .rules{flex:0 0 90%;background:linear-gradient(90deg,#5d6b1f,var(--lime));display:flex;align-items:center;padding:0 22px;}
+.split-bar .llm{flex:0 0 10%;background:linear-gradient(90deg,var(--v1),var(--v2));display:flex;align-items:center;justify-content:center;}
+.split-bar .rules b,.split-bar .llm b{font-family:'Satoshi';font-size:18px;font-weight:900;color:#0E0D0C;}
+.split-bar .llm b{color:#fff;}
+.split-cap{display:flex;justify-content:space-between;margin-top:14px;}
+.split-cap span{font-size:12px;font-weight:500;color:var(--w3);}
+.split-cap span:last-child{color:var(--v2);}
+
+.tokens{margin-top:80px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.tok-row{display:flex;justify-content:space-between;padding:16px 0;border-top:1px solid var(--line-2);font-size:13.5px;}
+.tok-row span:first-child{color:var(--w3);font-weight:400;}
+.tok-row span:last-child{color:var(--w1);font-weight:600;}
+.cost b{font-family:'Satoshi';font-size:56px;font-weight:900;color:var(--lime);letter-spacing:-.03em;}
+.cost p{margin-top:14px;font-size:14px;font-weight:300;line-height:1.7;color:var(--w2);}
+
+/* ── 06 EXPERIENCE ── */
+.swatches{margin-top:64px;display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+.sw{flex:1;min-width:120px;height:120px;display:flex;align-items:flex-end;padding:14px;border-right:1px solid var(--line);}
+.sw:last-child{border-right:none;}
+.sw span{font-size:10px;font-weight:600;letter-spacing:.04em;color:rgba(255,255,255,.85);}
+.logo-note{margin-top:64px;display:grid;grid-template-columns:120px 1fr;gap:44px;align-items:center;max-width:760px;}
+.logo-moon{width:120px;height:120px;}
+.logo-note p{font-size:14.5px;font-weight:300;line-height:1.75;color:var(--w2);}
+.logo-note p b{color:var(--w1);font-weight:600;}
+
+.screens{margin-top:104px;display:flex;flex-direction:column;gap:130px;}
+.screen{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+.screen.flip .scr-img{order:2;}
+.screen.flip .scr-txt{order:1;}
+.scr-img{aspect-ratio:4/3;border-radius:14px;background:
+  radial-gradient(120% 120% at 30% 20%,rgba(139,92,246,.32),transparent 60%),
+  linear-gradient(160deg,var(--app-dark),var(--app-card));
+  border:1px solid rgba(139,92,246,.22);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);}
+.scr-img .ph{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--v2);}
+.scr-img .ph2{font-size:11px;font-weight:300;color:var(--w4);}
+.scr-txt .k{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--v2);margin-bottom:18px;}
+.scr-txt h3{font-family:'Satoshi';font-size:30px;font-weight:900;letter-spacing:-.02em;color:var(--w1);margin-bottom:16px;}
+.scr-txt p{font-size:14.5px;font-weight:300;line-height:1.78;color:var(--w2);}
+
+/* ── 07 PROCESS ── */
+.process{margin-top:72px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.ph{padding:0 36px;border-left:1px solid var(--line);position:relative;}
+.ph:first-child{padding-left:0;border-left:none;}
+.ph-i{font-family:'Satoshi';font-size:84px;font-weight:900;color:rgba(240,237,230,0.07);letter-spacing:-.04em;line-height:1;}
+.ph-t{margin-top:8px;font-size:16px;font-weight:700;color:var(--w1);}
+.ph-d{margin-top:12px;font-size:13px;font-weight:300;line-height:1.7;color:var(--w3);}
+
+/* ── 08 REFLECTIONS ── */
+.refl{margin-top:72px;display:grid;grid-template-columns:1fr 1fr;gap:80px;}
+.refl-col h4{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:28px;}
+.refl-col.good h4{color:var(--lime);}
+.refl-col.hard h4{color:var(--red);}
+.refl-item{padding:18px 0;border-top:1px solid var(--line-2);display:flex;gap:16px;align-items:flex-start;}
+.refl-item .m{font-family:'Satoshi';font-size:13px;font-weight:700;min-width:20px;}
+.refl-col.good .m{color:var(--lime);}
+.refl-col.hard .m{color:var(--red);}
+.refl-item p{font-size:14px;font-weight:300;line-height:1.6;color:var(--w2);}
+
+.state{margin-top:88px;padding-left:28px;border-left:3px solid var(--lime);max-width:720px;}
+.state b{font-family:'Satoshi';font-size:20px;font-weight:700;color:var(--w1);display:block;margin-bottom:12px;}
+.state p{font-size:14.5px;font-weight:300;line-height:1.75;color:var(--w2);}
+.future{margin-top:48px;padding-left:28px;border-left:3px solid var(--v1);max-width:720px;}
+.future b{font-family:'Satoshi';font-size:20px;font-weight:700;color:var(--v2);display:block;margin-bottom:12px;}
+.future p{font-size:14.5px;font-weight:300;line-height:1.75;color:var(--w2);}
+
+.closing{padding:160px 48px 130px;max-width:1200px;margin:0 auto;}
+.closing p{font-family:'Satoshi';font-size:clamp(30px,4.4vw,52px);font-weight:900;line-height:1.12;letter-spacing:-.03em;color:var(--w1);}
+.closing p .v{color:var(--v2);}
+.closing p span{display:block;}
+
+/* ── FOOTER ── */
+footer{
+  padding:64px 48px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px;
+  max-width:1200px;margin:0 auto;
+}
+.fn{font-family:'Satoshi';font-size:22px;font-weight:700;color:var(--w1);letter-spacing:-.01em;}
+.fr{font-size:12.5px;font-weight:400;color:var(--w3);margin-top:6px;}
+footer .em{font-size:12px;font-weight:400;color:var(--w4);margin-top:4px;}
+footer a{font-size:14px;font-weight:600;color:var(--v2);text-decoration:none;letter-spacing:.01em;}
+footer a:hover{color:var(--v1);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:880px){
+  .tb,.hero,.sec,.closing,footer{padding-left:26px;padding-right:26px;}
+  .fail-grid,.stats,.process,.mkt-stats{grid-template-columns:1fr;}
+  .fail,.stat,.ph{padding:36px 0;border-left:none;border-top:1px solid var(--line);}
+  .fail:first-child,.stat:first-child,.ph:first-child{border-top:none;padding-top:0;}
+  .mkt,.flows,.tokens,.refl,.screen,.screen.flip{grid-template-columns:1fr;gap:40px;}
+  .screen.flip .scr-img{order:1;}.screen.flip .scr-txt{order:2;}
+  .logo-note{grid-template-columns:1fr;}
+  .rev.a,.rev.b,.rev.c,.rev.d{grid-column:1/13;margin-top:0;}
+  .chain-nodes{flex-direction:column;gap:32px;align-items:flex-start;}
+  .chain-line{display:none;}.node{width:auto;align-items:flex-start;text-align:left;flex-direction:row;gap:14px;}
+  .gap-row,.comp-row,.comp-head,.ai-row,.ai-head{grid-template-columns:1fr;gap:14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV (consistent with index) -->
+<nav class="hero-nav">
+  <div class="hero-nav-logo"><img src="data:image/png;base64,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" alt="SR"></div>
+  <div style="display:flex;align-items:center;">
+    <ul class="hero-nav-links">
+      <li><a href="index.html#about">About Me</a></li>
+      <li><a href="index.html#work">Featured Work</a></li>
+      <li><a href="index.html#playground">Playground</a></li>
+      <li><a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank">Resume</a></li>
+    </ul>
+    <a href="index.html#contact" class="hero-nav-cta">Contact Me</a>
+  </div>
+</nav>
+
+<style>
+/* Hero nav styles (copied from index) */
+.hero-nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;max-width:1200px;margin:0 auto;width:100%;box-sizing:border-box;}
+.hero-nav-logo{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.hero-nav-logo img{width:100%;height:100%;object-fit:cover}
+.hero-nav-links{display:flex;gap:2px;list-style:none}
+.hero-nav-links a{font-size:13px;font-weight:600;color:rgba(232,223,208,0.55);text-decoration:none;padding:8px 14px;border-radius:100px;position:relative;transition:color 0.2s}
+.hero-nav-links a::after{content:'';position:absolute;bottom:2px;left:14px;right:14px;height:1.5px;background:#E8DFD0;transform:scaleX(0);transform-origin:left;transition:transform 0.25s ease}
+.hero-nav-links a:hover{color:#E8DFD0}
+.hero-nav-links a:hover::after{transform:scaleX(1)}
+.hero-nav-cta{font-size:13px;font-weight:700;color:#E8DFD0;background:transparent;padding:10px 20px;border-radius:100px;text-decoration:none;margin-left:8px;border:1.5px solid rgba(232,223,208,0.35);transition:background 0.2s,color 0.2s,border-color 0.2s}
+.hero-nav-cta:hover{background:#E8DFD0;color:var(--black);border-color:#E8DFD0}
+.page-inner{max-width:1200px;margin:0 auto;padding:0 48px;}
+</style>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="hero-canvas" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <radialGradient id="moon" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#B08CF5" stop-opacity="0.22"/>
+        <stop offset="55%" stop-color="#8B5CF6" stop-opacity="0.10"/>
+        <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="core" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#9493F8" stop-opacity="0.30"/>
+        <stop offset="100%" stop-color="#1A1832" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="1180" cy="300" r="520" fill="url(#moon)"/>
+    <circle cx="1180" cy="300" r="240" fill="url(#core)"/>
+    <circle cx="1180" cy="300" r="200" fill="none" stroke="rgba(176,140,245,0.18)" stroke-width="1"/>
+    <circle cx="1100" cy="260" r="270" fill="#0E0D0C"/>
+  </svg>
+  <div class="page-inner">
+    <div class="hero-kicker">Cycle-aware planning · AI-native · Personal project</div>
+    <h1 class="hero-giant">Wise<span class="accent">Woman</span></h1>
+    <p class="hero-sub">A daily planning system that reads the body, not just the calendar. It maps tasks to life roles, reads cycle-phase energy, and builds one schedule across work and personal life.</p>
+    <div class="hero-meta-strip">
+    <div class="hm"><span class="hm-l">Role</span><span class="hm-v">Product Designer + Builder</span></div>
+    <div class="hm"><span class="hm-l">Timeframe</span><span class="hm-v">5 days · Sept 2025</span></div>
+    <div class="hm"><span class="hm-l">Stack</span><span class="hm-v">Lovable · Gemini 2.5 Flash · Supabase</span></div>
+    <div class="hm"><span class="hm-l">Type</span><span class="hm-v">Personal project · Live MVP</span></div>
+    </div>
+  </section>
+
+<div class="divider"></div>
+
+<!-- 01 PROBLEM SPACE -->
+<section class="sec">
+  <div class="sec-num">01 — The Problem Space</div>
+  <h2 class="sec-head">Where productivity systems break for women.</h2>
+  <p class="sec-lede">Planners optimise for task completion. They assume a flat, steady person with one role and constant energy. That person does not exist.</p>
+
+  <div class="fail-grid">
+    <div class="fail">
+      <div class="fail-i">01</div>
+      <div class="fail-t">Energy is treated as constant</div>
+      <div class="fail-d">A to-do list assumes the same capacity every day. Energy shifts across the cycle, and the plan never accounts for it.</div>
+    </div>
+    <div class="fail">
+      <div class="fail-i">02</div>
+      <div class="fail-t">One flat list, many roles</div>
+      <div class="fail-d">Work, home, care, self. Tasks from every role pile into a single list with no sense of context or boundary.</div>
+    </div>
+    <div class="fail">
+      <div class="fail-i">03</div>
+      <div class="fail-t">Setup is the real cost</div>
+      <div class="fail-d">Most tools demand structure before they give value. The cognitive load of managing the planner becomes its own task.</div>
+    </div>
+  </div>
+
+  <div class="gap">
+    <div class="gap-title">Gap Analysis — what apps deliver against what women actually need</div>
+    <div class="gap-legend">
+      <span><i style="background:var(--w4);opacity:.5;"></i>What apps do</span>
+      <span><i style="background:var(--v1);"></i>What they need</span>
+    </div>
+
+    <div class="gap-row">
+      <div class="gap-reality">Energy fluctuates<small>across the cycle</small></div>
+      <div class="gap-bars">
+        <div class="gap-bar apps" style="width:20%"><span>static lists</span></div>
+        <div class="gap-bar need" style="width:88%"><span>energy-aware planning</span></div>
+      </div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-reality">Multiple roles at once<small>work, home, care, self</small></div>
+      <div class="gap-bars">
+        <div class="gap-bar apps" style="width:24%"><span>single flat list</span></div>
+        <div class="gap-bar need" style="width:82%"><span>role-grouped tasks</span></div>
+      </div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-reality">Cognitive load is the cost<small>not the task itself</small></div>
+      <div class="gap-bars">
+        <div class="gap-bar apps" style="width:18%"><span>manual setup</span></div>
+        <div class="gap-bar need" style="width:90%"><span>low-friction capture</span></div>
+      </div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-reality">Accountability matters<small>without the guilt</small></div>
+      <div class="gap-bars">
+        <div class="gap-bar apps" style="width:30%"><span>streaks and guilt</span></div>
+        <div class="gap-bar need" style="width:76%"><span>gentle structure</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>High-accountability planners are not the answer.</b>
+    <p>Streaks, guilt mechanics, and rigid daily quotas punish the exact days when capacity is lowest. The system needs to flex with the person, not demand the person flex to the system.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 02 RESEARCH -->
+<section class="sec">
+  <div class="sec-num">02 — Research &amp; Pattern Synthesis</div>
+  <h2 class="sec-head">Small sample. Honest method.</h2>
+  <p class="method">No inflated numbers. Patterns were drawn from <b>Reddit threads</b> on productivity and women's planning, <b>3 direct conversations</b>, and <b>12 app store audits</b> across cycle and productivity tools. The signal was consistent enough to act on, not large enough to claim more than it was.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n v">4.8<span style="font-size:.4em;font-weight:700;"> hrs</span></div>
+      <div class="stat-l">of unpaid work carried by women each day, on average.</div>
+      <div class="stat-src">OECD</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">7<span style="font-size:.4em;font-weight:700;"> in 10</span></div>
+      <div class="stat-l">mothers report cognitive overload from juggling roles.</div>
+      <div class="stat-src">IJIP</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">5–10<span style="font-size:.4em;font-weight:700;">%</span></div>
+      <div class="stat-l">typical long-term retention for productivity apps.</div>
+      <div class="stat-src">Industry benchmark</div>
+    </div>
+  </div>
+
+  <div class="reviews">
+    <div class="rev-eyebrow">In their own words — app store and forum voices, unedited</div>
+    <div class="rev-flow">
+      <div class="rev a"><q>Managing the tool is a work !</q><cite>Productivity app review</cite></div>
+      <div class="rev b"><q>PMS is a thing !!</q><cite>Reddit, r/productivity</cite></div>
+      <div class="rev c"><q>Not for personal management</q><cite>Task app review</cite></div>
+      <div class="rev d"><q>Organising the task is a pain</q><cite>App store review</cite></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 03 MARKET -->
+<section class="sec">
+  <div class="sec-num">03 — Market Signal &amp; Competitive Landscape</div>
+  <h2 class="sec-head">Two markets that never met.</h2>
+
+  <div class="mkt">
+    <div class="mkt-text">
+      <p>FemTech <b>tracks the body</b>. Productivity tools <b>schedule the day</b>. No category leader connects the two.</p>
+      <p>Cycle apps know energy shifts but do nothing with it. Planners structure the day but stay blind to the person using them. WiseWoman sits in the gap between them.</p>
+    </div>
+    <div class="mkt-stats">
+      <div class="mkt-cell"><div class="n v">$56.5B</div><div class="l">FemTech market, 2024</div></div>
+      <div class="mkt-cell"><div class="n">$18B+</div><div class="l">Productivity software</div></div>
+      <div class="mkt-cell"><div class="n">$2B+</div><div class="l">FemTech VC, recent cycle</div></div>
+      <div class="mkt-cell"><div class="n">~$300M</div><div class="l">Serviceable opportunity</div></div>
+    </div>
+  </div>
+
+  <div class="comp">
+    <div class="comp-head"><span>Player</span><span>What it does</span><span>What it misses</span></div>
+    <div class="comp-row"><div class="who">Flo · Clue</div><div class="does">Tracks the cycle with depth and accuracy.</div><div class="gap-c">No planning layer. Insight never becomes action.</div></div>
+    <div class="comp-row"><div class="who">Phase · Essence</div><div class="does">Cycle-aware lifestyle and wellness guidance.</div><div class="gap-c">No task or scheduling system.</div></div>
+    <div class="comp-row"><div class="who">Todoist · Notion</div><div class="does">Powerful, flexible planning and task management.</div><div class="gap-c">No body awareness. Treats every day the same.</div></div>
+    <div class="comp-row us"><div class="who">WiseWoman</div><div class="does">Maps tasks to roles, reads cycle energy, builds one plan.</div><div class="gap-c">Connects both. Body and day in one system.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 04 SYSTEM LOGIC -->
+<section class="sec">
+  <div class="sec-num">04 — Core System Logic &amp; Product Strategy</div>
+  <h2 class="sec-head">A planning chain, not a to-do list.</h2>
+  <p class="sec-lede">Every task moves through five stages before it reaches the schedule. The system reads context first, then plans.</p>
+
+  <div class="chain">
+    <div class="chain-line"></div>
+    <div class="chain-nodes">
+      <div class="node"><div class="dot"></div><div class="lab">Cycle Phase</div><div class="desc">Where she is in the cycle</div></div>
+      <div class="node"><div class="dot"></div><div class="lab">Energy Pattern</div><div class="desc">Expected capacity</div></div>
+      <div class="node"><div class="dot"></div><div class="lab">Role Context</div><div class="desc">Which life role a task belongs to</div></div>
+      <div class="node"><div class="dot"></div><div class="lab">Task Grouping</div><div class="desc">Clustered by role and weight</div></div>
+      <div class="node"><div class="dot"></div><div class="lab">Daily Plan</div><div class="desc">One schedule, work and personal</div></div>
+    </div>
+  </div>
+
+  <div class="aitable">
+    <div class="ai-head"><span>Function</span><span>Input</span><span>System</span></div>
+    <div class="ai-row"><div class="fn">Task Capture<span class="note">structured text input</span></div><div class="in">Text</div><div><span class="ai-tag rule">Rule-Based — AITaskCategorizer</span><span class="note">runs client-side, no API call</span></div></div>
+    <div class="ai-row"><div class="fn">Task Capture<span class="note">unstructured speech</span></div><div class="in">Voice</div><div><span class="ai-tag llm">LLM — Gemini</span><span class="note">rules cannot split free speech</span></div></div>
+    <div class="ai-row"><div class="fn">Task Categorisation</div><div class="in">Task</div><div><span class="ai-tag rule">Rule-Based + learning loop</span><span class="note">remembers user corrections</span></div></div>
+    <div class="ai-row"><div class="fn">Energy Guidance</div><div class="in">Cycle phase</div><div><span class="ai-tag llm">LLM — Gemini</span><span class="note">tone and interpretation</span></div></div>
+    <div class="ai-row"><div class="fn">Schedule Structuring</div><div class="in">Tasks + energy</div><div><span class="ai-tag det">Deterministic algorithm</span><span class="note">predictable, not generative</span></div></div>
+    <div class="ai-row"><div class="fn">Behaviour Memory</div><div class="in">Activity</div><div><span class="ai-tag det">Pattern memory</span><span class="note">tracks from real activity</span></div></div>
+  </div>
+
+  <div class="callout">
+    <b>The system assists. The user decides.</b>
+    <p>The LLM never schedules autonomously and never overrides a task. It interprets and suggests. Every final decision stays with the person.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 05 AI ARCHITECTURE -->
+<section class="sec">
+  <div class="sec-num">05 — AI Architecture at PM Depth</div>
+  <h2 class="sec-head">Two systems, chosen for two jobs.</h2>
+  <p class="sec-lede">Text and voice do not share a pipeline. Each input type routes to the system that fits it. This is the most important technical decision in the product.</p>
+
+  <div class="flows">
+    <div>
+      <div class="flow-t">Voice to Task — LLM path</div>
+      <div class="flow-step"><span class="i">1</span><span class="x"><b>Web Speech API</b> captures spoken input in the browser.</span></div>
+      <div class="flow-step"><span class="i">2</span><span class="x">Transcript is sent to an <b>edge function</b>.</span></div>
+      <div class="flow-step"><span class="i">3</span><span class="x"><b>Gemini</b> parses intent and splits multiple tasks from one utterance.</span></div>
+      <div class="flow-step"><span class="i">4</span><span class="x">Returns a <b>structured task array</b>.</span></div>
+      <div class="flow-step"><span class="i">5</span><span class="x">Tasks render in the UI for review.</span></div>
+    </div>
+    <div>
+      <div class="flow-t">Energy Recommendations — LLM path</div>
+      <div class="flow-step"><span class="i">1</span><span class="x">Cycle phase and context are <b>gathered</b>.</span></div>
+      <div class="flow-step"><span class="i">2</span><span class="x">Sent to <b>Gemini</b> for interpretation.</span></div>
+      <div class="flow-step"><span class="i">3</span><span class="x">Two outputs: an <b>energy read</b> and a <b>guidance message</b>.</span></div>
+      <div class="flow-step"><span class="i">4</span><span class="x">Displayed as a phase-aware prompt, never a command.</span></div>
+    </div>
+  </div>
+
+  <div class="split">
+    <div class="split-title">Hybrid strategy — where work actually happens</div>
+    <div class="split-bar">
+      <div class="rules"><b>90%+ Client-side rules</b></div>
+      <div class="llm"><b>LLM</b></div>
+    </div>
+    <div class="split-cap">
+      <span>Rules handle the everyday: capture, categorisation, scheduling.</span>
+      <span>LLM only where rules fail: free speech, tone.</span>
+    </div>
+  </div>
+
+  <div class="tokens">
+    <div>
+      <div class="split-title">Token economics</div>
+      <div class="tok-row"><span>Text capture</span><span>0 tokens</span></div>
+      <div class="tok-row"><span>Categorisation</span><span>0 tokens</span></div>
+      <div class="tok-row"><span>Scheduling</span><span>0 tokens</span></div>
+      <div class="tok-row"><span>Voice parsing</span><span>LLM call</span></div>
+      <div class="tok-row"><span>Energy guidance</span><span>LLM call</span></div>
+    </div>
+    <div class="cost">
+      <b>$0</b>
+      <p>Cost to the end user. The platform absorbs all model cost through the Lovable AI Gateway. Routing most interactions through rules keeps that absorbable.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 06 EXPERIENCE -->
+<section class="sec">
+  <div class="sec-num">06 — Experience Strategy &amp; Interaction Design</div>
+  <h2 class="sec-head">Calm surface over a careful system.</h2>
+
+  <div class="swatches">
+    <div class="sw" style="background:#8B5CF6;"><span>#8B5CF6</span></div>
+    <div class="sw" style="background:#B08CF5;"><span>#B08CF5</span></div>
+    <div class="sw" style="background:#9493F8;"><span>#9493F8</span></div>
+    <div class="sw" style="background:#1A1832;"><span>#1A1832</span></div>
+    <div class="sw" style="background:#252538;"><span>#252538</span></div>
+    <div class="sw" style="background:#161719;"><span>#161719</span></div>
+    <div class="sw" style="background:#393447;"><span>#393447</span></div>
+  </div>
+
+  <div class="logo-note">
+    <svg class="logo-moon" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="60" r="46" fill="#8B5CF6" fill-opacity="0.14"/>
+      <circle cx="60" cy="60" r="34" fill="#B08CF5"/>
+      <circle cx="46" cy="52" r="30" fill="#0E0D0C"/>
+    </svg>
+    <p>The moon is the mark. It carries the <b>cycle reference</b> without literal anatomy, and the crescent reads as a quiet, recurring rhythm. The palette stays violet and calm so the interface never adds pressure to a day that already has enough.</p>
+  </div>
+
+  <div class="screens">
+    <div class="screen">
+      <div class="scr-img"><span class="ph">Onboarding</span><span class="ph2">Drop screen export here</span></div>
+      <div class="scr-txt"><div class="k">Onboarding</div><h3>Set the rhythm, not a form</h3><p>Onboarding reads cycle context and life roles up front, so the first plan already fits the person. No long setup before any value appears.</p></div>
+    </div>
+    <div class="screen flip">
+      <div class="scr-img"><span class="ph">Contextual Home</span><span class="ph2">Drop screen export here</span></div>
+      <div class="scr-txt"><div class="k">Contextual Home</div><h3>The day, read in context</h3><p>The home surface leads with energy and phase, then the plan. The user sees why the day is shaped the way it is before they see the tasks.</p></div>
+    </div>
+    <div class="screen">
+      <div class="scr-img"><span class="ph">Task Capture</span><span class="ph2">Drop screen export here</span></div>
+      <div class="scr-txt"><div class="k">Task Capture &amp; Scheduling</div><h3>Speak it, or type it</h3><p>Voice routes through the LLM, text through the rule engine. Either way the task lands grouped by role and slotted into a predictable schedule.</p></div>
+    </div>
+    <div class="screen flip">
+      <div class="scr-img"><span class="ph">Habit Reflection</span><span class="ph2">Drop screen export here</span></div>
+      <div class="scr-txt"><div class="k">Habit Reflection</div><h3>Tracking without the logging</h3><p>Habits are read from real activity, not manual check-ins. Reflection comes from what actually happened, which removes another daily chore.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 07 PROCESS -->
+<section class="sec">
+  <div class="sec-num">07 — Design Process</div>
+  <h2 class="sec-head">Five days, four moves.</h2>
+
+  <div class="process">
+    <div class="ph"><div class="ph-i">01</div><div class="ph-t">Problem Validation</div><div class="ph-d">Built for personal use first. Secondary research came second, to test the hypothesis rather than invent it.</div></div>
+    <div class="ph"><div class="ph-i">02</div><div class="ph-t">Define Direction</div><div class="ph-d">Set the planning chain and the assist-not-automate principle before any screen existed.</div></div>
+    <div class="ph"><div class="ph-i">03</div><div class="ph-t">Build MVP</div><div class="ph-d">Vibe-coded on Lovable. Rules-based scheduling over full LLM to keep the MVP stable in a five-day window.</div></div>
+    <div class="ph"><div class="ph-i">04</div><div class="ph-t">Iterate &amp; Refine</div><div class="ph-d">Tightened the AI routing, separated voice and text systems, and fixed tone on energy guidance.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 08 REFLECTIONS -->
+<section class="sec">
+  <div class="sec-num">08 — Reflections &amp; Future Scope</div>
+  <h2 class="sec-head">What held, what fought back.</h2>
+
+  <div class="refl">
+    <div class="refl-col good">
+      <h4>What Worked</h4>
+      <div class="refl-item"><span class="m">+</span><p>The hybrid AI strategy kept the MVP stable and cheap to run.</p></div>
+      <div class="refl-item"><span class="m">+</span><p>A rule engine for text capture removed latency and token cost entirely.</p></div>
+      <div class="refl-item"><span class="m">+</span><p>The deterministic scheduler made the system predictable, so users trusted it.</p></div>
+      <div class="refl-item"><span class="m">+</span><p>Building for personal use first kept the scope honest and the hypothesis testable.</p></div>
+    </div>
+    <div class="refl-col hard">
+      <h4>What Was Hard</h4>
+      <div class="refl-item"><span class="m">–</span><p>Splitting voice and text into two systems took several iterations to get right.</p></div>
+      <div class="refl-item"><span class="m">–</span><p>Cycle-phase energy guidance needed careful tone, not just accuracy.</p></div>
+      <div class="refl-item"><span class="m">–</span><p>The five-day scope forced cutting richer pattern recognition.</p></div>
+      <div class="refl-item"><span class="m">–</span><p>Validating a personal hypothesis with limited secondary research.</p></div>
+      <div class="refl-item"><span class="m">–</span><p>Keeping the LLM assistive and never autonomous, by design, at every step.</p></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <b>Current state</b>
+    <p>Live MVP with real users. Vibe-coded on Lovable with Google OAuth and Supabase. Functional end to end: capture, categorisation, energy guidance, and scheduling.</p>
+  </div>
+  <div class="future">
+    <b>Future scope</b>
+    <p>Native deployment, advanced pattern recognition from longer activity history, and richer cycle-signal integration to sharpen the energy read.</p>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <p>
+    <span>It does not ask her to plan harder.</span>
+    <span>It plans <span class="v">with</span> her.</span>
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="fn">Shabnam Raghavan</div>
+    <div class="fr">Interdisciplinary Product Designer · Healthcare &amp; InsurTech</div>
+    <div class="em">shabnam.rs.work@gmail.com</div>
+  </div>
+  <a href="https://www.shabnamraghavan.com">shabnamraghavan.com →</a>
+</footer>
+
+</body>
+</html>

@@ -63,11 +63,11 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 .hero-red {
   background:transparent; border-radius:20px; flex:1;
   display:flex; flex-direction:column; overflow:hidden; position:relative;
-  width:100%; max-width:1400px;
+  width:100%; max-width:1200px;
 }
 .hero-nav {
   display:flex; align-items:center; justify-content:space-between;
-  padding:18px 40px; flex-shrink:0; max-width:1400px; margin:0 auto; width:100%; box-sizing:border-box;
+  padding:18px 40px; flex-shrink:0; max-width:1200px; margin:0 auto; width:100%; box-sizing:border-box;
 }
 .hero-nav-logo { width:36px; height:36px; border-radius:50%; overflow:hidden; flex-shrink:0; }
 .hero-nav-logo img { width:100%; height:100%; object-fit:cover; }
@@ -206,8 +206,8 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
 
 /* ── CASE STUDIES ── */
 .section { padding:80px 48px; background:var(--black); border-bottom:1px solid var(--border); }
-.section-inner { max-width:1200px; margin:0 auto; }
-.page-inner { max-width:1200px; margin:0 auto; }
+.section-inner { max-width:1200px; margin:0 auto; padding:0 48px; }
+.page-inner { max-width:1200px; margin:0 auto; padding:0 48px; }
 .section-heading {
   font-family:'Satoshi','Manrope',sans-serif; font-size:48px; font-weight:900;
   color:var(--cream); letter-spacing:-0.02em; margin-bottom:32px;
@@ -496,7 +496,7 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
     </div>
   </div>
   <div class="cs-grid">
-    <a href="/ihx_case_study.html" class="cs-card">
+    <a href="ihx_case_study.html" class="cs-card">
       <div class="cs-body">
         <div class="cs-body-top">
           <div class="cs-index">01 &nbsp; IHX Ops Dashboard</div>
@@ -524,7 +524,7 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
       </div>
       <div class="cs-thumb-wrap"><div class="cs-thumb" ><img src="ihx-cover.png" alt="IHX Dashboard"></div></div>
     </a>
-    <a href="#" class="cs-card">
+    <a href="wisewomen-case-study.html" class="cs-card">
       <div class="cs-body">
         <div class="cs-body-top">
           <div class="cs-index">02 &nbsp; WiseWoman</div>
@@ -771,6 +771,30 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
   var l1 = document.getElementById('iLine1');
   var l2 = document.getElementById('iLine2');
   var l3 = document.getElementById('iLine3');
+  var curtainTop = document.getElementById('curtainTop');
+  var curtainBottom = document.getElementById('curtainBottom');
+
+  // Determine navigation type. We want the intro to run on the first visit
+  // or when the user explicitly reloads the page, but skip it when arriving
+  // via internal navigation (e.g., clicking back from a case study).
+  var navType = 'navigate';
+  try {
+    if (performance.getEntriesByType && performance.getEntriesByType('navigation').length) {
+      navType = performance.getEntriesByType('navigation')[0].type || 'navigate';
+    } else if (performance.navigation) {
+      navType = (performance.navigation.type === 1) ? 'reload' : (performance.navigation.type === 2 ? 'back_forward' : 'navigate');
+    }
+  } catch (e) { /* ignore */ }
+
+  var isReload = (navType === 'reload');
+
+  // If intro has been seen and this is not a reload, skip animation.
+  if (!isReload && localStorage.getItem('introSeen') === 'true') {
+    if (intro) intro.style.display = 'none';
+    if (curtainTop) curtainTop.style.display = 'none';
+    if (curtainBottom) curtainBottom.style.display = 'none';
+    return;
+  }
 
   function makeWords(el, words) {
     el.innerHTML = '';
@@ -818,14 +842,16 @@ body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cr
     });
     setTimeout(function() {
       // Hide intro overlay
-      intro.style.display = 'none';
+      if (intro) intro.style.display = 'none';
       // Split curtain open
-      document.getElementById('curtainTop').classList.add('open');
-      document.getElementById('curtainBottom').classList.add('open');
+      if (curtainTop) curtainTop.classList.add('open');
+      if (curtainBottom) curtainBottom.classList.add('open');
       // Remove curtains after animation
       setTimeout(function() {
-        document.getElementById('curtainTop').style.display = 'none';
-        document.getElementById('curtainBottom').style.display = 'none';
+        if (curtainTop) curtainTop.style.display = 'none';
+        if (curtainBottom) curtainBottom.style.display = 'none';
+        // Mark intro as seen so internal navigations don't replay it.
+        try { localStorage.setItem('introSeen', 'true'); } catch (e) {}
         if (cb) cb();
       }, 1100);
     }, 500);
