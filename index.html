@@ -63,7 +63,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 0;
     cursor: pointer;
     overflow: hidden;
     animation: introOut 700ms cubic-bezier(0.65, 0, 0.2, 1) 4800ms forwards;
@@ -90,15 +90,16 @@
 
   .intro-name {
     font-family: var(--font-display);
-    color: var(--turmeric);
+    color: oklch(84% 0.1 82);
     font-size: clamp(1.8rem, 4.4vw, 3rem);
     letter-spacing: 0.01em;
     text-align: center;
     padding: 0 24px;
+    margin-top: -70px;
     opacity: 0;
     animation: helloIn 900ms cubic-bezier(0.22,1,0.36,1) 2800ms forwards;
   }
-  @keyframes helloIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+  @keyframes helloIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes introOut { to { transform: translateY(-100%); } }
 
   /* ============ TOP BAR ============ */
@@ -483,6 +484,13 @@
   /* ============ FOOTER / CONTACT ============ */
   footer { background: var(--coal); color: var(--paper); }
   .foot-inner { max-width: 1200px; margin: 0 auto; padding: var(--space-xl) 60px var(--space-lg); display: grid; gap: var(--space-lg); }
+  .weave-divider {
+    max-width: 1200px; margin: 0 auto; box-sizing: border-box;
+    height: 10px; padding: 0 60px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'%3E%3Cpath d='M0 5 Q 6 1 12 5 T 24 5' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 10px;
+    opacity: 0.55;
+  }
   .resume-cta { max-width: 1200px; margin: 0 auto; padding: 0 60px var(--space-xl); text-align: center; }
   .resume-cta .link { font-size: 1.05rem; }
   .foot-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-lg); flex-wrap: wrap; }
@@ -1083,6 +1091,8 @@
 
   </div>
 </section>
+
+<div class="weave-divider" aria-hidden="true"></div>
 
 <div class="resume-cta">
   <a class="link" href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Download resume &darr;</a>
