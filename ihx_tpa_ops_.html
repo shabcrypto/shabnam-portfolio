@@ -6,6 +6,9 @@
 <title>IHX Nucleus Ops Dashboard — Shabnam Raghavan</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
 <style>
 :root{
   --black:#0E0D0C; --indigo:#3C3ADA; --indigo-light:#6E6CF0;
@@ -44,7 +47,7 @@ nav.cs-nav{
 .wrap{max-width:1200px;margin:0 auto;padding:0 48px;}
 .page-inner{max-width:1200px;margin:0 auto;padding:0 48px;}
 .section{padding:80px 0;border-bottom:1px solid rgba(240,237,230,0.06);}
-.section-label{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:16px;}
+.section-label{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo-light);margin-bottom:16px;}
 .cs-heading{font-family:'Satoshi',sans-serif;font-size:clamp(32px,4vw,52px);font-weight:900;color:var(--cream);letter-spacing:-0.02em;line-height:1.05;margin-bottom:14px;}
 .cs-sub{font-size:15px;font-weight:400;color:var(--cream-2);line-height:1.75;max-width:640px;margin-bottom:32px;}
 
@@ -112,7 +115,7 @@ nav.cs-nav{
 .badge.amber{color:#F5A623;border:1px solid rgba(245,166,35,0.3);}
 .bullet{font-size:13px;color:var(--cream-2);line-height:1.7;display:flex;gap:8px;margin-bottom:5px;}
 .bullet::before{content:"—";color:var(--muted);flex-shrink:0;}
-.critical{font-size:12px;font-weight:500;color:var(--red);margin-top:14px;line-height:1.55;}
+.critical{font-size:12px;font-weight:500;color:var(--indigo-light);margin-top:14px;line-height:1.55;}
 .critical strong{font-weight:700;}
 
 /* IA */
@@ -150,7 +153,7 @@ nav.cs-nav{
 .tf-col{padding:20px 24px;border-right:1px solid var(--border);}
 .tf-col:last-child{border-right:none;}
 .tf-col-lbl{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px;}
-.tf-col-lbl.red{color:var(--red);} .tf-col-lbl.indigo{color:var(--indigo-light);} .tf-col-lbl.teal{color:var(--teal);}
+.tf-col-lbl.red{color:var(--indigo);} .tf-col-lbl.indigo{color:var(--indigo-light);} .tf-col-lbl.teal{color:var(--teal);}
 .tf-col-text{font-size:12px;color:var(--cream-2);line-height:1.7;}
 .throughline{background:rgba(60,58,218,0.06);border:1px solid rgba(110,108,240,0.2);border-radius:6px;padding:32px;margin-top:20px;}
 .tl-lbl{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo-light);margin-bottom:12px;}
@@ -205,29 +208,36 @@ nav.cs-nav{
 
 <!-- NAV (consistent with index) -->
 <header class="hdr">
-  <a class="hdr-logo" href="index.html" aria-label="Home"><img src="data:image/png;base64,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" alt="SR"></div>
-  <nav class="hdr-nav">
-    <a href="index.html#about">About Me</a>
-    <a href="index.html#work">Featured Work</a>
-    <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank">Resume</a>
-    <a class="hdr-cta" href="index.html#contact">Contact Me</a>
+  <a class="hdr-logo" href="index.html" aria-label="Shabnam Raghavan home">Shabnam Raghavan</a>
+  <nav class="hdr-nav" aria-label="Primary">
+    <a href="index.html#work">Work</a>
+    <a href="about.html">About me</a>
+    <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
+    <a href="index.html#contact">Contact me</a>
   </nav>
 </header>
 
 <style>
 /* Header styles (consistent with WiseWoman) */
-.hdr{position:sticky;top:0;z-index:100;background:rgba(14,13,12,0.8);display:flex;align-items:center;justify-content:space-between;padding:22px 48px;max-width:1200px;margin:0 auto;}
-.hdr-logo{width:42px;height:42px;display:block;border-radius:50%;overflow:hidden;}
-.hdr-logo img{width:100%;height:100%;object-fit:cover;display:block;}
-.hdr-nav{display:flex;align-items:center;gap:38px;}
-.hdr-nav a:not(.hdr-cta){font-size:15px;font-weight:500;color:var(--cream-2);text-decoration:none;position:relative;padding-bottom:3px;}
-.hdr-nav a:not(.hdr-cta)::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--cream);transition:width .25s ease;}
-.hdr-nav a:not(.hdr-cta):hover{color:var(--cream);}
-.hdr-nav a:not(.hdr-cta):hover::after{width:100%;}
-.hdr-cta{font-size:15px;font-weight:600;color:var(--cream);background:transparent;border:1px solid var(--cream);padding:12px 26px;border-radius:30px;text-decoration:none;transition:background .2s ease,color .2s ease;}
-.hdr-cta:hover{background:var(--cream);color:var(--black);}
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding: clamp(16px, 2.5vw, 28px) clamp(24px, 5vw, 60px);
+  font-size:0.85rem;letter-spacing:0.14em;text-transform:uppercase;
+}
+.hdr-logo{font-family:'Gloock',serif;font-weight:400;font-size:1.2rem;letter-spacing:0;text-transform:none;color:var(--cream);white-space:nowrap;text-decoration:none;}
+.hdr-nav{display:flex;align-items:center;gap:24px;}
+.hdr-nav a{position:relative;font-family:'Alegreya Sans',sans-serif;color:var(--cream-2);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
+.hdr-nav a::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%236E6CF0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 8px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
+}
+.hdr-nav a:hover{color:var(--indigo-light);}
+.hdr-nav a:hover::after{transform:scaleX(1);}
 </style>
-  <div class="page-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:48px;">
+  <div class="page-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:48px;padding-top:64px;">
     <div>
       <h1 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(40px,4.8vw,68px);line-height:1.02;letter-spacing:-0.025em;margin-bottom:20px;">
         <span style="color:var(--cream);">Reimagining</span><br>
@@ -425,7 +435,7 @@ nav.cs-nav{
       </div>
       <!-- Critical note -->
       <div style="padding:14px 20px;background:#1A1208;border-top:1px solid rgba(232,67,10,0.15);">
-        <p style="font-size:12px;color:var(--cream-2);line-height:1.6;"><span style="color:var(--red);font-weight:700;">Every action is time-critical</span> — an unanswered query increases TAT, a delayed discharge costs the hospital a bed/hour.</p>
+        <p style="font-size:12px;color:var(--cream-2);line-height:1.6;"><span style="color:var(--indigo-light);font-weight:700;">Every action is time-critical</span> — an unanswered query increases TAT, a delayed discharge costs the hospital a bed/hour.</p>
       </div>
     </div>
 
@@ -448,7 +458,7 @@ nav.cs-nav{
       </div>
       <!-- Critical note -->
       <div style="padding:14px 20px;background:#1E1C1A;border-top:1px solid rgba(9,124,101,0.2);">
-        <p style="font-size:12px;color:var(--cream-2);line-height:1.6;"><span style="color:#E8430A;font-weight:700;">Every delay means money already spent on care sitting</span> unreturned, impacting operational capital.</p>
+        <p style="font-size:12px;color:var(--cream-2);line-height:1.6;"><span style="color:var(--indigo-light);font-weight:700;">Every delay means money already spent on care sitting</span> unreturned, impacting operational capital.</p>
       </div>
     </div>
 
@@ -474,7 +484,7 @@ nav.cs-nav{
     </div>
     <!-- Accountability note -->
     <div style="padding:14px 20px;background:#161400;border-top:1px solid rgba(245,166,35,0.12);">
-      <p style="font-size:13px;color:var(--cream-2);line-height:1.7;">Every unanswered query and delayed discharge is visible to them first. <span style="color:#E8430A;font-weight:600;">They are accountable for the team's turnaround time.</span></p>
+      <p style="font-size:13px;color:var(--cream-2);line-height:1.7;">Every unanswered query and delayed discharge is visible to them first. <span style="color:var(--indigo-light);font-weight:600;">They are accountable for the team's turnaround time.</span></p>
     </div>
   </div>
 
@@ -615,7 +625,7 @@ nav.cs-nav{
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#161513;">
         <div style="padding:20px 24px;border-right:1px solid rgba(240,237,230,0.06);">
-          <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">Situation</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
           <p style="font-size:12px;color:var(--cream-2);line-height:1.7;">Hospitals had been requesting global search since the platform launched. Engineering assessed ElasticSearch as infeasible — too expensive and architecturally complex at this database scale. The constraint was real and non-negotiable.</p>
         </div>
         <div style="padding:20px 24px;border-right:1px solid rgba(240,237,230,0.06);">
@@ -640,7 +650,7 @@ nav.cs-nav{
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#161513;">
         <div style="padding:20px 24px;border-right:1px solid rgba(240,237,230,0.06);">
-          <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">Situation</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
           <p style="font-size:12px;color:var(--cream-2);line-height:1.7;">During testing, one enterprise hospital pushed hard to remove the Discharge bucket and replace it with a secondary filter. Their workflow had specific reasons for this preference. The account manager was under pressure to accommodate them.</p>
         </div>
         <div style="padding:20px 24px;border-right:1px solid rgba(240,237,230,0.06);">
@@ -665,7 +675,7 @@ nav.cs-nav{
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#161513;">
         <div style="padding:20px 24px;border-right:1px solid rgba(240,237,230,0.06);">
-          <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">Situation</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
           <p style="font-size:12px;color:var(--cream-2);line-height:1.7;">Hotjar confirmed Claims team was doing bulk settlement case by case every evening — a real operational cost. We had designed the bulk workflow. Engineering capacity and stable IA shipping took priority for the MVP.</p>
         </div>
         <div style="padding:20px 24px;border-right:1px solid rgba(240,237,230,0.06);">
@@ -690,7 +700,7 @@ nav.cs-nav{
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#161513;">
         <div style="padding:20px 24px;border-right:1px solid rgba(240,237,230,0.06);">
-          <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">Situation</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
           <p style="font-size:12px;color:var(--cream-2);line-height:1.7;">Hospital staff were leaving IHX to send follow-up emails from their inbox when claims sat in Approval Pending with no insurer response. Every exit broke the workflow.</p>
         </div>
         <div style="padding:20px 24px;border-right:1px solid rgba(240,237,230,0.06);">

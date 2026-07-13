@@ -1,944 +1,1155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shabnam Raghavan — Product Designer + Builder</title>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shabnam Raghavan — Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
 <style>
-/* VERSION 3 — Clean rebuild April 19 2026 */
-:root {
-  --black: #0E0D0C;
-  --red: #E8430A;
-  --cream: #E8DFD0;
-  --cream-2: #D4CFC8;
-  --cream-3: #C4C0B8;
-  --muted: #857F78;
-  --dim: #4A4740;
-  --border: rgba(240,237,230,0.12);
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Manrope',sans-serif; background:var(--black); color:var(--cream); overflow-x:hidden; }
+  :root {
+    --paper: oklch(96.2% 0.016 78);
+    --paper-deep: oklch(93.5% 0.022 74);
+    --ink: oklch(26% 0.021 42);
+    --ink-soft: oklch(42% 0.02 45);
+    --coal: oklch(18% 0.012 40);        /* case study black */
+    --coal-soft: oklch(72% 0.015 60);   /* light text on coal */
+    --vermillion: oklch(52% 0.185 33);
+    --vermillion-deep: oklch(44% 0.17 31);
+    --turmeric: oklch(72% 0.13 82);
 
-/* ── INTRO / CURTAIN ── */
-#intro {
-  position:fixed; inset:0; background:var(--black);
-  display:flex; align-items:center; justify-content:center;
-  z-index:9999; overflow:hidden;
-}
-#introWrap {
-  display:flex; flex-direction:column; align-items:center;
-  gap:0; position:relative; z-index:2;
-}
-.intro-line {
-  font-family:'Satoshi','Manrope',sans-serif;
-  font-size:clamp(28px,4vw,52px); font-weight:700;
-  color:#E8DFD0; letter-spacing:-0.02em; line-height:1.15;
-  display:flex; flex-wrap:wrap; gap:0.28em; justify-content:center;
-  padding-bottom:0.15em;
-}
-.intro-line.line2 { margin-top:0.3em; }
-.intro-line.line3 { margin-top:0.3em; font-size:clamp(20px,2.8vw,38px); font-weight:400; color:rgba(232,223,208,0.55); }
-.iw {
-  display:inline-block;
-  opacity:0; transform:translateY(16px);
-  transition:opacity 0.45s ease, transform 0.45s cubic-bezier(0.22,1,0.36,1);
-}
-.iw.show { opacity:1; transform:translateY(0); }
-.iw.nogap { margin-left:-0.22em; }
-.iw.orange { color:#E8430A; }
-#curtainTop, #curtainBottom {
-  position:fixed; left:0; right:0; background:var(--black); z-index:9998;
-  transition:transform 1s cubic-bezier(0.76,0,0.24,1);
-}
-#curtainTop { top:0; height:50vh; }
-#curtainBottom { bottom:0; height:50vh; }
-#curtainTop.open { transform:translateY(-100%); }
-#curtainBottom.open { transform:translateY(100%); }
-@keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 24px;
+    --space-lg: 48px;
+    --space-xl: 96px;
 
-/* ── HERO ── */
-.hero-outer { background:var(--black); min-height:92vh; padding:16px; display:flex; flex-direction:column; align-items:center; }
-.hero-red {
-  background:transparent; border-radius:20px; flex:1;
-  display:flex; flex-direction:column; overflow:hidden; position:relative;
-  width:100%; max-width:1200px;
-}
-.hdr{
-  position:sticky; top:0; z-index:100; background:rgba(14,13,12,0.8);
-  display:flex; align-items:center; justify-content:space-between;
-  padding:22px 48px; max-width:1200px; margin:0 auto;
-}
-.hdr-logo{width:42px; height:42px; display:block; border-radius:50%; overflow:hidden;}
-.hdr-logo img{width:100%; height:100%; object-fit:cover; display:block;}
-.hdr-nav{display:flex; align-items:center; gap:38px;}
-.hdr-nav a:not(.hdr-cta){font-size:15px; font-weight:500; color:var(--cream-2); text-decoration:none; position:relative; padding-bottom:3px;}
-.hdr-nav a:not(.hdr-cta)::after{content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--cream); transition:width .25s ease;}
-.hdr-nav a:not(.hdr-cta):hover{color:var(--cream);}
-.hdr-nav a:not(.hdr-cta):hover::after{width:100%;}
-.hdr-cta{font-size:15px; font-weight:600; color:var(--cream); background:transparent; border:1px solid var(--cream); padding:12px 26px; border-radius:30px; text-decoration:none; transition:background .2s ease,color .2s ease;}
-.hdr-cta:hover{background:var(--cream); color:var(--black);}
+    --font-display: "Gloock", serif;
+    --font-body: "Alegreya Sans", sans-serif;
 
-.hero-content {
-  flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center;
-  padding:40px 40px 80px; text-align:center;
-}
-.hero-left { display:flex; flex-direction:column; align-items:center; }
+    --intro-offset: 4800ms; /* hero begins as the black curtain rises */
+  }
 
-.hero-intro-name {
-  font-family:'Manrope',sans-serif; font-size:15px; font-weight:500;
-  color:rgba(232,223,208,0.55); margin-bottom:20px;
-  letter-spacing:0.02em;
-}
-.hero-intro-name strong { color:rgba(232,223,208,0.55); font-weight:500; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-.hero-name { display:flex; flex-direction:column; align-items:center; margin-bottom:0; }
-.hero-name-line1 {
-  font-family:'Satoshi','Manrope',sans-serif; font-weight:900;
-  font-size:clamp(64px,9vw,140px); line-height:0.9;
-  color:#E8DFD0; letter-spacing:0.018em; display:block;
-}
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
 
-.hero-title-line {
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Satoshi','Manrope',sans-serif; font-size:clamp(64px,9vw,140px); font-weight:900;
-  color:transparent; -webkit-text-stroke:2.5px rgba(232,67,10,0.7);
-  letter-spacing:-0.02em; margin-bottom:32px; line-height:0.95;
-}
-.hero-scroll-word {
-  overflow:hidden; height:1.2em; display:inline-block; vertical-align:bottom;
-}
-.hero-scroll-track {
-  display:flex; flex-direction:column;
-  transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);
-}
-.hero-scroll-track span {
-  display:block; height:1.2em; line-height:1.2em; white-space:nowrap;
-}
+  a:focus-visible { outline: 2px solid var(--vermillion); outline-offset: 4px; border-radius: 2px; }
 
-.hero-sub {
-  font-size:15px; font-weight:300; line-height:1.8;
-  color:rgba(232,223,208,0.55); max-width:600px; margin-bottom:32px; text-align:center;
-}
-.hero-sub strong { color:rgba(232,223,208,0.55); font-weight:500; }
+  /* ============ INTRO: lines on a black canvas ============ */
+  /*
+    Warp lines drop, a turmeric weft crosses them, a red circle finds its
+    shape, and the name settles in underneath.
+      0        three warp lines draw down (white, one red)
+      600ms    the turmeric weft crosses
+      1000ms   the red circle draws itself
+      2800ms   the name rises beneath the circle
+      4800ms   the canvas rises like a curtain onto the hero
+  */
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--coal);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    animation: introOut 700ms cubic-bezier(0.65, 0, 0.2, 1) 4800ms forwards;
+  }
 
-.keep-scrolling {
-  display:flex; flex-direction:column; align-items:center; gap:8px;
-  position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
-  text-decoration:none; cursor:pointer;
-}
-.keep-scrolling-text::after {
-  content:''; position:absolute; bottom:-2px; left:0; right:0;
-  height:1.5px; background:#E8DFD0;
-  transform:scaleX(0); transform-origin:left; transition:transform 0.2s ease;
-}
-.keep-scrolling:hover .keep-scrolling-text { color:#E8DFD0; }
-.keep-scrolling:hover .keep-scrolling-text::after { transform:scaleX(1); }
-.keep-scrolling-text {
-  font-family:'Manrope',sans-serif; font-size:10px; font-weight:700;
-  letter-spacing:0.18em; text-transform:uppercase; color:rgba(232,223,208,0.35);
-}
-.mouse-icon {
-  width:24px; height:36px; border-radius:12px;
-  border:2px solid rgba(232,223,208,0.25);
-  display:flex; align-items:flex-start; justify-content:center; padding-top:5px;
-}
-.mouse-wheel {
-  width:3px; height:7px; border-radius:2px; background:rgba(232,223,208,0.35);
-  animation:mouseScroll 1.6s ease-in-out infinite;
-}
-@keyframes mouseScroll { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(6px);opacity:0} }
+  .intro-scene { width: min(76vmin, 500px); height: auto; overflow: visible; }
+  .iwarp {
+    stroke: var(--paper); stroke-width: 1.1; stroke-linecap: round;
+    stroke-dasharray: 240; stroke-dashoffset: 240; opacity: 0.35;
+    animation: introDraw 900ms cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .iwarp.red { stroke: var(--vermillion); stroke-width: 1.6; opacity: 0.95; }
+  .iweft {
+    fill: none; stroke: var(--turmeric); stroke-width: 2; stroke-linecap: round;
+    stroke-dasharray: 480; stroke-dashoffset: 480;
+    animation: introDraw 1400ms cubic-bezier(0.22,1,0.36,1) 600ms forwards;
+  }
+  .iring {
+    fill: none; stroke: var(--vermillion); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 970; stroke-dashoffset: 970;
+    animation: introDraw 1700ms cubic-bezier(0.45,0,0.3,1) 1000ms forwards;
+  }
+  @keyframes introDraw { to { stroke-dashoffset: 0; } }
 
-/* ── CARD REEL (hidden) ── */
-.card-reel { display:none; }
-.card-stage { position:relative; width:320px; height:400px; }
-.reel-card { position:relative;
-  position:absolute; inset:0; border-radius:20px; padding:32px;
-  display:flex; flex-direction:column; justify-content:flex-end;
-  opacity:0; transform:rotate(4deg) scale(0.93);
-  transition:opacity 0.5s ease, transform 0.5s ease;
-  box-shadow:0 16px 48px rgba(0,0,0,0.25);
-}
-.reel-card.active { opacity:1; transform:rotate(-2deg) scale(1); z-index:10; }
-.rc-1 { background:#0E0D0C; } .rc-2 { background:#F0EDE6; }
-.rc-3 { background:#1A1832; } .rc-4 { background:#0E0D0C; }
-.rc-label {
-  font-family:'Manrope',sans-serif; font-size:10px; font-weight:700;
-  letter-spacing:0.14em; text-transform:uppercase; margin-bottom:12px;
-}
-.rc-1 .rc-label,.rc-3 .rc-label,.rc-4 .rc-label { color:#857F78; }
-.rc-2 .rc-label { color:rgba(14,13,12,0.45); }
-.rc-title {
-  font-family:'Satoshi','Manrope',sans-serif; font-size:36px;
-  font-weight:900; line-height:0.95; letter-spacing:-0.01em;
-}
-.rc-1 .rc-title,.rc-3 .rc-title { color:#E8DFD0; }
-.rc-2 .rc-title { color:#0E0D0C; }
-.rc-4 .rc-title { color:#E8430A; }
-.rc-body {
-  font-family:'Manrope',sans-serif; font-size:13px; font-weight:500;
-  line-height:1.6; margin-top:10px;
-}
-.rc-1 .rc-body,.rc-3 .rc-body,.rc-4 .rc-body { color:#C4C0B8; }
-.rc-2 .rc-body { color:rgba(14,13,12,0.55); }
-.rc-photo {
-  flex:1; border-radius:12px; background:rgba(240,237,230,0.1);
-  display:flex; align-items:center; justify-content:center; margin-bottom:20px;
-  font-size:9px; font-weight:700; letter-spacing:0.1em;
-  text-transform:uppercase; color:rgba(240,237,230,0.3);
-}
-.reel-dots { display:flex; gap:6px; justify-content:center; margin-top:20px; }
-.reel-dot { width:6px; height:6px; border-radius:50%; background:rgba(14,13,12,0.25); transition:background 0.3s; }
-.reel-dot.active { background:var(--black); }
+  .intro-name {
+    font-family: var(--font-display);
+    color: var(--turmeric);
+    font-size: clamp(1.8rem, 4.4vw, 3rem);
+    letter-spacing: 0.01em;
+    text-align: center;
+    padding: 0 24px;
+    opacity: 0;
+    animation: helloIn 900ms cubic-bezier(0.22,1,0.36,1) 2800ms forwards;
+  }
+  @keyframes helloIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+  @keyframes introOut { to { transform: translateY(-100%); } }
 
-/* ── CASE STUDIES ── */
-.section { padding:80px 48px; background:var(--black); border-bottom:1px solid var(--border); }
-.section-inner { max-width:1200px; margin:0 auto; padding:0 48px; }
-.page-inner { max-width:1200px; margin:0 auto; padding:0 48px; }
-.section-heading {
-  font-family:'Satoshi','Manrope',sans-serif; font-size:48px; font-weight:900;
-  color:var(--cream); letter-spacing:-0.02em; margin-bottom:32px;
-}
-.fw-heading { display:flex; align-items:center; gap:16px; margin-bottom:48px; }
-.fw-title {
-  font-family:'Satoshi','Manrope',sans-serif; font-size:48px; font-weight:900;
-  color:var(--cream); letter-spacing:-0.02em; line-height:1;
-}
-.fw-arrow { animation:bounce 1.6s ease-in-out infinite; }
-@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
-.cs-grid { display:flex; flex-direction:column; gap:16px; }
-.cs-card {
-  border:1px solid rgba(240,237,230,0.2); border-radius:16px; overflow:hidden;
-  text-decoration:none; display:flex; flex-direction:row; align-items:stretch;
-  background:var(--black);
-  transition:border-color 0.25s, transform 0.25s;
-}
-.cs-card:hover { border-color:var(--cream); transform:translateY(-2px); }
-.cs-placeholder { opacity:0.5; }
-.cs-body { flex:0 0 45%; padding:36px 36px; display:flex; flex-direction:column; justify-content:space-between; }
-.cs-body-top { display:flex; flex-direction:column; }
-.cs-body-bottom { display:flex; flex-direction:column; }
-.cs-thumb-wrap { flex:0 0 55%; padding:24px; display:flex; align-items:center; justify-content:center; background:var(--black); }
-.cs-thumb { width:100%; aspect-ratio:16/10; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#1A1F2E; }
-.cs-thumb img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; transition:transform 0.4s ease; }
-.cs-card:hover .cs-thumb img { transform:scale(1.02); }
-.cs-thumb-label { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(240,237,230,0.25); }
-.cs-index { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
-.cs-index::after { content:''; flex:0 0 28px; height:1px; background:rgba(240,237,230,0.18); }
-.cs-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
-.cs-tag { font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--cream-2); border:1px solid rgba(240,237,230,0.18); padding:3px 9px; border-radius:100px; }
-.cs-title { font-size:22px; font-weight:800; color:var(--cream); line-height:1.25; letter-spacing:-0.02em; margin-bottom:14px; }
-.cs-desc { font-size:14px; font-weight:400; color:#857F78; line-height:1.7; }
-.cs-divider { height:1px; background:rgba(240,237,230,0.08); margin:20px 0 16px; }
-.cs-bottom { display:flex; gap:32px; align-items:flex-start; }
-.cs-scope { flex:1; }
-.cs-outcome { display:flex; gap:20px; align-items:flex-start; }
-.cs-bottom-label { font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:7px; }
-.cs-scope-text { font-size:13px; font-weight:500; color:var(--cream-2); line-height:1.6; }
-.cs-mv { font-size:20px; font-weight:800; color:var(--cream); letter-spacing:-0.02em; line-height:1; margin-bottom:4px; }
-.cs-ml { font-size:12px; font-weight:400; color:var(--cream-2); letter-spacing:0; text-transform:none; max-width:72px; line-height:1.3; }
-.view-more-wrap { display:flex; justify-content:flex-end; margin-top:32px; }
-.view-more {
-  font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
-  color:var(--cream-2); text-decoration:none; border:1px solid var(--border);
-  padding:14px 32px; border-radius:100px;
-  display:inline-flex; align-items:center; gap:8px; transition:border-color 0.2s, color 0.2s;
-}
-.view-more:hover { border-color:var(--cream); color:var(--cream); }
-.view-more svg { transition:transform 0.2s; }
-.view-more:hover svg { transform:translateX(4px); }
+  /* ============ TOP BAR ============ */
+  .topbar {
+    position: absolute;
+    inset: 0 0 auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(16px, 2.5vw, 28px) clamp(24px, 5vw, 60px);
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    z-index: 5;
+  }
+  .wordmark { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .wordmark .name { font-family: var(--font-display); text-transform: none; letter-spacing: 0; font-size: 1.2rem; }
+  .topbar nav { display: flex; gap: var(--space-md); }
+  .topbar nav a {
+    position: relative;
+    color: var(--ink-soft); text-decoration: none; padding: 8px 0;
+    transition: color 160ms ease;
+  }
+  /* the weft thread from the loom, borrowed as an underline */
+  .topbar nav a::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 8px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .topbar nav a:hover { color: var(--vermillion-deep); }
+  .topbar nav a:hover::after { transform: scaleX(1); }
 
-/* ── ABOUT ── */
-.about-section {
-  padding:80px 48px; background:var(--black);
-}
-.about-inner {
-  max-width:1200px; margin:0 auto;
-}
-.about-label {
-  font-family:'Satoshi','Manrope',sans-serif; font-size:48px; font-weight:900;
-  color:var(--cream); letter-spacing:-0.02em;
-}
-.about-grid {
-  display:grid; grid-template-columns:1fr 1fr 1fr; gap:40px; align-items:stretch;
-}
-.about-left {
-  font-size:15px; font-weight:400; color:var(--cream-2); line-height:1.8;
-  display:flex; flex-direction:column; justify-content:space-between;
-}
-.about-left-bottom { }
-.about-left .about-name {
-  font-size:16px; font-weight:700; color:var(--cream); margin-bottom:8px;
-}
-.about-center {
-  display:flex; align-items:center; justify-content:center;
-}
-.about-portrait {
-  width:100%; aspect-ratio:3/4; border-radius:12px; overflow:hidden;
-  background:#1A1F2E;
-}
-.about-portrait img { width:100%; height:100%; object-fit:cover; display:block; }
-.about-right {
-  font-size:14px; font-weight:400; color:var(--cream-2); line-height:1.8;
-  align-self:end;
-}
-.about-traits {
-  font-size:13px; font-weight:500; color:var(--muted); margin-top:16px;
-  line-height:1.8;
-}
-.about-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
-.about-tag {
-  font-size:11px; font-weight:600; color:#E8DFD0;
-  background:transparent; border:1px solid rgba(240,237,230,0.18);
-  padding:6px 14px; border-radius:100px;
-}
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: center;
+    gap: var(--space-lg);
+    padding: clamp(24px, 5vw, 60px);
+    background-image:
+      repeating-linear-gradient(to right, oklch(26% 0.021 42 / 0.045) 0 1px, transparent 1px 56px),
+      repeating-linear-gradient(to bottom, oklch(26% 0.021 42 / 0.03) 0 1px, transparent 1px 56px);
+  }
 
-/* ── TESTIMONIALS ── */
-.testimonials { padding:80px 48px; background:var(--black); position:relative; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
-#atomCanvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
-.testi-inner { position:relative; z-index:1; max-width:1200px; margin:0 auto; }
-.testi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
-.testi-card { border:1px solid var(--border); border-radius:16px; padding:36px 36px; background:rgba(14,13,12,0.75); backdrop-filter:blur(8px); }
-.testi-text { font-size:14px; font-weight:400; color:var(--cream-2); line-height:1.75; margin-bottom:24px; font-style:italic; }
-.testi-name { font-size:13px; font-weight:700; color:var(--cream); margin-bottom:2px; }
-.testi-role { font-size:11px; font-weight:500; color:var(--muted); }
+  .copy { max-width: 62ch; padding-top: var(--space-xl); }
 
-/* ── CONTACT ── */
-.contact-section {
-  padding:80px 48px; background:var(--black);
-}
-.contact-inner {
-  max-width:1200px; margin:0 auto;
-  display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:40px;
-}
-.contact-heading {
-  font-family:'Satoshi','Manrope',sans-serif;
-  font-size:clamp(36px,5vw,64px); font-weight:900;
-  color:var(--cream); letter-spacing:-0.02em; line-height:1; margin-bottom:8px;
-}
-.contact-sub { font-size:15px; font-weight:400; color:var(--cream-3); margin-bottom:36px; line-height:1.7; }
-.contact-details { display:flex; flex-direction:column; gap:12px; }
-.contact-item {
-  font-size:15px; font-weight:500; color:var(--cream-2);
-  text-decoration:none; display:flex; align-items:center; gap:10px; transition:color 0.2s;
-}
-.contact-item:hover { color:var(--cream); }
-.contact-socials { display:flex; gap:12px; margin-top:24px; }
-.social-link {
-  width:44px; height:44px; border-radius:50%; border:1px solid var(--border);
-  display:flex; align-items:center; justify-content:center;
-  text-decoration:none; transition:border-color 0.2s, background 0.2s;
-}
-.social-link:hover { border-color:var(--cream); background:rgba(240,237,230,0.06); }
-.contact-logo-wrap { display:flex; justify-content:center; align-items:center; }
-.contact-logo { width:280px; height:280px; object-fit:contain; mix-blend-mode:screen; opacity:0.45; }
+  .eyebrow {
+    display: inline-flex; align-items: center; line-height: 1.3; gap: var(--space-sm);
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--vermillion-deep);
+    margin-bottom: var(--space-md);
+  }
+  .eyebrow::before { content: ""; width: 40px; height: 1px; background: var(--vermillion); }
+  .eyebrow .plus { color: var(--vermillion); font-weight: 700; }
+  .roller {
+    display: inline-block;
+    height: 1.3em;
+    overflow: hidden;
+  }
+  .roll-track { display: inline-block; }
+  .roll-track span { display: block; height: 1.3em; line-height: 1.3em; color: var(--ink); }
+  .roll-track {
+    animation: roll 9s cubic-bezier(0.65, 0, 0.35, 1) calc(var(--intro-offset) + 1500ms) infinite;
+  }
+  /* unidirectional: hold each role, glide to the next, loop through a duplicate */
+  @keyframes roll {
+    0%, 20%   { transform: translateY(0); }
+    25%, 45%  { transform: translateY(-1.3em); }
+    50%, 70%  { transform: translateY(-2.6em); }
+    75%, 95%  { transform: translateY(-3.9em); }
+    100%      { transform: translateY(-5.2em); }
+  }
 
-/* ── PLAYGROUND ── */
-.playground-section { padding:80px 48px; background:var(--black); border-bottom:1px solid var(--border); }
-.pg-inner { max-width:1200px; margin:0 auto; }
-.pg-eyebrow { display:flex; align-items:center; gap:8px; font-family:'Manrope',sans-serif; font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(240,237,230,0.38); margin-bottom:16px; }
-.pg-header { margin-bottom:40px; }
-.pg-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-.pg-item {}
-.pg-img-wrap { position:relative; border-radius:12px; overflow:hidden; cursor:pointer; aspect-ratio:4/3; transition:transform 0.3s ease, box-shadow 0.3s ease; }
-.pg-img-wrap:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,0.5); }
-.pg-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
-.pg-hover { position:absolute; inset:0; border-radius:12px; background:rgba(14,13,12,0.82); display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding:18px; opacity:0; transition:opacity 0.3s ease; }
-.pg-img-wrap:hover .pg-hover { opacity:1; }
-.pg-caption-title { font-size:12px; font-weight:700; color:#E8DFD0; letter-spacing:0.06em; text-transform:uppercase; line-height:1.4; }
-.pg-caption-type { font-size:11px; font-weight:300; color:#D4CFC8; font-style:italic; margin-top:3px; }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.7rem, 6.4vw, 5.4rem);
+    line-height: 1.14;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+  h1 em { color: var(--vermillion); font-style: italic; position: relative; }
+  h1 em svg { position: absolute; left: 0; bottom: -0.14em; width: 100%; height: 0.22em; overflow: visible; }
+  h1 em svg path {
+    fill: none; stroke: var(--turmeric); stroke-width: 5; stroke-linecap: round;
+    stroke-dasharray: 1000; stroke-dashoffset: 1000;
+    animation: draw 900ms cubic-bezier(0.22,1,0.36,1) calc(var(--intro-offset) + 1200ms) forwards;
+  }
 
+  .lede {
+    margin-top: var(--space-lg);
+    font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 54ch;
+  }
+  .lede strong { color: var(--ink); font-weight: 700; }
+  .lede .spoken { color: var(--vermillion-deep); font-style: italic; font-weight: 500; }
 
+  .actions { display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-lg); flex-wrap: wrap; }
+  .btn {
+    position: relative;
+    font-weight: 700; font-size: 1rem; letter-spacing: 0.02em;
+    text-decoration: none; color: var(--paper);
+    background: var(--vermillion);
+    padding: 16px 32px; border-radius: 999px;
+    transition: background 160ms ease, transform 160ms ease;
+    display: inline-block;
+  }
+  /* the weft thread from the loom, borrowed as an underline */
+  .btn::after {
+    content: "";
+    position: absolute; left: 32px; right: 32px; bottom: 11px; height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23dda640' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 8px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn:hover { background: var(--vermillion-deep); transform: translateY(-2px); }
+  .btn:hover::after { transform: scaleX(1); }
+  .link {
+    position: relative;
+    font-weight: 500; color: var(--ink); text-decoration: none;
+    padding: 8px 0;
+    transition: color 160ms ease;
+  }
+  /* the weft thread from the loom, borrowed as an underline */
+  .link::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 8px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link:hover { color: var(--vermillion-deep); }
+  .link:hover::after { transform: scaleX(1); }
 
+  .provenance {
+    margin-top: var(--space-xl);
+    display: flex; gap: var(--space-lg); flex-wrap: wrap;
+    font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .provenance span b {
+    display: block; font-family: var(--font-display);
+    font-size: 1.5rem; letter-spacing: 0; text-transform: none;
+    color: var(--ink); margin-bottom: 4px;
+  }
 
+  /* ---------- right: the ritual ---------- */
+  .ritual {
+    position: relative;
+    align-self: stretch;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 540px;
+    gap: var(--space-md);
+  }
+  .ritual svg.scene { width: 100%; height: auto; max-width: 520px; overflow: visible; }
 
-.cs-card:hover .cs-thumb img { transform: scale(1.04); }
+  .petal {
+    transform-origin: 260px 260px;
+    transform: rotate(var(--a));
+    animation: unfold 775ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  /* depth: every petal carries an ink outline, long petals carry a paper vein */
+  .petal path.flame { stroke: var(--ink); stroke-width: 1.1; stroke-linejoin: round; }
+  .petal.red  path.flame { fill: url(#gradRed); }
+  .petal.gold path.flame { fill: url(#gradGold); }
+  .petal.ink  path.flame { fill: url(#gradInk); }
+  /* the vein is a brush stroke now: tapered at both ends, translucent */
+  .petal path.vein { fill: var(--paper); stroke: none; opacity: 0.45; }
+  @keyframes unfold {
+    from { opacity: 0; transform: rotate(calc(var(--a) - 85deg)); }
+    to   { opacity: 1; transform: rotate(var(--a)); }
+  }
 
-@media (max-width: 720px) {
-  .cs-card { flex-direction: column; }
-  .cs-body { flex: none; border-right: none; border-bottom: 1px solid rgba(240,237,230,0.06); }
-  .cs-thumb-wrap { flex: none; padding: 16px; }
-  .cs-thumb { aspect-ratio: 16/10; }
-}
+  /* the spiral draws itself from the outer edge inward: the journey to knowing */
+  .spiral {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.55;
+    stroke-dasharray: 3705;
+    stroke-dashoffset: 3705;
+    animation: draw 3000ms cubic-bezier(0.45, 0, 0.3, 1) calc(var(--intro-offset) + 300ms) forwards;
+  }
+  /* a second, faintly rotated pass: the pencil finding the circle twice */
+  .spiral-echo {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 0.9;
+    opacity: 0;
+    transform: rotate(1.4deg);
+    transform-origin: 260px 260px;
+    animation: echoIn 1000ms ease calc(var(--intro-offset) + 3000ms) forwards;
+  }
+  @keyframes echoIn { to { opacity: 0.14; } }
+  .wash { opacity: 0; animation: washIn 1400ms ease calc(var(--intro-offset) + 150ms) forwards; }
+  .stipple { opacity: 0; animation: washIn 1600ms ease calc(var(--intro-offset) + 2300ms) forwards; }
+  @keyframes washIn { to { opacity: 1; } }
 
+  /* lids: three light passes each, like a pencil finding the line */
+  .lid {
+    fill: none;
+    stroke: var(--ink);
+    stroke-linecap: round;
+    stroke-dasharray: 180; stroke-dashoffset: 180;
+    animation: draw 1000ms cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .center-ring {
+    fill: none;
+    stroke: var(--ink); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round;
+    opacity: 0.75;
+  }
+
+  .iris-g {
+    transform-origin: 260px 260px;
+    opacity: 0;
+    animation: irisIn 750ms cubic-bezier(0.22,1,0.36,1) calc(var(--intro-offset) + 2400ms) forwards;
+  }
+  @keyframes irisIn { from { opacity: 0; transform: scale(0.55) rotate(-24deg); } to { opacity: 1; transform: scale(1) rotate(0deg); } }
+
+  .warp-thread {
+    stroke: var(--ink); stroke-width: 1.4; opacity: 0;
+    animation: drop 1000ms cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .warp-thread.red { stroke: var(--vermillion); stroke-width: 2; }
+
+  .weft {
+    fill: none; stroke: var(--turmeric); stroke-width: 3; stroke-linecap: round;
+    stroke-dasharray: 1400; stroke-dashoffset: 1400;
+    animation: draw 2000ms cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+
+  .ritual-caption {
+    max-width: 40ch;
+    font-size: 0.82rem; line-height: 1.6; letter-spacing: 0.04em;
+    color: var(--ink-soft); text-align: center; font-style: italic;
+    opacity: 0;
+    animation: rise 700ms cubic-bezier(0.22,1,0.36,1) calc(var(--intro-offset) + 5800ms) forwards;
+  }
+  .ritual-caption b { color: var(--vermillion-deep); font-weight: 700; }
+
+  .ritual-place {
+    font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-soft); font-style: normal;
+    opacity: 0;
+    animation: rise 700ms cubic-bezier(0.22,1,0.36,1) calc(var(--intro-offset) + 5950ms) forwards;
+  }
+  .ritual-place::before { content: "\25CF"; color: var(--vermillion); font-size: 0.6rem; margin-right: 10px; vertical-align: 2px; }
+
+  /* ============ shared keyframes ============ */
+  @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  @keyframes drop { from { opacity: 0; transform: translateY(-16px); } to { opacity: 0.55; transform: none; } }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  .copy > * { opacity: 0; animation: rise 700ms cubic-bezier(0.22,1,0.36,1) forwards; }
+  .copy .eyebrow      { animation-delay: calc(var(--intro-offset) + 100ms); }
+  .copy h1            { animation-delay: calc(var(--intro-offset) + 220ms); }
+  .copy .ritual-place { animation-delay: calc(var(--intro-offset) + 340ms); }
+  .copy .lede         { animation-delay: calc(var(--intro-offset) + 460ms); }
+  .copy .actions      { animation-delay: calc(var(--intro-offset) + 600ms); }
+  .copy .provenance   { animation-delay: calc(var(--intro-offset) + 740ms); }
+
+  .ribbon {
+    height: 14px;
+    background: repeating-linear-gradient(90deg,
+      var(--vermillion) 0 28px,
+      var(--turmeric) 28px 36px,
+      var(--ink) 36px 40px,
+      var(--turmeric) 40px 48px);
+  }
+
+  /* ============ FEATURED WORK (case study black) ============ */
+  .work { background: var(--coal); color: var(--paper); }
+  .work-inner { max-width: 1200px; margin: 0 auto; padding: var(--space-xl) 60px; }
+  .work-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--space-md); margin-bottom: var(--space-lg);
+  }
+  .work-head h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 4vw, 3.2rem); }
+  .work-head p { font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coal-soft); }
+
+  .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+
+  .case {
+    display: flex; flex-direction: column;
+    text-decoration: none; color: var(--paper);
+    border: 1px solid oklch(96% 0.016 78 / 0.22);
+    transition: transform 200ms cubic-bezier(0.22,1,0.36,1), border-color 200ms ease;
+  }
+  .case.wide { grid-column: 1 / -1; flex-direction: row; }
+  .case:hover { transform: translateY(-4px); border-color: oklch(96% 0.016 78 / 0.7); }
+
+  .case-img { overflow: hidden; aspect-ratio: 4 / 3; background: var(--paper-deep); }
+  .case.wide .case-img { flex: 0 0 58%; aspect-ratio: auto; }
+  .case-img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 400ms cubic-bezier(0.22,1,0.36,1); }
+  .case:hover .case-img img { transform: scale(1.03); }
+  .case-img.soon { display: flex; align-items: center; justify-content: center; }
+  .case-img.soon span {
+    font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coal-soft);
+    border: 1px solid oklch(96% 0.016 78 / 0.28); border-radius: 999px; padding: 6px 16px;
+  }
+
+  .case-body { padding: var(--space-md) var(--space-md) var(--space-lg); display: flex; flex-direction: column; gap: var(--space-sm); }
+  .case.wide .case-body { padding: var(--space-lg); justify-content: center; }
+  .case-tags { display: flex; gap: var(--space-sm); flex-wrap: wrap; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--coal-soft); }
+  .case-tags span { border: 1px solid oklch(96% 0.016 78 / 0.28); border-radius: 999px; padding: 4px 12px; }
+  .case h3 { font-family: "Satoshi", var(--font-body); font-weight: 700; font-size: clamp(1.4rem, 2.4vw, 2rem); }
+  .case p.desc { color: var(--coal-soft); line-height: 1.6; max-width: 46ch; }
+
+  .case-metrics { display: flex; gap: var(--space-md); flex-wrap: wrap; margin-top: 4px; }
+  .case-metrics span { display: block; }
+  .case-metrics b {
+    display: block; font-family: "Satoshi", var(--font-body); font-weight: 700;
+    font-size: 1.3rem; color: var(--paper); margin-bottom: 2px;
+  }
+  .case-metrics i {
+    font-style: normal; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--coal-soft);
+  }
+  .case-soon .go, .case-soon h3 { color: var(--coal-soft); }
+
+  /* Pull the thread: on hover, the weft thread from the loom scribbles in underneath */
+  .go {
+    margin-top: auto;
+    position: relative;
+    font-weight: 700;
+    color: var(--turmeric);
+    display: inline-flex; align-items: center; gap: 8px;
+    align-self: flex-start;
+    padding-bottom: 10px;
+  }
+  .go .arrow { transition: transform 250ms cubic-bezier(0.22,1,0.36,1); }
+  .go::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23dda640' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 8px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .case:hover .go::after { transform: scaleX(1); }
+  .case:hover .go .arrow { transform: translateX(6px); }
+
+  /* ============ PEER REVIEW ============ */
+  .peers { max-width: 1200px; margin: 0 auto; padding: var(--space-xl) 60px; }
+  .peers h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: var(--space-lg); }
+  .peer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); }
+  .quote { display: flex; flex-direction: column; gap: var(--space-md); }
+  .quote.lead { grid-column: 1 / -1; max-width: 66ch; }
+  .quote .mark { font-family: var(--font-display); font-size: 4rem; line-height: 0.5; color: var(--vermillion); }
+  .quote blockquote {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    border: none;
+    max-width: 58ch;
+  }
+  .quote blockquote b { color: var(--ink); font-weight: 700; }
+  .quote.lead blockquote { font-size: 1.2rem; line-height: 1.7; }
+  .quote figcaption { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+  .quote figcaption b { display: block; color: var(--ink); letter-spacing: 0.06em; margin-bottom: 2px; }
+
+  /* ============ FOOTER / CONTACT ============ */
+  footer { background: var(--coal); color: var(--paper); }
+  .foot-inner { max-width: 1200px; margin: 0 auto; padding: var(--space-xl) 60px var(--space-lg); display: grid; gap: var(--space-lg); }
+  .resume-cta { max-width: 1200px; margin: 0 auto; padding: 0 60px var(--space-xl); text-align: center; }
+  .resume-cta .link { font-size: 1.05rem; }
+  .foot-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-lg); flex-wrap: wrap; }
+  .foot-quote {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2.6vw, 2.1rem);
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+  }
+  .foot-tagline {
+    margin-top: 12px;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    color: var(--coal-soft);
+  }
+  .foot-links { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
+  .foot-links .email, .foot-links .phone {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.05rem, 2vw, 1.5rem);
+    color: var(--paper); text-decoration: none;
+    transition: color 160ms ease;
+  }
+  .foot-links .email svg, .foot-links .phone svg { flex-shrink: 0; }
+  .foot-links .email:hover, .foot-links .phone:hover { color: var(--turmeric); }
+  .socials { display: flex; gap: var(--space-md); flex-wrap: wrap; }
+  .socials a {
+    color: var(--coal-soft); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase;
+    transition: color 160ms ease;
+  }
+  .socials a::after { content: "\2197"; margin-left: 6px; color: var(--turmeric); }
+  .socials a:hover { color: var(--paper); }
+  /* the weft thread from the loom, borrowed again as the footer's closing divider */
+  .foot-divider {
+    height: 10px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'%3E%3Cpath d='M0 5 Q 6 1 12 5 T 24 5' fill='none' stroke='%239a948c' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 10px;
+    opacity: 0.75;
+  }
+  .foot-contact-row {
+    display: flex; flex-direction: column; align-items: flex-end;
+    gap: 4px;
+    font-size: 0.85rem; letter-spacing: 0.1em; color: var(--coal-soft);
+  }
+
+  /* ============ ACCESSIBILITY & RESPONSIVE ============ */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .intro { display: none; }
+    .copy > *, .ritual-caption, .ritual-place { opacity: 1; }
+    .petal { opacity: 1; transform: rotate(var(--a)); }
+    .warp-thread { opacity: 0.55; }
+    .weft, h1 em svg path { stroke-dashoffset: 0; }
+    .spiral { stroke-dashoffset: 0; opacity: 0.55; }
+    .spiral-echo { opacity: 0.14; }
+    .wash, .stipple { opacity: 1; }
+    .lid { stroke-dashoffset: 0; }
+    .iris-g { opacity: 1; transform: none; }
+    .roll-track { transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 110px; }
+    .copy { padding-top: var(--space-md); }
+    .ritual { min-height: 360px; order: -1; margin-top: var(--space-lg); }
+    .ritual svg.scene { max-width: 340px; }
+    .topbar nav { display: none; }
+    .case-grid, .peer-grid { grid-template-columns: 1fr; }
+    .case.wide { flex-direction: column; }
+    .work-inner, .peers, .foot-inner { padding-left: 24px; padding-right: 24px; }
+    .foot-contact-row { flex-direction: column; align-items: flex-start; gap: var(--space-xs); }
+  }
 </style>
 </head>
 <body>
 
-<!-- INTRO -->
-<div id="intro">
-  <div id="introWrap">
-    <div class="intro-line line1" id="iLine1"></div>
-    <div class="intro-line line2" id="iLine2"></div>
-    <div class="intro-line line3" id="iLine3"></div>
-  </div>
+<!-- ============ INTRO ============ -->
+<div class="intro" id="intro" aria-hidden="true">
+  <svg class="intro-scene" viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <line class="iwarp"     x1="200" y1="150" x2="200" y2="370" style="animation-delay: 0ms"/>
+    <line class="iwarp red" x1="260" y1="140" x2="260" y2="380" style="animation-delay: 150ms"/>
+    <line class="iwarp"     x1="320" y1="150" x2="320" y2="370" style="animation-delay: 300ms"/>
+    <path class="iweft" d="M56 260 C 90 248, 128 272, 162 260 S 230 248, 264 260 S 332 272, 366 260 S 434 248, 464 260"/>
+    <path class="iring" d="M412.2 260.0 L410.8 281.2 L406.8 302.1 L398.4 321.6 L389.2 340.7 L377.2 358.3 L362.4 373.7 L344.6 385.4 L326.8 396.9 L307.1 404.8 L286.4 409.7 L265.3 413.0 L244.1 411.2 L223.3 407.4 L202.7 401.9 L183.8 391.9 L166.7 379.4 L151.0 365.3 L137.0 349.3 L126.7 330.9 L116.9 312.1 L110.8 291.7 L108.5 270.6 L107.5 249.3 L110.3 228.2 L117.0 208.0 L125.4 188.4 L137.8 171.2 L151.4 155.2 L165.7 139.3 L184.3 128.8 L203.3 119.7 L223.0 111.6 L244.0 108.2 L265.3 109.0 L286.3 110.7 L306.8 116.0 L326.4 123.9 L344.3 135.0 L361.7 147.0 L376.1 162.6 L388.7 179.6 L398.2 198.5 L405.2 218.4 L409.4 239.0 L412.2 260.0"/>
+  </svg>
+  <p class="intro-name">Shabnam Raghavan</p>
 </div>
-<div id="curtainTop"></div>
-<div id="curtainBottom"></div>
 
-<!-- HERO -->
-<header class="hdr">
-  <a class="hdr-logo" href="index.html" aria-label="Home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAL8ElEQVR42u1ce4xcVRn/fefcmd3Z7qOPLbttty3QJ7UPSFsFCd0SNBKFCJS2aiBIUKoGakSi0YAWghqUEBED/KFgxBDpIlBITNE/+sJKeVbb2oKlb+hj292d3e5jZu49P/+459LLsNudO52Z3db5kpM7995z77n3d773+e4AZSpTmcpUpjKVqUxl+n8kKfWAJBUAlXXYiIgpwTi5kiciHHazRVKf7oVJSpkDBwZIRIQkJwC4HsBcAC6AbQDWisjecL8z4TwRMSQ/A+B7AJgDJwbjGQBdAH4uIvuDe53uQicPsRAR8aIAZ68xJFcBuBdAG4DttssXAfyG5HMAVohI5xmCGDBFHYAL7SRJCKSgT7gFAFcAmA3gzwD2D4WKG1BsST5Nn24j6WT1aSa5j+QOkqOsOKsheNZakhmSiwZTOfkoZJC8huS3w8dyBO9eC9688DnbxO7XkDxKck0hHp6khMYYrDl20prscy4uNICO3a4huScXAEOgBw91m92vyDYWJON2e0UY6IK9QO4MMs6Of1Wu40cVk7TVX7lQcO/vADghIr+3D5TO1m8ikiYZE5FNAF4FsGqoNE5U4xoVwCi+VWC9rgGw8RRWnzQO1tpl7O5BANeRHCkiXolcm7AVZjEBNFnW7HQui7GicT6Awzm4HfUkXwVwEYAj1joDgB4CDkQxAYwSMVQBqAaQHAS8RusPfgBgvuXYzw+RCDMKLlEB9HLUE8G5EfZ360D+oTUgGwGsEZHl1nHdaTkxL64oAIAoJoBRODBut8f7G9s65I8BSInIt0jGLbC7ADRapemVEEATlQOdM+DAXCjQXx1hbrKi65H8FIDbAMwJjIUN9w4CqCJZKSJ9ZxreRQTQK6YRicqBAYB9A4z7YwDrRGS7Peba46322toh0IGxKIxVbA4MZjKTZaFdkgnr4tzcj6vSYwEdEbpPKTgwbQ3ZyeECoOnHECh7n2Z7/m9WbE3WiyhrxYufkrLqwaqLiwOvIRf9m48I59Of/XDlDQBesw+ts3ScG8qOlDa/J9IWxXAVG0D3NPdoBrB2AJfI17U9PTECCi0tJc1bFtuNieLRe1mhUZBUHQmgCcAb4f7rFy/W9NWKHzJWVXULYGT5cs/v1OysLnJkEtXaO3lwVFRuYAj44NrJduyDAICWFhBQsmGDay+oBlDR/bunJh2rn5BKNDZ11mzfclTw0Xllb2YwxJRPNiaRQ4QgIUda7HVhGm1B7VwNaFm2zBPAdE6fd3l73fhHT37166/A8+K9Tzz5MnR8Z19n8t32iTO2dkyc+Uhy/MzLBDACGJY2Ti4IgB0A6iOEWFUWwJ5+ON9g/VZZBnj7Js2a1Tlp5kvIuK9WAXfEG867iL29grZ2JY6jFVDniJpXpdRKONicnDjjhUPjZ04XwCOW6rMBwACsPQAaSdZYXSaDcOAoe20y6z5JeJ7G4ouTR8Y0XTdG+FqFyLW9oGnLZFx33hzjHfoAXnsHjOPQJdlDY9qN6/aSrFT6ulqN1z9omna9oMVbh2bnbAHwLSuWCwZbd7XnRwNI4VQS1tdZx48fgtZdnbffcb8W/bwnUtPhea4YKlVZ4VQsvkK5b/8LSKchSokAIoASiKMA6TCu6wrq6pTz/IcTpi65EhvcoRLnnAAMcnsist9mSlbarEmwpqDsGoSyWWfHnp8P4KCIdJNUSilDUjB27GEA79WOqL7HS6fZJ6CKxx12diF26ULoC85H31/WQCoqAJp+2FucNGlSIEdo5+njk6bOgq8T1XDWgYFY3gU/Y3ytiKRFxBMRIyK0W09EUiQ/C+AnAO4Prid9h38VIKl/blFYer0xXV1UhmI6OwEBah5+EJk330Z63QZIbQ3gmYEeXLk0XoVIwqV6fNgbEZs9USKyFsB9AF4i+aRdqZtCssFul5B8GcA/ADwoIn/6KPuCpVqUmBWjJlwt3/3hZbh0IWt+dLdGKgVn2hSMWvsidGMDOlesBOLxHGZUnKTxvFqlFx2dOPVzvmUurVGJpHytKGsRWUXyLQD3AFhuT6esjksBeB3AIhHZ9InVfQKxutpbuWcvO27+Bmt//SCq7lgBGVkHd9sOtF39ZXgHDkKqqwEvJ7+dGkINdSuAv5c89Msz3PkIFJK1AM6zk9EF4MPAm/9YP98Q8EBTU6JSRvw3rvWEVLLTqPrRypk7G+ZEG9xtOwCtIVVVuYIHACYuolLGHEhWmunTd+9OBWMNWwAtOBoA+6sdCdZTw0E5ASWAOTbhwmlQsZ0CaGpNpDPC3l7A0ZBEwn91k3uAQYDK168ZT2HGuAPv7Q3GGnYinK0TQ8G3hN2d/rIZLbaPqFidI6LTJMXzBI72jQXgA0dG5QAhAC0SczxT6gTsmZv9kPUNLHG/CCy14BrPuIYfY1cfOGPyGRzQGnA04DjI1I8Ukg5Wr3ZsuUa+TYrOgVFpVTBjWh3zYHo1JOEBlHzUiAigFJBKwfT20XFdyXhe2+N7j//7vgIXahZNB+alN205WevE6VsTomf30FCiSoHWQF8Kprsbumk8nPmXsGL2LGDSxN7E8iUvQqmYMUaUUp7NHoXXcRz4ax7hjLnJ6pMBsEpEPsxlMavEMWSzFmxwj1H+WqlkTg/pAaKigMeuLqjx41D30M9Q+ZUlgHYEJCDSC2ARjOlTSqUteAFADOnooJms5tqWjOQfl5gDlQCmY+LUKQb6PwbQnn9McgUvNv8S1D3zJKSyEt0PP0pv/SZjDh/JZLqScxoOvb/7rDMiEfWFIZbqkQd3v582fGS00pqgm5POS6WgGhtQ98xT4MlunFhwBbp+8ZBbs+NdnTp+/OGGQ+/vJpbqUEw+UMulVlCGJQcGerAFUAsnT47VmMqNtUovbDNuRkFiAysaDbaeQM1vH0LilpvQftWXkHrznUx9Y0MsmUptHvPp2VcC8NDSYqS0pSBDUwMciPLRyZMbK0zilWql5p4wrkuIUtlSIQK4HiRRiTHbtiC1abNJ3vA1M3bcOCeZ6nunL+N9YfyR3a0/BdR9Q5DiV0MBoE3Hq4b9+48kpWfxSeM+N1Jpp1qUIkBfrOkS9Cjimb4+V02f6kkiAWfdRlWnHafTeM+2xzJXjj+yu5VDBN4QWOFPgigHDrQDWNo+acaNmrgrLnJZtWjHN40EtIYioOvH+H44sLU70/dA/b4dL8AQpQzbho0I9+cbBiB0T5yxIE00G3C2EYwV7YjX0XE48c1bu2t++cBKALeIkj/y2e1xLJudKbXOG7Y0WEreWkeXrvui3Y8Nh+d2hguAYteO/bR8s1oPoBUbCAAX33mnA5E0yBeg9Y0kZ4rIriAjNIAkSW7z5kckRS+fC613lJ47T625TCF5kuQeknMLPIbO5+Oes+bjvlA99VV+dgyjAOy1oVcP/BrEcOwbxMJpe77T9u20id9u+GVsbQB2isiJ7CRwQQAMPfg8AJeIyB9KWDE60LM0ALgJwOUWyDhOFUZq657p0H6QRAi3eEiFEcDzAO4WkX0Ffb/QV0r3kOwYDpx4hteLrcWuJjmW5CySt5M8SLKN5EVBOFhoAL9P8sAwEWexVjkcw2bHvBK0HO+ZIPkuybejTFQUK8zhYrWteLn5AD+AGouJSC/JOwG8QvICEdmbiz6MwqZmqEK/QgLfTzMA0hbcN+Avy07J1UaoiByoBpnNsxpca537ADQUHcBzlIKK2lHFysbIuYye5UIviq6PyoHnNIChNe6+YgBo4FcAnIsgig1TK+F/3HMoK1YuiBsTWGFtP4oRMrcygkL9qU7wryFnlrPo/9a2+mwJ/G9TtoTeuaAAQkTcIWOTIi6ak7wRwNMAfiUirbYKzSskgJ7lvgU49dlCsOY60He2AcfsEpFUASKiWVbMVCjmDX5LaKtCY6usY0FsPALAWAAzACwGMAnAYyLyA8vpOU1WFABTdtA38nj/ywFsznVW+0sgAJgGv0a7UNFQkKlphf9HF0/YekYpdDYm+LqoBsBU9P/d22Ccu0tE0gXQfxfi1KcTYe8gu+Kgv8qDcBlHyrZ06M8uIqeyyhRSD/kmiyXCIJKvBSywFS7IrbKc5zKVqUxlKlOZylSmMpUpEv0Pm8ksKMMuhpEAAAAASUVORK5CYII=" alt="SR"></a>
-  <nav class="hdr-nav">
-    <a href="#about">About Me</a>
-    <a href="#work">Featured Work</a>
-    <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank">Resume</a>
-    <a class="hdr-cta" href="#contact">Contact Me</a>
+<header class="topbar">
+  <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
+    <span class="name">Shabnam Raghavan</span>
+  </a>
+  <nav aria-label="Primary">
+    <a href="#work">Work</a>
+    <a href="about.html">About me</a>
+    <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
+    <a href="#contact">Contact me</a>
   </nav>
 </header>
-<div class="hero-outer">
-  <div class="hero-red">
-    <div class="hero-content">
-      <div class="hero-left">
-        <div class="hero-intro-name">I am <strong>Shabnam Raghavan</strong></div>
-        <div class="hero-name">
-          <span class="hero-name-line1">PRODUCT</span>
-        </div>
-        <div class="hero-title-line">
-          <span class="hero-scroll-word">
-            <span class="hero-scroll-track" id="scrollTrack">
-              <span>THINKER</span>
-              <span>DESIGNER</span>
-              <span>BUILDER</span>
-              <span>THINKER</span>
-            </span>
-          </span>
-        </div>
-        <div class="hero-sub">6 years in design, 3+ in high-stakes Health InsurTech UX. I shipped B2B SaaS used by 21,000+ hospitals across India, with work extending to the GCC and Kenya. A designer who builds end to end, I take AI products from discovery and strategy through design to deployed code. Built at IHX, acquired by Perfios.</div>
-      </div>
-      <div class="card-reel">
-        <div class="card-stage">
-          <div class="reel-card rc-1 active">
-            <div class="rc-photo" style="padding:0;overflow:hidden;"><img src="hero-card-1.jpg" alt="Shabnam" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:12px;"></div>
-            <div class="rc-label">Who I am</div>
-            <div class="rc-title">COLLECTOR OF MEMORIES AND EXPERIENCES.</div>
-          </div>
-          <div class="reel-card rc-2" style="background-image:url(hero-card-2.jpg);background-size:cover;background-position:center;overflow:hidden;">
-  
-          </div>
-          <div class="reel-card rc-3" style="background-image:url(hero-card-3.jpg);background-size:cover;background-position:center;overflow:hidden;">
-  
-          </div>
-          <div class="reel-card rc-4" style="background-image:url(hero-card-4.jpg);background-size:cover;background-position:center;overflow:hidden;">
-  
-          </div>
-        </div>
-        <div class="reel-dots">
-          <div class="reel-dot active"></div>
-          <div class="reel-dot"></div>
-          <div class="reel-dot"></div>
-          <div class="reel-dot"></div>
-        </div>
-      </div>
-    </div>
-    <a href="#work" class="keep-scrolling">
-      <div class="mouse-icon"><div class="mouse-wheel"></div></div>
-      <span class="keep-scrolling-text">Keep Scrolling</span>
-    </a>
-  </div>
-</div>
 
-<!-- ABOUT -->
-<div class="about-section" id="about">
-  <div class="about-inner">
-    <div class="about-grid">
-      <div class="about-left">
-        <div class="about-label">About Me</div>
-        <div class="about-left-bottom">
-          <div class="about-name">/ Shabnam Raghavan /</div>
-          <p>Calls herself a collector of memories, conversations, experiences.</p>
-        </div>
-      </div>
-      <div class="about-center">
-        <div class="about-portrait"><img src="about_me_image.png" alt="Shabnam Raghavan" onerror="this.style.display='none'"></div>
-      </div>
-      <div class="about-right">
-        <p>She defines herself as a seeker. Finds purpose in whatever she does. Believes learning is a continuous process and career is a journey.</p>
-        <div class="about-traits">Ambivert. Objective. Inquisitive. Allergic to generic.</div>
-        <div class="about-tags">
-          <span class="about-tag">Reading</span>
-          <span class="about-tag">Travel</span>
-          <span class="about-tag">Art & Culture</span>
-          <span class="about-tag">Human Behaviour</span>
-          <span class="about-tag">Techno & Afro House</span>
-          <span class="about-tag">Socialising</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="copy">
+    <p class="eyebrow">Product <span class="plus" aria-hidden="true">+</span>
+      <span class="roller" aria-label="Designer, Thinker, Builder, Strategist">
+        <span class="roll-track" aria-hidden="true">
+          <span>Designer</span>
+          <span>Thinker</span>
+          <span>Builder</span>
+          <span>Strategist</span>
+          <span>Designer</span>
+        </span>
+      </span>
+    </p>
 
-<!-- CASE STUDIES -->
-<div class="section" id="work">
-  <div class="section-inner">
-  <div class="fw-heading">
-    <div class="fw-title">Featured Work</div>
-    <div class="fw-arrow">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-        <path d="M22 8v28M8 22l14 14 14-14" stroke="#E8DFD0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-  </div>
-  <div class="cs-grid">
-    <a href="ihx_tpa_ops_.html" class="cs-card">
-      <div class="cs-body">
-        <div class="cs-body-top">
-          <div class="cs-index">01 &nbsp; IHX Ops Dashboard</div>
-          <div class="cs-tags"><span class="cs-tag">B2B SaaS</span><span class="cs-tag">WebApp</span><span class="cs-tag">Health InsurTech</span></div>
-          <div class="cs-title">Enabling Smarter, Faster Claim Workflows</div>
-          <div class="cs-desc">Restructured the IA of a hospital claims platform. Two user teams. One broken screen. Rebuilt from the ground up.</div>
-        </div>
-        <div class="cs-body-bottom">
-          <div class="cs-divider"></div>
-          <div class="cs-bottom">
-            <div class="cs-scope">
-              <div class="cs-bottom-label">Scope</div>
-              <div class="cs-scope-text">Restructuring the core ops dashboard</div>
-            </div>
-            <div>
-              <div class="cs-bottom-label">Outcome</div>
-              <div class="cs-outcome">
-                <div><div class="cs-mv">67%</div><div class="cs-ml">Revenue increase</div></div>
-                <div><div class="cs-mv">51%</div><div class="cs-ml">Task time cut</div></div>
-                <div><div class="cs-mv">3</div><div class="cs-ml">Enterprise contracts</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="cs-thumb-wrap"><div class="cs-thumb" ><img src="ihx-cover.png" alt="IHX Dashboard"></div></div>
-    </a>
-    <a href="wisewomen-case-study.html" class="cs-card">
-      <div class="cs-body">
-        <div class="cs-body-top">
-          <div class="cs-index">02 &nbsp; WiseWoman</div>
-          <div class="cs-tags"><span class="cs-tag">B2C</span><span class="cs-tag">FemTech</span><span class="cs-tag">AI</span><span class="cs-tag">MVP</span></div>
-          <div class="cs-title">Cycle-Aware AI Smart Planner for Women</div>
-          <div class="cs-desc">Designed and built a full AI-native productivity app in 5 days. Cycle-aware scheduling, voice task capture, hybrid AI architecture.</div>
-        </div>
-        <div class="cs-body-bottom">
-          <div class="cs-divider"></div>
-          <div class="cs-bottom">
-            <div class="cs-scope">
-              <div class="cs-bottom-label">Scope</div>
-              <div class="cs-scope-text">End-to-end design and build of an AI-native cycle-aware productivity app</div>
-            </div>
-            <div>
-              <div class="cs-bottom-label">Outcome</div>
-              <div class="cs-outcome">
-                <div><div class="cs-mv">5</div><div class="cs-ml">Days to ship</div></div>
-                <div><div class="cs-mv">$0</div><div class="cs-ml">Cost to users</div></div>
-                <div><div class="cs-mv">Live</div><div class="cs-ml">Real users</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="cs-thumb-wrap"><div class="cs-thumb" ><img src="wisewoman-cover.jpg" alt="WiseWoman"></div></div>
-    </a>
-    <a href="#" class="cs-card cs-placeholder">
-      <div class="cs-body">
-        <div class="cs-body-top">
-          <div class="cs-index">03 &nbsp; Conversational AI Agent</div>
-          <div class="cs-tags"><span class="cs-tag">Healthcare</span><span class="cs-tag">AI</span></div>
-          <div class="cs-title">The Future of Claim Submission</div>
-          <div class="cs-desc">Conceptualised and leading development of an AI agent to reduce pre-auth submission time from 6.8 minutes to under 2 minutes.</div>
-        </div>
-        <div class="cs-body-bottom">
-          <div class="cs-divider"></div>
-          <div class="cs-bottom">
-            <div class="cs-scope">
-              <div class="cs-bottom-label">Scope</div>
-              <div class="cs-scope-text">Rethinking claim pre-auth from form-filling to conversational AI</div>
-            </div>
-            <div>
-              <div class="cs-bottom-label">Outcome</div>
-              <div class="cs-outcome">
-                <div><div class="cs-mv" style="color:var(--muted)">—</div><div class="cs-ml">In progress</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="cs-thumb-wrap"><div class="cs-thumb" ><span class="cs-thumb-label">Coming Soon</span></div></div>
-    </a>
-    <a href="#" class="cs-card cs-placeholder">
-      <div class="cs-body">
-        <div class="cs-body-top">
-          <div class="cs-index">04 &nbsp; Adoption Dashboard</div>
-          <div class="cs-tags"><span class="cs-tag">B2B SaaS</span><span class="cs-tag">Analytics</span></div>
-          <div class="cs-title">Driving Platform Usage and Customer Satisfaction</div>
-          <div class="cs-desc">Gave hospitals real-time adoption visibility for the first time. Replaced manual Excel reporting by a 2-3 person data team.</div>
-        </div>
-        <div class="cs-body-bottom">
-          <div class="cs-divider"></div>
-          <div class="cs-bottom">
-            <div class="cs-scope">
-              <div class="cs-bottom-label">Scope</div>
-              <div class="cs-scope-text">Real-time adoption visibility for 21,000+ hospitals, replacing manual data reporting</div>
-            </div>
-            <div>
-              <div class="cs-bottom-label">Outcome</div>
-              <div class="cs-outcome">
-                <div><div class="cs-mv" style="color:var(--muted)">—</div><div class="cs-ml">In progress</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="cs-thumb-wrap"><div class="cs-thumb" ><span class="cs-thumb-label">Coming Soon</span></div></div>
-    </a>
-  </div>
-  <div class="view-more-wrap">
-    <a href="#" class="view-more">View All Work <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-  </div>
-  </div>
-</div>
+    <h1>
+      A generalist who <em>digs deeper<svg viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 Q 75 2, 150 7 T 298 5"/></svg></em> and asks the right questions.
+    </h1>
 
-<!-- PLAYGROUND -->
-<div class="playground-section" id="playground" style="display:none;">
-  <div class="pg-inner">
-  <div class="pg-header">
-    <div>
-      <div class="pg-eyebrow">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M3 9h12M10 4l5 5-5 5" stroke="rgba(240,237,230,0.38)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>My Explorations</span>
-      </div>
-      <div class="section-heading">Playground</div>
-    </div>
-  </div>
-  <div class="pg-grid">
-    
-    <div class="pg-item">
-      <div class="pg-img-wrap">
-        <img src="future_is_female.JPG" alt="Future is Female">
-        <div class="pg-hover">
-          <div class="pg-caption-title">Future is Female</div>
-          <div class="pg-caption-type">Digital Illustration</div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-item">
-      <div class="pg-img-wrap">
-        <img src="Attitude__digital_illustration.JPG" alt="Attitude">
-        <div class="pg-hover">
-          <div class="pg-caption-title">Attitude</div>
-          <div class="pg-caption-type">Digital Illustration</div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-item">
-      <div class="pg-img-wrap">
-        <img src="girl__digital_illusutration.JPG" alt="Girl">
-        <div class="pg-hover">
-          <div class="pg-caption-title">Girl</div>
-          <div class="pg-caption-type">Digital Illustration</div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-item">
-      <div class="pg-img-wrap">
-        <img src="Future_Neon__digital_art.JPG" alt="Future Neon">
-        <div class="pg-hover">
-          <div class="pg-caption-title">Future Neon</div>
-          <div class="pg-caption-type">Digital Art</div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-item">
-      <div class="pg-img-wrap">
-        <img src="woman_digital_art.JPG" alt="Woman">
-        <div class="pg-hover">
-          <div class="pg-caption-title">Woman</div>
-          <div class="pg-caption-type">Digital Art</div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-item">
-      <div class="pg-img-wrap">
-        <img src="woman_of_gold__digital_illsutration.JPG" alt="Woman of Gold">
-        <div class="pg-hover">
-          <div class="pg-caption-title">Woman of Gold</div>
-          <div class="pg-caption-type">Digital Illustration</div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-item">
-      <div class="pg-img-wrap">
-        <img src="modern_kali__pen_sketching.JPG" alt="Modern Kali">
-        <div class="pg-hover">
-          <div class="pg-caption-title">Modern Kali</div>
-          <div class="pg-caption-type">Pen Sketching</div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-item">
-      <div class="pg-img-wrap">
-        <img src="bicycle_man__pen_sketching.JPG" alt="Bicycle Man">
-        <div class="pg-hover">
-          <div class="pg-caption-title">Bicycle Man</div>
-          <div class="pg-caption-type">Pen Sketching</div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-item">
-      <div class="pg-img-wrap">
-        <img src="the_studuo_red__brand_tag_development.JPG" alt="The Studio Red">
-        <div class="pg-hover">
-          <div class="pg-caption-title">The Studio Red</div>
-          <div class="pg-caption-type">Brand Tag Development</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+    <p class="ritual-place">Bangalore, via the Malabar Coast</p>
 
-<!-- TESTIMONIALS -->
-<div class="testimonials">
-  <canvas id="atomCanvas"></canvas>
-  <div class="testi-inner">
-    <div class="section-heading">Peer Reviews</div>
-    <div class="testi-grid">
-      <div class="testi-card">
-        <p class="testi-text">"Shabnam consistently brought clarity and simplicity to complex workflows, making our platform much more intuitive for hospitals and payers. Her attention to detail and ability to translate ideas into clean user journeys made a big difference."</p>
-        <div class="testi-name">Aditya Pathak</div>
-        <div class="testi-role">Director of Product, IHX</div>
-      </div>
-      <div class="testi-card">
-        <p class="testi-text">"Shabnam consistently delivered designs that were not just polished but also practical. She has a good eye for detail, keeps usability front and center, and pushes for experiences that feel smooth and intuitive."</p>
-        <div class="testi-name">Manas Malik</div>
-        <div class="testi-role">Tech Lead, IHX</div>
-      </div>
-      <div class="testi-card">
-        <p class="testi-text">"Her approach was highly data-driven, supported by strong market research. The impact was clear — her work drove real user engagement, simplified adoption, and added measurable value to our products."</p>
-        <div class="testi-name">Aswini Puppala</div>
-        <div class="testi-role">Product Manager, IHX</div>
-      </div>
+    <p class="lede">
+      I do the research myself, sit with users and stakeholders until the <strong>ground truths</strong> surface, then design and build <strong>end to end</strong>. Six years in design, 3+ in high-stakes health InsurTech, shipping B2B SaaS used by <strong>21,000+ hospitals</strong> across India, the GCC, and Kenya. At IHX, colleagues have a shorthand for the standard: <span class="spoken">&ldquo;do something Shabnam to it.&rdquo;</span>
+    </p>
+
+    <div class="actions">
+      <a class="btn" href="#work">See the work</a>
+      <a class="link" href="about.html">The longer story &rarr;</a>
+    </div>
+
+    <div class="provenance">
+      <span><b>6 yrs</b> in design</span>
+      <span><b>21,000+</b> hospitals served</span>
+      <span><b>3+ yrs</b> high-stakes InsurTech</span>
     </div>
   </div>
-</div>
 
-<!-- CONTACT -->
-<div class="contact-section" id="contact">
-  <div class="contact-inner">
-  <div>
-    <div class="contact-heading">Let's build<br>something real.</div>
-    <p class="contact-sub">Open to product design roles in B2B SaaS across healthcare, insurance, fintech, and enterprise operations.</p>
-    <div class="contact-details">
-      <a href="tel:+917022665338" class="contact-item">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 3a1 1 0 011-1h2.5l1 3-1.5 1.5a9 9 0 004.5 4.5L11 9.5l3 1V13a1 1 0 01-1 1A12 12 0 012 3z" stroke="#857F78" stroke-width="1.2" stroke-linecap="round"/></svg>
-        +91 7022665338
+  <div class="ritual">
+    <svg class="scene" viewBox="0 0 520 660" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <!-- petal gradients run dark at the broad outer edge to light at the inner tip -->
+        <linearGradient id="gradRed" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="oklch(53% 0.18 32)"/>
+          <stop offset="0.5" stop-color="oklch(61% 0.185 37)"/>
+          <stop offset="1" stop-color="oklch(72% 0.17 46)"/>
+        </linearGradient>
+        <linearGradient id="gradGold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="oklch(69% 0.12 76)"/>
+          <stop offset="0.5" stop-color="oklch(77% 0.125 84)"/>
+          <stop offset="1" stop-color="oklch(87% 0.11 92)"/>
+        </linearGradient>
+        <linearGradient id="gradInk" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="oklch(34% 0.02 40)"/>
+          <stop offset="0.5" stop-color="oklch(45% 0.022 44)"/>
+          <stop offset="1" stop-color="oklch(58% 0.022 48)"/>
+        </linearGradient>
+        <!-- the spiral never enters the eye: the lens is masked out -->
+        <mask id="lensMask">
+          <rect x="0" y="0" width="520" height="660" fill="white"/>
+          <path d="M100 260 Q260 158 420 260 Q260 362 100 260 Z" fill="black"/>
+        </mask>
+        <radialGradient id="washGrad" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="oklch(93.5% 0.022 74)" stop-opacity="0"/>
+          <stop offset="0.55" stop-color="oklch(93.5% 0.022 74)" stop-opacity="0.5"/>
+          <stop offset="0.9" stop-color="oklch(93.5% 0.022 74)" stop-opacity="0.9"/>
+          <stop offset="1" stop-color="oklch(93.5% 0.022 74)" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="roughen" x="-6%" y="-6%" width="112%" height="112%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="7" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/>
+        </filter>
+        <path id="spiralPath" d="M408.6 260.0 L408.4 273.0 L406.7 285.9 L403.7 298.5 L399.3 310.7 L393.7 322.4 L387.1 333.4 L379.6 343.8 L371.4 353.5 L362.6 362.6 L353.2 371.0 L343.0 378.6 L332.3 385.2 L321.0 390.7 L309.2 395.1 L297.1 398.4 L284.8 400.6 L272.4 401.9 L260.0 402.4 L247.6 402.0 L235.2 400.7 L222.9 398.4 L210.9 394.9 L199.4 390.1 L188.4 384.0 L178.2 376.8 L168.7 368.8 L160.1 359.9 L152.2 350.5 L145.0 340.5 L138.6 330.1 L133.1 319.2 L128.7 307.8 L125.4 296.1 L123.3 284.1 L122.4 272.0 L122.5 260.0 L123.5 248.1 L125.3 236.3 L127.9 224.6 L131.2 213.1 L135.4 201.9 L140.7 191.1 L147.0 180.9 L154.4 171.4 L162.8 162.8 L172.0 155.1 L181.8 148.3 L192.1 142.3 L202.7 137.1 L213.7 132.8 L225.0 129.4 L236.6 127.1 L248.3 125.9 L260.0 126.0 L271.6 127.2 L283.0 129.5 L294.1 132.7 L304.9 136.5 L315.5 141.1 L325.7 146.2 L335.5 152.1 L344.9 158.9 L353.5 166.5 L361.3 175.0 L368.1 184.3 L374.0 194.2 L378.9 204.6 L382.9 215.3 L386.1 226.2 L388.4 237.4 L389.8 248.6 L390.2 260.0 L389.4 271.3 L387.4 282.5 L384.2 293.3 L380.1 303.7 L375.0 313.6 L369.4 323.1 L363.2 332.2 L356.4 340.9 L349.1 349.1 L341.2 356.8 L332.6 363.6 L323.3 369.6 L313.4 374.6 L303.1 378.5 L292.5 381.5 L281.8 383.5 L270.9 384.8 L260.0 385.2 L249.1 384.8 L238.2 383.4 L227.6 380.9 L217.3 377.2 L207.6 372.4 L198.4 366.7 L189.9 360.2 L181.9 353.1 L174.5 345.5 L167.6 337.6 L161.2 329.2 L155.4 320.4 L150.4 311.1 L146.4 301.4 L143.3 291.3 L141.3 280.9 L140.3 270.5 L140.1 260.0 L140.7 249.6 L142.0 239.2 L144.1 228.9 L147.1 218.9 L151.1 209.2 L156.2 200.1 L162.2 191.5 L169.2 183.8 L176.8 176.8 L184.9 170.5 L193.4 164.9 L202.1 159.8 L211.2 155.3 L220.5 151.4 L230.1 148.4 L239.9 146.3 L250.0 145.2 L260.0 145.0 L270.0 145.9 L279.8 147.5 L289.5 149.8 L299.1 152.7 L308.3 156.3 L317.3 160.7 L325.9 165.9 L333.8 172.0 L341.0 179.0 L347.2 186.8 L352.6 195.1 L357.2 203.9 L361.0 212.9 L364.3 222.0 L366.9 231.4 L368.8 240.8 L370.0 250.4 L370.3 260.0 L369.6 269.6 L367.9 279.0 L365.4 288.2 L362.1 297.2 L358.3 305.8 L353.9 314.2 L349.0 322.3 L343.5 330.1 L337.3 337.3 L330.4 343.9 L322.7 349.6 L314.5 354.4 L305.8 358.2 L296.8 361.1 L287.6 363.2 L278.5 364.7 L269.2 365.5 L260.0 365.7 L250.8 365.1 L241.7 363.7 L232.8 361.4 L224.3 358.1 L216.1 354.1 L208.4 349.4 L201.0 344.3 L193.9 338.7 L187.2 332.8 L180.9 326.4 L175.1 319.4 L170.0 312.0 L165.8 303.9 L162.5 295.5 L160.3 286.7 L158.9 277.8 L158.4 268.9 L158.5 260.0 L159.2 251.2 L160.6 242.5 L162.7 233.9 L165.6 225.6 L169.3 217.7 L173.8 210.2 L179.0 203.3 L184.8 196.9 L191.0 191.0 L197.5 185.5 L204.2 180.4 L211.3 175.6 L218.7 171.3 L226.4 167.8 L234.5 165.0 L242.9 163.2 L251.5 162.4 L260.0 162.5 L268.5 163.4 L276.8 164.9 L284.9 167.0 L292.9 169.7 L300.5 173.0 L307.9 177.1 L314.7 181.9 L320.9 187.4 L326.5 193.5 L331.4 200.1 L335.8 206.9 L339.7 214.0 L343.2 221.2 L346.3 228.6 L348.9 236.2 L351.0 244.0 L352.3 251.9 L352.6 260.0 L352.1 268.1 L350.7 276.0 L348.6 283.7 L345.8 291.2 L342.6 298.5 L338.8 305.5 L334.6 312.2 L329.7 318.5 L324.1 324.1 L318.0 329.1 L311.3 333.3 L304.3 336.7 L297.1 339.5 L289.8 341.8 L282.4 343.6 L275.0 345.1 L267.5 346.2 L260.0 346.7 L252.4 346.6 L244.9 345.7 L237.5 343.9 L230.4 341.3 L223.6 338.1 L217.0 334.4 L210.8 330.2 L204.9 325.7 L199.3 320.7 L194.2 315.2 L189.7 309.2 L186.0 302.7 L183.1 295.9 L181.1 288.7 L179.7 281.5 L179.0 274.3 L178.6 267.1 L178.7 260.0 L179.1 252.9 L179.9 245.9 L181.4 238.9 L183.5 232.2 L186.4 225.7 L189.9 219.5 L194.0 213.8 L198.5 208.4 L203.3 203.3 L208.4 198.5 L213.9 194.1 L219.7 190.2 L225.9 186.8 L232.4 184.3 L239.3 182.6 L246.2 181.8 L253.2 181.8 L260.0 182.3 L266.7 183.3 L273.3 184.7 L279.7 186.4 L286.0 188.4 L292.2 191.0 L298.0 194.2 L303.5 197.9 L308.5 202.2 L313.1 206.9 L317.2 212.0 L321.0 217.3 L324.6 222.7 L327.8 228.4 L330.6 234.3 L332.8 240.5 L334.3 246.9 L334.9 253.4 L334.6 260.0 L333.6 266.4 L331.9 272.7 L329.8 278.7 L327.4 284.5 L324.7 290.2 L321.7 295.6 L318.2 300.8 L314.3 305.6 L309.9 309.9 L305.1 313.7 L299.9 317.0 L294.6 319.9 L289.1 322.4 L283.5 324.7 L277.9 326.7 L272.0 328.3 L266.1 329.5 L260.0 330.0 L253.9 329.6 L247.9 328.5 L242.1 326.6 L236.6 324.2 L231.4 321.3 L226.5 318.1 L221.8 314.6 L217.3 310.9 L213.1 306.9 L209.4 302.4 L206.2 297.7 L203.6 292.6 L201.6 287.2 L200.0 281.8 L198.8 276.4 L197.8 271.0 L197.0 265.5 L196.4 260.0 L196.3 254.4 L196.7 248.8 L197.8 243.3 L199.6 238.0 L202.1 233.0 L205.2 228.4 L208.6 224.0 L212.3 220.0 L216.3 216.3 L220.4 212.8 L224.7 209.6 L229.4 206.9 L234.3 204.8 L239.4 203.3 L244.6 202.5 L249.8 202.1 L254.9 202.1 L260.0 202.2 L265.0 202.6 L270.0 203.0 L275.1 203.8 L280.0 205.0 L284.8 206.8 L289.4 209.2 L293.5 212.1 L297.3 215.5 L300.7 219.3 L303.8 223.3 L306.6 227.4 L309.1 231.6 L311.4 236.1 L313.1 240.7 L314.3 245.5 L314.8 250.3 L314.7 255.2 L314.0 260.0 L313.0 264.6 L311.8 269.1 L310.5 273.5 L309.1 277.9 L307.6 282.2 L305.7 286.4 L303.4 290.4 L300.6 294.1 L297.4 297.4 L293.8 300.3 L289.9 302.7 L285.9 304.9 L281.8 306.8 L277.7 308.5 L273.4 309.9 L269.0 310.8 L264.5 311.2 L260.0 311.0 L255.6 310.1 L251.4 308.7 L247.4 306.9 L243.7 304.9 L240.0 302.8 L236.5 300.7 L233.0 298.5 L229.7 296.2 L226.5 293.5 L223.7 290.5 L221.3 287.1 L219.3 283.5 L217.7 279.7 L216.5 275.9 L215.4 272.0 L214.5 268.0 L213.8 264.0 L213.5 260.0 L213.7 255.9 L214.5 252.0 L215.9 248.2 L217.9 244.7 L220.2 241.4 L222.7 238.5 L225.2 235.7 L227.8 233.0 L230.4 230.4 L233.1 227.9 L235.9 225.6 L239.1 223.7 L242.4 222.2 L245.8 221.1 L249.4 220.4 L252.9 219.9 L256.5 219.6 L260.0 219.4 L263.6 219.3 L267.1 219.5 L270.7 220.1 L274.1 221.3 L277.3 223.0 L280.1 225.2 L282.6 227.8 L284.7 230.5 L286.7 233.3 L288.5 236.1 L290.3 238.8 L291.9 241.6 L293.3 244.5 L294.4 247.5 L295.1 250.6 L295.4 253.8 L295.4 256.9 L295.1 260.0 L294.8 263.0 L294.4 266.1 L294.0 269.1 L293.4 272.1 L292.5 275.1 L291.1 278.0 L289.3 280.5 L287.0 282.7 L284.5 284.5 L281.7 285.9 L279.0 287.1 L276.3 288.2 L273.6 289.2 L270.9 290.0 L268.2 290.7 L265.5 291.1 L262.7 291.1 L260.0 290.8 L257.4 290.1 L254.8 289.2 L252.4 288.3 L250.0 287.5 L247.6 286.6 L245.1 285.7 L242.7 284.7 L240.5 283.3 L238.5 281.5 L236.9 279.4 L235.7 277.0 L234.9 274.5 L234.3 272.0 L233.9 269.5 L233.5 267.1 L233.2 264.7 L233.1 262.4 L233.2 260.0 L233.7 257.7 L234.6 255.5 L235.7 253.5 L237.0 251.6 L238.3 249.9 L239.5 248.2 L240.6 246.4 L241.7 244.6 L242.8 242.8 L244.2 241.1 L245.8 239.7 L247.6 238.6 L249.7 237.9 L251.8 237.6 L254.0 237.5 L256.0 237.5 L258.0 237.5 L260.0 237.6 L261.9 237.8 L263.8 238.3 L265.6 239.1 L267.2 240.2 L268.6 241.6 L269.8 243.1 L270.8 244.6 L271.8 245.9 L272.8 247.2 L274.0 248.3 L275.2 249.4 L276.3 250.6 L277.3 251.9 L278.0 253.5 L278.3 255.1 L278.2 256.8 L278.0 258.4 L277.7 260.0 L277.4 261.5 L277.1 263.0 L276.8 264.5 L276.2 265.9 L275.4 267.2 L274.2 268.2 L272.9 269.0 L271.4 269.5 L269.9 269.9 L268.6 270.2 L267.4 270.6 L266.4 271.1 L265.5 271.7 L264.5 272.4 L263.5 272.9 L262.3 273.2 L261.2 273.2 L260.0 273.0 L258.9 272.6 L257.9 272.2 L256.8 271.8 L255.8 271.4 L254.8 271.1 L253.9 270.6 L253.0 270.0 L252.4 269.0 L252.1 267.9 L252.1 266.6 L252.3 265.4 L252.6 264.3 L252.8 263.4 L252.8 262.6 L252.6 262.0 L252.4 261.3 L252.2 260.7 L252.2 260.0"/>
+      </defs>
+      <!-- the spiral: a winding journey inward, drawn by hand, never entering the eye -->
+      <circle class="wash" cx="260" cy="260" r="152" fill="url(#washGrad)"/>
+
+      <g filter="url(#roughen)">
+        <use class="spiral" href="#spiralPath" mask="url(#lensMask)"/>
+        <use class="spiral-echo" href="#spiralPath" mask="url(#lensMask)"/>
+      </g>
+
+      <!-- hand-shaded stipple between the rings -->
+      <g class="stipple" mask="url(#lensMask)">
+          <circle cx="230.6" cy="186.1" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.16"/>
+          <circle cx="282.5" cy="177.9" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.16"/>
+          <circle cx="269.8" cy="371.1" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="366.8" cy="309.7" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="343.8" cy="282.8" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.20"/>
+          <circle cx="156.9" cy="168.1" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.13"/>
+          <circle cx="342.8" cy="333.8" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="292.3" cy="188.6" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.23"/>
+          <circle cx="158.4" cy="225.6" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.16"/>
+          <circle cx="339.8" cy="279.0" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="293.9" cy="387.4" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.22"/>
+          <circle cx="270.4" cy="130.4" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.20"/>
+          <circle cx="186.2" cy="271.1" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.11"/>
+          <circle cx="367.4" cy="168.3" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="179.3" cy="330.4" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="311.7" cy="294.3" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.24"/>
+          <circle cx="149.4" cy="265.9" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.20"/>
+          <circle cx="193.6" cy="205.8" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.18"/>
+          <circle cx="299.1" cy="331.3" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.23"/>
+          <circle cx="179.8" cy="203.8" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.10"/>
+          <circle cx="286.3" cy="197.9" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="203.9" cy="148.3" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.23"/>
+          <circle cx="363.1" cy="252.9" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.17"/>
+          <circle cx="121.6" cy="267.9" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="332.4" cy="377.7" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.21"/>
+          <circle cx="129.4" cy="273.9" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.09"/>
+          <circle cx="237.8" cy="346.6" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.11"/>
+          <circle cx="224.3" cy="317.8" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.24"/>
+          <circle cx="131.7" cy="277.1" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.23"/>
+          <circle cx="244.8" cy="147.9" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.11"/>
+          <circle cx="298.0" cy="129.7" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.18"/>
+          <circle cx="168.4" cy="208.8" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.13"/>
+          <circle cx="241.5" cy="372.3" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.08"/>
+          <circle cx="380.0" cy="224.3" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.17"/>
+          <circle cx="332.8" cy="161.9" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="359.7" cy="233.5" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.10"/>
+          <circle cx="319.1" cy="299.6" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.15"/>
+          <circle cx="311.6" cy="203.2" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.10"/>
+          <circle cx="208.6" cy="362.0" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="292.1" cy="332.9" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="370.2" cy="292.9" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.22"/>
+          <circle cx="293.3" cy="132.9" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.15"/>
+          <circle cx="265.9" cy="193.1" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="230.8" cy="176.0" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.09"/>
+          <circle cx="222.9" cy="354.7" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.13"/>
+          <circle cx="154.0" cy="226.0" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.10"/>
+          <circle cx="141.2" cy="253.9" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.23"/>
+          <circle cx="230.5" cy="170.2" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.17"/>
+          <circle cx="286.5" cy="198.3" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="355.2" cy="255.9" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.09"/>
+          <circle cx="286.9" cy="197.1" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.15"/>
+          <circle cx="379.6" cy="274.9" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.15"/>
+          <circle cx="173.6" cy="332.0" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="200.4" cy="286.3" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="238.0" cy="127.5" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="158.9" cy="268.4" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.23"/>
+          <circle cx="190.6" cy="268.9" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="285.6" cy="123.3" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.20"/>
+          <circle cx="338.3" cy="164.0" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="336.3" cy="215.9" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.18"/>
+          <circle cx="391.3" cy="229.5" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.08"/>
+          <circle cx="224.2" cy="347.7" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.10"/>
+          <circle cx="361.2" cy="315.2" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.23"/>
+          <circle cx="134.4" cy="290.3" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.23"/>
+          <circle cx="294.7" cy="381.7" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.18"/>
+          <circle cx="251.5" cy="384.6" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.13"/>
+          <circle cx="310.2" cy="186.5" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="191.9" cy="211.9" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="120.7" cy="289.3" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.18"/>
+          <circle cx="301.9" cy="341.5" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="339.7" cy="240.0" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.21"/>
+          <circle cx="220.1" cy="123.8" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.16"/>
+          <circle cx="210.3" cy="220.0" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="203.1" cy="243.7" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.13"/>
+          <circle cx="344.6" cy="193.9" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.10"/>
+          <circle cx="318.2" cy="140.9" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.09"/>
+          <circle cx="192.7" cy="307.0" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="333.9" cy="149.0" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.22"/>
+          <circle cx="207.2" cy="230.1" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.22"/>
+          <circle cx="267.5" cy="130.7" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.09"/>
+          <circle cx="154.8" cy="176.8" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.16"/>
+          <circle cx="190.1" cy="373.3" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="194.9" cy="193.1" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.09"/>
+          <circle cx="192.5" cy="255.0" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.11"/>
+          <circle cx="344.5" cy="292.7" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.16"/>
+          <circle cx="188.6" cy="157.6" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.10"/>
+          <circle cx="122.5" cy="226.0" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="133.3" cy="240.3" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.21"/>
+          <circle cx="342.1" cy="281.3" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.17"/>
+          <circle cx="315.5" cy="367.5" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.16"/>
+          <circle cx="306.9" cy="196.2" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.23"/>
+          <circle cx="285.4" cy="382.1" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.22"/>
+          <circle cx="355.4" cy="198.1" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="391.3" cy="204.9" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.08"/>
+          <circle cx="185.6" cy="195.6" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.20"/>
+          <circle cx="324.6" cy="363.9" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.17"/>
+          <circle cx="297.1" cy="393.5" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.17"/>
+          <circle cx="251.7" cy="128.8" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="202.3" cy="298.9" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.17"/>
+          <circle cx="173.1" cy="362.2" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.08"/>
+          <circle cx="168.4" cy="209.3" r="0.6" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="326.1" cy="312.7" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.16"/>
+          <circle cx="121.1" cy="247.8" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="193.6" cy="178.9" r="1.2" fill="oklch(26% 0.021 42)" opacity="0.20"/>
+          <circle cx="257.7" cy="382.6" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="249.3" cy="369.7" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.15"/>
+          <circle cx="288.0" cy="203.3" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.21"/>
+          <circle cx="244.5" cy="132.1" r="1.4" fill="oklch(26% 0.021 42)" opacity="0.14"/>
+          <circle cx="362.1" cy="262.4" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.17"/>
+          <circle cx="377.1" cy="258.3" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="309.1" cy="141.1" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.09"/>
+          <circle cx="306.2" cy="171.2" r="1.0" fill="oklch(26% 0.021 42)" opacity="0.15"/>
+          <circle cx="189.6" cy="186.5" r="1.1" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="261.1" cy="122.5" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="295.1" cy="132.9" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.11"/>
+          <circle cx="365.4" cy="173.5" r="0.7" fill="oklch(26% 0.021 42)" opacity="0.13"/>
+          <circle cx="333.7" cy="356.5" r="1.3" fill="oklch(26% 0.021 42)" opacity="0.12"/>
+          <circle cx="224.5" cy="379.8" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.11"/>
+          <circle cx="234.5" cy="152.1" r="0.8" fill="oklch(26% 0.021 42)" opacity="0.19"/>
+          <circle cx="202.7" cy="181.9" r="0.9" fill="oklch(26% 0.021 42)" opacity="0.11"/>
+      </g>
+
+      <!-- Theyyam halo: lean organic flames, narrow ends touching the circle -->
+      <g filter="url(#roughen)">
+        <g class="petal ink"  style="--a:-96deg; animation-delay: calc(var(--intro-offset) + 3400ms)"><path class="flame" d="M260.0 113.0 C 255.9 98.3, 251.5 92.9, 251.9 86.2 C 252.3 75.5, 255.5 56.7, 255.8 46.0 C 258.2 58.1, 268.7 76.8, 269.1 86.2 C 269.4 92.9, 264.5 98.3, 260.0 113.0 Z"/><path class="vein" d="M258.1 60.7 C 259.8 75.0, 259.8 89.3, 260.0 104.0 C 256.4 89.3, 256.4 75.0, 258.1 60.7 Z"/></g>
+        <g class="petal red"  style="--a:-80deg; animation-delay: calc(var(--intro-offset) + 3455ms)"><path class="flame" d="M260.0 113.0 C 254.6 94.3, 248.9 87.5, 249.3 79.0 C 249.9 65.4, 257.9 41.6, 262.2 28.0 C 265.4 43.3, 271.6 67.1, 272.1 79.0 C 272.6 87.5, 266.0 94.3, 260.0 113.0 Z"/><path class="vein" d="M261.0 46.7 C 263.3 65.6, 263.3 84.5, 260.0 104.0 C 258.7 84.5, 258.7 65.6, 261.0 46.7 Z"/></g>
+        <g class="petal gold"  style="--a:-64deg; animation-delay: calc(var(--intro-offset) + 3510ms)"><path class="flame" d="M260.0 113.0 C 255.5 97.8, 250.6 92.3, 250.9 85.4 C 251.5 74.4, 258.8 55.0, 263.0 44.0 C 265.6 56.4, 269.3 75.7, 269.7 85.4 C 270.1 92.3, 264.9 97.8, 260.0 113.0 Z"/><path class="vein" d="M261.4 59.2 C 263.2 74.0, 263.2 88.8, 260.0 104.0 C 259.5 88.8, 259.5 74.0, 261.4 59.2 Z"/></g>
+        <g class="petal red"  style="--a:-48deg; animation-delay: calc(var(--intro-offset) + 3565ms)"><path class="flame" d="M260.0 113.0 C 253.9 92.1, 247.4 84.5, 247.9 75.0 C 248.6 59.8, 257.6 33.2, 262.5 18.0 C 265.7 35.1, 271.8 61.7, 272.3 75.0 C 272.8 84.5, 266.1 92.1, 260.0 113.0 Z"/><path class="vein" d="M261.1 38.9 C 263.5 60.4, 263.5 81.9, 260.0 104.0 C 258.7 81.9, 258.7 60.4, 261.1 38.9 Z"/></g>
+        <g class="petal ink"  style="--a:-32deg; animation-delay: calc(var(--intro-offset) + 3620ms)"><path class="flame" d="M260.0 113.0 C 255.9 99.6, 251.4 94.7, 251.7 88.6 C 252.2 78.8, 259.1 61.8, 263.2 52.0 C 265.3 63.0, 267.8 80.1, 268.1 88.6 C 268.4 94.7, 264.1 99.6, 260.0 113.0 Z"/><path class="vein" d="M261.4 65.4 C 263.1 78.2, 263.1 90.9, 260.0 104.0 C 259.8 90.9, 259.8 78.2, 261.4 65.4 Z"/></g>
+        <g class="petal gold"  style="--a:-16deg; animation-delay: calc(var(--intro-offset) + 3675ms)"><path class="flame" d="M260.0 113.0 C 254.6 95.2, 248.8 88.7, 249.2 80.6 C 249.9 67.6, 258.3 45.0, 263.1 32.0 C 265.9 46.6, 270.4 69.3, 270.8 80.6 C 271.3 88.7, 265.4 95.2, 260.0 113.0 Z"/><path class="vein" d="M261.4 49.8 C 263.6 67.7, 263.6 85.6, 260.0 104.0 C 259.3 85.6, 259.3 67.7, 261.4 49.8 Z"/></g>
+        <g class="petal red"  style="--a:0deg; animation-delay: calc(var(--intro-offset) + 3730ms)"><path class="flame" d="M260.0 113.0 C 253.6 90.3, 246.7 82.1, 247.2 71.8 C 248.0 55.3, 257.2 26.5, 262.0 10.0 C 265.5 28.5, 272.7 57.4, 273.2 71.8 C 273.7 82.1, 266.6 90.3, 260.0 113.0 Z"/><path class="vein" d="M260.9 32.7 C 263.3 56.2, 263.3 79.7, 260.0 104.0 C 258.5 79.7, 258.5 56.2, 260.9 32.7 Z"/></g>
+        <g class="petal gold"  style="--a:16deg; animation-delay: calc(var(--intro-offset) + 3785ms)"><path class="flame" d="M260.0 113.0 C 254.5 95.2, 248.5 88.7, 249.0 80.6 C 249.6 67.6, 254.7 45.0, 256.0 32.0 C 258.8 46.6, 270.2 69.3, 270.6 80.6 C 271.0 88.7, 265.3 95.2, 260.0 113.0 Z"/><path class="vein" d="M258.2 49.8 C 260.4 67.7, 260.4 85.6, 260.0 104.0 C 256.1 85.6, 256.1 67.7, 258.2 49.8 Z"/></g>
+        <g class="petal ink"  style="--a:32deg; animation-delay: calc(var(--intro-offset) + 3840ms)"><path class="flame" d="M260.0 113.0 C 255.8 99.6, 251.2 94.7, 251.6 88.6 C 252.1 78.8, 258.8 61.8, 262.6 52.0 C 264.7 63.0, 267.7 80.1, 268.0 88.6 C 268.3 94.7, 264.0 99.6, 260.0 113.0 Z"/><path class="vein" d="M261.2 65.4 C 262.8 78.2, 262.8 90.9, 260.0 104.0 C 259.5 90.9, 259.5 78.2, 261.2 65.4 Z"/></g>
+        <g class="petal red"  style="--a:48deg; animation-delay: calc(var(--intro-offset) + 3895ms)"><path class="flame" d="M260.0 113.0 C 253.6 92.1, 246.7 84.5, 247.2 75.0 C 248.0 59.8, 254.1 33.2, 255.8 18.0 C 258.8 35.1, 271.1 61.7, 271.6 75.0 C 272.1 84.5, 265.8 92.1, 260.0 113.0 Z"/><path class="vein" d="M258.1 38.9 C 260.5 60.4, 260.5 81.9, 260.0 104.0 C 255.7 81.9, 255.7 60.4, 258.1 38.9 Z"/></g>
+        <g class="petal gold"  style="--a:64deg; animation-delay: calc(var(--intro-offset) + 3950ms)"><path class="flame" d="M260.0 113.0 C 255.6 97.8, 250.8 92.3, 251.1 85.4 C 251.7 74.4, 259.2 55.0, 263.8 44.0 C 266.4 56.4, 269.5 75.7, 269.9 85.4 C 270.3 92.3, 265.0 97.8, 260.0 113.0 Z"/><path class="vein" d="M261.7 59.2 C 263.6 74.0, 263.6 88.8, 260.0 104.0 C 259.8 88.8, 259.8 74.0, 261.7 59.2 Z"/></g>
+        <g class="petal red"  style="--a:80deg; animation-delay: calc(var(--intro-offset) + 4005ms)"><path class="flame" d="M260.0 113.0 C 254.3 94.3, 248.2 87.5, 248.7 79.0 C 249.3 65.4, 257.7 41.6, 262.2 28.0 C 265.2 43.3, 271.0 67.1, 271.5 79.0 C 271.9 87.5, 265.7 94.3, 260.0 113.0 Z"/><path class="vein" d="M261.0 46.7 C 263.3 65.6, 263.3 84.5, 260.0 104.0 C 258.7 84.5, 258.7 65.6, 261.0 46.7 Z"/></g>
+        <g class="petal ink"  style="--a:96deg; animation-delay: calc(var(--intro-offset) + 4060ms)"><path class="flame" d="M260.0 113.0 C 255.8 98.3, 251.3 92.9, 251.6 86.2 C 252.1 75.5, 259.0 56.7, 263.1 46.0 C 265.4 58.1, 268.5 76.8, 268.8 86.2 C 269.2 92.9, 264.4 98.3, 260.0 113.0 Z"/><path class="vein" d="M261.4 60.7 C 263.1 75.0, 263.1 89.3, 260.0 104.0 C 259.7 89.3, 259.7 75.0, 261.4 60.7 Z"/></g>
+      </g>
+
+      <!-- the eye of truth: appearing while the spiral winds inward, corners crossing the circle -->
+      <g>
+        <path class="lid" style="stroke-width:1.5;opacity:0.9;stroke-dasharray:340;stroke-dashoffset:340;animation-delay:calc(var(--intro-offset) + 1600ms)" d="M108 260 Q260 168 412 260"/>
+        <path class="lid" style="stroke-width:1.5;opacity:0.9;stroke-dasharray:340;stroke-dashoffset:340;animation-delay:calc(var(--intro-offset) + 1750ms)" d="M108 260 Q260 352 412 260"/>
+        <g class="iris-g">
+          <path d="M273.8 260.3 Q284.5 262.0 295.3 260.7" stroke="oklch(26% 0.021 42)" stroke-width="1.20" opacity="0.66" fill="none" stroke-linecap="round"/>
+          <path d="M274.3 261.2 Q284.1 259.6 293.5 262.8" stroke="oklch(26% 0.021 42)" stroke-width="1.07" opacity="0.40" fill="none" stroke-linecap="round"/>
+          <path d="M286.0 259.4 Q289.7 262.0 293.3 259.2" stroke="oklch(26% 0.021 42)" stroke-width="0.80" opacity="0.30" fill="none" stroke-linecap="round"/>
+          <path d="M274.4 262.0 Q284.9 260.6 294.6 264.9" stroke="oklch(50% 0.185 33)" stroke-width="0.97" opacity="0.70" fill="none" stroke-linecap="round"/>
+          <path d="M274.1 263.5 Q284.9 263.2 294.3 268.5" stroke="oklch(26% 0.021 42)" stroke-width="0.69" opacity="0.32" fill="none" stroke-linecap="round"/>
+          <path d="M272.7 264.6 Q279.5 268.6 287.3 269.9" stroke="oklch(26% 0.021 42)" stroke-width="0.84" opacity="0.64" fill="none" stroke-linecap="round"/>
+          <path d="M272.9 266.1 Q281.6 272.6 292.1 275.1" stroke="oklch(26% 0.021 42)" stroke-width="0.61" opacity="0.30" fill="none" stroke-linecap="round"/>
+          <path d="M271.8 266.3 Q279.8 270.1 287.4 274.5" stroke="oklch(26% 0.021 42)" stroke-width="0.82" opacity="0.51" fill="none" stroke-linecap="round"/>
+          <path d="M281.4 266.9 Q286.0 266.3 289.4 269.5" stroke="oklch(26% 0.021 42)" stroke-width="0.62" opacity="0.38" fill="none" stroke-linecap="round"/>
+          <path d="M271.2 267.3 Q278.3 273.7 287.0 277.7" stroke="oklch(26% 0.021 42)" stroke-width="0.90" opacity="0.44" fill="none" stroke-linecap="round"/>
+          <path d="M280.6 270.1 Q285.6 270.9 289.2 274.4" stroke="oklch(26% 0.021 42)" stroke-width="0.68" opacity="0.33" fill="none" stroke-linecap="round"/>
+          <path d="M271.4 268.7 Q277.7 271.8 282.3 277.0" stroke="oklch(26% 0.021 42)" stroke-width="0.89" opacity="0.46" fill="none" stroke-linecap="round"/>
+          <path d="M269.9 268.8 Q277.5 272.5 282.0 279.6" stroke="oklch(26% 0.021 42)" stroke-width="1.24" opacity="0.45" fill="none" stroke-linecap="round"/>
+          <path d="M269.8 270.8 Q276.4 275.8 280.8 283.0" stroke="oklch(26% 0.021 42)" stroke-width="1.13" opacity="0.32" fill="none" stroke-linecap="round"/>
+          <path d="M268.8 271.3 Q273.5 278.5 279.3 284.9" stroke="oklch(26% 0.021 42)" stroke-width="1.17" opacity="0.33" fill="none" stroke-linecap="round"/>
+          <path d="M270.9 280.8 Q274.3 284.4 275.3 289.2" stroke="oklch(26% 0.021 42)" stroke-width="0.88" opacity="0.25" fill="none" stroke-linecap="round"/>
+          <path d="M267.5 271.4 Q273.2 278.6 277.6 286.6" stroke="oklch(26% 0.021 42)" stroke-width="0.98" opacity="0.60" fill="none" stroke-linecap="round"/>
+          <path d="M276.2 278.8 Q279.7 280.9 281.2 284.6" stroke="oklch(26% 0.021 42)" stroke-width="0.74" opacity="0.45" fill="none" stroke-linecap="round"/>
+          <path d="M266.1 271.8 Q271.9 278.1 273.6 286.4" stroke="oklch(50% 0.185 33)" stroke-width="0.81" opacity="0.75" fill="none" stroke-linecap="round"/>
+          <path d="M267.0 282.8 Q267.7 286.8 269.3 290.5" stroke="oklch(50% 0.185 33)" stroke-width="0.61" opacity="0.56" fill="none" stroke-linecap="round"/>
+          <path d="M266.1 273.1 Q271.5 283.0 275.6 293.5" stroke="oklch(26% 0.021 42)" stroke-width="1.18" opacity="0.52" fill="none" stroke-linecap="round"/>
+          <path d="M264.5 273.9 Q267.0 282.4 270.0 290.9" stroke="oklch(26% 0.021 42)" stroke-width="0.93" opacity="0.43" fill="none" stroke-linecap="round"/>
+          <path d="M263.6 273.4 Q267.6 283.9 269.3 295.0" stroke="oklch(26% 0.021 42)" stroke-width="0.75" opacity="0.41" fill="none" stroke-linecap="round"/>
+          <path d="M262.5 274.1 Q266.3 284.6 266.4 295.8" stroke="oklch(26% 0.021 42)" stroke-width="1.17" opacity="0.64" fill="none" stroke-linecap="round"/>
+          <path d="M268.2 287.4 Q269.4 291.4 270.5 295.3" stroke="oklch(26% 0.021 42)" stroke-width="0.88" opacity="0.48" fill="none" stroke-linecap="round"/>
+          <path d="M261.3 274.1 Q260.6 282.0 262.7 289.7" stroke="oklch(26% 0.021 42)" stroke-width="0.88" opacity="0.40" fill="none" stroke-linecap="round"/>
+          <path d="M259.6 274.2 Q260.7 285.5 259.0 296.7" stroke="oklch(26% 0.021 42)" stroke-width="0.98" opacity="0.65" fill="none" stroke-linecap="round"/>
+          <path d="M264.1 288.3 Q267.5 292.2 265.3 297.0" stroke="oklch(26% 0.021 42)" stroke-width="0.74" opacity="0.48" fill="none" stroke-linecap="round"/>
+          <path d="M258.7 273.2 Q258.3 282.5 257.0 291.6" stroke="oklch(26% 0.021 42)" stroke-width="0.81" opacity="0.68" fill="none" stroke-linecap="round"/>
+          <path d="M257.9 273.4 Q255.2 281.4 255.3 289.8" stroke="oklch(50% 0.185 33)" stroke-width="0.64" opacity="0.67" fill="none" stroke-linecap="round"/>
+          <path d="M256.6 274.2 Q252.3 280.4 253.3 287.9" stroke="oklch(62% 0.13 82)" stroke-width="0.88" opacity="0.49" fill="none" stroke-linecap="round"/>
+          <path d="M255.9 272.8 Q253.6 283.5 249.2 293.6" stroke="oklch(62% 0.13 82)" stroke-width="0.84" opacity="0.51" fill="none" stroke-linecap="round"/>
+          <path d="M254.5 272.9 Q252.6 280.0 248.8 286.3" stroke="oklch(26% 0.021 42)" stroke-width="0.95" opacity="0.55" fill="none" stroke-linecap="round"/>
+          <path d="M253.0 272.3 Q249.7 280.5 244.2 287.5" stroke="oklch(26% 0.021 42)" stroke-width="0.71" opacity="0.56" fill="none" stroke-linecap="round"/>
+          <path d="M251.3 283.0 Q252.0 287.5 248.5 290.3" stroke="oklch(26% 0.021 42)" stroke-width="0.53" opacity="0.42" fill="none" stroke-linecap="round"/>
+          <path d="M252.2 271.7 Q247.4 277.7 243.8 284.5" stroke="oklch(26% 0.021 42)" stroke-width="0.96" opacity="0.42" fill="none" stroke-linecap="round"/>
+          <path d="M250.8 281.9 Q248.8 283.9 248.7 286.7" stroke="oklch(26% 0.021 42)" stroke-width="0.72" opacity="0.31" fill="none" stroke-linecap="round"/>
+          <path d="M251.7 271.2 Q245.3 279.4 239.3 287.9" stroke="oklch(26% 0.021 42)" stroke-width="1.19" opacity="0.62" fill="none" stroke-linecap="round"/>
+          <path d="M241.1 278.8 Q236.6 281.1 234.3 285.5" stroke="oklch(26% 0.021 42)" stroke-width="0.90" opacity="0.47" fill="none" stroke-linecap="round"/>
+          <path d="M250.2 270.1 Q241.3 276.7 235.1 285.8" stroke="oklch(26% 0.021 42)" stroke-width="1.08" opacity="0.46" fill="none" stroke-linecap="round"/>
+          <path d="M244.4 283.5 Q240.9 286.7 239.3 291.1" stroke="oklch(26% 0.021 42)" stroke-width="0.81" opacity="0.34" fill="none" stroke-linecap="round"/>
+          <path d="M250.0 269.2 Q243.8 277.3 235.2 282.9" stroke="oklch(26% 0.021 42)" stroke-width="1.18" opacity="0.45" fill="none" stroke-linecap="round"/>
+          <path d="M249.2 268.0 Q241.7 271.1 236.5 277.4" stroke="oklch(26% 0.021 42)" stroke-width="0.67" opacity="0.53" fill="none" stroke-linecap="round"/>
+          <path d="M242.5 275.9 Q240.9 278.1 238.5 279.5" stroke="oklch(26% 0.021 42)" stroke-width="0.50" opacity="0.40" fill="none" stroke-linecap="round"/>
+          <path d="M248.9 267.3 Q240.5 272.8 232.2 278.3" stroke="oklch(26% 0.021 42)" stroke-width="0.77" opacity="0.44" fill="none" stroke-linecap="round"/>
+          <path d="M240.6 277.6 Q239.1 281.0 235.6 282.2" stroke="oklch(26% 0.021 42)" stroke-width="0.58" opacity="0.33" fill="none" stroke-linecap="round"/>
+          <path d="M247.4 266.4 Q238.7 268.6 231.7 274.3" stroke="oklch(26% 0.021 42)" stroke-width="1.11" opacity="0.60" fill="none" stroke-linecap="round"/>
+          <path d="M247.8 265.3 Q239.6 269.7 230.7 272.6" stroke="oklch(26% 0.021 42)" stroke-width="0.85" opacity="0.41" fill="none" stroke-linecap="round"/>
+          <path d="M247.4 264.5 Q238.3 265.2 230.8 270.5" stroke="oklch(26% 0.021 42)" stroke-width="0.71" opacity="0.31" fill="none" stroke-linecap="round"/>
+          <path d="M246.6 263.8 Q238.3 263.1 231.5 268.0" stroke="oklch(26% 0.021 42)" stroke-width="0.91" opacity="0.70" fill="none" stroke-linecap="round"/>
+          <path d="M236.2 262.7 Q233.2 260.2 230.9 263.3" stroke="oklch(26% 0.021 42)" stroke-width="0.69" opacity="0.52" fill="none" stroke-linecap="round"/>
+          <path d="M245.8 262.3 Q237.2 266.4 227.7 265.2" stroke="oklch(62% 0.13 82)" stroke-width="0.88" opacity="0.52" fill="none" stroke-linecap="round"/>
+          <path d="M246.1 261.4 Q237.7 263.4 229.1 263.1" stroke="oklch(26% 0.021 42)" stroke-width="0.81" opacity="0.43" fill="none" stroke-linecap="round"/>
+          <path d="M236.0 266.6 Q231.8 267.1 228.0 268.8" stroke="oklch(26% 0.021 42)" stroke-width="0.61" opacity="0.32" fill="none" stroke-linecap="round"/>
+          <path d="M246.1 260.1 Q238.0 258.6 230.0 260.2" stroke="oklch(26% 0.021 42)" stroke-width="0.94" opacity="0.52" fill="none" stroke-linecap="round"/>
+          <path d="M246.2 258.6 Q236.7 258.9 227.6 256.7" stroke="oklch(26% 0.021 42)" stroke-width="0.78" opacity="0.62" fill="none" stroke-linecap="round"/>
+          <path d="M245.9 257.4 Q235.0 254.8 223.9 253.3" stroke="oklch(50% 0.185 33)" stroke-width="0.61" opacity="0.62" fill="none" stroke-linecap="round"/>
+          <path d="M233.8 250.0 Q229.2 249.1 225.0 246.7" stroke="oklch(50% 0.185 33)" stroke-width="0.46" opacity="0.46" fill="none" stroke-linecap="round"/>
+          <path d="M245.9 256.3 Q235.2 254.3 224.8 250.7" stroke="oklch(50% 0.185 33)" stroke-width="0.97" opacity="0.61" fill="none" stroke-linecap="round"/>
+          <path d="M246.7 255.7 Q240.7 251.1 233.3 251.4" stroke="oklch(26% 0.021 42)" stroke-width="1.00" opacity="0.62" fill="none" stroke-linecap="round"/>
+          <path d="M238.7 255.8 Q235.7 252.2 231.5 254.3" stroke="oklch(26% 0.021 42)" stroke-width="0.75" opacity="0.46" fill="none" stroke-linecap="round"/>
+          <path d="M247.2 254.7 Q237.1 248.9 225.9 245.9" stroke="oklch(26% 0.021 42)" stroke-width="0.70" opacity="0.62" fill="none" stroke-linecap="round"/>
+          <path d="M231.2 253.5 Q226.9 255.2 223.8 251.8" stroke="oklch(26% 0.021 42)" stroke-width="0.53" opacity="0.47" fill="none" stroke-linecap="round"/>
+          <path d="M248.0 253.9 Q236.9 250.9 228.0 243.7" stroke="oklch(26% 0.021 42)" stroke-width="0.68" opacity="0.37" fill="none" stroke-linecap="round"/>
+          <path d="M248.4 252.8 Q240.0 246.3 230.5 241.7" stroke="oklch(62% 0.13 82)" stroke-width="0.63" opacity="0.57" fill="none" stroke-linecap="round"/>
+          <path d="M237.0 250.7 Q232.1 247.5 226.4 246.4" stroke="oklch(62% 0.13 82)" stroke-width="0.47" opacity="0.43" fill="none" stroke-linecap="round"/>
+          <path d="M248.8 251.4 Q241.2 245.5 233.6 239.7" stroke="oklch(26% 0.021 42)" stroke-width="1.01" opacity="0.42" fill="none" stroke-linecap="round"/>
+          <path d="M243.1 241.1 Q240.2 237.2 236.7 233.8" stroke="oklch(26% 0.021 42)" stroke-width="0.75" opacity="0.32" fill="none" stroke-linecap="round"/>
+          <path d="M249.5 249.9 Q242.9 242.3 235.0 236.0" stroke="oklch(26% 0.021 42)" stroke-width="1.08" opacity="0.36" fill="none" stroke-linecap="round"/>
+          <path d="M244.9 238.7 Q241.4 235.0 239.1 230.6" stroke="oklch(26% 0.021 42)" stroke-width="0.81" opacity="0.27" fill="none" stroke-linecap="round"/>
+          <path d="M250.8 249.9 Q243.3 243.0 237.1 235.0" stroke="oklch(26% 0.021 42)" stroke-width="0.62" opacity="0.68" fill="none" stroke-linecap="round"/>
+          <path d="M245.5 240.7 Q242.3 237.3 240.0 233.3" stroke="oklch(26% 0.021 42)" stroke-width="0.46" opacity="0.51" fill="none" stroke-linecap="round"/>
+          <path d="M251.5 249.0 Q247.0 239.2 238.6 232.2" stroke="oklch(50% 0.185 33)" stroke-width="0.73" opacity="0.61" fill="none" stroke-linecap="round"/>
+          <path d="M247.2 238.3 Q242.7 235.6 242.5 230.4" stroke="oklch(50% 0.185 33)" stroke-width="0.55" opacity="0.46" fill="none" stroke-linecap="round"/>
+          <path d="M252.4 248.7 Q247.3 239.9 241.1 231.7" stroke="oklch(50% 0.185 33)" stroke-width="1.24" opacity="0.74" fill="none" stroke-linecap="round"/>
+          <path d="M253.5 247.1 Q249.5 240.8 246.8 234.0" stroke="oklch(26% 0.021 42)" stroke-width="1.08" opacity="0.63" fill="none" stroke-linecap="round"/>
+          <path d="M252.9 237.2 Q254.7 234.3 251.5 233.0" stroke="oklch(26% 0.021 42)" stroke-width="0.81" opacity="0.47" fill="none" stroke-linecap="round"/>
+          <path d="M254.8 247.3 Q249.9 237.8 246.7 227.5" stroke="oklch(26% 0.021 42)" stroke-width="1.21" opacity="0.48" fill="none" stroke-linecap="round"/>
+          <path d="M255.7 246.9 Q254.9 236.4 249.4 227.4" stroke="oklch(26% 0.021 42)" stroke-width="1.22" opacity="0.46" fill="none" stroke-linecap="round"/>
+          <path d="M248.7 236.3 Q245.8 233.3 245.3 229.1" stroke="oklch(26% 0.021 42)" stroke-width="0.92" opacity="0.34" fill="none" stroke-linecap="round"/>
+          <path d="M256.5 246.7 Q252.6 238.4 252.0 229.3" stroke="oklch(26% 0.021 42)" stroke-width="0.76" opacity="0.55" fill="none" stroke-linecap="round"/>
+          <path d="M256.2 236.1 Q258.3 230.9 254.7 226.5" stroke="oklch(26% 0.021 42)" stroke-width="0.57" opacity="0.41" fill="none" stroke-linecap="round"/>
+          <path d="M257.6 245.8 Q257.2 236.4 254.5 227.4" stroke="oklch(26% 0.021 42)" stroke-width="1.18" opacity="0.61" fill="none" stroke-linecap="round"/>
+          <path d="M258.5 245.8 Q255.1 238.1 256.8 230.0" stroke="oklch(26% 0.021 42)" stroke-width="0.61" opacity="0.44" fill="none" stroke-linecap="round"/>
+          <path d="M253.7 237.5 Q255.3 233.7 251.9 231.3" stroke="oklch(26% 0.021 42)" stroke-width="0.46" opacity="0.33" fill="none" stroke-linecap="round"/>
+          <path d="M260.0 246.0 Q257.8 238.7 260.1 231.5" stroke="oklch(26% 0.021 42)" stroke-width="0.77" opacity="0.72" fill="none" stroke-linecap="round"/>
+          <path d="M261.4 246.2 Q261.7 238.7 263.0 231.3" stroke="oklch(26% 0.021 42)" stroke-width="0.85" opacity="0.64" fill="none" stroke-linecap="round"/>
+          <path d="M262.0 246.4 Q262.1 237.7 264.5 229.3" stroke="oklch(26% 0.021 42)" stroke-width="0.68" opacity="0.40" fill="none" stroke-linecap="round"/>
+          <path d="M265.7 238.1 Q269.0 234.8 267.7 230.2" stroke="oklch(26% 0.021 42)" stroke-width="0.51" opacity="0.30" fill="none" stroke-linecap="round"/>
+          <path d="M263.3 246.0 Q263.0 235.0 268.3 225.3" stroke="oklch(26% 0.021 42)" stroke-width="1.21" opacity="0.50" fill="none" stroke-linecap="round"/>
+          <path d="M264.9 246.5 Q269.5 240.1 270.0 232.2" stroke="oklch(50% 0.185 33)" stroke-width="0.86" opacity="0.73" fill="none" stroke-linecap="round"/>
+          <path d="M264.6 238.1 Q264.4 233.1 266.6 228.7" stroke="oklch(50% 0.185 33)" stroke-width="0.64" opacity="0.55" fill="none" stroke-linecap="round"/>
+          <path d="M265.5 246.6 Q268.2 238.5 271.9 230.8" stroke="oklch(26% 0.021 42)" stroke-width="0.69" opacity="0.66" fill="none" stroke-linecap="round"/>
+          <path d="M266.2 248.1 Q270.2 238.1 276.1 229.1" stroke="oklch(26% 0.021 42)" stroke-width="0.97" opacity="0.34" fill="none" stroke-linecap="round"/>
+          <path d="M267.7 248.1 Q271.4 238.2 278.9 230.9" stroke="oklch(26% 0.021 42)" stroke-width="1.09" opacity="0.64" fill="none" stroke-linecap="round"/>
+          <path d="M269.0 248.9 Q276.2 243.7 279.8 235.7" stroke="oklch(26% 0.021 42)" stroke-width="0.87" opacity="0.39" fill="none" stroke-linecap="round"/>
+          <path d="M277.3 244.1 Q281.9 242.6 283.8 238.1" stroke="oklch(26% 0.021 42)" stroke-width="0.65" opacity="0.29" fill="none" stroke-linecap="round"/>
+          <path d="M269.5 249.1 Q275.7 242.4 281.6 235.4" stroke="oklch(26% 0.021 42)" stroke-width="0.80" opacity="0.41" fill="none" stroke-linecap="round"/>
+          <path d="M280.1 243.0 Q283.1 240.3 286.4 237.8" stroke="oklch(26% 0.021 42)" stroke-width="0.60" opacity="0.31" fill="none" stroke-linecap="round"/>
+          <path d="M269.9 250.4 Q278.6 244.1 285.2 235.7" stroke="oklch(26% 0.021 42)" stroke-width="1.19" opacity="0.47" fill="none" stroke-linecap="round"/>
+          <path d="M270.7 251.5 Q280.7 245.6 288.7 237.2" stroke="oklch(26% 0.021 42)" stroke-width="0.85" opacity="0.54" fill="none" stroke-linecap="round"/>
+          <path d="M271.4 252.6 Q277.7 245.6 286.7 242.6" stroke="oklch(26% 0.021 42)" stroke-width="1.04" opacity="0.51" fill="none" stroke-linecap="round"/>
+          <path d="M272.5 253.1 Q280.9 249.2 288.6 244.2" stroke="oklch(26% 0.021 42)" stroke-width="1.12" opacity="0.63" fill="none" stroke-linecap="round"/>
+          <path d="M272.6 254.1 Q281.9 248.1 292.6 244.8" stroke="oklch(26% 0.021 42)" stroke-width="0.89" opacity="0.46" fill="none" stroke-linecap="round"/>
+          <path d="M285.2 253.4 Q289.5 251.1 294.4 251.1" stroke="oklch(26% 0.021 42)" stroke-width="0.67" opacity="0.34" fill="none" stroke-linecap="round"/>
+          <path d="M273.4 255.4 Q281.1 250.0 290.4 249.6" stroke="oklch(26% 0.021 42)" stroke-width="1.06" opacity="0.72" fill="none" stroke-linecap="round"/>
+          <path d="M282.4 247.3 Q284.5 244.3 288.1 244.0" stroke="oklch(26% 0.021 42)" stroke-width="0.79" opacity="0.54" fill="none" stroke-linecap="round"/>
+          <path d="M274.0 256.6 Q284.4 255.3 294.2 251.7" stroke="oklch(26% 0.021 42)" stroke-width="0.95" opacity="0.35" fill="none" stroke-linecap="round"/>
+          <path d="M283.1 250.7 Q287.2 248.5 291.7 247.2" stroke="oklch(26% 0.021 42)" stroke-width="0.71" opacity="0.27" fill="none" stroke-linecap="round"/>
+          <path d="M274.1 257.7 Q283.7 254.4 293.8 254.5" stroke="oklch(26% 0.021 42)" stroke-width="1.06" opacity="0.60" fill="none" stroke-linecap="round"/>
+          <path d="M286.2 259.5 Q291.2 260.4 296.2 259.4" stroke="oklch(26% 0.021 42)" stroke-width="0.80" opacity="0.45" fill="none" stroke-linecap="round"/>
+          <path d="M274.3 258.6 Q281.9 257.6 289.6 257.2" stroke="oklch(26% 0.021 42)" stroke-width="0.78" opacity="0.65" fill="none" stroke-linecap="round"/>
+          <path d="M284.5 259.8 Q287.2 258.9 289.9 259.8" stroke="oklch(26% 0.021 42)" stroke-width="0.58" opacity="0.49" fill="none" stroke-linecap="round"/>
+          <path d="M256.5 278.6 Q255.5 281.4 255.4 284.4" stroke="oklch(26% 0.021 42)" stroke-width="0.42" opacity="0.24" fill="none" stroke-linecap="round"/>
+          <path d="M240.7 262.9 Q236.4 264.7 231.8 264.2" stroke="oklch(26% 0.021 42)" stroke-width="0.61" opacity="0.18" fill="none" stroke-linecap="round"/>
+          <path d="M251.2 275.6 Q246.5 278.5 246.4 284.0" stroke="oklch(26% 0.021 42)" stroke-width="0.45" opacity="0.21" fill="none" stroke-linecap="round"/>
+          <path d="M259.9 244.0 Q262.8 238.6 259.9 233.2" stroke="oklch(26% 0.021 42)" stroke-width="0.56" opacity="0.15" fill="none" stroke-linecap="round"/>
+          <path d="M264.2 242.3 Q265.7 238.0 266.2 233.6" stroke="oklch(26% 0.021 42)" stroke-width="0.56" opacity="0.19" fill="none" stroke-linecap="round"/>
+          <path d="M242.6 259.3 Q237.9 260.7 233.3 258.9" stroke="oklch(26% 0.021 42)" stroke-width="0.41" opacity="0.21" fill="none" stroke-linecap="round"/>
+          <path d="M258.4 276.5 Q257.7 282.7 257.2 288.9" stroke="oklch(26% 0.021 42)" stroke-width="0.51" opacity="0.21" fill="none" stroke-linecap="round"/>
+          <path d="M245.1 250.9 Q240.8 250.7 238.6 246.9" stroke="oklch(26% 0.021 42)" stroke-width="0.59" opacity="0.23" fill="none" stroke-linecap="round"/>
+          <path d="M270.9 273.5 Q275.0 277.9 278.4 282.8" stroke="oklch(26% 0.021 42)" stroke-width="0.48" opacity="0.17" fill="none" stroke-linecap="round"/>
+          <path d="M241.5 260.0 Q238.0 258.4 234.4 260.0" stroke="oklch(26% 0.021 42)" stroke-width="0.50" opacity="0.26" fill="none" stroke-linecap="round"/>
+          <path d="M263.4 277.7 Q261.5 281.2 264.6 283.8" stroke="oklch(26% 0.021 42)" stroke-width="0.65" opacity="0.17" fill="none" stroke-linecap="round"/>
+          <path d="M263.5 276.5 Q265.1 280.7 265.4 285.2" stroke="oklch(26% 0.021 42)" stroke-width="0.48" opacity="0.18" fill="none" stroke-linecap="round"/>
+          <path d="M246.2 268.9 Q242.5 273.9 236.5 275.2" stroke="oklch(26% 0.021 42)" stroke-width="0.57" opacity="0.17" fill="none" stroke-linecap="round"/>
+          <path d="M276.3 263.6 Q281.0 266.7 286.5 265.9" stroke="oklch(26% 0.021 42)" stroke-width="0.56" opacity="0.25" fill="none" stroke-linecap="round"/>
+          <path d="M269.2 274.3 Q271.1 277.6 273.3 280.7" stroke="oklch(26% 0.021 42)" stroke-width="0.42" opacity="0.14" fill="none" stroke-linecap="round"/>
+          <path d="M279.1 254.4 Q281.3 256.1 282.3 253.5" stroke="oklch(26% 0.021 42)" stroke-width="0.46" opacity="0.18" fill="none" stroke-linecap="round"/>
+          <path d="M274.2 270.6 Q279.1 274.4 284.0 277.9" stroke="oklch(26% 0.021 42)" stroke-width="0.60" opacity="0.16" fill="none" stroke-linecap="round"/>
+          <path d="M253.0 245.1 Q249.3 239.4 247.3 232.9" stroke="oklch(26% 0.021 42)" stroke-width="0.57" opacity="0.18" fill="none" stroke-linecap="round"/>
+          <path d="M276.6 270.4 Q278.4 272.3 280.8 273.0" stroke="oklch(26% 0.021 42)" stroke-width="0.55" opacity="0.22" fill="none" stroke-linecap="round"/>
+          <path d="M264.9 243.6 Q268.0 238.7 268.2 232.9" stroke="oklch(26% 0.021 42)" stroke-width="0.45" opacity="0.23" fill="none" stroke-linecap="round"/>
+          <path d="M241.5 264.0 Q237.3 266.8 232.2 266.1" stroke="oklch(26% 0.021 42)" stroke-width="0.40" opacity="0.17" fill="none" stroke-linecap="round"/>
+          <path d="M253.0 242.0 Q251.6 239.6 251.0 236.8" stroke="oklch(26% 0.021 42)" stroke-width="0.63" opacity="0.16" fill="none" stroke-linecap="round"/>
+          <path d="M270.0 246.1 Q275.4 242.1 277.5 235.8" stroke="oklch(26% 0.021 42)" stroke-width="0.41" opacity="0.17" fill="none" stroke-linecap="round"/>
+          <path d="M250.8 246.3 Q250.0 240.6 244.9 237.7" stroke="oklch(26% 0.021 42)" stroke-width="0.53" opacity="0.14" fill="none" stroke-linecap="round"/>
+          <path d="M279.5 263.1 Q284.1 262.3 288.2 264.5" stroke="oklch(26% 0.021 42)" stroke-width="0.56" opacity="0.18" fill="none" stroke-linecap="round"/>
+          <path d="M240.2 260.8 Q238.1 258.1 236.3 261.0" stroke="oklch(26% 0.021 42)" stroke-width="0.52" opacity="0.21" fill="none" stroke-linecap="round"/>
+          <path d="M254.4 241.0 Q250.5 237.6 251.9 232.6" stroke="oklch(26% 0.021 42)" stroke-width="0.51" opacity="0.25" fill="none" stroke-linecap="round"/>
+          <path d="M259.8 243.9 Q261.5 240.1 259.7 236.3" stroke="oklch(26% 0.021 42)" stroke-width="0.41" opacity="0.19" fill="none" stroke-linecap="round"/>
+          <path d="M265.2 242.3 Q265.3 238.4 267.3 235.1" stroke="oklch(26% 0.021 42)" stroke-width="0.47" opacity="0.19" fill="none" stroke-linecap="round"/>
+          <path d="M241.5 258.4 Q239.1 255.9 236.4 257.9" stroke="oklch(26% 0.021 42)" stroke-width="0.63" opacity="0.16" fill="none" stroke-linecap="round"/>
+          <path d="M275.9 261.6 Q283.1 263.9 290.5 263.0" stroke="oklch(26% 0.021 42)" stroke-width="0.48" opacity="0.19" fill="none" stroke-linecap="round"/>
+          <path d="M276.1 269.0 Q282.1 270.0 286.1 274.6" stroke="oklch(26% 0.021 42)" stroke-width="0.52" opacity="0.14" fill="none" stroke-linecap="round"/>
+          <path d="M272.0 248.2 Q276.8 244.7 280.4 239.9" stroke="oklch(26% 0.021 42)" stroke-width="0.56" opacity="0.23" fill="none" stroke-linecap="round"/>
+          <path d="M241.3 255.6 Q236.8 253.9 232.0 253.3" stroke="oklch(26% 0.021 42)" stroke-width="0.46" opacity="0.15" fill="none" stroke-linecap="round"/>
+          <path d="M243.3 251.6 Q240.2 250.5 237.4 248.6" stroke="oklch(26% 0.021 42)" stroke-width="0.65" opacity="0.21" fill="none" stroke-linecap="round"/>
+          <path d="M268.1 274.7 Q268.5 279.3 272.2 282.1" stroke="oklch(26% 0.021 42)" stroke-width="0.57" opacity="0.19" fill="none" stroke-linecap="round"/>
+          <path d="M251.9 277.6 Q250.7 283.3 247.1 287.9" stroke="oklch(26% 0.021 42)" stroke-width="0.57" opacity="0.24" fill="none" stroke-linecap="round"/>
+          <path d="M243.0 264.4 Q238.1 262.8 234.6 266.6" stroke="oklch(26% 0.021 42)" stroke-width="0.64" opacity="0.18" fill="none" stroke-linecap="round"/>
+          <path d="M258.1 243.0 Q260.3 238.1 257.1 233.7" stroke="oklch(26% 0.021 42)" stroke-width="0.51" opacity="0.20" fill="none" stroke-linecap="round"/>
+          <path d="M248.2 246.4 Q244.5 243.2 241.8 239.1" stroke="oklch(26% 0.021 42)" stroke-width="0.49" opacity="0.16" fill="none" stroke-linecap="round"/>
+          <path d="M266.8 242.1 Q268.3 240.4 268.3 238.2" stroke="oklch(26% 0.021 42)" stroke-width="0.56" opacity="0.23" fill="none" stroke-linecap="round"/>
+          <path d="M276.6 255.2 Q280.6 256.3 283.4 253.3" stroke="oklch(26% 0.021 42)" stroke-width="0.50" opacity="0.14" fill="none" stroke-linecap="round"/>
+          <path d="M242.5 266.4 Q238.0 266.2 234.6 269.2" stroke="oklch(26% 0.021 42)" stroke-width="0.53" opacity="0.19" fill="none" stroke-linecap="round"/>
+          <path d="M273.8 245.5 Q278.4 244.7 279.0 240.1" stroke="oklch(26% 0.021 42)" stroke-width="0.52" opacity="0.21" fill="none" stroke-linecap="round"/>
+          <path d="M252.1 274.0 Q250.3 279.2 246.8 283.6" stroke="oklch(26% 0.021 42)" stroke-width="0.61" opacity="0.16" fill="none" stroke-linecap="round"/>
+          <path d="M247.1 246.7 Q245.5 243.3 242.1 241.6" stroke="oklch(26% 0.021 42)" stroke-width="0.59" opacity="0.24" fill="none" stroke-linecap="round"/>
+          <path d="M271.5 248.1 Q274.5 244.3 278.3 241.1" stroke="oklch(26% 0.021 42)" stroke-width="0.50" opacity="0.17" fill="none" stroke-linecap="round"/>
+          <path d="M277.2 252.0 Q279.1 249.5 282.3 249.7" stroke="oklch(26% 0.021 42)" stroke-width="0.57" opacity="0.22" fill="none" stroke-linecap="round"/>
+          <path d="M279.5 260.0 L279.0 262.7 L279.0 265.4 L277.4 267.8 L276.2 270.1 L275.4 272.9 L273.2 274.6 L270.9 276.1 L268.4 277.3 L265.9 278.2 L263.4 279.2 L260.7 279.5 L257.9 280.1 L255.3 279.0 L252.7 278.0 L250.2 277.0 L248.1 275.2 L245.9 273.6 L244.3 271.4 L243.0 269.0 L241.7 266.6 L240.5 264.1 L241.0 261.3 L240.3 258.6 L240.3 255.8 L241.5 253.3 L242.7 250.8 L243.8 248.2 L245.7 246.2 L248.1 244.7 L250.5 243.6 L252.5 241.3 L255.3 241.0 L258.0 240.7 L260.7 241.1 L263.3 241.1 L266.2 241.1 L268.7 242.3 L270.7 244.1 L273.3 245.2 L275.3 247.2 L276.2 249.9 L278.0 252.0 L278.6 254.7 L279.3 257.3 L279.5 260.0" fill="none" stroke="oklch(26% 0.021 42)" stroke-width="0.7" opacity="0.35" stroke-linejoin="round"/>
+          <path d="M297.3 260.0 L297.3 265.2 L295.6 270.2 L294.9 275.6 L291.5 279.7 L289.3 284.6 L284.7 287.4 L281.0 291.1 L276.3 293.5 L271.8 296.4 L266.5 296.8 L261.3 298.3 L256.1 297.2 L251.0 296.0 L246.0 294.7 L241.5 292.0 L236.9 289.6 L233.3 285.8 L229.9 281.9 L227.2 277.4 L224.9 272.8 L222.5 268.0 L222.4 262.6 L222.3 257.4 L222.8 252.1 L224.8 247.2 L226.6 242.2 L230.1 238.3 L232.9 233.9 L236.6 230.0 L241.3 227.6 L246.1 225.6 L250.8 222.9 L256.0 222.2 L261.3 222.7 L266.4 223.5 L271.6 224.4 L276.5 226.2 L280.8 229.1 L285.5 231.7 L288.9 235.8 L292.3 239.8 L294.4 244.7 L296.7 249.5 L297.4 254.7 L297.3 260.0" fill="none" stroke="oklch(26% 0.021 42)" stroke-width="1.0" opacity="0.4" stroke-linejoin="round"/>
+          <path class="center-ring" d="M272.2 260.0 L271.9 261.7 L271.9 263.4 L271.5 265.1 L270.4 266.5 L269.4 267.8 L268.1 269.0 L267.2 270.7 L265.3 270.9 L263.8 271.7 L262.1 271.9 L260.4 272.4 L258.7 272.6 L256.9 272.4 L255.3 271.6 L253.6 271.1 L252.5 269.6 L250.9 268.7 L250.1 267.2 L249.3 265.7 L248.4 264.2 L248.2 262.5 L247.5 260.9 L248.0 259.2 L247.7 257.4 L248.1 255.7 L249.5 254.4 L250.1 252.8 L251.0 251.3 L252.3 250.1 L253.7 249.2 L255.5 249.0 L256.9 247.7 L258.7 248.0 L260.4 248.1 L262.2 247.5 L263.8 248.3 L265.3 249.1 L266.7 250.0 L268.2 250.9 L269.6 251.9 L270.1 253.7 L271.3 254.9 L271.9 256.6 L272.6 258.2 L272.2 260.0"/>
+        </g>
+      </g>
+
+      <!-- warp threads dropping from the outer circle into a loom -->
+      <g>
+        <line class="warp-thread"     x1="180" y1="376" x2="180" y2="630" style="animation-delay: calc(var(--intro-offset) + 4400ms)" />
+        <line class="warp-thread red" x1="204" y1="389" x2="204" y2="630" style="animation-delay: calc(var(--intro-offset) + 4480ms)" />
+        <line class="warp-thread"     x1="228" y1="397" x2="228" y2="630" style="animation-delay: calc(var(--intro-offset) + 4560ms)" />
+        <line class="warp-thread"     x1="252" y1="401" x2="252" y2="630" style="animation-delay: calc(var(--intro-offset) + 4640ms)" />
+        <line class="warp-thread red" x1="276" y1="400" x2="276" y2="630" style="animation-delay: calc(var(--intro-offset) + 4720ms)" />
+        <line class="warp-thread"     x1="300" y1="395" x2="300" y2="630" style="animation-delay: calc(var(--intro-offset) + 4800ms)" />
+        <line class="warp-thread"     x1="324" y1="386" x2="324" y2="630" style="animation-delay: calc(var(--intro-offset) + 4880ms)" />
+        <line class="warp-thread red" x1="348" y1="370" x2="348" y2="630" style="animation-delay: calc(var(--intro-offset) + 4960ms)" />
+      </g>
+
+      <path class="weft" style="animation-delay: calc(var(--intro-offset) + 5100ms)" d="M150 510 C 168 500, 192 520, 210 510 S 252 500, 270 510 S 312 520, 330 510 S 366 500, 384 510" />
+      <path class="weft" style="animation-delay: calc(var(--intro-offset) + 5450ms)" d="M150 560 C 168 570, 192 550, 210 560 S 252 570, 270 560 S 312 550, 330 560 S 366 570, 384 560" />
+    </svg>
+
+    <p class="ritual-caption">
+      The halo of Theyyam, the warp of a Malabar loom, and an eye that stays open for ground truths. <b>Red is shakti</b>: insight, spirit, inner strength. The circle is the universe and nothing at once, and a seeker never stops looking.
+    </p>
+  </div>
+</section>
+
+<div class="ribbon" aria-hidden="true"></div>
+
+<!-- ============ FEATURED WORK ============ -->
+<section class="work" id="work">
+  <div class="work-inner">
+    <div class="work-head">
+      <h2>Selected Work</h2>
+    </div>
+
+    <div class="case-grid">
+
+      <a class="case wide" href="ihx_tpa_ops_.html">
+        <div class="case-img"><img src="ihx-cover.png" alt="IHX Ops Dashboard claims listing screen" /></div>
+        <div class="case-body">
+          <div class="case-tags"><span>B2B SaaS</span><span>WebApp</span><span>Health InsurTech</span></div>
+          <h3>IHX Ops Dashboard</h3>
+          <p class="desc">Restructured the IA of a hospital claims platform used by two user teams from one broken screen. Rebuilt from the ground up.</p>
+          <div class="case-metrics">
+            <span><b>67%</b><i>Revenue increase</i></span>
+            <span><b>51%</b><i>Task time cut</i></span>
+            <span><b>3</b><i>Enterprise contracts</i></span>
+          </div>
+          <span class="go">Pull the thread <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </div>
       </a>
-      <a href="mailto:shabnam.rs.work@gmail.com" class="contact-item">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="2" stroke="#857F78" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="#857F78" stroke-width="1.2" stroke-linecap="round"/></svg>
-        shabnam.rs.work@gmail.com
+
+      <a class="case" href="wisewomen-case-study.html">
+        <div class="case-img"><img src="wisewoman-cover.jpg" alt="WiseWoman cycle-aware planner app screen" /></div>
+        <div class="case-body">
+          <div class="case-tags"><span>B2C</span><span>FemTech</span><span>AI</span><span>MVP</span></div>
+          <h3>WiseWoman</h3>
+          <p class="desc">A cycle-aware AI smart planner, designed and built end to end in five days: cycle-aware scheduling, voice task capture, hybrid AI architecture.</p>
+          <div class="case-metrics">
+            <span><b>5</b><i>Days to ship</i></span>
+            <span><b>$0</b><i>Cost to users</i></span>
+            <span><b>Live</b><i>Real users</i></span>
+          </div>
+          <span class="go">Pull the thread <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </div>
       </a>
-    </div>
-    <div class="contact-socials">
-      <a href="https://dribbble.com/ShabnamRaghavan" target="_blank" class="social-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#857F78" stroke-width="1.5"/><path d="M2 12c3.5 0 7.5-1.5 10-5m2 15c-.5-3.5-2-7-5-10m10 5c-3 .5-6.5.5-9-1" stroke="#857F78" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </a>
-      <a href="https://www.linkedin.com/in/shabnam-raghavan-b89798a5" target="_blank" class="social-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" stroke="#857F78" stroke-width="1.5"/><path d="M7 10v7M7 7v.5" stroke="#857F78" stroke-width="1.5" stroke-linecap="round"/><path d="M11 17v-4a3 3 0 016 0v4M11 10v7" stroke="#857F78" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </a>
+
+      <div class="case case-soon">
+        <div class="case-img soon"><span>Coming soon</span></div>
+        <div class="case-body">
+          <div class="case-tags"><span>AI Product</span><span>Health InsurTech</span></div>
+          <h3>AI Design Developments at IHX</h3>
+          <p class="desc">Ongoing AI-native design work across the IHX platform, from claim reconciliation to conversational pre-auth. Write-up in progress.</p>
+          <div class="case-metrics">
+            <span><b>&mdash;</b><i>In progress</i></span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+</section>
+
+<!-- ============ PEER REVIEW ============ -->
+<section class="peers" id="peers">
+  <h2>What peers say</h2>
+  <div class="peer-grid">
+
+    <figure class="quote lead">
+      <span class="mark">&ldquo;</span>
+      <blockquote>Shabnam consistently brought <b>clarity and simplicity</b> to complex workflows, making our platform much more intuitive for hospitals and payers. Her attention to detail and ability to translate ideas into <b>clean user journeys</b> made a big difference.</blockquote>
+      <figcaption><b>Aditya Pathak</b>Director of Product, IHX</figcaption>
+    </figure>
+
+    <figure class="quote">
+      <span class="mark">&ldquo;</span>
+      <blockquote>Shabnam consistently delivered designs that were not just polished but also <b>practical</b>. She has a good eye for detail, keeps usability front and center, and pushes for experiences that feel <b>smooth and intuitive</b>.</blockquote>
+      <figcaption><b>Manas Malik</b>Tech Lead, IHX</figcaption>
+    </figure>
+
+    <figure class="quote">
+      <span class="mark">&ldquo;</span>
+      <blockquote>Her approach was highly <b>data-driven</b>, supported by strong market research. The impact was clear: her work drove <b>real user engagement</b>, simplified adoption, and added measurable value to our products.</blockquote>
+      <figcaption><b>Aswini Puppala</b>Product Manager, IHX</figcaption>
+    </figure>
+
   </div>
+</section>
+
+<div class="resume-cta">
+  <a class="link" href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Download resume &darr;</a>
 </div>
+
+<!-- ============ FOOTER / CONTACT ============ -->
+<footer id="contact">
+  <div class="foot-inner">
+    <div class="foot-head">
+      <div>
+        <p class="foot-quote">Still exploring. Still building.</p>
+        <p class="foot-tagline">Let&rsquo;s talk to build something great.</p>
+      </div>
+      <div class="foot-links">
+        <a class="email" href="mailto:shabnam.rs.work@gmail.com">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          shabnam.rs.work@gmail.com
+        </a>
+        <a class="phone" href="tel:+917022665338">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3a1 1 0 011-1h2.5l1 3-1.5 1.5a9 9 0 004.5 4.5L11 9.5l3 1V13a1 1 0 01-1 1A12 12 0 012 3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          +91 70226 65338
+        </a>
+      </div>
+    </div>
+
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/shabnam-raghavan-b89798a5" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#" rel="noopener">GitHub</a>
+      <a href="https://dribbble.com/ShabnamRaghavan" target="_blank" rel="noopener">Dribbble</a>
+      <a href="#" rel="noopener">Medium</a>
+    </div>
+
+    <div class="foot-divider" aria-hidden="true"></div>
+
+    <div class="foot-contact-row">
+      <p>Built by Shabnam Raghavan + Claude Code</p>
+      <p>Bangalore, India</p>
+    </div>
+  </div>
+</footer>
 
 <script>
-// ── INTRO ──
-(function() {
-  var intro = document.getElementById('intro');
-  var l1 = document.getElementById('iLine1');
-  var l2 = document.getElementById('iLine2');
-  var l3 = document.getElementById('iLine3');
-  var curtainTop = document.getElementById('curtainTop');
-  var curtainBottom = document.getElementById('curtainBottom');
+(function () {
+  var KEY = "shab-intro-seen";
+  var intro = document.getElementById("intro");
 
-  // Determine navigation type. We want the intro to run on the first visit
-  // or when the user explicitly reloads the page, but skip it when arriving
-  // via internal navigation (e.g., clicking back from a case study).
-  var navType = 'navigate';
+  function skip() {
+    document.documentElement.style.setProperty("--intro-offset", "0ms");
+    if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+  }
+
   try {
-    if (performance.getEntriesByType && performance.getEntriesByType('navigation').length) {
-      navType = performance.getEntriesByType('navigation')[0].type || 'navigate';
-    } else if (performance.navigation) {
-      navType = (performance.navigation.type === 1) ? 'reload' : (performance.navigation.type === 2 ? 'back_forward' : 'navigate');
+    if (sessionStorage.getItem(KEY)) {
+      skip();
+      return;
     }
-  } catch (e) { /* ignore */ }
+    sessionStorage.setItem(KEY, "1");
+  } catch (e) { /* storage unavailable; play intro anyway */ }
 
-  var isReload = (navType === 'reload');
-
-  // If intro has been seen and this is not a reload, skip animation.
-  if (!isReload && localStorage.getItem('introSeen') === 'true') {
-    if (intro) intro.style.display = 'none';
-    if (curtainTop) curtainTop.style.display = 'none';
-    if (curtainBottom) curtainBottom.style.display = 'none';
-    return;
+  if (intro) {
+    intro.addEventListener("click", skip);
+    setTimeout(function () {
+      if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+    }, 5700);
   }
-
-  function makeWords(el, words) {
-    el.innerHTML = '';
-    words.forEach(function(w) {
-      var span = document.createElement('span');
-      var cls = 'iw';
-      if (w.orange) cls += ' orange';
-      if (w.nogap) cls += ' nogap';
-      span.className = cls;
-      span.textContent = w.text;
-      el.appendChild(span);
-    });
-    void el.offsetHeight;
-  }
-
-  function showWords(el, baseDelay) {
-    var spans = el.querySelectorAll('.iw');
-    spans.forEach(function(s, i) {
-      setTimeout(function() {
-        requestAnimationFrame(function() { s.classList.add('show'); });
-      }, baseDelay + i * 240);
-    });
-  }
-
-  function exitLine(el, cb) {
-    el.style.transition = 'transform 0.55s cubic-bezier(0.76,0,0.24,1), opacity 0.45s ease';
-    el.style.transform = 'translateY(-28px)';
-    el.style.opacity = '0';
-    setTimeout(function() {
-      el.style.transition = '';
-      el.style.transform = '';
-      el.style.opacity = '';
-      el.innerHTML = '';
-      if (cb) cb();
-    }, 600);
-  }
-
-  function exitAll(cb) {
-    // Fade out the text
-    [l1, l2, l3].forEach(function(el, i) {
-      el.style.transition = 'transform 0.45s cubic-bezier(0.76,0,0.24,1), opacity 0.35s ease';
-      el.style.transitionDelay = (i * 0.06) + 's';
-      el.style.transform = 'translateY(-28px)';
-      el.style.opacity = '0';
-    });
-    setTimeout(function() {
-      // Hide intro overlay
-      if (intro) intro.style.display = 'none';
-      // Split curtain open
-      if (curtainTop) curtainTop.classList.add('open');
-      if (curtainBottom) curtainBottom.classList.add('open');
-      // Remove curtains after animation
-      setTimeout(function() {
-        if (curtainTop) curtainTop.style.display = 'none';
-        if (curtainBottom) curtainBottom.style.display = 'none';
-        // Mark intro as seen so internal navigations don't replay it.
-        try { localStorage.setItem('introSeen', 'true'); } catch (e) {}
-        if (cb) cb();
-      }, 1100);
-    }, 500);
-  }
-
-  // Phase 1 — Hello 👋
-  // Mark intro as seen immediately so returning via back/forward doesn't replay it
-  try { localStorage.setItem('introSeen', 'true'); } catch (e) {}
-
-  setTimeout(function() {
-    makeWords(l1, [{text:'Hello'}, {text:'👋'}]);
-    showWords(l1, 60);
-
-    setTimeout(function() {
-      exitLine(l1, function() {
-
-        // Phase 2 — Welcome to Shabnam Raghavan's Portfolio
-        makeWords(l1, [
-          {text:'Welcome'}, {text:'to'}
-        ]);
-        makeWords(l2, [
-          {text:'Shabnam', orange:true}, {text:'Raghavan\'s', orange:true}, {text:'Portfolio'}
-        ]);
-        showWords(l1, 60);
-        setTimeout(function() { showWords(l2, 60); }, 300);
-
-        setTimeout(function() { exitAll(); }, 3000);
-
-      });
-    }, 1800);
-  }, 300);
-})();
-
-// ── SCROLL WORD ──
-(function() {
-  var track = document.getElementById('scrollTrack');
-  var total = 3;
-  var idx = 0;
-  setInterval(function() {
-    idx++;
-    track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
-    track.style.transform = 'translateY(-' + (idx * 1.2) + 'em)';
-    if (idx >= total) {
-      setTimeout(function() {
-        track.style.transition = 'none';
-        track.style.transform = 'translateY(0)';
-        idx = 0;
-      }, 550);
-    }
-  }, 2000);
-})();
-
-// ── CARD REEL ──
-(function() {
-  var cards = document.querySelectorAll('.reel-card');
-  var dots = document.querySelectorAll('.reel-dot');
-  var current = 0;
-  setInterval(function() {
-    cards[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (current + 1) % cards.length;
-    cards[current].classList.add('active');
-    dots[current].classList.add('active');
-  }, 1800);
-})();
-
-// ── ATOMIC CANVAS ──
-(function() {
-  var canvas = document.getElementById('atomCanvas');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
-  resize();
-  window.addEventListener('resize', resize);
-  var dots = [];
-  var sizes = [6,8,10,14,18,22,28];
-  for (var i = 0; i < 12; i++) {
-    var r = sizes[Math.floor(Math.random() * sizes.length)];
-    dots.push({
-      x: Math.random()*(canvas.width-r*2)+r, y: Math.random()*(canvas.height-r*2)+r,
-      r: r, vx: (Math.random()-0.5)*1.2, vy: (Math.random()-0.5)*1.2,
-      opacity: 0.5+Math.random()*0.45
-    });
-  }
-  function animate() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    dots.forEach(function(d) {
-      d.x += d.vx; d.y += d.vy;
-      if (d.x-d.r < 0) { d.x=d.r; d.vx=Math.abs(d.vx); }
-      if (d.x+d.r > canvas.width) { d.x=canvas.width-d.r; d.vx=-Math.abs(d.vx); }
-      if (d.y-d.r < 0) { d.y=d.r; d.vy=Math.abs(d.vy); }
-      if (d.y+d.r > canvas.height) { d.y=canvas.height-d.r; d.vy=-Math.abs(d.vy); }
-      ctx.beginPath();
-      ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
-      ctx.fillStyle = 'rgba(232,67,10,'+d.opacity+')';
-      ctx.fill();
-    });
-    requestAnimationFrame(animate);
-  }
-  animate();
 })();
 </script>
+
 </body>
 </html>

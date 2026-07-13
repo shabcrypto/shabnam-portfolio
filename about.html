@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — Shabnam Raghavan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: oklch(96.2% 0.016 78);
+    --paper-deep: oklch(93.5% 0.022 74);
+    --ink: oklch(26% 0.021 42);
+    --ink-soft: oklch(42% 0.02 45);
+    --coal: oklch(18% 0.012 40);
+    --coal-soft: oklch(72% 0.015 60);
+    --vermillion: oklch(52% 0.185 33);
+    --vermillion-deep: oklch(44% 0.17 31);
+    --turmeric: oklch(72% 0.13 82);
+
+    --space-xs: 8px;  --space-sm: 12px;  --space-md: 24px;
+    --space-lg: 48px; --space-xl: 96px;
+
+    --font-display: "Gloock", serif;
+    --font-body: "Alegreya Sans", sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a:focus-visible { outline: 2px solid var(--vermillion); outline-offset: 4px; border-radius: 2px; }
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(16px, 2.5vw, 28px) clamp(24px, 5vw, 60px);
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .wordmark { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .wordmark .name { font-family: var(--font-display); text-transform: none; letter-spacing: 0; font-size: 1.2rem; }
+  .topbar nav { display: flex; gap: var(--space-md); }
+  .topbar nav a {
+    position: relative;
+    color: var(--ink-soft); text-decoration: none; padding: 8px 0;
+    transition: color 160ms ease;
+  }
+  .topbar nav a::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 8px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .topbar nav a:hover { color: var(--vermillion-deep); }
+  .topbar nav a:hover::after { transform: scaleX(1); }
+
+  /* ============ ABOUT ============ */
+  .about {
+    max-width: 1200px; margin: 0 auto;
+    padding: var(--space-lg) clamp(24px, 5vw, 60px) var(--space-xl);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: var(--space-sm);
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--vermillion-deep);
+    margin-bottom: var(--space-md);
+  }
+  .eyebrow::before { content: ""; width: 40px; height: 1px; background: var(--vermillion); }
+
+  .about h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.14;
+    max-width: 16ch;
+    margin-bottom: var(--space-lg);
+  }
+  .about h1 em { color: var(--vermillion); font-style: italic; }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .about-portrait {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 1px solid oklch(26% 0.021 42 / 0.14);
+  }
+  .about-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .about-copy p {
+    font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+    line-height: 1.75;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin-bottom: var(--space-md);
+  }
+  .about-copy p strong { color: var(--ink); font-weight: 700; }
+  .about-copy p em { color: var(--vermillion-deep); font-style: italic; font-weight: 500; }
+
+  .about-traits {
+    margin-top: var(--space-lg);
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    color: var(--ink);
+  }
+
+  .about-tags { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-md); }
+  .about-tags span {
+    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft);
+    border: 1px solid oklch(26% 0.021 42 / 0.2); border-radius: 999px; padding: 6px 16px;
+  }
+
+  .ribbon {
+    height: 14px;
+    background: repeating-linear-gradient(90deg,
+      var(--vermillion) 0 28px,
+      var(--turmeric) 28px 36px,
+      var(--ink) 36px 40px,
+      var(--turmeric) 40px 48px);
+  }
+
+  /* ============ FOOTER / CONTACT ============ */
+  footer { background: var(--coal); color: var(--paper); }
+  .foot-inner { max-width: 1200px; margin: 0 auto; padding: var(--space-xl) 60px var(--space-lg); display: grid; gap: var(--space-lg); }
+  .foot-quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.6vw, 2.1rem);
+    line-height: 1.25;
+  }
+  .foot-tagline {
+    margin-top: -8px;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    color: var(--coal-soft);
+  }
+  .foot-cta { display: flex; align-items: center; gap: var(--space-md); flex-wrap: wrap; }
+  .foot-cta .email, .foot-cta .phone {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 2vw, 1.5rem);
+    color: var(--paper); text-decoration: none;
+    border-bottom: 2px solid var(--turmeric); padding-bottom: 4px;
+    transition: color 160ms ease;
+  }
+  .foot-cta .email svg, .foot-cta .phone svg { flex-shrink: 0; }
+  .foot-cta .email:hover, .foot-cta .phone:hover { color: var(--turmeric); }
+  .foot-cta .btn {
+    font-weight: 700; font-size: 1rem; letter-spacing: 0.02em;
+    text-decoration: none; color: var(--paper);
+    background: var(--vermillion);
+    padding: 16px 32px; border-radius: 999px;
+    transition: background 160ms ease, transform 160ms ease;
+    display: inline-block;
+  }
+  .foot-cta .btn:hover { background: var(--vermillion-deep); transform: translateY(-2px); }
+  .foot-meta {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: var(--space-lg); flex-wrap: wrap;
+    border-top: 1px solid oklch(96% 0.016 78 / 0.18);
+    padding-top: var(--space-md);
+  }
+  .socials { display: flex; gap: var(--space-md); flex-wrap: wrap; }
+  .socials a {
+    color: var(--coal-soft); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase;
+    transition: color 160ms ease;
+  }
+  .socials a::after { content: "\2197"; margin-left: 6px; color: var(--turmeric); }
+  .socials a:hover { color: var(--paper); }
+  .foot-contact { font-size: 0.85rem; letter-spacing: 0.1em; color: var(--coal-soft); text-align: right; }
+
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-portrait { max-width: 420px; }
+    .topbar nav { display: none; }
+    .foot-inner { padding-left: 24px; padding-right: 24px; }
+    .foot-contact { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
+    <span class="name">Shabnam Raghavan</span>
+  </a>
+  <nav aria-label="Primary">
+    <a href="index.html#work">Work</a>
+    <a href="about.html">About me</a>
+    <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
+    <a href="#contact">Contact me</a>
+  </nav>
+</header>
+
+<section class="about">
+  <p class="eyebrow">The longer story</p>
+  <h1>A <em>seeker</em>, from the Malabar Coast.</h1>
+
+  <div class="about-grid">
+    <div class="about-portrait">
+      <img src="about_me_image.png" alt="Shabnam Raghavan" />
+    </div>
+
+    <div class="about-copy">
+      <p>Shabnam grew up on the Malabar Coast of Kerala, the land of lords and looms: <strong>Theyyam</strong> ritual performance and handloom weaving. Where she is from, craft and devotion share the same word, and that idea has shaped how she works ever since.</p>
+
+      <p>She does the research herself, sits with users and stakeholders until the <strong>ground truths</strong> surface, then designs and builds <strong>end to end</strong>. Six years in design, three plus in high-stakes health InsurTech, shipping B2B SaaS used by <strong>21,000+ hospitals</strong> across India, the GCC, and Kenya. At IHX, colleagues have a shorthand for the standard: <em>&ldquo;do something Shabnam to it.&rdquo;</em></p>
+
+      <p>She calls herself a collector of memories, conversations, and experiences. She defines herself as a <strong>seeker</strong>: she finds purpose in whatever she does, and believes learning is a continuous process and a career is a journey.</p>
+
+      <p class="about-traits">Ambivert. Objective. Inquisitive. Allergic to generic.</p>
+
+      <div class="about-tags">
+        <span>Reading</span>
+        <span>Travel</span>
+        <span>Art &amp; Culture</span>
+        <span>Human Behaviour</span>
+        <span>Techno &amp; Afro House</span>
+        <span>Socialising</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ribbon"></div>
+
+<footer id="contact">
+  <div class="foot-inner">
+    <p class="foot-quote">Still exploring. Still building.</p>
+    <p class="foot-tagline">Let&rsquo;s talk to build something great.</p>
+
+    <div class="foot-cta">
+      <a class="email" href="mailto:shabnam.rs.work@gmail.com">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        shabnam.rs.work@gmail.com
+      </a>
+      <a class="phone" href="tel:+917022665338">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3a1 1 0 011-1h2.5l1 3-1.5 1.5a9 9 0 004.5 4.5L11 9.5l3 1V13a1 1 0 01-1 1A12 12 0 012 3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        +91 70226 65338
+      </a>
+      <a class="btn" href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Download resume</a>
+    </div>
+
+    <div class="foot-meta">
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/shabnam-raghavan-b89798a5" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#" rel="noopener">GitHub</a>
+        <a href="https://dribbble.com/ShabnamRaghavan" target="_blank" rel="noopener">Dribbble</a>
+        <a href="#" rel="noopener">Medium</a>
+      </div>
+      <div class="foot-contact">
+        <p>Built by Shabnam Raghavan + Claude Code</p>
+        <p>Bangalore, India</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
