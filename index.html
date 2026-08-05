@@ -151,13 +151,13 @@
       repeating-linear-gradient(to bottom, oklch(26% 0.021 42 / 0.03) 0 1px, transparent 1px 56px);
   }
 
-  .copy { max-width: 62ch; padding-top: var(--space-xl); }
+  .copy { max-width: 62ch; }
 
   .eyebrow {
     display: inline-flex; align-items: center; line-height: 1.3; gap: var(--space-sm);
     font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--vermillion-deep);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
   }
   .eyebrow::before { content: ""; width: 40px; height: 1px; background: var(--vermillion); }
   .eyebrow .plus { color: var(--vermillion); font-weight: 700; }
@@ -183,11 +183,11 @@
   h1 {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(2.7rem, 6.4vw, 5.4rem);
+    font-size: clamp(2.4rem, 5.2vw, 4.4rem);
     line-height: 1.14;
     letter-spacing: -0.01em;
     text-wrap: balance;
-    margin-top: var(--space-sm);
+    margin-top: 0;
     margin-bottom: var(--space-md);
   }
   h1 em { color: var(--vermillion); font-style: italic; position: relative; }
@@ -199,16 +199,15 @@
   }
 
   .lede {
-    margin-top: var(--space-lg);
+    margin-top: var(--space-md);
     font-size: clamp(1.05rem, 1.6vw, 1.22rem);
     line-height: 1.65;
     color: var(--ink-soft);
     max-width: 54ch;
   }
   .lede strong { color: var(--ink); font-weight: 700; }
-  .lede .spoken { color: var(--vermillion-deep); font-style: italic; font-weight: 500; }
 
-  .actions { display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-lg); flex-wrap: wrap; }
+  .actions { display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-md); flex-wrap: wrap; }
   .btn {
     position: relative;
     font-weight: 700; font-size: 1rem; letter-spacing: 0.02em;
@@ -250,8 +249,8 @@
   .link:hover::after { transform: scaleX(1); }
 
   .provenance {
-    margin-top: var(--space-xl);
-    display: flex; gap: var(--space-lg); flex-wrap: wrap;
+    margin-top: 54px;
+    display: flex; gap: var(--space-md); flex-wrap: wrap;
     font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--ink-soft);
   }
@@ -270,7 +269,7 @@
     min-height: 540px;
     gap: var(--space-md);
   }
-  .ritual svg.scene { width: 100%; height: auto; max-width: 520px; overflow: visible; }
+  .ritual svg.scene { width: 100%; height: auto; max-width: 416px; overflow: visible; }
 
   .petal {
     transform-origin: 260px 260px;
@@ -354,7 +353,7 @@
     font-size: 0.82rem; line-height: 1.6; letter-spacing: 0.04em;
     color: var(--ink-soft); text-align: center; font-style: italic;
     opacity: 0;
-    animation: rise 700ms cubic-bezier(0.22,1,0.36,1) calc(var(--intro-offset) + 5800ms) forwards;
+    animation: rise 700ms cubic-bezier(0.22,1,0.36,1) calc(var(--intro-offset) + 4800ms) forwards;
   }
   .ritual-caption b { color: var(--vermillion-deep); font-weight: 700; }
 
@@ -362,7 +361,7 @@
     font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--ink-soft); font-style: normal;
     opacity: 0;
-    animation: rise 700ms cubic-bezier(0.22,1,0.36,1) calc(var(--intro-offset) + 5950ms) forwards;
+    animation: rise 700ms cubic-bezier(0.22,1,0.36,1) calc(var(--intro-offset) + 4950ms) forwards;
   }
   .ritual-place::before { content: "\25CF"; color: var(--vermillion); font-size: 0.6rem; margin-right: 10px; vertical-align: 2px; }
 
@@ -550,8 +549,8 @@
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; padding-top: 110px; }
     .copy { padding-top: var(--space-md); }
-    .ritual { min-height: 360px; order: -1; margin-top: var(--space-lg); }
-    .ritual svg.scene { max-width: 340px; }
+    .ritual { min-height: 360px; margin-top: var(--space-lg); }
+    .ritual svg.scene { max-width: 272px; }
     .topbar nav { display: none; }
     .case-grid, .peer-grid { grid-template-columns: 1fr; }
     .case.wide { flex-direction: column; }
@@ -608,7 +607,7 @@
     <p class="ritual-place">Bangalore, via the Malabar Coast</p>
 
     <p class="lede">
-      I do the research myself, sit with users and stakeholders until the <strong>ground truths</strong> surface, then design and build <strong>end to end</strong>. Six years in design, 3+ in high-stakes health InsurTech, shipping B2B SaaS used by <strong>21,000+ hospitals</strong> across India, the GCC, and Kenya. At IHX, colleagues have a shorthand for the standard: <span class="spoken">&ldquo;do something Shabnam to it.&rdquo;</span>
+      I notice what others walk past: the small friction, the unspoken pattern, the system behind the screen. I build to learn, not to impress, and I hold my work to <strong>evidence over applause</strong>. Depth is my default;
     </p>
 
     <div class="actions">
@@ -617,9 +616,9 @@
     </div>
 
     <div class="provenance">
-      <span><b>6 yrs</b> in design</span>
-      <span><b>21,000+</b> hospitals served</span>
       <span><b>3+ yrs</b> high-stakes InsurTech</span>
+      <span><b>3 core</b> products launched</span>
+      <span><b>4 AI enabled</b> workflows shipped</span>
     </div>
   </div>
 
@@ -982,18 +981,18 @@
 
       <!-- warp threads dropping from the outer circle into a loom -->
       <g>
-        <line class="warp-thread"     x1="180" y1="376" x2="180" y2="630" style="animation-delay: calc(var(--intro-offset) + 4400ms)" />
-        <line class="warp-thread red" x1="204" y1="389" x2="204" y2="630" style="animation-delay: calc(var(--intro-offset) + 4480ms)" />
-        <line class="warp-thread"     x1="228" y1="397" x2="228" y2="630" style="animation-delay: calc(var(--intro-offset) + 4560ms)" />
-        <line class="warp-thread"     x1="252" y1="401" x2="252" y2="630" style="animation-delay: calc(var(--intro-offset) + 4640ms)" />
-        <line class="warp-thread red" x1="276" y1="400" x2="276" y2="630" style="animation-delay: calc(var(--intro-offset) + 4720ms)" />
-        <line class="warp-thread"     x1="300" y1="395" x2="300" y2="630" style="animation-delay: calc(var(--intro-offset) + 4800ms)" />
-        <line class="warp-thread"     x1="324" y1="386" x2="324" y2="630" style="animation-delay: calc(var(--intro-offset) + 4880ms)" />
-        <line class="warp-thread red" x1="348" y1="370" x2="348" y2="630" style="animation-delay: calc(var(--intro-offset) + 4960ms)" />
+        <line class="warp-thread"     x1="180" y1="376" x2="180" y2="630" style="animation-delay: calc(var(--intro-offset) + 3400ms)" />
+        <line class="warp-thread red" x1="204" y1="389" x2="204" y2="630" style="animation-delay: calc(var(--intro-offset) + 3480ms)" />
+        <line class="warp-thread"     x1="228" y1="397" x2="228" y2="630" style="animation-delay: calc(var(--intro-offset) + 3560ms)" />
+        <line class="warp-thread"     x1="252" y1="401" x2="252" y2="630" style="animation-delay: calc(var(--intro-offset) + 3640ms)" />
+        <line class="warp-thread red" x1="276" y1="400" x2="276" y2="630" style="animation-delay: calc(var(--intro-offset) + 3720ms)" />
+        <line class="warp-thread"     x1="300" y1="395" x2="300" y2="630" style="animation-delay: calc(var(--intro-offset) + 3800ms)" />
+        <line class="warp-thread"     x1="324" y1="386" x2="324" y2="630" style="animation-delay: calc(var(--intro-offset) + 3880ms)" />
+        <line class="warp-thread red" x1="348" y1="370" x2="348" y2="630" style="animation-delay: calc(var(--intro-offset) + 3960ms)" />
       </g>
 
-      <path class="weft" style="animation-delay: calc(var(--intro-offset) + 5100ms)" d="M150 510 C 168 500, 192 520, 210 510 S 252 500, 270 510 S 312 520, 330 510 S 366 500, 384 510" />
-      <path class="weft" style="animation-delay: calc(var(--intro-offset) + 5450ms)" d="M150 560 C 168 570, 192 550, 210 560 S 252 570, 270 560 S 312 550, 330 560 S 366 570, 384 560" />
+      <path class="weft" style="animation-delay: calc(var(--intro-offset) + 4100ms)" d="M150 510 C 168 500, 192 520, 210 510 S 252 500, 270 510 S 312 520, 330 510 S 366 500, 384 510" />
+      <path class="weft" style="animation-delay: calc(var(--intro-offset) + 4450ms)" d="M150 560 C 168 570, 192 550, 210 560 S 252 570, 270 560 S 312 550, 330 560 S 366 570, 384 560" />
     </svg>
 
     <p class="ritual-caption">
