@@ -454,11 +454,18 @@
   @keyframes drop { from { opacity: 0; transform: translateY(-16px); } to { opacity: 0.55; transform: none; } }
   @keyframes draw { to { stroke-dashoffset: 0; } }
 
-  .opening-main > *, .opening-meta > * { opacity: 0; animation: rise 700ms cubic-bezier(0.22,1,0.36,1) forwards; }
-  .opening .eyebrow       { animation-delay: 100ms; }
-  .opening .opening-h     { animation-delay: 220ms; }
-  .opening .provenance    { animation-delay: 340ms; }
-  .opening .ritual-place  { animation-delay: 460ms; }
+  /* The intro sits below the fold, so a load-time animation would finish unseen. It waits for
+     .in, added the first time the section scrolls into view. Gated on .js so that without
+     scripting the copy is simply visible rather than stuck at zero opacity. */
+  .js .opening-main > *, .js .opening-meta > * { opacity: 0; }
+  .opening.in .opening-main > *,
+  .opening.in .opening-meta > * { animation: rise 700ms cubic-bezier(0.22,1,0.36,1) both; }
+  /* these must match the shorthand's specificity and follow it, or the shorthand resets the
+     delay back to 0 and the whole stagger collapses into one simultaneous fade */
+  .opening.in .eyebrow      { animation-delay: 60ms; }
+  .opening.in .opening-h    { animation-delay: 180ms; }
+  .opening.in .provenance   { animation-delay: 320ms; }
+  .opening.in .ritual-place { animation-delay: 440ms; }
 
   .ribbon {
     height: 14px;
@@ -787,6 +794,7 @@
 </style>
 </head>
 <body>
+<script>document.documentElement.classList.add("js");</script>
 
 <div class="cursor" aria-hidden="true">
   <span class="cursor-dot"></span>
@@ -1435,6 +1443,29 @@
   window.addEventListener("scroll", apply, { passive: true });
   window.addEventListener("resize", function () { barH = bar.offsetHeight; apply(); });
   apply();
+})();
+
+(function () {
+  // Play the intro's rise the first time it scrolls into view, not on load: it lives below
+  // the fold, so a load-time run would be over before anyone got there.
+  var intro = document.querySelector(".opening");
+  if (!intro) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    intro.classList.add("in");
+    return;
+  }
+  // a plain scroll check rather than IntersectionObserver: it resolves synchronously, so the
+  // copy can never end up stranded at zero opacity if a callback never runs
+  function check() {
+    if (intro.getBoundingClientRect().top < window.innerHeight * 0.88) {
+      intro.classList.add("in");
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    }
+  }
+  window.addEventListener("scroll", check, { passive: true });
+  window.addEventListener("resize", check);
+  check();
 })();
 
 (function () {
