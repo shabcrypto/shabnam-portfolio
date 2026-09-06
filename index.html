@@ -369,6 +369,40 @@
      parallax scrub triggers on this element's approach. */
   .after-hero { position: relative; }
   .hero-layers { position: absolute; inset: 0; }
+
+  /* ---- the hero breathes ----
+     GSAP scrubs a transform onto each layer individually, and layers 1 and 3 have to stay
+     locked to identical transforms or the figure ghosts against her own mask. So the breath
+     goes on the container: it moves the whole scene as one piece, which leaves that lock
+     untouched and never fights the scrub, because parent and child transforms compose
+     rather than overwrite.
+
+     Scale only ever goes up from 1, so no edge can ever be exposed. Three loops at 11s, 9s
+     and 7s: the periods share no common factor worth noticing, so they drift in and out of
+     step for well over a minute and the motion never reads as a countable loop. */
+  .hero-layers {
+    will-change: transform;
+    animation: heroBreathe 11s ease-in-out infinite;
+  }
+  @keyframes heroBreathe {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.024); }
+  }
+
+  /* light shifting behind the clouds. soft-light lifts the midtones of the aurora without
+     washing out the linework or touching the blacks in her cloak. */
+  .hero-glow {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    mix-blend-mode: soft-light;
+    background: radial-gradient(58% 46% at 50% 32%,
+                rgba(255, 224, 184, 0.9), rgba(255, 176, 116, 0) 72%);
+    opacity: 0.28;
+    animation: heroGlow 9s ease-in-out infinite;
+  }
+  @keyframes heroGlow {
+    0%, 100% { opacity: 0.12; }
+    50%      { opacity: 0.37; }
+  }
   .hero-layer {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
@@ -403,6 +437,13 @@
     position: absolute; inset: 0; z-index: 2; pointer-events: none;
     opacity: 0.14; mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    /* the third period. Grain that sits perfectly still reads as a texture laid on top;
+       grain that drifts reads as the image itself being alive. */
+    animation: heroGrain 7s ease-in-out infinite;
+  }
+  @keyframes heroGrain {
+    0%, 100% { opacity: 0.10; }
+    50%      { opacity: 0.18; }
   }
 
   /* ============ OPENING: the message, set large ============ */
@@ -1029,6 +1070,7 @@
     </div>
     <img class="hero-layer" data-parallax-layer="3" src="images/hero-front.webp" width="1376" height="768" loading="eager" alt="" aria-hidden="true" />
   </div>
+  <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-grain" aria-hidden="true"></div>
   <a class="scroll-cue" href="#intro" aria-label="Scroll to the introduction">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
