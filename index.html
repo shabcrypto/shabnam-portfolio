@@ -772,7 +772,9 @@
 
   .case-img {
     position: relative;
-    overflow: hidden; aspect-ratio: 16 / 10; background: var(--coconut-deep);
+    /* 16/9 to match the cover videos, which are 1280x720. At 16/10 cover cropped ~5% off
+       each side of them, which was enough to cut a metric card off the ops dashboard. */
+    overflow: hidden; aspect-ratio: 16 / 9; background: var(--coconut-deep);
     border-radius: 14px; border: 1px solid oklch(26% 0.021 42 / 0.1);
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);
     transition: border-color 200ms ease, box-shadow 200ms ease;
@@ -781,8 +783,11 @@
     border-color: oklch(26% 0.021 42 / 0.3);
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.05), 0 20px 44px oklch(26% 0.021 42 / 0.1);
   }
-  .case-img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 400ms cubic-bezier(0.22,1,0.36,1); }
-  .case:hover .case-img img { transform: scale(1.03); }
+  /* covers are a mix of stills and looping video; both fill the same 16/10 box identically */
+  .case-img img,
+  .case-img video { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 400ms cubic-bezier(0.22,1,0.36,1); }
+  .case:hover .case-img img,
+  .case:hover .case-img video { transform: scale(1.03); }
   .case-img.soon { display: flex; align-items: center; justify-content: center; }
   .case-img.soon span {
     font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--asphalt-soft);
@@ -1073,7 +1078,7 @@
     <div class="case-grid">
 
       <a class="case" href="ihx_tpa_ops_.html">
-        <div class="case-img"><img src="ihx-tpa-ops-cover.gif" alt="IHX Ops Dashboard claims listing screen" /></div>
+        <div class="case-img"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
         <div class="case-body">
           <h3>IHX Ops Dashboard</h3>
           <span class="case-metrics">67% revenue &middot; 51% task time</span>
@@ -1089,7 +1094,7 @@
       </a>
 
       <a class="case" href="wisewomen-case-study.html">
-        <div class="case-img"><img src="wisewoman-cover.jpg" alt="WiseWoman cycle-aware planner app screen" /></div>
+        <div class="case-img"><video src="wisewoman-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
         <div class="case-body">
           <h3>WiseWoman</h3>
           <span class="case-metrics">5 days to ship &middot; live</span>
@@ -1749,6 +1754,17 @@
     gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
     gsap.ticker.lagSmoothing(0);
   }
+})();
+
+// The reduced-motion stylesheet kills CSS animation and transition, but a looping <video>
+// is neither, so the case covers would keep playing. Freeze them on their first frame.
+(function () {
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  Array.prototype.forEach.call(document.querySelectorAll(".case-img video"), function (v) {
+    v.loop = false;
+    v.autoplay = false;
+    v.pause();
+  });
 })();
 
 (function () {
