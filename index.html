@@ -42,7 +42,7 @@
     --step-5:  clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
     --step-giant: clamp(3.2rem, 15vw, 15rem); /* sits inside the sky, above the first cloud line */
 
-    --intro-offset: 7450ms; /* the last sentence has cleared and the curtain starts to part */
+    --intro-offset: 8820ms; /* the last sentence has cleared and the curtain starts to part */
 
     --ritual-offset: 9999s; /* parks the illustration until it scrolls into view */
   }
@@ -215,22 +215,23 @@
 
   /* ============ INTRO: a count that becomes three sentences ============ */
   /*
-    White on asphalt, nothing else. A small centred counter ticks 1% to 10%, then slides up
-    out of its own mask, and the three sentences arrive through the same mask in the same
-    spot, so the count does not end and get replaced: it becomes the first sentence.
+    White on asphalt, nothing else. A small centred counter ticks 1% to 10% and wipes up out
+    of its mask, then the three sentences are typed into the same slot on one line, each one
+    deleted before the next is typed, in the display face with a blinking block caret.
 
-    Every reveal is a mask wipe, never a scale or a fade. Each line lives in a clipping box
-    exactly one line tall; the text itself rides from below the box to home, sits dead still,
-    then keeps travelling up and out. Transform only, so it stays cheap.
+    The typing is an absolute timeline: every frame derives the text from elapsed time
+    alone, so nothing accumulates drift and the curtain, which runs on its own CSS timer,
+    cannot fall out of step with the last keystroke. The last sentence is deliberately not
+    deleted; it stays up and the canvas parts over it.
 
       0        the counter wipes up into view, small and centred
       150ms    it ticks 1 to 10 over 1150ms
-      1450ms   the counter starts leaving as sentence one arrives, overlapping on purpose
-      1450ms   sentence one   (2000ms: 560 in, 880 held still, 560 out)
-      3450ms   sentence two
-      5450ms   sentence three
-      7450ms   the canvas parts, top half up / bottom half down  (--intro-offset)
-      8750ms   fully open; the node is dropped at 8950ms
+      1450ms   the counter wipes back out, clearing the slot by 1750ms
+      1750ms   sentence one types in at 36ms/char, holds 650ms, deletes at 20ms/char
+      3800ms   sentence two
+      6242ms   sentence three, which holds 850ms and is NOT deleted
+      8820ms   the canvas parts, top half up / bottom half down  (--intro-offset)
+      10120ms  fully open; the node is dropped at 10320ms
 
     Sits above the top bar (40) and below the custom cursor (100). Click anywhere to skip,
     and it is skipped outright on a second page view in the same session.
@@ -303,16 +304,20 @@
   /* an in-out curve, not the usual ease-out: an ease-out puts nearly all the travel in the
      first fifth and the wipe is over before it registers. This keeps the edge moving across
      the whole 560ms so the reveal is something you actually watch. */
-  .intro-line > span { animation: introWipe 2000ms cubic-bezier(0.5, 0, 0.2, 1) both; }
-  @keyframes introWipe {
-    0%   { transform: translateY(105%); }
-    28%  { transform: translateY(0); }
-    72%  { transform: translateY(0); }
-    100% { transform: translateY(-105%); }
+  /* the sentences are typed, not revealed, so the line holds still and only its text
+     changes. The caret is a solid block that keeps blinking the whole way through. */
+  .intro-caret {
+    display: inline-block;
+    width: 0.07em; height: 0.8em;
+    margin-left: 0.08em;
+    vertical-align: -0.02em;
+    background: var(--coconut);
+    animation: caretBlink 1000ms steps(1, end) infinite;
   }
-  .intro-line.b1 > span { animation-delay: 1450ms; }
-  .intro-line.b2 > span { animation-delay: 3450ms; }
-  .intro-line.b3 > span { animation-delay: 5450ms; }
+  @keyframes caretBlink {
+    0%, 50%      { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
 
   /* the counter: small, centred, in the body face so it reads as a loading label rather
      than as a fourth sentence. Same mask, so it leaves exactly the way they arrive. */
@@ -377,12 +382,12 @@
      untouched and never fights the scrub, because parent and child transforms compose
      rather than overwrite.
 
-     Scale only ever goes up from 1, so no edge can ever be exposed. Three loops at 11s, 9s
-     and 7s: the periods share no common factor worth noticing, so they drift in and out of
-     step for well over a minute and the motion never reads as a countable loop. */
+     Scale only ever goes up from 1, so no edge can ever be exposed. Three loops at 6s, 5s and
+     4s: fast enough that each breath registers, and the periods only realign every 60s so
+     the motion still never reads as a countable loop. */
   .hero-layers {
     will-change: transform;
-    animation: heroBreathe 11s ease-in-out infinite;
+    animation: heroBreathe 6s ease-in-out infinite;
   }
   @keyframes heroBreathe {
     0%, 100% { transform: scale(1); }
@@ -397,7 +402,7 @@
     background: radial-gradient(58% 46% at 50% 32%,
                 rgba(255, 224, 184, 0.9), rgba(255, 176, 116, 0) 72%);
     opacity: 0.28;
-    animation: heroGlow 9s ease-in-out infinite;
+    animation: heroGlow 5s ease-in-out infinite;
   }
   @keyframes heroGlow {
     0%, 100% { opacity: 0.12; }
@@ -439,7 +444,7 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     /* the third period. Grain that sits perfectly still reads as a texture laid on top;
        grain that drifts reads as the image itself being alive. */
-    animation: heroGrain 7s ease-in-out infinite;
+    animation: heroGrain 4s ease-in-out infinite;
   }
   @keyframes heroGrain {
     0%, 100% { opacity: 0.10; }
@@ -990,9 +995,7 @@
   <div class="intro-content">
     <div class="intro-lines">
       <div class="intro-mask intro-count"><span><span id="intro-num">1</span><span class="pc">%</span></span></div>
-      <p class="intro-mask intro-line b1"><span>3 years in high stakes UX</span></p>
-      <p class="intro-mask intro-line b2"><span>AI native product and web design</span></p>
-      <p class="intro-mask intro-line b3"><span>Helping businesses build products users envision</span></p>
+      <p class="intro-mask intro-line"><span><span id="intro-type"></span><span class="intro-caret" aria-hidden="true"></span></span></p>
     </div>
   </div>
 </div>
@@ -1026,19 +1029,60 @@
   // curtain are both on CSS timers, so a throttled tab still opens onto the hero.
   var START = 150, DUR = 1150, TO = 10;
   var num = document.getElementById("intro-num");
+
+  // The three sentences are typed out, one after another, on a single line. Built as an
+  // absolute timeline rather than chained timeouts: every frame derives the text from
+  // elapsed time alone, so nothing accumulates drift and the curtain, which is on its own
+  // CSS timer, cannot fall out of step with the last keystroke.
+  var TYPE = 36, DEL = 20, PAUSE = 650, LAST_HOLD = 850, TYPE_START = 1750;
+  var WORDS = [
+    "3 years in high stakes UX",
+    "AI native product and web design",
+    "Helping businesses build products users envision"
+  ];
+  var type = document.getElementById("intro-type");
+  var segs = [], mark = TYPE_START;
+  WORDS.forEach(function (w, i) {
+    var last = i === WORDS.length - 1;
+    segs.push({ s: mark, e: mark + w.length * TYPE, w: w, mode: 1 });
+    mark += w.length * TYPE;
+    segs.push({ s: mark, e: mark + (last ? LAST_HOLD : PAUSE), w: w, mode: 2 });
+    mark += last ? LAST_HOLD : PAUSE;
+    if (!last) {
+      segs.push({ s: mark, e: mark + w.length * DEL, w: w, mode: 3 });
+      mark += w.length * DEL;
+    }
+  });
+  var TYPE_END = mark;   // must match --intro-offset
+
+  function textAt(t) {
+    if (t < TYPE_START) return "";
+    if (t >= TYPE_END) return WORDS[WORDS.length - 1];   // last line stays up for the curtain
+    for (var i = 0; i < segs.length; i++) {
+      var s = segs[i];
+      if (t < s.s || t >= s.e) continue;
+      if (s.mode === 2) return s.w;
+      if (s.mode === 1) return s.w.slice(0, Math.min(s.w.length, Math.floor((t - s.s) / TYPE) + 1));
+      return s.w.slice(0, Math.max(0, s.w.length - Math.floor((t - s.s) / DEL) - 1));
+    }
+    return "";
+  }
+
   var t0 = performance.now();
   (function tick(now) {
-    if (!intro.parentNode) return;   // skipped mid-count
+    if (!intro.parentNode) return;   // skipped part way through
     var t = now - t0;
-    var p = Math.min(1, Math.max(0, (t - START) / DUR));
-    num.textContent = Math.max(1, Math.ceil(p * TO));
-    if (t < START + DUR) requestAnimationFrame(tick);
+    // the counter ticks 1 to 10 in whole numbers, so it reads as a count rather than a blur
+    if (t < START + DUR) num.textContent = Math.max(1, Math.ceil(Math.min(1, Math.max(0, (t - START) / DUR)) * TO));
+    var txt = textAt(t);
+    if (type.textContent !== txt) type.textContent = txt;
+    if (t < TYPE_END) requestAnimationFrame(tick);
   })(t0);
 
-  // the panels finish parting at 7450 + 1300ms; drop the node once it is off screen
+  // the panels finish parting at 8820 + 1300ms; drop the node once it is off screen
   setTimeout(function () {
     if (intro.parentNode) intro.parentNode.removeChild(intro);
-  }, 8950);
+  }, 10320);
 })();
 </script>
 
