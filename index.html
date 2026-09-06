@@ -42,7 +42,7 @@
     --step-5:  clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
     --step-giant: clamp(3.2rem, 15vw, 15rem); /* sits inside the sky, above the first cloud line */
 
-    --intro-offset: 0ms; /* v2 has no curtain intro: the lead copy rises straight away */
+    --intro-offset: 3300ms; /* the moment the curtain panels start to part; hero copy rides off it */
 
     --ritual-offset: 9999s; /* parks the illustration until it scrolls into view */
   }
@@ -151,7 +151,7 @@
      card. Only on real pointers: touch and coarse pointers keep the native cursor. */
   .cursor { display: none; }
   @media (hover: hover) and (pointer: fine) {
-    html, body, a, button, .scroll-cue, .case { cursor: none; }
+    html, body, a, button, .scroll-cue, .case, .intro { cursor: none; }
     .cursor {
       display: block;
       position: fixed; top: 0; left: 0;
@@ -200,13 +200,89 @@
     background: var(--coconut);
     color: var(--vermillion);
     box-shadow: 0 8px 24px rgba(18, 12, 10, 0.34);
-    animation: cueBounce 1900ms ease-in-out infinite;
+    transform: translateX(-50%);
+    /* fades in once the curtain has opened, then breathes forever. Two animations so the
+       fade owns opacity and the bounce owns transform, with no fight between them. */
+    animation: cueFadeIn 600ms ease calc(var(--intro-offset) + 1200ms) both,
+               cueBounce 1900ms ease-in-out calc(var(--intro-offset) + 1200ms) infinite;
   }
+  @keyframes cueFadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes cueBounce {
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50%      { transform: translateX(-50%) translateY(7px); }
   }
   .scroll-cue:hover { color: var(--vermillion-deep); }
+
+  /* ============ INTRO: lines on a black canvas ============ */
+  /*
+    Warp lines drop, a turmeric weft crosses them, a red circle finds its shape, then the
+    canvas parts top and bottom onto the hero illustration.
+      0        three warp lines draw down (coconut, one red)
+      600ms    the turmeric weft crosses
+      1000ms   the red circle draws itself
+      2700ms   the scene fades out
+      3300ms   the canvas parts gently, top half up / bottom half down  (--intro-offset)
+    Sits above the top bar (40) and below the custom cursor (100). Click anywhere to skip,
+    and it is skipped outright on a second page view in the same session.
+  */
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  /* two asphalt panels, split by a single straight horizontal seam at center, that part
+     top-and-bottom, slowly and gently, to reveal the hero underneath. The panels overlap
+     the center by 2% so no sliver of the hero is ever visible before the split. */
+  .intro-panel {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 52%;
+    background: var(--asphalt);
+    overflow: hidden;
+  }
+  .intro-panel-top {
+    top: -1%;
+    animation: curtainTopOut 2000ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
+  }
+  .intro-panel-bottom {
+    bottom: -1%;
+    animation: curtainBottomOut 2000ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
+  }
+  @keyframes curtainTopOut { to { transform: translateY(-100%); } }
+  @keyframes curtainBottomOut { to { transform: translateY(100%); } }
+
+  .intro-content { position: relative; width: 100%; height: 100%; }
+
+  .intro-scene {
+    position: absolute; top: 50%; left: 50%;
+    width: min(76vmin, 500px); height: auto; overflow: visible;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    animation: introSceneOut 500ms ease 2700ms forwards;
+  }
+  @keyframes introSceneOut { to { opacity: 0; transform: translate(-50%, -50%) scale(0.94); } }
+
+  .iwarp {
+    stroke: var(--coconut); stroke-width: 1.1; stroke-linecap: round;
+    stroke-dasharray: 240; stroke-dashoffset: 240; opacity: 0.5;
+    animation: introDraw 900ms cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .iwarp.red { stroke: var(--vermillion); stroke-width: 1.6; opacity: 0.95; }
+  .iweft {
+    fill: none; stroke: var(--turmeric); stroke-width: 2; stroke-linecap: round;
+    stroke-dasharray: 480; stroke-dashoffset: 480;
+    animation: introDraw 1400ms cubic-bezier(0.22,1,0.36,1) 600ms forwards;
+  }
+  .iring {
+    fill: none; stroke: var(--vermillion); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 970; stroke-dashoffset: 970;
+    animation: introDraw 1700ms cubic-bezier(0.45,0,0.3,1) 1000ms forwards;
+  }
+  @keyframes introDraw { to { stroke-dashoffset: 0; } }
 
   /* ============ HERO: the TRUTH image, in parallax layers ============ */
   /*
@@ -259,6 +335,12 @@
     opacity: 0.96;
   }
   .giant span { display: block; padding-left: 0.03em; } /* re-centres: tracking adds space after the last letter only */
+  /* the name lifts through the parting curtain, one line after the other. Gated on .js so
+     that without scripting (and so without the skip logic) it is simply there. */
+  .js .giant span { opacity: 0; animation: giantRise 900ms cubic-bezier(0.22,1,0.36,1) both; }
+  .js .giant .g1 { animation-delay: calc(var(--intro-offset) + 620ms); }
+  .js .giant .g2 { animation-delay: calc(var(--intro-offset) + 790ms); }
+  @keyframes giantRise { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
   /* film grain, then the photo dissolves into the coconut card */
   .hero-grain {
     position: absolute; inset: 0; z-index: 2; pointer-events: none;
@@ -756,7 +838,9 @@
   /* ============ ACCESSIBILITY & RESPONSIVE ============ */
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
+    .intro { display: none; }
     .opening-main > *, .opening-meta > *, .ritual-caption, .ritual-place, .rv-word { opacity: 1; }
+    .js .giant span, .scroll-cue { opacity: 1; }  /* .js prefix so it beats the hidden-until-curtain rule */
     .petal { opacity: 1; transform: rotate(var(--a)); }
     .warp-thread { opacity: 0.55; }
     .weft { stroke-dashoffset: 0; }
@@ -795,6 +879,52 @@
 </head>
 <body>
 <script>document.documentElement.classList.add("js");</script>
+
+<!-- ============ INTRO ============ -->
+<div class="intro" id="intro-curtain" aria-hidden="true">
+  <div class="intro-panel intro-panel-top"></div>
+  <div class="intro-panel intro-panel-bottom"></div>
+  <div class="intro-content">
+    <svg class="intro-scene" viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <line class="iwarp"     x1="200" y1="150" x2="200" y2="370" style="animation-delay: 0ms"/>
+      <line class="iwarp red" x1="260" y1="140" x2="260" y2="380" style="animation-delay: 150ms"/>
+      <line class="iwarp"     x1="320" y1="150" x2="320" y2="370" style="animation-delay: 300ms"/>
+      <path class="iweft" d="M56 260 C 90 248, 128 272, 162 260 S 230 248, 264 260 S 332 272, 366 260 S 434 248, 464 260"/>
+      <path class="iring" d="M412.2 260.0 L410.8 281.2 L406.8 302.1 L398.4 321.6 L389.2 340.7 L377.2 358.3 L362.4 373.7 L344.6 385.4 L326.8 396.9 L307.1 404.8 L286.4 409.7 L265.3 413.0 L244.1 411.2 L223.3 407.4 L202.7 401.9 L183.8 391.9 L166.7 379.4 L151.0 365.3 L137.0 349.3 L126.7 330.9 L116.9 312.1 L110.8 291.7 L108.5 270.6 L107.5 249.3 L110.3 228.2 L117.0 208.0 L125.4 188.4 L137.8 171.2 L151.4 155.2 L165.7 139.3 L184.3 128.8 L203.3 119.7 L223.0 111.6 L244.0 108.2 L265.3 109.0 L286.3 110.7 L306.8 116.0 L326.4 123.9 L344.3 135.0 L361.7 147.0 L376.1 162.6 L388.7 179.6 L398.2 198.5 L405.2 218.4 L409.4 239.0 L412.2 260.0"/>
+    </svg>
+  </div>
+</div>
+<script>
+// Runs inline, right under the curtain, so a repeat view in the same session never flashes
+// it: the node is gone before the browser has painted a frame of it.
+(function () {
+  var KEY = "shab-intro-seen";
+  var intro = document.getElementById("intro-curtain");
+
+  function skip() {
+    document.documentElement.style.setProperty("--intro-offset", "0ms");
+    if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+  }
+
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    skip();
+    return;
+  }
+
+  try {
+    if (sessionStorage.getItem(KEY)) { skip(); return; }
+    sessionStorage.setItem(KEY, "1");
+  } catch (e) { /* storage unavailable; play the intro anyway */ }
+
+  if (intro) {
+    intro.addEventListener("click", skip);
+    // the panels finish parting at 3300 + 2000ms; drop the node once it is off screen
+    setTimeout(function () {
+      if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+    }, 5600);
+  }
+})();
+</script>
 
 <div class="cursor" aria-hidden="true">
   <span class="cursor-dot"></span>
