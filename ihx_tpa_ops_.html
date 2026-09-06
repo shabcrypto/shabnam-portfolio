@@ -25,9 +25,9 @@
   --turmeric-deep:oklch(54% 0.125 78);
   --ground:#f0ede5; --indigo:#3C3ADA; --indigo-light:#6E6CF0; --vermillion:#C13D1E;
   --teal:#00B894; --teal-deep:#046A50; --red:#E8430A; --ink:#1C1912; --ink-soft:#5B5449;
-  --muted:#5F584F; --border:rgba(20,18,14,0.08); --card-bg:#f0ede5;
-  --row-bg:#e6e2d7; --row-border:rgba(20,18,14,0.06);
-  --shadow-card:0 1px 2px rgba(20,18,14,0.04), 0 10px 28px rgba(20,18,14,0.06);
+  --muted:#5F584F; --border:rgba(20,18,14,0.08); --card-bg:#fdfdfb;
+  --row-bg:#fdfdfb; --row-border:rgba(20,18,14,0.06);
+  --shadow-card:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Manrope',sans-serif;background:var(--asphalt);color:var(--ink);line-height:1.6;overflow-x:hidden;font-synthesis-weight:none;}
@@ -455,6 +455,33 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .foot-links .email:hover::after,.foot-links .phone:hover::after{transform:scaleX(1);}
 .foot-links .email:hover,.foot-links .phone:hover{color:var(--coconut);}
 
+/* ---- CARD SURFACES ----
+   Every card on the page reads one way: no outline, one soft drop shadow taken from the
+   index cards, and a clean surface that lifts off the coconut page card rather than the
+   tan panels that used to sit flat on it.
+   Dividers BETWEEN cells stay (border-right, border-bottom): those are structure, not a
+   stroke around a card. Accent bars stay too, like .synthesis's left rule. */
+.card,
+.comment,
+.user-card,
+.synthesis,
+.ia-bar,
+.ia-breadcrumb,
+.metrics-bar,
+.impact-top,
+.impact-bottom,
+.learning-card,
+.throughline,
+.kd-table,
+.tf-outer {
+  border: none;
+  box-shadow: var(--shadow-card);
+}
+/* .synthesis keeps its accent rule; it is a marker, not an outline */
+.synthesis { border-left: 3px solid var(--indigo); }
+/* the rows inside the 09 card sit on the card, so they carry no shadow of their own */
+.tf-outer { box-shadow: none; }
+
 @media (max-width:900px){
   .topbar nav{display:none;}
   .other-cs-grid{grid-template-columns:1fr;}
@@ -523,7 +550,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative;">
 
     <!-- THE BRIEF -->
-    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:6px;overflow:hidden;box-shadow:var(--shadow-card);">
+    <div style="background:var(--card-bg);border:none;border-radius:6px;overflow:hidden;box-shadow:var(--shadow-card);">
       <div style="padding:24px 24px 16px;">
         <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">The Brief</div>
         <div style="font-family:'Satoshi',sans-serif;font-size:22px;font-weight:800;color:var(--ink);margin-bottom:12px;line-height:1.2;">"Redesign the dashboard"</div>
@@ -641,7 +668,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
 
     <!-- PRE-AUTH TEAM -->
-    <div style="border:1.5px solid #3C3ADA;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;">
+    <div style="border:none;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-card);">
       <!-- Header -->
       <div style="background:rgba(60,58,218,0.19);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;border-bottom:1px solid rgba(60,58,218,0.3);min-height:56px;">
         <div style="font-family:'Satoshi',sans-serif;font-size:18px;font-weight:800;color:var(--ink);">Pre-Auth Team</div>
@@ -664,7 +691,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
     </div>
 
     <!-- CLAIM TEAM -->
-    <div style="border:1.5px solid #097C65;border-radius:8px;overflow:hidden;">
+    <div style="border:none;border-radius:8px;overflow:hidden;box-shadow:var(--shadow-card);">
       <!-- Header -->
       <div style="background:rgba(0,184,148,0.19);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;border-bottom:1px solid rgba(0,184,148,0.25);min-height:56px;">
         <div style="font-family:'Satoshi',sans-serif;font-size:18px;font-weight:800;color:var(--ink);">Claim Team</div>
@@ -689,7 +716,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   </div>
 
   <!-- SUPERVISORS / TEAM HEADS -->
-  <div style="border:1.5px solid rgba(245,166,35,0.4);border-radius:8px;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-card);">
+  <div style="border:none;border-radius:8px;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-card);">
     <!-- Header -->
     <div style="background:rgba(245,166,35,0.08);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid rgba(245,166,35,0.15);">
       <div style="font-family:'Satoshi',sans-serif;font-size:18px;font-weight:800;color:var(--ink);">Supervisors / Team Heads</div>
@@ -837,18 +864,18 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <p class="cs-sub">Four situations from this project where the decision was not straightforward.</p>
 
   <!-- One seamless table, all 4 rows -->
-  <div style="border:none;border-radius:8px;overflow:hidden;box-shadow:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);">
+  <div style="border:none;border-radius:8px;overflow:hidden;background:var(--card-bg);box-shadow:var(--shadow-card);">
 
     <!-- Row 01 -->
     <div style="border-bottom:1px solid rgba(20,18,14,0.08);">
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:#dbd3c0;">
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
         <div>
           <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px;">Engineering Constraint</div>
           <div style="font-family:'Satoshi',sans-serif;font-size:15px;font-weight:800;color:var(--ink);line-height:1.3;">Search — global search was infeasible. I used GA data to figure out what to build instead.</div>
         </div>
         <span style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-deep);border:1px solid rgba(0,184,148,0.3);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Shipped</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#dbd3c0;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
           <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
           <p style="font-size:12px;color:var(--ink-soft);line-height:1.7;">Hospitals had been requesting global search since the platform launched. Engineering assessed ElasticSearch as infeasible — too expensive and architecturally complex at this database scale. The constraint was real and non-negotiable.</p>
@@ -866,14 +893,14 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
     <!-- Row 02 -->
     <div style="border-bottom:1px solid rgba(20,18,14,0.08);">
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:#dbd3c0;">
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
         <div>
           <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px;">Stakeholder Management</div>
           <div style="font-family:'Satoshi',sans-serif;font-size:15px;font-weight:800;color:var(--ink);line-height:1.3;">One enterprise hospital pushed to remove the Discharge bucket entirely. I held the line. They signed anyway.</div>
         </div>
         <span style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--indigo);border:1px solid rgba(110,108,240,0.3);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Client Retained</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#dbd3c0;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
           <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
           <p style="font-size:12px;color:var(--ink-soft);line-height:1.7;">During testing, one enterprise hospital pushed hard to remove the Discharge bucket and replace it with a secondary filter. Their workflow had specific reasons for this preference. The account manager was under pressure to accommodate them.</p>
@@ -891,14 +918,14 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
     <!-- Row 03 -->
     <div style="border-bottom:1px solid rgba(20,18,14,0.08);">
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:#dbd3c0;">
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
         <div>
           <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px;">MVP Scope</div>
           <div style="font-family:'Satoshi',sans-serif;font-size:15px;font-weight:800;color:var(--ink);line-height:1.3;">Settlement in bulk was painful. We designed it. We did not ship it.</div>
         </div>
         <span style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;border:1px solid rgba(245,166,35,0.3);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Deliberately Deferred</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#dbd3c0;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
           <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
           <p style="font-size:12px;color:var(--ink-soft);line-height:1.7;">Hotjar confirmed Claims team was doing bulk settlement case by case every evening — a real operational cost. We had designed the bulk workflow. Engineering capacity and stable IA shipping took priority for the MVP.</p>
@@ -916,14 +943,14 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
     <!-- Row 04 -->
     <div>
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:#dbd3c0;">
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
         <div>
           <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px;">Design Thinking — Platform Stickiness</div>
           <div style="font-family:'Satoshi',sans-serif;font-size:15px;font-weight:800;color:var(--ink);line-height:1.3;">The Follow-Up Feature — from workflow improvement to contract requirement.</div>
         </div>
         <span style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-deep);border:1px solid rgba(0,184,148,0.3);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Contract Secured</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#dbd3c0;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
           <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
           <p style="font-size:12px;color:var(--ink-soft);line-height:1.7;">Hospital staff were leaving IHX to send follow-up emails from their inbox when claims sat in Approval Pending with no insurer response. Every exit broke the workflow.</p>
