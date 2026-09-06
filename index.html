@@ -42,7 +42,7 @@
     --step-5:  clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
     --step-giant: clamp(3.2rem, 15vw, 15rem); /* sits inside the sky, above the first cloud line */
 
-    --intro-offset: 8820ms; /* the last sentence has cleared and the curtain starts to part */
+    --intro-offset: 10780ms; /* the last sentence has cleared and the curtain starts to part */
 
     --ritual-offset: 9999s; /* parks the illustration until it scrolls into view */
   }
@@ -224,14 +224,13 @@
     cannot fall out of step with the last keystroke. The last sentence is deliberately not
     deleted; it stays up and the canvas parts over it.
 
-      0        the counter wipes up into view, small and centred
-      150ms    it ticks 1 to 10 over 1150ms
-      1450ms   the counter wipes back out, clearing the slot by 1750ms
-      1750ms   sentence one types in at 36ms/char, holds 650ms, deletes at 20ms/char
-      3800ms   sentence two
-      6242ms   sentence three, which holds 850ms and is NOT deleted
-      8820ms   the canvas parts, top half up / bottom half down  (--intro-offset)
-      10120ms  fully open; the node is dropped at 10320ms
+      0        the counter wipes up into view under the line; a vermillion rule sits on the
+               floor. Both run the whole way to 100% off the same loop as the typing.
+      1750ms   sentence one types in at 36ms/char, holds 900ms, deletes at 20ms/char
+      4050ms   sentence two
+      6742ms   sentence three, which deletes as well, so nothing is left over the hero
+      10780ms  the count reaches 100, the content fades, the canvas parts  (--intro-offset)
+      12080ms  fully open; the node is dropped at 12280ms
 
     Sits above the top bar (40) and below the custom cursor (100). Click anywhere to skip,
     and it is skipped outright on a second page view in the same session.
@@ -320,27 +319,45 @@
   }
 
   /* the counter: small, centred, in the body face so it reads as a loading label rather
-     than as a fourth sentence. Same mask, so it leaves exactly the way they arrive. */
+     than as a sentence. It sits just under the typed line and runs the whole way to 100,
+     alongside the rule along the floor, so the two together read as one loading state. */
   .intro-count {
+    top: 58%;   /* out of the centred slot, so it can live under the line instead of in it */
     font-family: var(--font-body);
     font-weight: 600;
     font-size: clamp(0.72rem, 1.5vw, 0.92rem);
     line-height: 1.5;
-    letter-spacing: 0.24em;
-    text-indent: 0.12em;   /* re-centres: tracking adds space after the last character only */
+    /* light tracking only. At label spacing the digits of a two or three figure count read
+       as separate numbers ("4 9%"), which is worse than the slightly tighter label. */
+    letter-spacing: 0.08em;
+    text-indent: 0.04em;   /* re-centres: tracking adds space after the last character only */
     color: var(--coconut);
     font-variant-numeric: tabular-nums;
   }
   /* the tracking would otherwise open a gap between the number and its sign, reading as
      "4 %" rather than "4%". Pull the sign back by exactly one tracking step. */
-  .intro-count .pc { margin-left: -0.24em; }
-  .intro-count > span { animation: introCount 1750ms cubic-bezier(0.5, 0, 0.2, 1) both; }
+  .intro-count .pc { margin-left: -0.08em; }
+  /* wipes in once and then stays: it has a whole load to count through */
+  .intro-count > span { animation: introCount 700ms cubic-bezier(0.5, 0, 0.2, 1) both; }
   @keyframes introCount {
-    0%   { transform: translateY(105%); }
-    14%  { transform: translateY(0); }   /* in by 245ms */
-    83%  { transform: translateY(0); }   /* holds while it ticks 1 to 10 */
-    100% { transform: translateY(-105%); }
+    from { transform: translateY(105%); }
+    to   { transform: translateY(0); }
   }
+
+  /* the rule the count draws along the floor, in vermillion. Script-driven, same loop as
+     the number, so the two can never disagree about how far along the load is. */
+  .intro-rule {
+    position: absolute; left: 0; bottom: 0;
+    width: 100%; height: 2px;
+    background: var(--vermillion);
+    transform: scaleX(0); transform-origin: 0 50%;
+  }
+
+  /* Everything inside the curtain goes as the curtain starts to part. Without this the
+     caret, the count and the rule would sit over the hero for the whole 1300ms the panels
+     take to open, since they are not inside the panels that move. */
+  .intro-content { animation: introFade 380ms ease var(--intro-offset) forwards; }
+  @keyframes introFade { to { opacity: 0; } }
 
   @media (max-width: 700px) {
     .intro-lines { padding: 0 14px; }
@@ -997,6 +1014,7 @@
       <div class="intro-mask intro-count"><span><span id="intro-num">1</span><span class="pc">%</span></span></div>
       <p class="intro-mask intro-line"><span><span id="intro-type"></span><span class="intro-caret" aria-hidden="true"></span></span></p>
     </div>
+    <div class="intro-rule" id="intro-rule"></div>
   </div>
 </div>
 <script>
@@ -1024,17 +1042,14 @@
   if (!intro) return;
   intro.addEventListener("click", skip);
 
-  // The counter ticks 1 to 10 while its mask holds it still. It only writes whole numbers,
-  // so it reads as a count rather than a blur. Stops on its own; the wipe out and the
-  // curtain are both on CSS timers, so a throttled tab still opens onto the hero.
-  var START = 150, DUR = 1150, TO = 10;
   var num = document.getElementById("intro-num");
+  var rule = document.getElementById("intro-rule");
 
   // The three sentences are typed out, one after another, on a single line. Built as an
   // absolute timeline rather than chained timeouts: every frame derives the text from
   // elapsed time alone, so nothing accumulates drift and the curtain, which is on its own
   // CSS timer, cannot fall out of step with the last keystroke.
-  var TYPE = 36, DEL = 20, PAUSE = 650, LAST_HOLD = 850, TYPE_START = 1750;
+  var TYPE = 36, DEL = 20, PAUSE = 900, LAST_HOLD = 1350, TYPE_START = 1750;
   var WORDS = [
     "3 years in high stakes UX",
     "AI native product and web design",
@@ -1048,16 +1063,16 @@
     mark += w.length * TYPE;
     segs.push({ s: mark, e: mark + (last ? LAST_HOLD : PAUSE), w: w, mode: 2 });
     mark += last ? LAST_HOLD : PAUSE;
-    if (!last) {
-      segs.push({ s: mark, e: mark + w.length * DEL, w: w, mode: 3 });
-      mark += w.length * DEL;
-    }
+    // the last line deletes too, so the curtain opens on an empty field rather than
+    // leaving the sentence sitting over the hero while the panels part
+    segs.push({ s: mark, e: mark + w.length * DEL, w: w, mode: 3 });
+    mark += w.length * DEL;
   });
   var TYPE_END = mark;   // must match --intro-offset
 
   function textAt(t) {
     if (t < TYPE_START) return "";
-    if (t >= TYPE_END) return WORDS[WORDS.length - 1];   // last line stays up for the curtain
+    if (t >= TYPE_END) return "";   // deleted itself; the curtain opens on nothing
     for (var i = 0; i < segs.length; i++) {
       var s = segs[i];
       if (t < s.s || t >= s.e) continue;
@@ -1068,21 +1083,25 @@
     return "";
   }
 
+  // One loop drives the number, the rule and the typing, so the load state and the copy can
+  // never disagree. The count is linear across the whole sequence and only ever writes whole
+  // numbers, so it reads as a count rather than a blur.
   var t0 = performance.now();
   (function tick(now) {
     if (!intro.parentNode) return;   // skipped part way through
     var t = now - t0;
-    // the counter ticks 1 to 10 in whole numbers, so it reads as a count rather than a blur
-    if (t < START + DUR) num.textContent = Math.max(1, Math.ceil(Math.min(1, Math.max(0, (t - START) / DUR)) * TO));
+    var p = Math.min(1, Math.max(0, t / TYPE_END));
+    num.textContent = Math.max(1, Math.ceil(p * 100));
+    rule.style.transform = "scaleX(" + p + ")";
     var txt = textAt(t);
     if (type.textContent !== txt) type.textContent = txt;
     if (t < TYPE_END) requestAnimationFrame(tick);
   })(t0);
 
-  // the panels finish parting at 8820 + 1300ms; drop the node once it is off screen
+  // the panels finish parting at 10780 + 1300ms; drop the node once it is off screen
   setTimeout(function () {
     if (intro.parentNode) intro.parentNode.removeChild(intro);
-  }, 10320);
+  }, 12280);
 })();
 </script>
 
