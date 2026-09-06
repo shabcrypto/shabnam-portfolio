@@ -42,7 +42,7 @@
     --step-5:  clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
     --step-giant: clamp(3.2rem, 15vw, 15rem); /* sits inside the sky, above the first cloud line */
 
-    --intro-offset: 3300ms; /* the moment the curtain panels start to part; hero copy rides off it */
+    --intro-offset: 2200ms; /* the moment the count hits 100 and the curtain starts to part */
 
     --ritual-offset: 9999s; /* parks the illustration until it scrolls into view */
   }
@@ -203,8 +203,8 @@
     transform: translateX(-50%);
     /* fades in once the curtain has opened, then breathes forever. Two animations so the
        fade owns opacity and the bounce owns transform, with no fight between them. */
-    animation: cueFadeIn 600ms ease calc(var(--intro-offset) + 1200ms) both,
-               cueBounce 1900ms ease-in-out calc(var(--intro-offset) + 1200ms) infinite;
+    animation: cueFadeIn 600ms ease calc(var(--intro-offset) + 900ms) both,
+               cueBounce 1900ms ease-in-out calc(var(--intro-offset) + 900ms) infinite;
   }
   @keyframes cueFadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes cueBounce {
@@ -213,15 +213,18 @@
   }
   .scroll-cue:hover { color: var(--vermillion-deep); }
 
-  /* ============ INTRO: lines on a black canvas ============ */
+  /* ============ INTRO: a loading count that says something ============ */
   /*
-    Warp lines drop, a turmeric weft crosses them, a red circle finds its shape, then the
-    canvas parts top and bottom onto the hero illustration.
-      0        three warp lines draw down (coconut, one red)
-      600ms    the turmeric weft crosses
-      1000ms   the red circle draws itself
-      2700ms   the scene fades out
-      3300ms   the canvas parts gently, top half up / bottom half down  (--intro-offset)
+    A percentage counts up on asphalt while four short lines rise through the centre, so the
+    wait carries the pitch instead of just burning time. Under 3.2s end to end.
+      0        the count starts climbing, a vermillion rule draws across the floor with it
+      220ms    (~10%) the first line rises and scales in, then leaves upward
+      720ms    line two
+      1220ms   line three
+      1720ms   "welcome", the last beat
+      2200ms   the count reaches 100, count and rule fade  (--intro-offset)
+      2200ms   the canvas parts, top half up / bottom half down, onto the hero
+    The count and the rule are driven from one rAF loop so they can never drift apart.
     Sits above the top bar (40) and below the custom cursor (100). Click anywhere to skip,
     and it is skipped outright on a second page view in the same session.
   */
@@ -246,43 +249,76 @@
   }
   .intro-panel-top {
     top: -1%;
-    animation: curtainTopOut 2000ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
+    animation: curtainTopOut 1000ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
   }
   .intro-panel-bottom {
     bottom: -1%;
-    animation: curtainBottomOut 2000ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
+    animation: curtainBottomOut 1000ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
   }
   @keyframes curtainTopOut { to { transform: translateY(-100%); } }
   @keyframes curtainBottomOut { to { transform: translateY(100%); } }
 
   .intro-content { position: relative; width: 100%; height: 100%; }
 
-  .intro-scene {
-    position: absolute; top: 50%; left: 50%;
-    width: min(76vmin, 500px); height: auto; overflow: visible;
-    transform: translate(-50%, -50%);
-    opacity: 1;
-    animation: introSceneOut 500ms ease 2700ms forwards;
+  /* the four beats: stacked in the same spot, only one alive at a time */
+  .intro-lines {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 clamp(20px, 6vw, 80px);
   }
-  @keyframes introSceneOut { to { opacity: 0; transform: translate(-50%, -50%) scale(0.94); } }
+  .intro-line {
+    position: absolute;
+    max-width: 15ch;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.1rem, 7.4vw, 5.4rem);
+    line-height: 0.98;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--coconut);
+    opacity: 0;
+    animation: introBeat 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .intro-line em { font-style: normal; color: var(--vermillion); }
+  /* rises and grows into place, holds, then keeps rising as it goes */
+  @keyframes introBeat {
+    0%   { opacity: 0; transform: translateY(0.40em) scale(0.90); }
+    26%  { opacity: 1; transform: none; }
+    64%  { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: translateY(-0.30em) scale(1.06); }
+  }
+  .intro-line.b1 { animation-delay: 220ms; }
+  .intro-line.b2 { animation-delay: 720ms; }
+  .intro-line.b3 { animation-delay: 1220ms; }
+  .intro-line.b4 { animation-delay: 1720ms; font-size: clamp(3rem, 12vw, 9rem); }  /* the payoff beat, so it lands bigger */
 
-  .iwarp {
-    stroke: var(--coconut); stroke-width: 1.1; stroke-linecap: round;
-    stroke-dasharray: 240; stroke-dashoffset: 240; opacity: 0.5;
-    animation: introDraw 900ms cubic-bezier(0.22,1,0.36,1) forwards;
+  /* the count, and the rule it draws along the floor. Both are moved by script; the only
+     animation here is the fade that clears them as the curtain opens. */
+  .intro-count {
+    position: absolute;
+    right: clamp(20px, 5vw, 64px); bottom: clamp(16px, 4vw, 48px);
+    display: flex; align-items: baseline; gap: 0.06em;
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(2.6rem, 9vw, 7rem); line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--coconut); opacity: 0.9;
+    font-variant-numeric: tabular-nums;
+    animation: introFade 260ms ease var(--intro-offset) forwards;
   }
-  .iwarp.red { stroke: var(--vermillion); stroke-width: 1.6; opacity: 0.95; }
-  .iweft {
-    fill: none; stroke: var(--turmeric); stroke-width: 2; stroke-linecap: round;
-    stroke-dasharray: 480; stroke-dashoffset: 480;
-    animation: introDraw 1400ms cubic-bezier(0.22,1,0.36,1) 600ms forwards;
+  .intro-count .pc { font-size: 0.42em; color: var(--vermillion); }
+  .intro-rule {
+    position: absolute; left: 0; bottom: 0;
+    width: 100%; height: 2px;
+    background: var(--vermillion);
+    transform: scaleX(0); transform-origin: 0 50%;
+    animation: introFade 260ms ease var(--intro-offset) forwards;
   }
-  .iring {
-    fill: none; stroke: var(--vermillion); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
-    stroke-dasharray: 970; stroke-dashoffset: 970;
-    animation: introDraw 1700ms cubic-bezier(0.45,0,0.3,1) 1000ms forwards;
+  @keyframes introFade { to { opacity: 0; } }
+
+  @media (max-width: 700px) {
+    .intro-line { max-width: 11ch; }
   }
-  @keyframes introDraw { to { stroke-dashoffset: 0; } }
 
   /* ============ HERO: the TRUTH image, in parallax layers ============ */
   /*
@@ -338,8 +374,8 @@
   /* the name lifts through the parting curtain, one line after the other. Gated on .js so
      that without scripting (and so without the skip logic) it is simply there. */
   .js .giant span { opacity: 0; animation: giantRise 900ms cubic-bezier(0.22,1,0.36,1) both; }
-  .js .giant .g1 { animation-delay: calc(var(--intro-offset) + 620ms); }
-  .js .giant .g2 { animation-delay: calc(var(--intro-offset) + 790ms); }
+  .js .giant .g1 { animation-delay: calc(var(--intro-offset) + 460ms); }
+  .js .giant .g2 { animation-delay: calc(var(--intro-offset) + 620ms); }
   @keyframes giantRise { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
   /* film grain, then the photo dissolves into the coconut card */
   .hero-grain {
@@ -885,13 +921,14 @@
   <div class="intro-panel intro-panel-top"></div>
   <div class="intro-panel intro-panel-bottom"></div>
   <div class="intro-content">
-    <svg class="intro-scene" viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <line class="iwarp"     x1="200" y1="150" x2="200" y2="370" style="animation-delay: 0ms"/>
-      <line class="iwarp red" x1="260" y1="140" x2="260" y2="380" style="animation-delay: 150ms"/>
-      <line class="iwarp"     x1="320" y1="150" x2="320" y2="370" style="animation-delay: 300ms"/>
-      <path class="iweft" d="M56 260 C 90 248, 128 272, 162 260 S 230 248, 264 260 S 332 272, 366 260 S 434 248, 464 260"/>
-      <path class="iring" d="M412.2 260.0 L410.8 281.2 L406.8 302.1 L398.4 321.6 L389.2 340.7 L377.2 358.3 L362.4 373.7 L344.6 385.4 L326.8 396.9 L307.1 404.8 L286.4 409.7 L265.3 413.0 L244.1 411.2 L223.3 407.4 L202.7 401.9 L183.8 391.9 L166.7 379.4 L151.0 365.3 L137.0 349.3 L126.7 330.9 L116.9 312.1 L110.8 291.7 L108.5 270.6 L107.5 249.3 L110.3 228.2 L117.0 208.0 L125.4 188.4 L137.8 171.2 L151.4 155.2 L165.7 139.3 L184.3 128.8 L203.3 119.7 L223.0 111.6 L244.0 108.2 L265.3 109.0 L286.3 110.7 L306.8 116.0 L326.4 123.9 L344.3 135.0 L361.7 147.0 L376.1 162.6 L388.7 179.6 L398.2 198.5 L405.2 218.4 L409.4 239.0 L412.2 260.0"/>
-    </svg>
+    <div class="intro-lines">
+      <p class="intro-line b1"><em>6 years</em> in high stakes UX</p>
+      <p class="intro-line b2"><em>AI native</em> product and web design</p>
+      <p class="intro-line b3">Products users <em>actually want</em></p>
+      <p class="intro-line b4"><em>Welcome.</em></p>
+    </div>
+    <div class="intro-rule" id="intro-rule"></div>
+    <div class="intro-count"><span id="intro-num">0</span><span class="pc">%</span></div>
   </div>
 </div>
 <script>
@@ -916,13 +953,28 @@
     sessionStorage.setItem(KEY, "1");
   } catch (e) { /* storage unavailable; play the intro anyway */ }
 
-  if (intro) {
-    intro.addEventListener("click", skip);
-    // the panels finish parting at 3300 + 2000ms; drop the node once it is off screen
-    setTimeout(function () {
-      if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
-    }, 5600);
-  }
+  if (!intro) return;
+  intro.addEventListener("click", skip);
+
+  // One loop drives both the number and the rule, so they cannot drift apart. Deliberately
+  // linear: the copy beats are timed as a share of the count, so the first line lands
+  // exactly on 10% and the last on 100%.
+  var DUR = 2200;   // must match --intro-offset
+  var num = document.getElementById("intro-num");
+  var rule = document.getElementById("intro-rule");
+  var t0 = performance.now();
+  (function tick(now) {
+    if (!intro.parentNode) return;   // skipped mid-count
+    var p = Math.min(1, (now - t0) / DUR);
+    num.textContent = Math.round(p * 100);
+    rule.style.transform = "scaleX(" + p + ")";
+    if (p < 1) requestAnimationFrame(tick);
+  })(t0);
+
+  // the panels finish parting at 2200 + 1000ms; drop the node once it is off screen
+  setTimeout(function () {
+    if (intro.parentNode) intro.parentNode.removeChild(intro);
+  }, 3400);
 })();
 </script>
 
