@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
 <style>
   :root {
@@ -30,14 +30,15 @@
     --space-xs: 8px;  --space-sm: 12px;  --space-md: 24px;
     --space-lg: 48px; --space-xl: 96px;
 
-    --font-display: "Gloock", serif;
-    --font-body: "Alegreya Sans", sans-serif;
+    --font-display: "Staatliches", "Impact", "Arial Narrow", sans-serif;
+    --font-body: "Manrope", sans-serif;
+    --frame: clamp(16px, 2vw, 28px);   /* gap around the card == its corner radius */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: var(--paper);
+    background: var(--asphalt);
     color: var(--ink);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
@@ -46,19 +47,60 @@
 
   a:focus-visible { outline: 2px solid var(--vermillion); outline-offset: 4px; border-radius: 2px; }
 
+  /* ============ THE FRAMED CARD ============ */
+  /* the page rides as one rounded coconut card on the asphalt ground, with the same gap
+     on every side as its corner radius. The footer stays outside it, full bleed. */
+  .page-card {
+    position: relative;
+    margin: var(--frame);
+    border-radius: var(--frame);
+    background-color: var(--coconut);
+    background-image:
+      repeating-linear-gradient(to right, rgba(48, 47, 44, 0.045) 0 1px, transparent 1px 56px),
+      repeating-linear-gradient(to bottom, rgba(48, 47, 44, 0.03) 0 1px, transparent 1px 56px);
+    overflow: hidden;
+  }
+
   /* ============ TOP BAR ============ */
+  /* fixed, and it detaches into a floating pill once you scroll. Same as the case studies:
+     this page opens on the light card, not a dark hero, so it starts with dark text.
+     One duration and one easing across every property, so it glides as a single movement. */
   .topbar {
+    position: fixed;
+    top: var(--frame); left: var(--frame); right: var(--frame);
+    z-index: 40;
+    border-radius: var(--frame) var(--frame) 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: clamp(16px, 2.5vw, 28px) clamp(24px, 5vw, 60px);
+    padding: clamp(16px, 2.5vw, 28px) 24px;
     font-size: 0.85rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--asphalt-soft);
+    transition: top 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                left 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                right 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                padding 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                border-radius 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                background-color 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                box-shadow 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                color 400ms ease;
+  }
+  .topbar.solid {
+    top: clamp(10px, 1.4vw, 20px);
+    left: clamp(16px, 6vw, 104px);
+    right: clamp(16px, 6vw, 104px);
+    border-radius: 999px;
+    padding: 12px clamp(20px, 2.2vw, 32px);
+    background-color: rgba(253, 253, 251, 0.94);
+    box-shadow: 0 2px 6px oklch(26% 0.021 42 / 0.08), 0 14px 38px oklch(26% 0.021 42 / 0.14);
+  }
+  @supports (backdrop-filter: blur(10px)) {
+    .topbar.solid { background-color: rgba(253, 253, 251, 0.82); backdrop-filter: blur(14px); }
   }
   .wordmark { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--asphalt); }
-  .wordmark .name { font-family: "Satoshi", sans-serif; font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 1.2rem; }
+  .wordmark .name { font-family: var(--font-display); font-weight: 400; text-transform: none; letter-spacing: 0.04em; font-size: 1.1rem; }
   .topbar nav { display: flex; gap: var(--space-md); font-family: "Manrope", sans-serif; }
   .topbar nav a {
     position: relative;
@@ -86,7 +128,8 @@
   /* ============ ABOUT ============ */
   .about {
     max-width: 1200px; margin: 0 auto;
-    padding: var(--space-lg) clamp(24px, 5vw, 60px) var(--space-xl);
+    /* the top bar is fixed, so this clears it rather than sitting under it */
+    padding: clamp(112px, 12vw, 152px) clamp(24px, 5vw, 60px) var(--space-xl);
   }
   .eyebrow {
     display: inline-flex; align-items: center; gap: var(--space-sm);
@@ -97,14 +140,14 @@
   .eyebrow::before { content: ""; width: 40px; height: 1px; background: var(--vermillion); }
 
   .about h1 {
-    font-family: "Satoshi", sans-serif;
+    font-family: var(--font-display);
     font-weight: 900;
     font-size: clamp(2.4rem, 5vw, 4rem);
     line-height: 1.14;
     max-width: 16ch;
     margin-bottom: var(--space-lg);
   }
-  .about h1 em { color: var(--vermillion); font-style: normal; }
+  .about h1 em { color: inherit; font-style: normal; }   /* the title stays one colour */
 
   .about-place {
     font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
@@ -164,7 +207,7 @@
   .foot-inner { max-width: 1200px; margin: 0 auto; padding: var(--space-xl) 60px var(--space-lg); display: grid; gap: var(--space-lg); }
   .foot-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-lg); flex-wrap: wrap; }
   .foot-quote {
-    font-family: "Satoshi", sans-serif;
+    font-family: var(--font-display);
     font-weight: 700;
     font-size: clamp(1.25rem, 2.6vw, 2.1rem);
     line-height: 1.25;
@@ -178,9 +221,9 @@
   .foot-links { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
   .foot-links .email, .foot-links .phone {
     display: inline-flex; align-items: center; gap: 8px;
-    font-family: "Satoshi", sans-serif;
-    font-weight: 400;
-    font-size: clamp(1.05rem, 2vw, 1.5rem);
+    font-family: var(--font-body);   /* an address in a caps display face reads wrong */
+    font-weight: 500;
+    font-size: clamp(1rem, 0.96rem + 0.25vw, 1.125rem);
     color: var(--coconut); text-decoration: none;
     transition: color 160ms ease;
   }
@@ -216,6 +259,8 @@
 </style>
 </head>
 <body>
+
+<div class="page-card">
 
 <header class="topbar">
   <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
@@ -265,6 +310,8 @@
 
 <div class="ribbon"></div>
 
+</div><!-- /.page-card -->
+
 <footer id="contact">
   <div class="foot-inner">
     <div class="foot-head">
@@ -300,5 +347,16 @@
   </div>
 </footer>
 
+<script>
+// The bar starts flat against the top of the card and detaches into a floating pill once
+// the page has scrolled. Same threshold as the case studies.
+(function () {
+  var bar = document.querySelector(".topbar");
+  if (!bar) return;
+  function apply() { bar.classList.toggle("solid", window.scrollY > 24); }
+  window.addEventListener("scroll", apply, { passive: true });
+  apply();
+})();
+</script>
 </body>
 </html>
