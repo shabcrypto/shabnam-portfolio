@@ -9,14 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet" />
 <style>
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
 :root{
   --space-xs:8px;--space-sm:12px;--space-md:24px;--space-lg:48px;--space-xl:96px;
-  --font-display:"Gloock", serif;--font-body:"Alegreya Sans", sans-serif;
+  /* the site chrome uses the index display face; the case study content keeps Satoshi */
+  --font-display:"Staatliches","Impact","Arial Narrow",sans-serif;
+  --font-body:"Manrope",sans-serif;
+  --frame:clamp(16px,2vw,28px);   /* gap around the card == its corner radius */
+  --vermillion-deep:oklch(44% 0.17 31);
   --coconut:#f0ede5;
   --coconut-soft:#b3ada0;
   --asphalt:#302f2c;
@@ -25,9 +29,9 @@
   /* neutral gray ramp — light theme, same values as the other case studies */
   --ground:#f0ede5;
   --ground-alt:#eae5d8;
-  --card-bg:#e3ddcd;
-  --row-bg:#dbd3c0;
-  --shadow-card:0 1px 2px rgba(20,18,14,0.04), 0 10px 28px rgba(20,18,14,0.06);
+  --card-bg:#fdfdfb;
+  --row-bg:#fdfdfb;
+  --shadow-card:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);
   --radius-card:16px;
 
   /* WiseWoman's own accent — purple, kept distinct from IHX's indigo/teal.
@@ -60,7 +64,7 @@
 
 html{scroll-behavior:smooth;}
 body{
-  background:var(--ground);
+  background:var(--asphalt);
   color:var(--w1);
   font-family:'Manrope',sans-serif;
   font-size:14px;
@@ -73,27 +77,62 @@ body{
 .display{font-family:'Satoshi','Manrope',sans-serif;}
 
 /* ── HEADER (IHX-style) ── */
-.hdr{
+/* ---- SITE CHROME, shared with index.html ---- */
+.page-card{
+  position:relative;
+  margin:var(--frame);
+  border-radius:var(--frame);
+  background-color:var(--coconut);
+  background-image:
+    repeating-linear-gradient(to right, rgba(48,47,44,0.045) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(to bottom, rgba(48,47,44,0.03) 0 1px, transparent 1px 56px);
+  overflow:hidden;
+}
+/* fixed, and it detaches into a floating pill on scroll. A case study opens on the light
+   card rather than a dark hero, so it starts with dark text. */
+.topbar{
+  position:fixed;
+  top:var(--frame);left:var(--frame);right:var(--frame);
+  z-index:40;
+  border-radius:var(--frame) var(--frame) 0 0;
   display:flex;align-items:center;justify-content:space-between;
-  padding: clamp(16px, 2.5vw, 28px) clamp(24px, 5vw, 60px);
+  padding:clamp(16px,2.5vw,28px) 24px;
   font-size:0.85rem;letter-spacing:0.14em;text-transform:uppercase;
   color:var(--asphalt-soft);
+  transition:top 560ms cubic-bezier(0.33,1,0.68,1),
+             left 560ms cubic-bezier(0.33,1,0.68,1),
+             right 560ms cubic-bezier(0.33,1,0.68,1),
+             padding 560ms cubic-bezier(0.33,1,0.68,1),
+             border-radius 560ms cubic-bezier(0.33,1,0.68,1),
+             background-color 560ms cubic-bezier(0.33,1,0.68,1),
+             box-shadow 560ms cubic-bezier(0.33,1,0.68,1),
+             color 400ms ease;
 }
-.hdr-logo{font-family:"Satoshi",sans-serif;font-weight:700;font-size:1.2rem;letter-spacing:0;text-transform:none;color:var(--asphalt);white-space:nowrap;text-decoration:none;}
-.hdr-nav{display:flex;align-items:center;gap:24px;}
-.hdr-nav a{position:relative;font-family:"Manrope",sans-serif;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
-.hdr-nav a::after{
+.wordmark{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--asphalt);}
+.wordmark .name{font-family:var(--font-display);font-weight:400;text-transform:none;letter-spacing:0.04em;font-size:1.1rem;}
+.topbar nav{display:flex;align-items:center;gap:var(--space-md);}
+.topbar nav a{position:relative;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
+.topbar nav a::after{
   content:'';position:absolute;left:0;right:0;bottom:0;height:8px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%237C3AED' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
   background-size:24px 8px;
   transform:scaleX(0);transform-origin:left;
   transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
 }
-.hdr-nav a:hover{color:var(--v2);}
-.hdr-nav a:hover::after{transform:scaleX(1);}
-.resume-group{display:inline-flex;align-items:baseline;gap:6px;}
-.resume-dl{color:var(--asphalt-soft);text-decoration:none;font-size:0.85em;transition:color 160ms ease;}
-.resume-dl:hover{color:var(--vermillion);}
+.topbar nav a:hover{color:var(--vermillion-deep);}
+.topbar nav a:hover::after{transform:scaleX(1);}
+.topbar.solid{
+  top:clamp(10px,1.4vw,20px);
+  left:clamp(16px,6vw,104px);
+  right:clamp(16px,6vw,104px);
+  border-radius:999px;
+  padding:12px clamp(20px,2.2vw,32px);
+  background-color:rgba(253,253,251,0.94);
+  box-shadow:0 2px 6px oklch(26% 0.021 42 / 0.08), 0 14px 38px oklch(26% 0.021 42 / 0.14);
+}
+@supports (backdrop-filter: blur(10px)){
+  .topbar.solid{background-color:rgba(253,253,251,0.82);backdrop-filter:blur(14px);}
+}
 
 /* ── HERO TAGS ── */
 .hero-tags{
@@ -117,7 +156,8 @@ body{
 .hero{
   min-height:72vh;
   display:flex;flex-direction:column;justify-content:flex-end;
-  padding:0 48px 72px;
+  /* the bar is fixed now, so the hero clears it rather than sitting under it */
+  padding:clamp(112px,12vw,152px) 48px 72px;
   position:relative;overflow:hidden;
   max-width:1200px;margin:0 auto;width:100%;
 }
@@ -446,8 +486,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
 /* ── RESPONSIVE ── */
 @media(max-width:880px){
   .tb,.hero,.sec,.closing,footer{padding-left:26px;padding-right:26px;}
-  .hdr{padding-left:26px;padding-right:26px;}
-  .hdr-nav{display:none;}
+  .topbar nav{display:none;}
+  :root{--frame:12px;}   /* a narrower border on small screens */
   .hero-photo{position:relative;top:auto;right:auto;transform:none;width:100%;margin:0 auto 32px;display:block;}
   .hero-giant{max-width:100%;}
   .fail-grid,.stats,.process,.mkt-stats{grid-template-columns:1fr;}
@@ -473,20 +513,89 @@ footer{background:var(--asphalt);color:var(--coconut);}
     letter-spacing: 0.02em !important;
     font-synthesis-weight: none;
   }
+
+/* ---- OTHER CASE STUDIES ---- matches the index grid: bare 16/9 media, hairline,
+   hover lift, title left and metric right on one baseline. */
+.more-work{background:transparent;padding:var(--space-xl) 24px;}
+.more-work .wrap{max-width:1120px;padding:0;}
+.more-work .sec-tag{
+  font-family:var(--font-body);font-weight:700;font-size:0.85rem;
+  letter-spacing:0.18em;text-transform:uppercase;color:var(--asphalt-soft);margin-bottom:10px;
+}
+.more-work h2{
+  font-family:var(--font-display)!important;font-weight:400!important;
+  font-size:clamp(2rem,1.4rem + 2.6vw,3.6rem)!important;
+  letter-spacing:0.03em!important;color:var(--asphalt)!important;
+}
+.other-cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-lg);}
+.cs-card{
+  display:flex;flex-direction:column;gap:var(--space-sm);
+  text-decoration:none;color:var(--asphalt);
+  border:none;border-radius:0;overflow:visible;box-shadow:none;
+  transition:transform 200ms cubic-bezier(0.22,1,0.36,1);
+}
+.cs-card:hover{transform:translateY(-4px);box-shadow:none;border-color:transparent;}
+.cs-thumb{
+  position:relative;overflow:hidden;aspect-ratio:16/9;background:var(--row-bg);
+  border-radius:14px;border:1px solid oklch(26% 0.021 42 / 0.1);
+  box-shadow:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);
+  transition:border-color 200ms ease, box-shadow 200ms ease;
+}
+.cs-card:hover .cs-thumb{
+  border-color:oklch(26% 0.021 42 / 0.3);
+  box-shadow:0 1px 2px oklch(26% 0.021 42 / 0.05), 0 20px 44px oklch(26% 0.021 42 / 0.1);
+}
+.cs-thumb img,.cs-thumb video{display:block;width:100%;height:100%;object-fit:cover;transition:transform 400ms cubic-bezier(0.22,1,0.36,1);}
+.cs-card:hover .cs-thumb img,.cs-card:hover .cs-thumb video{transform:scale(1.03);}
+.cs-thumb.soon{display:flex;align-items:center;justify-content:center;}
+.cs-thumb.soon span{
+  font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--asphalt-soft);
+  border:1px solid oklch(26% 0.021 42 / 0.22);border-radius:999px;padding:6px 16px;
+}
+.cs-card-body{
+  padding:4px 2px 0;display:flex;flex-direction:row;
+  align-items:baseline;justify-content:space-between;gap:var(--space-md);flex:none;
+}
+.cs-tags,.cs-card-desc,.cs-go{display:none;}
+.cs-card-title{
+  font-family:var(--font-display);font-weight:400;
+  font-size:14px;line-height:1.3;letter-spacing:0.02em;text-transform:uppercase;color:var(--asphalt);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
+}
+.cs-metrics{
+  flex-shrink:0;white-space:nowrap;
+  font-family:var(--font-display);font-weight:400;
+  font-size:14px;letter-spacing:0.1em;text-transform:uppercase;color:var(--asphalt-soft);
+}
+.cs-thumb.soon ~ .cs-card-body .cs-card-title{color:var(--asphalt-soft);}
+
+/* ---- FOOTER ---- matches index.html */
+.foot-quote{font-family:var(--font-display)!important;font-weight:400!important;letter-spacing:0.03em!important;}
+.foot-links .email,.foot-links .phone{position:relative;padding-bottom:8px;}
+.foot-links .email::after,.foot-links .phone::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23fdfdfb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 8px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
+}
+.foot-links .email:hover::after,.foot-links .phone:hover::after{transform:scaleX(1);}
+.foot-links .email:hover,.foot-links .phone:hover{color:var(--coconut);}
 </style>
 </head>
 <body>
 
+<div class="page-card">
+
 <!-- HEADER -->
-<header class="hdr">
-  <a class="hdr-logo" href="index.html" aria-label="Shabnam Raghavan home">Shabnam Raghavan</a>
-  <nav class="hdr-nav" aria-label="Primary">
+<header class="topbar">
+  <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
+    <span class="name">Shabnam Raghavan</span>
+  </a>
+  <nav aria-label="Primary">
     <a href="index.html#work">Work</a>
     <a href="about.html">About me</a>
-    <span class="resume-group">
-      <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
-      <a class="resume-dl" href="https://drive.google.com/uc?export=download&id=1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh" download rel="noopener" aria-label="Download resume" title="Download resume">&darr;</a>
-    </span>
+    <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
     <a href="index.html#contact">Contact me</a>
   </nav>
 </header>
@@ -847,33 +956,27 @@ footer{background:var(--asphalt);color:var(--coconut);}
 <section class="more-work">
   <div class="wrap">
     <div class="sec-tag">More Work</div>
-    <h2 style="font-family:'Satoshi',sans-serif;font-size:32px;font-weight:900;color:var(--ink);letter-spacing:-0.02em;">Other Case Studies</h2>
+    <h2>Other Case Studies</h2>
     <div class="other-cs-grid" style="margin-top:36px;">
+      <a href="ihx_tpa_ops_.html" class="cs-card">
+        <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
+        <div class="cs-card-body">
+          <div class="cs-card-title">IHX Ops Dashboard</div>
+          <span class="cs-metrics">67% revenue &middot; 51% task time</span>
+        </div>
+      </a>
       <a href="ihx-user-management-case-study.html" class="cs-card">
         <div class="cs-thumb"><img src="ihx-user-mgmt-cover.png" alt="IHX User Management case study hero screen"></div>
         <div class="cs-card-body">
-          <div class="cs-tags"><span>B2B SaaS</span><span>Health InsurTech</span><span>User Management</span></div>
-          <div class="cs-card-title">In-Product User Management Module Redesign</div>
-          <p class="cs-card-desc">Took ~80 daily manual access requests off Ops' plate with a self-serve module and a real role hierarchy.</p>
-          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
-        </div>
-      </a>
-      <a href="ihx_tpa_ops_.html" class="cs-card">
-        <div class="cs-thumb"><img src="ihx-cover.png" alt="IHX Ops Dashboard claims listing screen"></div>
-        <div class="cs-card-body">
-          <div class="cs-tags"><span>B2B SaaS</span><span>WebApp</span><span>Health InsurTech</span></div>
-          <div class="cs-card-title">IHX Ops Dashboard</div>
-          <p class="cs-card-desc">Restructured the IA of a hospital claims platform used by two user teams.</p>
-          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+          <div class="cs-card-title">IHX User Management</div>
+          <span class="cs-metrics">87.5% fewer tickets &middot; 4 roles shipped</span>
         </div>
       </a>
       <a href="ihx-ai-features-case-study.html" class="cs-card">
         <div class="cs-thumb soon"><span>Write-up, no screens yet</span></div>
         <div class="cs-card-body">
-          <div class="cs-tags"><span>AI Product</span><span>Health InsurTech</span></div>
-          <div class="cs-card-title">AI-Enabled Features at the Point of Failure</div>
-          <p class="cs-card-desc">Where AI belongs in a legacy claims platform, and how to design it so people trust it.</p>
-          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+          <div class="cs-card-title">AI at the point of failure</div>
+          <span class="cs-metrics">270 hospitals &middot; 40&ndash;60% faster TAT</span>
         </div>
       </a>
     </div>
@@ -881,6 +984,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
 </section>
 
 <!-- FOOTER — typography ported from index.html's footer (.foot-quote / .foot-links / .socials) -->
+</div><!-- /.page-card -->
+
 <footer id="contact">
 <div class="foot-inner">
   <div class="foot-head">
@@ -910,11 +1015,31 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <div class="foot-divider" aria-hidden="true"></div>
 
   <div class="foot-contact-row">
-    <p>Built by Shabnam Raghavan + Claude Code</p>
     <p>Bangalore, India</p>
+    <p>Built by Shabnam Raghavan + Claude Code</p>
   </div>
 </div>
 </footer>
 
+<script>
+// The bar starts flat against the top of the card and detaches into a floating pill once
+// the page has scrolled. Same threshold as the other case studies.
+(function () {
+  var bar = document.querySelector(".topbar");
+  if (!bar) return;
+  function apply() { bar.classList.toggle("solid", window.scrollY > 24); }
+  window.addEventListener("scroll", apply, { passive: true });
+  apply();
+})();
+
+// A looping <video> is neither a CSS animation nor a transition, so the reduced-motion
+// stylesheet cannot reach it. Freeze the cover on its first frame.
+(function () {
+  if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  Array.prototype.forEach.call(document.querySelectorAll(".cs-thumb video"), function (v) {
+    v.loop = false; v.autoplay = false; v.pause();
+  });
+})();
+</script>
 </body>
 </html>
