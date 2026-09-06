@@ -42,7 +42,7 @@
     --step-5:  clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
     --step-giant: clamp(3.2rem, 15vw, 15rem); /* sits inside the sky, above the first cloud line */
 
-    --intro-offset: 5000ms; /* the moment the count hits 100 and the curtain starts to part */
+    --intro-offset: 7450ms; /* the last sentence has cleared and the curtain starts to part */
 
     --ritual-offset: 9999s; /* parks the illustration until it scrolls into view */
   }
@@ -213,22 +213,25 @@
   }
   .scroll-cue:hover { color: var(--vermillion-deep); }
 
-  /* ============ INTRO: a loading count that says something ============ */
+  /* ============ INTRO: a count that becomes three sentences ============ */
   /*
-    A percentage counts up on asphalt while four single lines rise through the centre, so the
-    wait carries the pitch instead of just burning time. Paced to be read, not raced: each
-    beat runs 1125ms, a quarter rising in, half held dead still, a quarter leaving.
-      0        the count starts climbing, a vermillion rule draws across the floor with it
-      500ms    (10%) the first line rises and scales in, holds, then leaves upward
-      1625ms   line two
-      2750ms   line three
-      3875ms   "welcome", the last beat
-      5000ms   the count reaches 100, count and rule fade  (--intro-offset)
-      5000ms   the canvas parts, top half up / bottom half down, onto the hero
-      6300ms   fully open; the node is dropped at 6500ms
-    The beats exactly fill the count: the first starts on 10%, the last ends on 100%. If the
-    count duration changes, the four delays have to be respaced to match or they drift.
-    The count and the rule are driven from one rAF loop so they can never drift apart.
+    White on asphalt, nothing else. A small centred counter ticks 1% to 10%, then slides up
+    out of its own mask, and the three sentences arrive through the same mask in the same
+    spot, so the count does not end and get replaced: it becomes the first sentence.
+
+    Every reveal is a mask wipe, never a scale or a fade. Each line lives in a clipping box
+    exactly one line tall; the text itself rides from below the box to home, sits dead still,
+    then keeps travelling up and out. Transform only, so it stays cheap.
+
+      0        the counter wipes up into view, small and centred
+      150ms    it ticks 1 to 10 over 1150ms
+      1450ms   the counter starts leaving as sentence one arrives, overlapping on purpose
+      1450ms   sentence one   (2000ms: 560 in, 880 held still, 560 out)
+      3450ms   sentence two
+      5450ms   sentence three
+      7450ms   the canvas parts, top half up / bottom half down  (--intro-offset)
+      8750ms   fully open; the node is dropped at 8950ms
+
     Sits above the top bar (40) and below the custom cursor (100). Click anywhere to skip,
     and it is skipped outright on a second page view in the same session.
   */
@@ -264,70 +267,75 @@
 
   .intro-content { position: relative; width: 100%; height: 100%; }
 
-  /* the four beats: stacked in the same spot, only one alive at a time */
+  /* the counter and the three sentences all occupy this one centred slot, so each one
+     hands over to the next in place rather than appearing somewhere new */
   .intro-lines {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
     padding: 0 clamp(20px, 6vw, 80px);
   }
-  .intro-line {
-    /* left/right rather than the flex static position, so the line stays centred even at
-       widths where it is close to filling the viewport */
+  /* the clipping box. left/right rather than the flex static position, so the line stays
+     centred even at widths where it nearly fills the viewport. overflow hidden is the mask:
+     nothing outside one line's height is ever painted. */
+  .intro-mask {
     position: absolute; left: 0; right: 0;
-    /* every beat stays on a single line: nowrap plus a vw-driven size, so the longest line
-       sets the scale and the shorter ones simply sit smaller in the same measure. The floor
-       is low enough that the longest beat still fits across a phone without wrapping.
-       The longest line measures 18.67em in Staatliches, so 4.1vw keeps it at roughly 86%
-       of the available width at every size. Re-measure before lengthening any beat. */
+    overflow: hidden;
+    text-align: center;
+  }
+  .intro-mask > span { display: block; will-change: transform; }
+
+  .intro-line {
+    /* every sentence stays on a single line: nowrap plus a vw-driven size, so the longest
+       one sets the scale and the shorter ones simply sit smaller in the same measure. The
+       longest sentence measures 18.67em in Staatliches, so 4.1vw keeps it at roughly 86%
+       of the available width at every size. Re-measure before lengthening any sentence. */
     white-space: nowrap;
     font-family: var(--font-display);
     font-weight: 400;
     font-size: clamp(0.8rem, 4.1vw, 3.6rem);
-    line-height: 1;
+    line-height: 1.16;   /* the mask is exactly this tall, so the wipe edge sits off the caps */
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    text-align: center;
     color: var(--coconut);
-    opacity: 0;
-    animation: introBeat 1125ms cubic-bezier(0.4, 0, 0.2, 1) both;
   }
-  .intro-line em { font-style: normal; color: var(--vermillion); }
-  /* rises and grows into place, sits still for half its life, then keeps rising as it goes.
-     The travel and the scale are both slight: it should breathe, not jump. Half the cycle
-     is dead-still hold, which is what makes it readable rather than a flicker. */
-  @keyframes introBeat {
-    0%   { opacity: 0; transform: translateY(0.26em) scale(0.95); }
-    25%  { opacity: 1; transform: none; }
-    75%  { opacity: 1; transform: none; }
-    100% { opacity: 0; transform: translateY(-0.18em) scale(1.035); }
+  /* rides up from under the mask edge, stops dead for nearly half the cycle, then carries
+     on up and out the top. No fade and no scale: the mask edge does all the revealing. */
+  /* an in-out curve, not the usual ease-out: an ease-out puts nearly all the travel in the
+     first fifth and the wipe is over before it registers. This keeps the edge moving across
+     the whole 560ms so the reveal is something you actually watch. */
+  .intro-line > span { animation: introWipe 2000ms cubic-bezier(0.5, 0, 0.2, 1) both; }
+  @keyframes introWipe {
+    0%   { transform: translateY(105%); }
+    28%  { transform: translateY(0); }
+    72%  { transform: translateY(0); }
+    100% { transform: translateY(-105%); }
   }
-  .intro-line.b1 { animation-delay: 500ms; }   /* 10% of the count */
-  .intro-line.b2 { animation-delay: 1625ms; }
-  .intro-line.b3 { animation-delay: 2750ms; }
-  .intro-line.b4 { animation-delay: 3875ms; font-size: clamp(2.4rem, 9vw, 7rem); }  /* the payoff beat, so it lands bigger */
+  .intro-line.b1 > span { animation-delay: 1450ms; }
+  .intro-line.b2 > span { animation-delay: 3450ms; }
+  .intro-line.b3 > span { animation-delay: 5450ms; }
 
-  /* the count, and the rule it draws along the floor. Both are moved by script; the only
-     animation here is the fade that clears them as the curtain opens. */
+  /* the counter: small, centred, in the body face so it reads as a loading label rather
+     than as a fourth sentence. Same mask, so it leaves exactly the way they arrive. */
   .intro-count {
-    position: absolute;
-    right: clamp(20px, 5vw, 64px); bottom: clamp(16px, 4vw, 48px);
-    display: flex; align-items: baseline; gap: 0.06em;
-    font-family: var(--font-display); font-weight: 400;
-    font-size: clamp(2.6rem, 9vw, 7rem); line-height: 1;
-    letter-spacing: 0.01em;
-    color: var(--coconut); opacity: 0.9;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: clamp(0.72rem, 1.5vw, 0.92rem);
+    line-height: 1.5;
+    letter-spacing: 0.24em;
+    text-indent: 0.12em;   /* re-centres: tracking adds space after the last character only */
+    color: var(--coconut);
     font-variant-numeric: tabular-nums;
-    animation: introFade 420ms ease var(--intro-offset) forwards;
   }
-  .intro-count .pc { font-size: 0.42em; color: var(--vermillion); }
-  .intro-rule {
-    position: absolute; left: 0; bottom: 0;
-    width: 100%; height: 2px;
-    background: var(--vermillion);
-    transform: scaleX(0); transform-origin: 0 50%;
-    animation: introFade 420ms ease var(--intro-offset) forwards;
+  /* the tracking would otherwise open a gap between the number and its sign, reading as
+     "4 %" rather than "4%". Pull the sign back by exactly one tracking step. */
+  .intro-count .pc { margin-left: -0.24em; }
+  .intro-count > span { animation: introCount 1750ms cubic-bezier(0.5, 0, 0.2, 1) both; }
+  @keyframes introCount {
+    0%   { transform: translateY(105%); }
+    14%  { transform: translateY(0); }   /* in by 245ms */
+    83%  { transform: translateY(0); }   /* holds while it ticks 1 to 10 */
+    100% { transform: translateY(-105%); }
   }
-  @keyframes introFade { to { opacity: 0; } }
 
   @media (max-width: 700px) {
     .intro-lines { padding: 0 14px; }
@@ -935,13 +943,11 @@
   <div class="intro-panel intro-panel-bottom"></div>
   <div class="intro-content">
     <div class="intro-lines">
-      <p class="intro-line b1"><em>3 years</em> in high stakes UX</p>
-      <p class="intro-line b2"><em>AI native</em> product and web design</p>
-      <p class="intro-line b3">Helping businesses build products users <em>envision</em></p>
-      <p class="intro-line b4"><em>Welcome.</em></p>
+      <div class="intro-mask intro-count"><span><span id="intro-num">1</span><span class="pc">%</span></span></div>
+      <p class="intro-mask intro-line b1"><span>3 years in high stakes UX</span></p>
+      <p class="intro-mask intro-line b2"><span>AI native product and web design</span></p>
+      <p class="intro-mask intro-line b3"><span>Helping businesses build products users envision</span></p>
     </div>
-    <div class="intro-rule" id="intro-rule"></div>
-    <div class="intro-count"><span id="intro-num">0</span><span class="pc">%</span></div>
   </div>
 </div>
 <script>
@@ -969,25 +975,24 @@
   if (!intro) return;
   intro.addEventListener("click", skip);
 
-  // One loop drives both the number and the rule, so they cannot drift apart. Deliberately
-  // linear: the copy beats are timed as a share of the count, so the first line lands
-  // exactly on 10% and the last on 100%.
-  var DUR = 5000;   // must match --intro-offset
+  // The counter ticks 1 to 10 while its mask holds it still. It only writes whole numbers,
+  // so it reads as a count rather than a blur. Stops on its own; the wipe out and the
+  // curtain are both on CSS timers, so a throttled tab still opens onto the hero.
+  var START = 150, DUR = 1150, TO = 10;
   var num = document.getElementById("intro-num");
-  var rule = document.getElementById("intro-rule");
   var t0 = performance.now();
   (function tick(now) {
     if (!intro.parentNode) return;   // skipped mid-count
-    var p = Math.min(1, (now - t0) / DUR);
-    num.textContent = Math.round(p * 100);
-    rule.style.transform = "scaleX(" + p + ")";
-    if (p < 1) requestAnimationFrame(tick);
+    var t = now - t0;
+    var p = Math.min(1, Math.max(0, (t - START) / DUR));
+    num.textContent = Math.max(1, Math.ceil(p * TO));
+    if (t < START + DUR) requestAnimationFrame(tick);
   })(t0);
 
-  // the panels finish parting at 5000 + 1300ms; drop the node once it is off screen
+  // the panels finish parting at 7450 + 1300ms; drop the node once it is off screen
   setTimeout(function () {
     if (intro.parentNode) intro.parentNode.removeChild(intro);
-  }, 6500);
+  }, 8950);
 })();
 </script>
 
