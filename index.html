@@ -42,7 +42,7 @@
     --step-5:  clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
     --step-giant: clamp(3.2rem, 15vw, 15rem); /* sits inside the sky, above the first cloud line */
 
-    --intro-offset: 2200ms; /* the moment the count hits 100 and the curtain starts to part */
+    --intro-offset: 4400ms; /* the moment the count hits 100 and the curtain starts to part */
 
     --ritual-offset: 9999s; /* parks the illustration until it scrolls into view */
   }
@@ -215,15 +215,17 @@
 
   /* ============ INTRO: a loading count that says something ============ */
   /*
-    A percentage counts up on asphalt while four short lines rise through the centre, so the
-    wait carries the pitch instead of just burning time. Under 3.2s end to end.
+    A percentage counts up on asphalt while four single lines rise through the centre, so the
+    wait carries the pitch instead of just burning time. Paced to be read, not raced: each
+    beat runs 990ms, roughly a third rising in, a third held, a third leaving.
       0        the count starts climbing, a vermillion rule draws across the floor with it
-      220ms    (~10%) the first line rises and scales in, then leaves upward
-      720ms    line two
-      1220ms   line three
-      1720ms   "welcome", the last beat
-      2200ms   the count reaches 100, count and rule fade  (--intro-offset)
-      2200ms   the canvas parts, top half up / bottom half down, onto the hero
+      440ms    (10%) the first line rises and scales in, holds, then leaves upward
+      1430ms   line two
+      2420ms   line three
+      3410ms   "welcome", the last beat
+      4400ms   the count reaches 100, count and rule fade  (--intro-offset)
+      4400ms   the canvas parts, top half up / bottom half down, onto the hero
+      5700ms   fully open; the node is dropped at 5900ms
     The count and the rule are driven from one rAF loop so they can never drift apart.
     Sits above the top bar (40) and below the custom cursor (100). Click anywhere to skip,
     and it is skipped outright on a second page view in the same session.
@@ -249,11 +251,11 @@
   }
   .intro-panel-top {
     top: -1%;
-    animation: curtainTopOut 1000ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
+    animation: curtainTopOut 1300ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
   }
   .intro-panel-bottom {
     bottom: -1%;
-    animation: curtainBottomOut 1000ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
+    animation: curtainBottomOut 1300ms cubic-bezier(0.65, 0, 0.35, 1) var(--intro-offset) forwards;
   }
   @keyframes curtainTopOut { to { transform: translateY(-100%); } }
   @keyframes curtainBottomOut { to { transform: translateY(100%); } }
@@ -267,31 +269,39 @@
     padding: 0 clamp(20px, 6vw, 80px);
   }
   .intro-line {
-    position: absolute;
-    max-width: 15ch;
+    /* left/right rather than the flex static position, so the line stays centred even at
+       widths where it is close to filling the viewport */
+    position: absolute; left: 0; right: 0;
+    /* every beat stays on a single line: nowrap plus a vw-driven size, so the longest line
+       sets the scale and the shorter ones simply sit smaller in the same measure. The floor
+       is low enough that the longest beat still fits across a phone without wrapping.
+       The longest line measures 18.67em in Staatliches, so 4.1vw keeps it at roughly 86%
+       of the available width at every size. Re-measure before lengthening any beat. */
+    white-space: nowrap;
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(2.1rem, 7.4vw, 5.4rem);
-    line-height: 0.98;
+    font-size: clamp(0.8rem, 4.1vw, 3.6rem);
+    line-height: 1;
     letter-spacing: 0.02em;
     text-transform: uppercase;
     text-align: center;
     color: var(--coconut);
     opacity: 0;
-    animation: introBeat 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: introBeat 990ms cubic-bezier(0.4, 0, 0.2, 1) both;
   }
   .intro-line em { font-style: normal; color: var(--vermillion); }
-  /* rises and grows into place, holds, then keeps rising as it goes */
+  /* rises and grows into place, holds a good while, then keeps rising as it goes. The
+     travel and the scale are both slight: it should breathe, not jump. */
   @keyframes introBeat {
-    0%   { opacity: 0; transform: translateY(0.40em) scale(0.90); }
-    26%  { opacity: 1; transform: none; }
-    64%  { opacity: 1; transform: none; }
-    100% { opacity: 0; transform: translateY(-0.30em) scale(1.06); }
+    0%   { opacity: 0; transform: translateY(0.26em) scale(0.95); }
+    30%  { opacity: 1; transform: none; }
+    70%  { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: translateY(-0.18em) scale(1.035); }
   }
-  .intro-line.b1 { animation-delay: 220ms; }
-  .intro-line.b2 { animation-delay: 720ms; }
-  .intro-line.b3 { animation-delay: 1220ms; }
-  .intro-line.b4 { animation-delay: 1720ms; font-size: clamp(3rem, 12vw, 9rem); }  /* the payoff beat, so it lands bigger */
+  .intro-line.b1 { animation-delay: 440ms; }   /* 10% of the count */
+  .intro-line.b2 { animation-delay: 1430ms; }
+  .intro-line.b3 { animation-delay: 2420ms; }
+  .intro-line.b4 { animation-delay: 3410ms; font-size: clamp(2.4rem, 9vw, 7rem); }  /* the payoff beat, so it lands bigger */
 
   /* the count, and the rule it draws along the floor. Both are moved by script; the only
      animation here is the fade that clears them as the curtain opens. */
@@ -304,7 +314,7 @@
     letter-spacing: 0.01em;
     color: var(--coconut); opacity: 0.9;
     font-variant-numeric: tabular-nums;
-    animation: introFade 260ms ease var(--intro-offset) forwards;
+    animation: introFade 420ms ease var(--intro-offset) forwards;
   }
   .intro-count .pc { font-size: 0.42em; color: var(--vermillion); }
   .intro-rule {
@@ -312,12 +322,12 @@
     width: 100%; height: 2px;
     background: var(--vermillion);
     transform: scaleX(0); transform-origin: 0 50%;
-    animation: introFade 260ms ease var(--intro-offset) forwards;
+    animation: introFade 420ms ease var(--intro-offset) forwards;
   }
   @keyframes introFade { to { opacity: 0; } }
 
   @media (max-width: 700px) {
-    .intro-line { max-width: 11ch; }
+    .intro-lines { padding: 0 14px; }
   }
 
   /* ============ HERO: the TRUTH image, in parallax layers ============ */
@@ -924,7 +934,7 @@
     <div class="intro-lines">
       <p class="intro-line b1"><em>3 years</em> in high stakes UX</p>
       <p class="intro-line b2"><em>AI native</em> product and web design</p>
-      <p class="intro-line b3">Products users <em>actually want</em></p>
+      <p class="intro-line b3">Helping businesses build products users <em>envision</em></p>
       <p class="intro-line b4"><em>Welcome.</em></p>
     </div>
     <div class="intro-rule" id="intro-rule"></div>
@@ -959,7 +969,7 @@
   // One loop drives both the number and the rule, so they cannot drift apart. Deliberately
   // linear: the copy beats are timed as a share of the count, so the first line lands
   // exactly on 10% and the last on 100%.
-  var DUR = 2200;   // must match --intro-offset
+  var DUR = 4400;   // must match --intro-offset
   var num = document.getElementById("intro-num");
   var rule = document.getElementById("intro-rule");
   var t0 = performance.now();
@@ -971,10 +981,10 @@
     if (p < 1) requestAnimationFrame(tick);
   })(t0);
 
-  // the panels finish parting at 2200 + 1000ms; drop the node once it is off screen
+  // the panels finish parting at 4400 + 1300ms; drop the node once it is off screen
   setTimeout(function () {
     if (intro.parentNode) intro.parentNode.removeChild(intro);
-  }, 3400);
+  }, 5900);
 })();
 </script>
 
