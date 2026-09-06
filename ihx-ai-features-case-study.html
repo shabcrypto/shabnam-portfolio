@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Enabled Features at the Point of Failure · Shabnam Raghavan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Manrope:wght@400;500;600;700;800&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coconut:#f0ede5;
+  --coconut-soft:#b3ada0;
+  --asphalt:#302f2c;
+  --asphalt-soft:#6b6964;
+  --turmeric-deep:oklch(54% 0.125 78);
+  --ground:#f0ede5;
+  --ground-alt:#e3ded0;
+  --indigo:#3C3ADA;
+  --indigo-light:#6E6CF0;
+  --teal:#00B894;
+  --teal-deep:#046A50;
+  --vermillion:#C13D1E;
+  --ink:#1C1912;
+  --ink-soft:#5B5449;
+  --muted:#6b6964;
+  --border:rgba(20,18,14,0.08);
+  --card-bg:#f0ede5;
+  --row-bg:#e6e2d7;
+  --row-border:rgba(20,18,14,0.06);
+  --shadow-card:0 1px 2px rgba(20,18,14,0.04), 0 10px 28px rgba(20,18,14,0.06);
+  --radius-card:16px;
+
+  --font-display:"Gloock", serif;
+  --font-body:"Alegreya Sans", sans-serif;
+  --space-xs:8px;
+  --space-sm:12px;
+  --space-md:24px;
+  --space-lg:48px;
+  --space-xl:96px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'Manrope',sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Satoshi',sans-serif;}
+.serif{font-family:'Gloock',serif;font-style:italic;font-weight:400;}
+a{color:inherit;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+.page-inner{max-width:1200px;margin:0 auto;padding:0 48px;}
+
+/* site header — exact component from index.html's .topbar/.wordmark, dark variant (paper-on-coal instead of ink-on-paper) */
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding: clamp(16px, 2.5vw, 28px) clamp(24px, 5vw, 60px);
+  font-size:0.85rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--asphalt-soft);
+}
+.hdr-logo{font-family:"Satoshi",sans-serif;font-weight:700;font-size:1.2rem;letter-spacing:0;text-transform:none;color:var(--asphalt);white-space:nowrap;text-decoration:none;}
+.hdr-nav{display:flex;align-items:center;gap:var(--space-md);}
+.hdr-nav a{position:relative;font-family:"Manrope",sans-serif;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
+.hdr-nav a::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%236E6CF0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 8px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
+}
+.hdr-nav a:hover{color:var(--indigo);}
+.hdr-nav a:hover::after{transform:scaleX(1);}
+.resume-group{display:inline-flex;align-items:baseline;gap:6px;}
+.resume-dl{color:var(--asphalt-soft);text-decoration:none;font-size:0.85em;transition:color 160ms ease;}
+.resume-dl:hover{color:var(--vermillion);}
+
+/* section subnav */
+.subnav{
+  position:sticky;top:0;z-index:49;
+  background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);overflow-x:auto;
+}
+.subnav .wrap{display:flex;gap:4px;height:46px;align-items:center;}
+.subnav a{
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  color:var(--muted);text-decoration:none;font-size:.76rem;font-weight:700;
+  padding:6px 12px;border-radius:100px;transition:color .2s,background .2s;
+}
+.subnav a b{font-family:'Satoshi',sans-serif;font-weight:900;color:var(--indigo);font-size:.7rem;}
+.subnav a:hover{color:var(--ink);background:var(--card-bg);}
+
+/* Shared card shadow: every top-level card surface gets the same soft, neutral lift instead
+   of leaning on borders alone. Reuse this exact rule (selectors + var(--shadow-card)) on the
+   other case studies when they get the same light-theme + polish pass. */
+.hero-stats, .big-num-card, .pain, .hflow, .gap, .tree, .persona, .dec, .phase, .tldr, .sol,
+.outcome, .data-table, .callout {
+  box-shadow: var(--shadow-card);
+}
+
+/* ---------- hero ---------- */
+.hero{padding:56px 0 56px;position:relative;}
+.hero .wrap{max-width:900px;}
+.hero-grid{display:flex;flex-direction:column;gap:40px;}
+.kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo);
+  margin-bottom:22px;
+}
+.kicker::before{content:"";width:28px;height:2px;background:var(--indigo-light);display:inline-block;}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.6rem);font-weight:900;line-height:1.08;letter-spacing:-0.02em;max-width:820px;margin-top:18px;}
+.hero h1 .serif{color:var(--indigo);font-family:'Satoshi',sans-serif;font-style:normal;font-weight:900;}
+.hero .sub{margin-top:20px;max-width:660px;color:var(--ink-soft);font-size:1.05rem;}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+.meta-row.hero-tags-top{margin-top:0;}
+.chip{
+  border:1px solid var(--border);border-radius:100px;padding:6px 14px;
+  font-size:.75rem;font-weight:700;color:var(--ink-soft);background:var(--card-bg);
+}
+.chip.accent{color:var(--indigo);border-color:rgba(110,108,240,0.4);}
+.draft-note{
+  margin-top:26px;display:inline-flex;align-items:center;gap:8px;
+  font-size:.75rem;font-weight:700;color:var(--muted);
+  border:1px dashed rgba(20,18,14,0.25);border-radius:8px;padding:8px 14px;
+}
+.draft-note b{color:var(--ink-soft);}
+
+/* hero stats */
+.hero-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:44px;
+}
+.hero-stats .cell{background:var(--card-bg);padding:24px 20px;position:relative;}
+.hero-stats .num{font-family:'Satoshi',sans-serif;font-weight:900;font-size:2rem;line-height:1;}
+.hero-stats .num.accent{color:var(--indigo);} .hero-stats .num.teal{color:var(--teal-deep);} .hero-stats .num.indigo{color:var(--indigo);}
+.hero-stats .lbl{font-size:.78rem;color:var(--muted);margin-top:8px;font-weight:600;}
+.hero-stats .tag{
+  position:absolute;top:14px;right:14px;font-size:.62rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* ---------- sections ---------- */
+section{padding:64px 0;border-top:1px solid var(--border);}
+.sec-tag{font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.sec-tag em{color:var(--indigo);font-style:normal;}
+section h2{font-size:clamp(1.5rem,3.2vw,2.1rem);font-weight:900;letter-spacing:-0.01em;max-width:720px;}
+.sec-intro{color:var(--ink-soft);margin-top:12px;max-width:680px;font-size:.98rem;}
+.mini-label{
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  margin:40px 0 16px;display:flex;align-items:center;gap:10px;
+}
+.mini-label::after{content:"";flex:1;height:1px;background:var(--border);}
+
+/* problem split */
+.split-80{display:grid;grid-template-columns:1fr 1.4fr;gap:24px;margin-top:40px;}
+.big-num-card{
+  background:#f0ede5;border:1px solid var(--border);border-radius:16px;padding:32px 28px;
+  display:flex;flex-direction:column;justify-content:center;position:relative;
+}
+.big-num-card .giant{font-family:'Satoshi',sans-serif;font-weight:900;font-size:4.6rem;line-height:1;color:var(--indigo);}
+.big-num-card .giant span{font-size:1.6rem;color:var(--ink-soft);}
+.big-num-card .cap{margin-top:10px;color:var(--ink-soft);font-weight:600;font-size:.95rem;}
+.bar-split{margin-top:22px;}
+.bar-split .bar{display:flex;height:14px;border-radius:100px;overflow:hidden;}
+.bar-split .b1{background:var(--indigo-light);width:62.5%;}
+.bar-split .b2{background:var(--teal);width:37.5%;}
+.bar-split .legend{display:flex;justify-content:space-between;margin-top:10px;font-size:.75rem;color:var(--muted);font-weight:600;}
+.bar-split .legend b{color:var(--ink);}
+
+.pain-grid{display:grid;gap:12px;}
+.pain{
+  background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;
+  padding:16px 18px;
+}
+.pain b{display:block;font-size:.92rem;}
+.pain p{font-size:.84rem;color:var(--muted);margin-top:2px;}
+
+/* numbered problem cards: crisp title + one line, a numbered badge instead of an icon chip */
+.num-card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px;}
+.split-80 .num-card-grid{grid-template-columns:1fr 1fr;margin-top:0;}
+.num-card{
+  background:#f0ede5;border:1px solid var(--border);border-radius:16px;
+  padding:26px 22px;box-shadow:var(--shadow-card);
+}
+.num-card .badge-num{
+  display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
+  border-radius:50%;background:rgba(60,58,218,0.1);color:var(--indigo);
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:1rem;margin-bottom:18px;
+}
+.num-card b{font-size:1rem;line-height:1.35;display:block;margin-bottom:8px;}
+.num-card p{font-size:.87rem;color:var(--muted);line-height:1.55;}
+
+/* fact pills: the crisp evidence row under the problem cards, replaces a bigger stat block */
+.fact-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
+.fact-pill{
+  border:1px solid var(--border);border-radius:100px;padding:10px 18px;
+  font-size:.82rem;color:var(--ink-soft);background:#f0ede5;box-shadow:var(--shadow-card);
+}
+.fact-pill b{color:var(--indigo);font-weight:800;}
+
+/* horizontal flow diagram */
+/* single-layer card row, no outer wrapper — a wrapping card behind bordered inner cards
+   doubled up the box-in-a-box look, and per-node coloured borders (blue/blue/amber) fought
+   each other and broke the page's blue+teal-only rule. One flat row of ordinary cards reads
+   calmer and matches every other card on the page. */
+.hflow{display:flex;align-items:stretch;gap:14px;margin-top:20px;overflow-x:auto;}
+.hflow .node{
+  flex:1;min-width:150px;background:var(--card-bg);border:1px solid var(--border);border-radius:14px;
+  padding:20px 18px;text-align:center;position:relative;box-shadow:var(--shadow-card);
+}
+.hflow .node .step{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.66rem;letter-spacing:.12em;
+  color:var(--muted);text-transform:uppercase;display:block;margin-bottom:10px;
+}
+.hflow .node b{font-size:.9rem;line-height:1.35;display:block;font-weight:700;}
+.hflow .node p{font-size:.78rem;color:var(--muted);margin-top:6px;line-height:1.45;}
+.hflow .conn{
+  flex:none;display:flex;align-items:center;padding:0 2px;color:var(--muted);font-size:1.1rem;font-weight:900;
+}
+.flow-caption{font-size:.78rem;color:var(--muted);margin-top:10px;font-weight:600;}
+.flow-caption b{color:var(--ink-soft);}
+
+.callout{
+  margin-top:28px;background:#f0ede5;border-left:3px solid var(--indigo-light);border-radius:0 14px 14px 0;
+  padding:22px 26px;
+}
+.callout .t{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;}
+.callout p{color:var(--ink-soft);font-size:.95rem;max-width:760px;}
+.callout .badges{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+/* neutral variant for "the problem" so it doesn't read identically to the accented
+   "the decision" callout right below it — flat card, no colour, no left-border accent. */
+.callout.plain{background:var(--card-bg);border-left:none;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-card);}
+.callout.plain .t{color:var(--muted);}
+/* shared chip recipe: .badge and .tagpill must always render identically (size, weight, radius,
+   case, border) — only the colour variants differ. Reuse this exact block on other case studies. */
+.badge, .tagpill{
+  display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  padding:5px 12px;border-radius:6px;
+}
+.badge{background:rgba(110,108,240,0.12);color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
+.badge.teal{background:rgba(0,184,148,0.12);color:var(--teal-deep);border-color:rgba(0,184,148,0.35);}
+
+/* gaps grid */
+.gap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px;}
+.gap{
+  background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:22px 20px;position:relative;
+}
+.gap .gnum{
+  font-family:'Satoshi',sans-serif;font-weight:900;color:var(--indigo);font-size:.72rem;letter-spacing:.1em;
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;
+}
+.gap .gnum::after{content:"";width:20px;height:1px;background:rgba(110,108,240,0.4);}
+.gap b{font-size:.92rem;display:block;line-height:1.4;}
+.gap p{font-size:.82rem;color:var(--muted);margin-top:6px;}
+
+/* scope flow */
+.scope-flow{
+  margin-top:30px;display:flex;align-items:stretch;gap:0;background:var(--card-bg);
+  border:1px solid var(--border);border-radius:16px;overflow:hidden;
+}
+.scope-flow .stage{flex:1;padding:26px 26px;}
+.scope-flow .stage .l{font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.scope-flow .stage b{font-size:1.02rem;font-family:'Satoshi',sans-serif;font-weight:700;}
+.scope-flow .stage p{font-size:.82rem;color:var(--muted);margin-top:6px;}
+.scope-flow .arrow{
+  flex:none;display:flex;align-items:center;padding:0 6px;color:var(--indigo);
+  font-size:1.6rem;font-weight:900;background:linear-gradient(90deg,transparent,rgba(110,108,240,0.06),transparent);
+}
+.scope-flow .stage.after b{color:var(--indigo);}
+
+/* role hierarchy tree */
+.tree{
+  margin-top:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;
+  padding:32px 24px;text-align:center;
+}
+.tree .lvl{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.tree .tnode{
+  display:inline-block;background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;
+  padding:14px 22px;text-align:center;min-width:150px;
+}
+.tree .tnode .r{font-family:'Satoshi',sans-serif;font-weight:900;font-size:.92rem;display:block;}
+.tree .tnode p{font-size:.7rem;color:var(--muted);margin-top:3px;line-height:1.4;}
+.tree .tnode.ops{border-color:rgba(20,18,14,0.25);}
+.tree .tnode.grp{border-color:rgba(110,108,240,0.5);}
+.tree .tnode.grp .r{color:var(--indigo);}
+.tree .tnode.ctr{border-color:rgba(0,184,148,0.4);}
+.tree .tnode.ctr .r{color:var(--teal-deep);}
+.tree .vline{width:1px;height:22px;background:rgba(20,18,14,0.25);margin:0 auto;}
+.tree .branch{
+  height:22px;margin:0 auto;max-width:560px;position:relative;
+}
+.tree .branch::before{content:"";position:absolute;top:0;left:15%;right:15%;height:1px;background:rgba(20,18,14,0.25);}
+.tree .branch::after{content:"";position:absolute;top:0;left:50%;width:1px;height:0;}
+.tree .branch .d{position:absolute;top:0;width:1px;height:22px;background:rgba(20,18,14,0.25);}
+.tree .branch .d1{left:15%;} .tree .branch .d2{left:50%;} .tree .branch .d3{right:15%;}
+.tree .note{
+  margin-top:22px;font-size:.76rem;color:var(--muted);font-weight:600;
+  border-top:1px dashed var(--row-border);padding-top:16px;
+}
+.tree .note b{color:var(--indigo);}
+
+/* user problem */
+.persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px;}
+.persona{background:#f0ede5;border:1px solid var(--border);border-radius:14px;padding:24px 22px;display:flex;flex-direction:column;}
+.persona .who{
+  font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;
+  display:inline-block;
+}
+.persona .who.indigo{color:var(--indigo);} .persona .who.teal{color:var(--teal-deep);}
+.persona b{font-size:.95rem;line-height:1.45;display:block;}
+.persona p{font-size:.84rem;color:var(--muted);margin-top:8px;flex:1;}
+.persona .tagpill{align-self:flex-start;margin-top:16px;}
+.persona .maps{
+  margin-top:16px;padding-top:14px;border-top:1px dashed var(--row-border);
+  font-size:.74rem;font-weight:700;color:var(--ink-soft);
+}
+.persona .maps span{color:var(--indigo);}
+
+/* decisions */
+.dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:36px;}
+/* three-up variant for the "Building trust" cards on this page — every instance here has
+   exactly 3 items, and .dec-grid's default 2-col leaves an orphaned, lopsided third card. */
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;}
+.dec{
+  background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:24px 24px;position:relative;
+  transition:border-color .2s;
+}
+.dec:hover{border-color:rgba(110,108,240,0.45);}
+.dec .n{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.8rem;color:var(--muted);
+  margin-bottom:10px;letter-spacing:.08em;
+}
+.dec b{font-size:1rem;font-family:'Satoshi',sans-serif;font-weight:700;display:block;line-height:1.35;}
+.dec p{font-size:.85rem;color:var(--muted);margin-top:8px;}
+.dec .closes{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap;}
+.tagpill.ops{background:rgba(110,108,240,0.12);color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
+.tagpill.sec{background:rgba(0,184,148,0.12);color:var(--teal-deep);border:1px solid rgba(0,184,148,0.35);}
+.tagpill.grp{background:rgba(20,18,14,0.08);color:var(--ink-soft);border:1px solid var(--row-border);}
+.tagpill.ship{background:transparent;border:1px solid var(--row-border);color:var(--muted);}
+.dec.wide{grid-column:1 / -1;}
+
+/* ---------- solution phases ---------- */
+.phase{
+  margin-top:40px;background:var(--card-bg);border:1px solid var(--border);border-radius:18px;
+  padding:34px 30px;
+}
+.phase .ph-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+.phase .ph-num{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--teal-deep);
+}
+.phase h3{font-size:1.25rem;font-weight:900;}
+.phase .ph-sub{color:var(--muted);font-size:.9rem;max-width:640px;}
+.phase .ph-body{display:grid;grid-template-columns:1fr 1.1fr;gap:24px;margin-top:24px;align-items:start;}
+
+/* vertical mini flow */
+.vflow{display:flex;flex-direction:column;}
+.vflow .vnode{
+  background:var(--row-bg);border:1px solid var(--row-border);border-radius:11px;padding:13px 16px;
+  display:flex;gap:12px;align-items:center;
+}
+.vflow .vnode .dot{
+  flex:none;width:24px;height:24px;border-radius:50%;background:rgba(110,108,240,0.14);color:var(--indigo);
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.7rem;display:flex;align-items:center;justify-content:center;
+}
+.vflow .vnode b{font-size:.85rem;font-weight:700;display:block;}
+.vflow .vnode p{font-size:.73rem;color:var(--muted);line-height:1.4;}
+.vflow .vconn{width:1px;height:16px;background:rgba(20,18,14,0.2);margin-left:27px;}
+
+/* before/after compare */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.compare .col{background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;padding:18px;}
+.compare .col.after{border-color:rgba(0,184,148,0.35);}
+.compare .col .cl{
+  font-size:.68rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin-bottom:12px;color:var(--muted);
+}
+.compare .col.after .cl{color:var(--teal-deep);}
+.compare .col ol{list-style:none;}
+.compare .col li{
+  font-size:.8rem;color:var(--ink-soft);padding:7px 0;border-bottom:1px dashed var(--row-border);
+  display:flex;gap:10px;align-items:baseline;
+}
+.compare .col li:last-child{border-bottom:none;}
+.compare .col li i{
+  font-style:normal;font-family:'Satoshi',sans-serif;font-weight:900;font-size:.68rem;color:var(--muted);flex:none;
+}
+.compare .col.after li i{color:var(--teal-deep);}
+.compare .col .time{
+  margin-top:12px;font-family:'Satoshi',sans-serif;font-weight:900;font-size:.95rem;color:var(--ink);
+}
+.compare .col.after .time{color:var(--teal-deep);}
+.compare .col .time small{font-size:.68rem;color:var(--muted);display:block;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+
+/* screen placeholder */
+.screen{
+  border:1.5px dashed rgba(20,18,14,0.3);border-radius:14px;overflow:hidden;background:var(--ground);
+}
+.screen .bar{
+  display:flex;align-items:center;gap:6px;background:var(--row-bg);padding:9px 14px;border-bottom:1px dashed rgba(20,18,14,0.18);
+}
+.screen .bar span{width:9px;height:9px;border-radius:50%;background:rgba(20,18,14,0.18);}
+.screen .bar .url{
+  flex:1;margin-left:8px;font-size:.66rem;color:var(--muted);background:var(--ground);
+  border-radius:5px;padding:3px 10px;font-weight:600;
+}
+.screen .canvas{
+  aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  color:var(--muted);
+}
+.screen .canvas .cam{font-size:1.6rem;opacity:.6;}
+.screen .canvas b{font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);}
+.screen .canvas p{font-size:.72rem;max-width:320px;text-align:center;line-height:1.5;}
+.screen.tall .canvas{aspect-ratio:4/3;}
+
+/* module matrix mini-diagram */
+.matrix{border:1px solid var(--row-border);border-radius:12px;overflow:hidden;font-size:.72rem;margin-top:14px;}
+.matrix table{width:100%;border-collapse:collapse;}
+.matrix th,.matrix td{padding:8px 10px;text-align:center;border-bottom:1px solid var(--row-border);}
+.matrix th{
+  background:var(--row-bg);font-family:'Satoshi',sans-serif;font-weight:800;font-size:.64rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+}
+.matrix td:first-child,.matrix th:first-child{text-align:left;color:var(--ink-soft);font-weight:700;}
+.matrix tr:last-child td{border-bottom:none;}
+.matrix .on{color:var(--teal-deep);font-weight:900;}
+.matrix .off{color:rgba(20,18,14,0.18);font-weight:900;}
+
+/* image / video placeholders — real filenames baked in per the source doc's images/ convention.
+   Drop a matching file into an images/ folder next to this page and it resolves automatically;
+   the fallback card (icon + expected filename) only shows while the file is missing. */
+/* .img-slot sizing model: while empty, it holds a guessed 16/9 (or .tall/.portrait) box so the
+   dashed placeholder has sensible proportions. The moment a real <img> loads, script below adds
+   .has-image and the box switches to aspect-ratio:auto — the container just becomes the image's
+   own natural shape. No object-fit, no cropping, no letterboxing, nothing to tune per image.
+   This is the fix for the "image doesn't fill / gets cropped" problem, permanently: stop trying
+   to force arbitrary screenshots into a fixed box at all. Reuse this whole pattern verbatim on
+   the other case studies instead of re-solving it per image. */
+.img-slot,.video-slot{
+  position:relative;border:1.5px dashed rgba(20,18,14,0.3);border-radius:14px;overflow:hidden;
+  background:var(--ground);aspect-ratio:16/9;
+}
+.img-slot.tall,.video-slot.tall{aspect-ratio:4/3;}
+.img-slot.portrait{aspect-ratio:2/3;}
+/* once a real image is in, drop the dashed "placeholder" look for the same thin solid border
+   and soft lift every other card on the page uses, so loaded screenshots read as finished, not
+   still-pending. Genuinely empty slots keep the dashed border above as the "missing" signal. */
+.img-slot.has-image{aspect-ratio:auto;border:1px solid var(--border);border-style:solid;box-shadow:var(--shadow-card);}
+.img-slot-fallback,.video-slot-fallback{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  padding:20px;text-align:center;color:var(--muted);
+}
+.img-slot-fallback .cam,.video-slot-fallback .cam{font-size:1.8rem;opacity:.6;}
+.img-slot-fallback b,.video-slot-fallback b{font-size:.8rem;font-weight:800;letter-spacing:.06em;color:var(--ink-soft);max-width:340px;}
+.img-slot-fallback code,.video-slot-fallback code{
+  font-size:.68rem;color:var(--indigo);background:var(--card-bg);border:1px solid var(--row-border);
+  border-radius:5px;padding:3px 9px;font-family:monospace;
+}
+.img-slot img{position:relative;width:100%;height:auto;display:block;}
+.video-slot video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000;}
+.img-slot-cap{margin-top:10px;font-size:.78rem;color:var(--muted);line-height:1.5;}
+
+/* old vs new / decision tables — text-forward variant of .matrix */
+.data-table{border:1px solid var(--row-border);border-radius:12px;overflow:hidden;margin-top:20px;}
+.data-table table{width:100%;border-collapse:collapse;}
+.data-table th,.data-table td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--row-border);vertical-align:top;font-size:.85rem;}
+.data-table th{
+  background:var(--row-bg);font-family:'Satoshi',sans-serif;font-weight:800;font-size:.66rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td:first-child{font-weight:700;color:var(--ink);white-space:nowrap;}
+.data-table td.new{color:var(--teal-deep);}
+.closes-tag{
+  display:inline-block;font-size:.68rem;font-weight:700;color:var(--indigo);
+  background:rgba(110,108,240,0.1);border:1px solid rgba(110,108,240,0.3);border-radius:100px;padding:2px 10px;
+}
+
+/* flagged / open item — honest "not resolved yet" markers, distinct from the confident callout */
+.flag-note{
+  margin-top:20px;background:rgba(245,166,35,0.06);border:1px dashed rgba(245,166,35,0.4);border-radius:12px;
+  padding:16px 20px;font-size:.85rem;color:var(--ink-soft);line-height:1.6;
+}
+.flag-note b{color:#F5A623;}
+
+/* hero shot — the redesigned screen framed like a browser window, right under the hero copy */
+.hero-shot{margin-top:0;}
+.hero-shot .frame{
+  max-width:900px;margin:0 auto;border:1px solid var(--border);border-radius:16px 16px 0 0;
+  border-bottom:none;background:var(--row-bg);padding:12px 12px 0;
+  box-shadow:0 20px 50px rgba(20,18,14,0.06);
+}
+.hero-shot .frame .bar{display:flex;align-items:center;gap:6px;padding:2px 4px 12px;}
+.hero-shot .frame .bar span{width:9px;height:9px;border-radius:50%;background:rgba(20,18,14,0.18);}
+.hero-shot .img-slot{border-radius:8px 8px 0 0;border-style:solid;}
+/* Deliberate exception to the auto-sizing rule above: the source screenshot has a lot of empty
+   grey below its 5-row table, and unlike the "doesn't fill the box" bug, that empty space is
+   real pixels in the file, not a CSS mismatch, so natural sizing would still show it. Force this
+   one slot to stay a fixed 16:9 crop (cover, top-anchored) to cut that dead space off instead. */
+.hero-shot .img-slot.has-image{aspect-ratio:16/9;}
+.hero-shot .img-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;}
+
+/* Section rhythm: alternating ground/ground-alt down the page, same pattern to reuse on
+   every case study. Order is hero(ground) → tldr(alt) → demo(ground) → s1(alt) → s2(ground)
+   → s3(alt) → s4(ground) → s5(alt) → take(ground) → more-work(alt) → footer(ground). Cards
+   always sit one step deeper than whichever ground they're on (--card-bg, then --row-bg
+   nested inside a card), so the ramp reads white → F9F9F9 → F6F6F6 → EFEFEF regardless of
+   which section a card lands in. */
+#tldr, #s1, #s3, #s5, .more-work{background:var(--ground-alt);}
+.tldr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:36px;}
+.tldr{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px 18px;}
+.tldr .k{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--indigo);margin-bottom:10px;display:block;
+}
+.tldr p{font-size:.82rem;line-height:1.55;color:var(--ink-soft);}
+.tldr p b{color:var(--ink);}
+
+/* annotated before/after — text and screenshot side by side, alternating */
+.annot{display:grid;grid-template-columns:1fr 1.3fr;gap:36px;align-items:start;margin-top:44px;}
+.annot.flip{grid-template-columns:1.3fr 1fr;}
+.annot.flip .txt{order:2;}
+.annot .txt h3{font-size:1.1rem;font-weight:900;letter-spacing:-0.01em;color:var(--ink);}
+.annot .tagline{
+  display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 12px;border-radius:6px;margin-bottom:12px;
+}
+.tagline.bad{background:rgba(110,108,240,0.12);color:var(--indigo);}
+.tagline.good{background:rgba(0,184,148,0.12);color:var(--teal-deep);}
+.annot .txt ul{list-style:none;margin-top:12px;}
+.annot .txt li{
+  font-size:.85rem;color:var(--ink-soft);padding:9px 0;border-bottom:1px dashed var(--row-border);
+  display:flex;gap:10px;align-items:baseline;
+}
+.annot .txt li:last-child{border-bottom:none;}
+.annot .txt li::before{content:"—";color:var(--indigo);font-weight:800;flex:none;}
+.annot .shot{margin:0;}
+.annot .shot figcaption{font-size:.76rem;color:var(--muted);margin-top:10px;line-height:1.5;}
+
+/* solution — grouped by screen, narrative + inline shots instead of a flat table */
+.sol{margin-top:48px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:30px 28px;}
+.sol .sol-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
+.sol .n{font-family:'Satoshi',sans-serif;font-weight:900;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-deep);}
+.sol h3{font-size:1.15rem;font-weight:900;letter-spacing:-0.01em;color:var(--ink);}
+.sol .sol-sub{margin-top:6px;font-size:.9rem;color:var(--ink-soft);line-height:1.65;max-width:680px;}
+.sol .closes-tag{margin-top:12px;}
+.sol .shot{margin-top:22px;}
+.sol-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+.shot-narrow{max-width:420px;}
+
+/* side-by-side .sol variant: copy left, one image right, for screens where a single shot would
+   otherwise sit stacked under the copy leaving the other half of the card empty. */
+.sol.side{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
+.sol.side .sol-text{min-width:0;}
+.sol.side .shot{margin-top:0;}
+.sol.side .shot-narrow{max-width:none;margin:0 auto;}
+
+/* closing pull-quote — the last word before "other case studies" */
+.take{text-align:center;padding:72px 0 64px;border-top:1px solid var(--border);}
+.take .big{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.3rem,3vw,1.9rem);
+  color:var(--ink);letter-spacing:-0.01em;max-width:720px;margin:0 auto;line-height:1.4;
+}
+.take .big em{font-style:normal;color:var(--indigo);}
+.take .fine{margin-top:18px;font-size:.78rem;color:var(--muted);letter-spacing:.04em;}
+
+@media(max-width:860px){
+  .tldr-grid{grid-template-columns:1fr 1fr;}
+  .annot,.annot.flip{grid-template-columns:1fr;}
+  .annot.flip .txt{order:0;}
+  .sol-2col{grid-template-columns:1fr;}
+}
+@media(max-width:560px){
+  .tldr-grid{grid-template-columns:1fr;}
+}
+
+/* overview — portfolio-safe narrative, sits between hero and the numbered breakdown */
+.overview{padding:56px 0 64px;border-top:1px solid var(--border);}
+.overview .ov-block{margin-top:32px;max-width:780px;}
+.overview .ov-block:first-of-type{margin-top:0;}
+.overview .ov-label{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;}
+.overview .ov-block p{font-size:.98rem;color:var(--ink-soft);line-height:1.75;}
+.overview .ov-block p + p{margin-top:12px;}
+
+/* outcomes — refined metric cards */
+.outcome-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:36px;}
+.outcome{
+  background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:26px;position:relative;
+  display:flex;flex-direction:column;transition:border-color .2s;
+}
+.outcome:hover{border-color:rgba(110,108,240,0.4);}
+.outcome .loop{
+  position:absolute;top:18px;right:18px;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--row-border);border-radius:100px;padding:3px 10px;
+}
+.outcome .t{font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:18px;}
+.outcome .hero-val{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:2.6rem;line-height:1;color:var(--indigo);
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+}
+.outcome .hero-val small{font-size:.95rem;color:var(--ink-soft);font-weight:700;}
+.outcome .ph{
+  color:var(--indigo);background:rgba(110,108,240,0.1);border:1px dashed rgba(110,108,240,0.5);
+  border-radius:8px;padding:2px 14px;display:inline-block;
+}
+.outcome .desc{font-size:.82rem;color:var(--muted);margin-top:12px;flex:1;}
+.outcome .baseline{
+  margin-top:18px;padding-top:14px;border-top:1px dashed var(--row-border);
+  display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.75rem;
+}
+.outcome .baseline .bl{color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.64rem;}
+.outcome .baseline .bv{color:var(--ink-soft);font-weight:800;font-family:'Satoshi',sans-serif;}
+.outcome-note{
+  margin-top:20px;background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;padding:18px 22px;
+  font-size:.86rem;color:var(--muted);
+}
+.outcome-note b{color:var(--ink-soft);}
+.ph-inline{
+  color:var(--indigo);background:rgba(110,108,240,0.1);border:1px dashed rgba(110,108,240,0.5);
+  border-radius:6px;padding:1px 9px;display:inline-block;
+}
+
+/* footer — synced to index.html's updated dark footer */
+footer{background:var(--asphalt);color:var(--coconut);}
+.foot-inner{max-width:1200px;margin:0 auto;padding:var(--space-xl) 60px var(--space-lg);display:grid;gap:var(--space-lg);}
+.foot-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--space-lg);flex-wrap:wrap;}
+.foot-quote{font-family:"Satoshi",sans-serif;font-weight:700;font-size:clamp(1.25rem,2.6vw,2.1rem);line-height:1.25;letter-spacing:.02em;}
+.foot-tagline{margin-top:12px;font-size:clamp(1rem,1.6vw,1.15rem);color:var(--coconut-soft);max-width:44ch;}
+.foot-links{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-sm);}
+.foot-links .email,.foot-links .phone{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:"Satoshi",sans-serif;font-weight:400;font-size:clamp(1.05rem,2vw,1.5rem);
+  color:var(--coconut);text-decoration:none;transition:color 160ms ease;
+}
+.foot-links .email svg,.foot-links .phone svg{flex-shrink:0;}
+.foot-links .email:hover,.foot-links .phone:hover{color:var(--vermillion);}
+.socials{display:flex;gap:var(--space-md);flex-wrap:wrap;}
+.socials a{
+  color:var(--coconut-soft);text-decoration:none;
+  font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;
+  transition:color 160ms ease;
+}
+.socials a::after{content:"\2197";margin-left:6px;color:var(--vermillion);}
+.socials a:hover{color:var(--coconut);}
+.foot-divider{
+  height:10px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'%3E%3Cpath d='M0 5 Q 6 1 12 5 T 24 5' fill='none' stroke='%236b6964' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 10px;
+  opacity:.75;
+}
+.foot-contact-row{
+  display:flex;flex-direction:column;align-items:flex-end;
+  gap:4px;
+  font-size:.85rem;letter-spacing:.1em;color:var(--coconut-soft);
+}
+
+/* other case studies — exact .case card component from index.html's "Selected Work" grid, dark variant */
+.other-cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-lg);}
+.cs-card{
+  display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
+  border:1px solid rgba(20,18,14,0.1);border-radius:16px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(20,18,14,0.04), 0 12px 32px rgba(20,18,14,0.07);
+  transition:transform 200ms cubic-bezier(0.22,1,0.36,1), border-color 200ms ease, box-shadow 200ms ease;
+}
+.cs-card:hover{
+  transform:translateY(-4px);border-color:rgba(20,18,14,0.28);
+  box-shadow:0 1px 2px rgba(20,18,14,0.05), 0 20px 44px rgba(20,18,14,0.1);
+}
+.cs-thumb{overflow:hidden;aspect-ratio:4/3;background:var(--row-bg);}
+.cs-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 400ms cubic-bezier(0.22,1,0.36,1);}
+.cs-card:hover .cs-thumb img{transform:scale(1.03);}
+.cs-thumb.soon{display:flex;align-items:center;justify-content:center;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.cs-card-body{padding:var(--space-md) var(--space-md) var(--space-lg);display:flex;flex-direction:column;gap:var(--space-sm);flex:1;}
+.cs-tags{display:flex;gap:var(--space-sm);flex-wrap:wrap;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);}
+.cs-tags span{border:1px solid rgba(20,18,14,0.28);border-radius:999px;padding:3px 8px;}
+.cs-card-title{font-family:'Satoshi',var(--font-body);font-weight:700;font-size:clamp(1.15rem,1.8vw,1.4rem);line-height:1.25;}
+.cs-card-desc{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+.cs-go{
+  margin-top:auto;position:relative;font-weight:700;color:var(--vermillion);
+  display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding-bottom:10px;font-size:.9rem;
+}
+.cs-go::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23C13D1E' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 8px;transform:scaleX(0);transform-origin:left;
+  transition:transform 320ms cubic-bezier(0.22,1,0.36,1);
+}
+.cs-card:hover .cs-go::after{transform:scaleX(1);}
+.cs-card.soon .cs-go, .cs-card.soon .cs-card-title{color:var(--muted);}
+
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+@media(max-width:860px){
+  .hero-stats{grid-template-columns:1fr;}
+  .split-80{grid-template-columns:1fr;}
+  .gap-grid,.persona-grid,.num-card-grid{grid-template-columns:1fr 1fr;}
+  .dec-grid,.outcome-grid,.compare,.other-cs-grid,.sol.side{grid-template-columns:1fr;}
+  .trust-grid{grid-template-columns:1fr 1fr;}
+  .scope-flow,.hflow{flex-direction:column;}
+  .scope-flow .arrow{transform:rotate(90deg);justify-content:center;padding:10px 0;}
+  .hflow .conn{transform:rotate(90deg);justify-content:center;padding:6px 0;}
+  .phase .ph-body{grid-template-columns:1fr;}
+  .page-inner{padding:0 24px;}
+}
+@media(max-width:560px){
+  .gap-grid,.persona-grid,.num-card-grid,.split-80 .num-card-grid{grid-template-columns:1fr;}
+  .trust-grid{grid-template-columns:1fr;}
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet" />
+<style>
+  /* Case study title, matched to the index. Staatliches is a single-weight caps face, so the
+     weight and negative tracking that came with the old Satoshi setting are overridden too.
+     !important because one of these pages styles its h1 inline. */
+  h1 {
+    font-family: "Staatliches", "Impact", "Arial Narrow", sans-serif !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em !important;
+    font-synthesis-weight: none;
+  }
+</style>
+</head>
+<body id="top">
+
+<!-- ============ SITE NAV (consistent with index / other case studies) ============ -->
+<header class="hdr">
+  <a class="hdr-logo" href="index.html" aria-label="Shabnam Raghavan home">Shabnam Raghavan</a>
+  <nav class="hdr-nav" aria-label="Primary">
+    <a href="index.html#work">Work</a>
+    <a href="about.html">About me</a>
+    <span class="resume-group">
+      <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
+      <a class="resume-dl" href="https://drive.google.com/uc?export=download&id=1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh" download rel="noopener" aria-label="Download resume" title="Download resume">&darr;</a>
+    </span>
+    <a href="index.html#contact">Contact me</a>
+  </nav>
+</header>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="meta-row hero-tags-top">
+        <span class="chip">IHX Case Study</span>
+        <span class="chip">AI Product</span>
+        <span class="chip">Health InsurTech</span>
+        <span class="chip">Applied AI</span>
+      </div>
+      <h1>Designing AI-Enabled Features at the <span class="serif">Point of Human Failure</span> Inside a Legacy Claims Platform</h1>
+      <p class="sub">How I identify where AI genuinely helps inside a legacy claims platform, what historical data already sitting in the product can be reused instead of built from scratch, and how to design the human-AI handoff so people actually trust it.</p>
+      <div class="hero-stats reveal">
+        <div class="cell"><span class="tag">Scale</span><div class="num accent">1.8&ndash;2L<small style="font-size:.5em;">/mo</small></div><div class="lbl">Diagnosis entries submitted monthly, 61% uncoded</div></div>
+        <div class="cell"><span class="tag">Delay cost</span><div class="num teal">+37%</div><div class="lbl">Longer processing time when beneficiary search fails</div></div>
+        <div class="cell"><span class="tag">Stuck queries</span><div class="num indigo">12&ndash;48h</div><div class="lbl">A payer query sat unresolved, before QueryLens</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="wrap">
+    <a href="#tldr"><b>00</b> tl;dr</a>
+    <a href="#s1"><b>01</b> the shared pattern</a>
+    <a href="#s2"><b>02</b> benefsnap.ai</a>
+    <a href="#s3"><b>03</b> coderight.ai</a>
+    <a href="#s4"><b>04</b> docusense.ai</a>
+    <a href="#s5"><b>05</b> querylens.ai</a>
+    <a href="#s6"><b>06</b> scope</a>
+  </div>
+</div>
+
+<section id="tldr">
+  <div class="wrap">
+    <div class="sec-tag">TL;DR</div>
+    <h2>The whole story, in five cards.</h2>
+    <div class="tldr-grid">
+      <div class="tldr reveal"><span class="k">Problem</span><p>Four manual entry points, each one a free-text field a hospital user fills under time pressure. <b>Every one silently cost the business.</b></p></div>
+      <div class="tldr reveal"><span class="k">Approach</span><p>Reuse data <b>already sitting in the product</b>, like a member card, a diagnosis history, or an ICD mapping, instead of asking hospitals for new input.</p></div>
+      <div class="tldr reveal"><span class="k">Trust</span><p>Multi-select over auto-fill, visible confidence, and <b>one shared disclaimer language</b> across every AI surface on the platform.</p></div>
+      <div class="tldr reveal"><span class="k">Status</span><p><b>4 features shipped</b>, from beneficiary search to query resolution, each one live on the platform.</p></div>
+      <div class="tldr reveal"><span class="k">Takeaway</span><p>The real skill is not the four features. It is knowing <b>where AI belongs</b> in a legacy product, and designing the handoff so people rely on it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="s1">
+  <div class="wrap">
+    <div class="sec-tag"><em>01</em> · The Shared Pattern</div>
+    <h2>Four different moments. One shared pattern.</h2>
+    <p class="sec-intro">IHX processes claims through several manual entry points, each one a place where a hospital user types something into a free-text field under time pressure. Every one of these points was silently costing the business.</p>
+
+    <div class="hflow reveal">
+      <div class="node"><span class="step">Point 01</span><b>Beneficiary Search</b><p>Manual member &amp; policy entry, before every claim</p></div>
+      <div class="conn">&rarr;</div>
+      <div class="node"><span class="step">Point 02</span><b>Diagnosis Entry</b><p>61% of entries carry no ICD-10 code</p></div>
+      <div class="conn">&rarr;</div>
+      <div class="node"><span class="step">Point 03</span><b>Document Upload</b><p>No way to know what a payer will ask for</p></div>
+      <div class="conn">&rarr;</div>
+      <div class="node"><span class="step">Point 04</span><b>Query Resolution</b><p>Free-text queries, routed and replied by hand</p></div>
+    </div>
+    <p class="flow-caption">Unstructured human input at the point of failure. The cost shows up later as <b>turnaround time, query volume, and rejected revenue.</b></p>
+
+    <div class="callout reveal">
+      <div class="t">The actual capability, not the four features</div>
+      <p>What I focus on in this case study is not the four features themselves. It is the underlying design capability: knowing where inside an existing, legacy SaaS product AI genuinely helps, what historical data already sitting in the product can be reused instead of built from scratch, and how to design the human-AI handoff so the person on the other end actually trusts the output enough to rely on it. Each section below applies that capability to one real point of failure.</p>
+    </div>
+  </div>
+</section>
+<section id="s2">
+  <div class="wrap">
+    <div class="sec-tag"><em>02</em> · BenefSnap.AI · Beneficiary Search</div>
+    <h2>Manual beneficiary search was 37% slower to fail than to succeed.</h2>
+    <p class="sec-intro">BenefSnap digitizes member card information and performs automated payer search validation before submission, replacing manual parameter entry with document upload and extraction.</p>
+
+    <div class="split-80">
+      <div class="big-num-card reveal">
+        <div class="giant">+37<span>%</span></div>
+        <div class="cap">Slower to resolve a failed beneficiary search (2h21m) than a successful one (1h40m median)</div>
+      </div>
+      <div class="num-card-grid">
+        <div class="num-card reveal">
+          <span class="badge-num">1</span>
+          <b>Failed searches route to a manual queue</b>
+          <p>Someone maps the correct beneficiary ID by hand, or the hospital falls back to offline email submission.</p>
+        </div>
+        <div class="num-card reveal">
+          <span class="badge-num">2</span>
+          <b>Hospitals were pushing back entirely</b>
+          <p>On doing beneficiary search manually at all: friction severe enough to threaten adoption of the step itself.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout reveal">
+      <div class="t">The decision</div>
+      <p>There were two ways to solve this: have the patient enter their own policy details, or give the TPA desk a way to stop typing altogether. I designed for the second, because the underlying data already existed on a document the desk already handles: the member card, policy card, or e-card the patient hands over at the counter. Rather than asking the desk to read that card and retype it, the design moves document upload earlier in the flow and lets extraction do the retyping.</p>
+    </div>
+
+    <div class="mini-label">Building trust</div>
+    <div class="trust-grid">
+      <div class="dec reveal">
+        <div class="n">01</div>
+        <b>It degrades gracefully</b>
+        <p>If the hospital has the complete docket at intimation, the system runs a full beneficiary search immediately. If they only have a member or policy card, that's enough to proceed, saved in draft until the rest arrives. Never an all-or-nothing document requirement.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">02</div>
+        <b>It sits inside the existing step, not a new one</b>
+        <p>Document upload was placed at the point where TPA users already select a payer pair, not bolted on as an additional screen, so adopting the AI-assisted path did not mean learning a new process.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">03</div>
+        <b>The output is auditable</b>
+        <p>Extracted member name, policy number, insurer, and TPA auto-fill the form, but nothing is submitted invisibly. The desk sees exactly what was extracted before it goes to the payer.</p>
+      </div>
+    </div>
+
+    <div class="mini-label">Screen recording</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">▶</span><b>BenefSnap document upload and auto-fill flow</b><code>images/benefsnap-upload-autofill.mp4</code></div>
+      <video src="images/benefsnap-upload-autofill.mp4" controls muted playsinline onerror="this.remove()"></video>
+    </figure>
+
+    <div class="mini-label">Impact</div>
+    <div class="outcome-grid">
+      <div class="outcome reveal">
+        <div class="t">Adoption</div>
+        <div class="hero-val">270<small>hospitals live</small></div>
+        <p class="desc">Rolled out platform-wide as a premium AI feature, priced at 20&ndash;30 paisa per policy.</p>
+      </div>
+      <div class="outcome reveal">
+        <div class="t">Automation</div>
+        <div class="hero-val">22<small>% automated search adoption</small></div>
+        <p class="desc">Targets the 37% processing-time gap between a failed and a successful beneficiary search.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s3">
+  <div class="wrap">
+    <div class="sec-tag"><em>03</em> · CodeRight.AI · Diagnosis &amp; ICD Coding</div>
+    <h2>61% of diagnosis entries carried no ICD-10 code, and the person typing them isn't a clinician.</h2>
+    <p class="sec-intro">CodeRight lets hospital staff enter a diagnosis in natural language and maps that language to a ranked set of ICD-10 code suggestions, instead of requiring the user to search a clinical coding system directly.</p>
+
+    <div class="split-80">
+      <div class="big-num-card reveal">
+        <div class="giant">61<span>%</span></div>
+        <div class="cap">Of 1.8&ndash;2 lakh monthly diagnosis entries carry no ICD-10 code</div>
+        <div class="bar-split">
+          <div class="bar"><div class="b1" style="width:61%;"></div><div class="b2" style="width:39%;"></div></div>
+          <div class="legend"><span><b>61%</b> uncoded</span><span><b>39%</b> coded</span></div>
+        </div>
+      </div>
+      <div class="num-card-grid">
+        <div class="num-card reveal">
+          <span class="badge-num">1</span>
+          <b>The user isn't a clinician</b>
+          <p>TPA desk staff know a patient's condition in plain words, like "stone in kidney," not ICD terminology. Doctors themselves use shorthand ("TM perf") a literal search would miss entirely.</p>
+        </div>
+        <div class="num-card reveal">
+          <span class="badge-num">2</span>
+          <b>A dropdown assumes what's missing</b>
+          <p>A searchable ICD dropdown assumes the user already knows the clinical term they're searching for, exactly what this user does not have.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fact-row reveal">
+      <span class="fact-pill"><b>49%</b> usable free text, nothing selected</span>
+      <span class="fact-pill"><b>12%</b> garbage input</span>
+      <span class="fact-pill"><b>21%</b> wrong code picked outright</span>
+    </div>
+
+    <div class="callout reveal">
+      <div class="t">The decision</div>
+      <p>I did not build a searchable ICD dropdown. Instead, the diagnosis field stays free text, in the user's own words, and AI maps that language to ICD candidates behind the scenes using lingo and synonym matching, hospital-specific usage patterns, and semantic search. The interface never asks the user to think like a medical coder.</p>
+    </div>
+
+    <div class="mini-label">Building trust</div>
+    <div class="trust-grid">
+      <div class="dec reveal">
+        <div class="n">01</div>
+        <b>Multi-select, not auto-fill</b>
+        <p>The system never picks a code for the user. It surfaces up to five ranked ICD suggestions and requires a deliberate selection, because a wrong auto-selected code on a claims document is worse than a slower but correct one.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">02</div>
+        <b>Case-volume as a trust signal</b>
+        <p>Each suggestion shows how many times that specific hospital has submitted that diagnosis before, alongside a confidence label (high, medium, low), evidence to weigh against their own institutional memory.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">03</div>
+        <b>Naming the failure mode, not hiding it</b>
+        <p>The interface states plainly that AI suggestions may not reflect every insurer's specific requirements and should be verified before submitting, at the exact moment the user is deciding whether to rely on it.</p>
+      </div>
+    </div>
+
+    <div class="mini-label">Screen recording</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">▶</span><b>CodeRight diagnosis search and suggestion flow</b><code>images/coderight-diagnosis-search.mp4</code></div>
+      <video src="images/coderight-diagnosis-search.mp4" controls muted playsinline onerror="this.remove()"></video>
+    </figure>
+
+    <div class="mini-label">Impact</div>
+    <div class="outcome-grid">
+      <div class="outcome reveal">
+        <div class="t">Coverage</div>
+        <div class="hero-val">65&ndash;70<small>% ICD coverage</small></div>
+        <p class="desc">Diagnosis entries that carry a valid ICD-10 code, up from 39%.</p>
+      </div>
+      <div class="outcome reveal">
+        <div class="t">Response speed</div>
+        <div class="hero-val">&lt;2s<small>for top-5 suggestions</small></div>
+        <p class="desc">The most relevant ICD code appears in the top 3 results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s4">
+  <div class="wrap">
+    <div class="sec-tag"><em>04</em> · DocuSense.AI · Document Intelligence</div>
+    <h2>Hospitals learned what a payer wanted only when the query arrived, often after discharge.</h2>
+    <p class="sec-intro">DocuSense generates a dynamic, claim-specific document checklist at upload time, based on the diagnosis and procedure already entered, and shows the hospital a live estimate of how likely this claim is to trigger a payer query.</p>
+
+    <div class="callout plain reveal">
+      <div class="t">The problem</div>
+      <p>Hospitals had no way to know what documents a payer would actually ask for until the query arrived days later, often after the patient had already been discharged and the paperwork was harder to retrieve. The checklist requirement was effectively invisible until it was too late to act on cheaply.</p>
+    </div>
+
+    <div class="callout reveal">
+      <div class="t">The decision</div>
+      <p>Rather than a static, one-size-fits-all upload checklist, the required-documents list is generated dynamically from the ICD code and procedure already captured for that specific claim, using the same mapping logic underneath CodeRight. The checklist exists without asking the hospital for any new input; it reuses data the claim already has.</p>
+    </div>
+
+    <div class="mini-label">Building trust</div>
+    <div class="trust-grid">
+      <div class="dec reveal">
+        <div class="n">01</div>
+        <b>Risk made visible before submission, not after</b>
+        <p>A query-probability indicator turns an abstract downstream risk into a concrete, present-moment number the user can act on immediately, instead of finding out days later.</p>
+        <div class="bar-split" style="margin-top:16px;">
+          <div class="bar"><div class="b1" style="width:35%;"></div><div class="b2" style="width:65%;background:var(--row-bg);"></div></div>
+          <div class="legend"><span>"There is a probability of receiving a query on this claim," shown above the checklist (35% here is an illustrative example, not a reported figure)</span></div>
+        </div>
+      </div>
+      <div class="dec reveal">
+        <div class="n">02</div>
+        <b>Documents grouped by why they matter</b>
+        <p>Grouped stage-specific vs. ICD-specific, so the user understands the reasoning behind each requirement instead of facing an undifferentiated list.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">03</div>
+        <b>The same disclaimer, on purpose</b>
+        <p>The exact "based on historical patterns, please verify" language used in CodeRight appears here too, one consistent mental model for what an AI suggestion means on IHX, not a different trust convention per feature.</p>
+      </div>
+    </div>
+
+    <div class="mini-label">Screen recording</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">▶</span><b>DocuSense dynamic checklist and query-probability indicator</b><code>images/docusense-checklist.mp4</code></div>
+      <video src="images/docusense-checklist.mp4" controls muted playsinline onerror="this.remove()"></video>
+    </figure>
+
+    <div class="mini-label">Impact</div>
+    <div class="outcome-grid">
+      <div class="outcome reveal">
+        <div class="t">QC load addressed</div>
+        <div class="hero-val">70&ndash;100<small>/day, per flagship hospital chain</small></div>
+        <p class="desc">Manual QC cases tied to missing or mismatched documentation.</p>
+      </div>
+      <div class="outcome reveal">
+        <div class="t">Classification accuracy</div>
+        <div class="hero-val">~80<small>%</small></div>
+        <p class="desc">Document classification accuracy for the dynamic checklist.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s5">
+  <div class="wrap">
+    <div class="sec-tag"><em>05</em> · QueryLens.AI · Query Categorization &amp; Routing</div>
+    <h2>Categorization was implicit, routing was tribal knowledge, resolution was fragmented across four tools.</h2>
+    <p class="sec-intro">QueryLens reads an incoming payer query, classifies what kind of query it is, suggests who on the hospital's team should own it, and gives the hospital an in-platform chat and structured reply flow, so the whole resolution happens inside IHX instead of across WhatsApp, email, and a payer portal.</p>
+
+    <div class="hflow reveal">
+      <div class="node"><span class="step">Categorize</span><b>Implicit</b><p>Desk reads free text and decides mentally, with no system record of that decision</p></div>
+      <div class="conn">&rarr;</div>
+      <div class="node"><span class="step">Route</span><b>Tribal knowledge</b><p>"Call Priya for billing," a mapping that breaks the moment shifts change</p></div>
+      <div class="conn">&rarr;</div>
+      <div class="node"><span class="step">Resolve</span><b>Fragmented</b><p>Word doc, HIS, payer portal, WhatsApp: none of which talk to each other</p></div>
+    </div>
+    <p class="flow-caption">Result: queries sat unresolved for <b>12 to 48 hours</b>, not because the answer was hard, but because the coordination was, and an audit trail was nearly impossible to reconstruct after the fact.</p>
+
+    <div class="callout reveal">
+      <div class="t">The decision</div>
+      <p>Rather than treating categorization, routing, and resolution as three separate problems, I designed them as one continuous workflow: AI categorizes the query, the system suggests the right team members before the desk has to think about it, the conversation happens inside the platform, and the reply, with documents, is submitted from the same screen. The desk never has to leave the workflow to resolve a query.</p>
+    </div>
+
+    <div class="mini-label">Building trust: a different kind, about visible learning over time</div>
+    <div class="trust-grid">
+      <div class="dec reveal">
+        <div class="n">01</div>
+        <b>Primary and secondary category, shown together, everywhere</b>
+        <p>Early versions showed only the primary category. Field review found "Medical Necessity" alone too ambiguous to act on; "Medical Necessity: Surgery / Procedure Justification" told hospitals exactly what the payer wanted, a direct hospital-feedback-driven change.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">02</div>
+        <b>The system shows its own learning, live</b>
+        <p>When a query the AI could not categorize gets manually assigned by the desk, the category visibly upgrades on the row and in the timeline, from a grey "Others" pill to the chosen department's icon and color. Hidden learning is not trustworthy learning.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">03</div>
+        <b>Two distinct correction signals, not one</b>
+        <p>A correction on an already-categorized claim and a first categorization of an "Others" claim answer different questions, so they're logged separately: one training precision, one training recall, rather than averaged into one vague "override."</p>
+      </div>
+    </div>
+
+    <div class="mini-label">Screen recording</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">▶</span><b>QueryLens categorization, assignment, and in-platform chat</b><code>images/querylens-categorization-chat.mp4</code></div>
+      <video src="images/querylens-categorization-chat.mp4" controls muted playsinline onerror="this.remove()"></video>
+    </figure>
+
+    <div class="mini-label">Impact</div>
+    <div class="outcome-grid">
+      <div class="outcome reveal">
+        <div class="t">Resolution time</div>
+        <div class="hero-val">40&ndash;60<small>% reduction</small></div>
+        <p class="desc">Cut in median query resolution time.</p>
+      </div>
+      <div class="outcome reveal">
+        <div class="t">AI coverage</div>
+        <div class="hero-val">77&rarr;95<small>%+ categorization coverage</small></div>
+        <p class="desc">Share of incoming payer queries the AI can categorize on its own.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="take" id="s6">
+  <div class="wrap">
+    <p class="big reveal">BenefSnap, CodeRight, DocuSense, and QueryLens are all live on the platform. <em>A fifth feature is in early scoping, and will be added here once its design work is complete.</em></p>
+    <p class="fine">IHX &middot; AI-Enabled Features at the Point of Failure, ongoing</p>
+  </div>
+</div>
+
+<!-- OTHER CASE STUDIES -->
+<section class="more-work">
+  <div class="wrap">
+    <div class="sec-tag">More Work</div>
+    <h2>Other Case Studies</h2>
+    <div class="other-cs-grid" style="margin-top:36px;">
+      <a href="ihx_tpa_ops_.html" class="cs-card">
+        <div class="cs-thumb"><img src="ihx-cover.png" alt="IHX Ops Dashboard claims listing screen"></div>
+        <div class="cs-card-body">
+          <div class="cs-tags"><span>B2B SaaS</span><span>WebApp</span><span>Health InsurTech</span></div>
+          <div class="cs-card-title">IHX Ops Dashboard</div>
+          <p class="cs-card-desc">Restructured the IA of a hospital claims platform used by two user teams.</p>
+          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      <a href="ihx-user-management-case-study.html" class="cs-card">
+        <div class="cs-thumb"><img src="ihx-user-mgmt-cover.png" alt="IHX User Management case study hero screen"></div>
+        <div class="cs-card-body">
+          <div class="cs-tags"><span>B2B SaaS</span><span>Health InsurTech</span></div>
+          <div class="cs-card-title">In-Product User Management Module Redesign</div>
+          <p class="cs-card-desc">Took ~80 daily manual access requests off Ops' plate with a self-serve module.</p>
+          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      <a href="wisewomen-case-study.html" class="cs-card">
+        <div class="cs-thumb"><img src="wisewoman-cover.jpg" alt="WiseWoman cycle-aware planner app screen"></div>
+        <div class="cs-card-body">
+          <div class="cs-tags"><span>B2C</span><span>FemTech</span><span>AI</span></div>
+          <div class="cs-card-title">WiseWoman: Cycle-Aware AI Smart Planner</div>
+          <p class="cs-card-desc">AI-native productivity app built in 5 days.</p>
+          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER — typography ported from index.html's footer (.foot-quote / .foot-links / .socials) -->
+<footer id="contact">
+<div class="foot-inner">
+  <div class="foot-head">
+    <div>
+      <p class="foot-quote">Still exploring. Still building.</p>
+      <p class="foot-tagline">Let&rsquo;s talk to build something great.</p>
+    </div>
+    <div class="foot-links">
+      <a class="email" href="mailto:shabnam.rs.work@gmail.com">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        shabnam.rs.work@gmail.com
+      </a>
+      <a class="phone" href="tel:+917022665338">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3a1 1 0 011-1h2.5l1 3-1.5 1.5a9 9 0 004.5 4.5L11 9.5l3 1V13a1 1 0 01-1 1A12 12 0 012 3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        +91 70226 65338
+      </a>
+    </div>
+  </div>
+
+  <div class="socials">
+    <a href="https://www.linkedin.com/in/shabnam-raghavan-b89798a5" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="#" rel="noopener">GitHub</a>
+    <a href="https://dribbble.com/ShabnamRaghavan" target="_blank" rel="noopener">Dribbble</a>
+    <a href="#" rel="noopener">Medium</a>
+  </div>
+
+  <div class="foot-divider" aria-hidden="true"></div>
+
+  <div class="foot-contact-row">
+    <p>Built by Shabnam Raghavan + Claude Code</p>
+    <p>Bangalore, India</p>
+  </div>
+</div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, {threshold: 0.12});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// image/video placeholders: hide the real element on load failure so the fallback card underneath shows through.
+// inline onerror covers <img>; <video> needs an explicit listener since its resource-error event does not
+// reliably reach the inline handler across browsers.
+document.querySelectorAll('.video-slot video').forEach(v => {
+  v.addEventListener('error', () => v.remove());
+  if (v.error || v.networkState === 3) v.remove();
+});
+
+// .img-slot sizing: once a real image loads, drop the fixed 16:9 placeholder box in favour of
+// the image's own natural aspect ratio (see .img-slot.has-image in <style>), and hide the
+// fallback card underneath it — the img is no longer absolutely positioned over it by default.
+document.querySelectorAll('.img-slot img').forEach(img => {
+  const markLoaded = () => {
+    img.closest('.img-slot').classList.add('has-image');
+    const fallback = img.previousElementSibling;
+    if (fallback && fallback.classList.contains('img-slot-fallback')) fallback.style.display = 'none';
+  };
+  if (img.complete && img.naturalWidth > 0) markLoaded();
+  else img.addEventListener('load', markLoaded);
+});
+</script>
+
+</body>
+</html>

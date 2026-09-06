@@ -13,28 +13,52 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
 :root{
-  --bg:#0E0D0C;
+  --space-xs:8px;--space-sm:12px;--space-md:24px;--space-lg:48px;--space-xl:96px;
+  --font-display:"Gloock", serif;--font-body:"Alegreya Sans", sans-serif;
+  --coconut:#f0ede5;
+  --coconut-soft:#b3ada0;
+  --asphalt:#302f2c;
+  --asphalt-soft:#6b6964;
+  --turmeric-deep:oklch(54% 0.125 78);
+  /* neutral gray ramp — light theme, same values as the other case studies */
+  --ground:#f0ede5;
+  --ground-alt:#eae5d8;
+  --card-bg:#e3ddcd;
+  --row-bg:#dbd3c0;
+  --shadow-card:0 1px 2px rgba(20,18,14,0.04), 0 10px 28px rgba(20,18,14,0.06);
+  --radius-card:16px;
+
+  /* WiseWoman's own accent — purple, kept distinct from IHX's indigo/teal.
+     --v2 is darkened from the original #B08CF5 (2.65:1 on white, fails AA) to #7C3AED
+     (5.7:1, same 258–262° hue family, still reads purple not indigo) so it stays safe
+     as text. --v2-bright keeps the original pastel for fills/borders/decorative use only. */
   --red:#E8430A;
   --v1:#8B5CF6;
-  --v2:#B08CF5;
+  --v2:#7C3AED;
+  --v2-bright:#B08CF5;
   --v3:#9493F8;
   --v-glow:rgba(139,92,246,0.16);
   --app-dark:#1A1832;
   --app-mid:#252538;
   --app-card:#161719;
   --app-purple:#393447;
-  --w1:#E8DFD0;
-  --w2:#D0C6B6;
-  --w3:#A89D8C;
-  --w4:#827462;
+  --vermillion:#C13D1E;
+
+  --ink:#1C1912;
+  --ink-soft:#5B5449;
+  --muted:#5F584F;
+  --w1:#1C1912;
+  --w2:#5B5449;
+  --w3:#5F584F;
+  --w4:#5F584F;
   --lime:#A3E635;
-  --line:rgba(240,237,230,0.10);
-  --line-2:rgba(240,237,230,0.06);
+  --line:rgba(20,18,14,0.08);
+  --line-2:rgba(20,18,14,0.06);
 }
 
 html{scroll-behavior:smooth;}
 body{
-  background:var(--bg);
+  background:var(--ground);
   color:var(--w1);
   font-family:'Manrope',sans-serif;
   font-size:14px;
@@ -51,19 +75,23 @@ body{
   display:flex;align-items:center;justify-content:space-between;
   padding: clamp(16px, 2.5vw, 28px) clamp(24px, 5vw, 60px);
   font-size:0.85rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--asphalt-soft);
 }
-.hdr-logo{font-family:'Gloock',serif;font-weight:400;font-size:1.2rem;letter-spacing:0;text-transform:none;color:var(--w1);white-space:nowrap;text-decoration:none;}
+.hdr-logo{font-family:"Satoshi",sans-serif;font-weight:700;font-size:1.2rem;letter-spacing:0;text-transform:none;color:var(--asphalt);white-space:nowrap;text-decoration:none;}
 .hdr-nav{display:flex;align-items:center;gap:24px;}
-.hdr-nav a{position:relative;font-family:'Alegreya Sans',sans-serif;color:var(--w2);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
+.hdr-nav a{position:relative;font-family:"Manrope",sans-serif;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
 .hdr-nav a::after{
   content:'';position:absolute;left:0;right:0;bottom:0;height:8px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23B08CF5' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%237C3AED' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
   background-size:24px 8px;
   transform:scaleX(0);transform-origin:left;
   transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
 }
 .hdr-nav a:hover{color:var(--v2);}
 .hdr-nav a:hover::after{transform:scaleX(1);}
+.resume-group{display:inline-flex;align-items:baseline;gap:6px;}
+.resume-dl{color:var(--asphalt-soft);text-decoration:none;font-size:0.85em;transition:color 160ms ease;}
+.resume-dl:hover{color:var(--vermillion);}
 
 /* ── HERO TAGS ── */
 .hero-tags{
@@ -74,11 +102,13 @@ body{
   border:1px solid var(--line);border-radius:100px;padding:3px 9px;
 }
 
-/* ── HERO IMAGE BLEND ── */
+/* ── HERO IMAGE ── the old screen-blend trick only worked because it was disappearing onto a
+   black page; against white it just shows the photo's own black backdrop as-is, so it is a
+   normal framed image now, same position/size as before, just no longer blended. */
 .hero-photo{
   position:absolute;top:50%;right:0;transform:translateY(calc(-50% - 10px));
   width:50%;max-width:620px;z-index:1;pointer-events:none;
-  mix-blend-mode:screen;
+  border-radius:20px;box-shadow:0 24px 56px rgba(20,18,14,0.14);
 }
 
 /* ── HERO ── */
@@ -287,9 +317,21 @@ body{
   linear-gradient(160deg,var(--app-dark),var(--app-card));
   border:1px solid rgba(139,92,246,.22);
   display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
-  box-shadow:0 24px 60px rgba(0,0,0,.5);}
+  box-shadow:0 16px 40px rgba(20,18,14,.14);position:relative;overflow:hidden;}
 .scr-img .ph{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--v2);}
-.scr-img .ph2{font-size:11px;font-weight:300;color:var(--w4);}
+.scr-img .ph2{font-size:11px;font-weight:300;color:var(--w4);font-family:monospace;}
+.scr-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+/* demo video slot — same dark app-mockup card treatment as .scr-img, wider aspect for a
+   screen recording instead of a single screen. */
+.demo-slot{
+  aspect-ratio:16/9;border-radius:14px;background:
+  radial-gradient(120% 120% at 30% 20%,rgba(139,92,246,.32),transparent 60%),
+  linear-gradient(160deg,var(--app-dark),var(--app-card));
+  border:1px solid rgba(139,92,246,.22);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
+  box-shadow:0 16px 40px rgba(20,18,14,.14);position:relative;overflow:hidden;margin-top:40px;
+}
+.demo-slot video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;}
 .scr-txt .k{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--v2);margin-bottom:18px;}
 .scr-txt h3{font-family:'Satoshi';font-size:30px;font-weight:900;letter-spacing:-.02em;color:var(--w1);margin-bottom:16px;}
 .scr-txt p{font-size:14.5px;font-weight:300;line-height:1.78;color:var(--w2);}
@@ -326,32 +368,78 @@ body{
 .closing p > span{display:block;white-space:nowrap;}
 .closing p > span .v{display:inline;}
 
-/* ── FOOTER ── */
-.more{max-width:1200px;margin:0 auto;padding:130px 48px 40px;}
-.more-eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--w4);margin-bottom:22px;}
-.more-head{font-family:'Satoshi';font-size:clamp(34px,5vw,56px);font-weight:900;letter-spacing:-.03em;color:var(--w1);margin-bottom:56px;}
-.cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
-.cs-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;display:block;transition:border-color .2s;}
-.cs-card:hover{border-color:rgba(240,237,230,0.28);}
-.cs-thumb{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;}
-.cs-thumb span{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(240,237,230,0.32);}
-.cs-thumb.ihx{background:#1c1b3a;}
-.cs-thumb.soon{background:#131210;}
-.cs-body{padding:26px 26px 30px;}
-.cs-tags{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
-.cs-tags i{font-style:normal;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--w2);border:1px solid var(--line);border-radius:100px;padding:3px 9px;}
-.cs-title{font-family:'Satoshi';font-size:19px;font-weight:700;line-height:1.25;color:var(--w1);margin-bottom:10px;}
-.cs-card.soon .cs-title{color:var(--w3);}
-.cs-desc{font-size:13px;font-weight:300;color:var(--w3);}
-
-.contact{max-width:1200px;margin:0 auto;padding:90px 48px 80px;}
-.contact h2{font-family:'Satoshi';font-size:clamp(48px,8vw,96px);font-weight:900;letter-spacing:-.04em;line-height:.98;color:var(--w1);}
-.contact .sub{margin-top:24px;max-width:520px;font-size:16px;font-weight:300;line-height:1.7;color:var(--w2);}
-.contact .links{margin-top:44px;display:flex;flex-direction:column;gap:18px;}
-.contact .links a{display:flex;align-items:center;gap:14px;font-size:15px;font-weight:500;color:var(--w2);text-decoration:none;}
-.contact .links a:hover{color:var(--w1);}
-.contact .links svg{width:18px;height:18px;stroke:var(--w4);fill:none;}
-@media(max-width:880px){.cs-grid{grid-template-columns:1fr;}.more,.contact{padding-left:26px;padding-right:26px;}}
+/* ── OTHER CASE STUDIES + FOOTER — kept byte-for-byte consistent with the other two case
+   studies' chrome (nav, this section, footer). See case-study-shared-chrome memory note
+   before editing any of this; change it in all three files together, not just here. ── */
+.more-work{background:#eae5d8;padding:80px 48px;}
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w4);margin-bottom:10px;}
+.other-cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;}
+.cs-card{
+  display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
+  border:1px solid rgba(20,18,14,0.1);border-radius:16px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(20,18,14,0.04), 0 12px 32px rgba(20,18,14,0.07);
+  transition:transform 200ms cubic-bezier(0.22,1,0.36,1), border-color 200ms ease, box-shadow 200ms ease;
+}
+.cs-card:hover{
+  transform:translateY(-4px);border-color:rgba(20,18,14,0.28);
+  box-shadow:0 1px 2px rgba(20,18,14,0.05), 0 20px 44px rgba(20,18,14,0.1);
+}
+.cs-thumb{overflow:hidden;aspect-ratio:4/3;background:var(--row-bg);}
+.cs-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 400ms cubic-bezier(0.22,1,0.36,1);}
+.cs-card:hover .cs-thumb img{transform:scale(1.03);}
+.cs-thumb.soon{display:flex;align-items:center;justify-content:center;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--w4);}
+.cs-card-body{padding:24px 24px 48px;display:flex;flex-direction:column;gap:12px;flex:1;}
+.cs-tags{display:flex;gap:12px;flex-wrap:wrap;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);}
+.cs-tags span{border:1px solid rgba(20,18,14,0.28);border-radius:999px;padding:3px 8px;}
+.cs-card-title{font-family:'Satoshi',sans-serif;font-weight:700;font-size:clamp(1.15rem,1.8vw,1.4rem);line-height:1.25;}
+.cs-card-desc{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+.cs-go{
+  margin-top:auto;position:relative;font-weight:700;color:var(--vermillion);
+  display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding-bottom:10px;font-size:.9rem;
+}
+.cs-go::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23C13D1E' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 8px;transform:scaleX(0);transform-origin:left;
+  transition:transform 320ms cubic-bezier(0.22,1,0.36,1);
+}
+.cs-card:hover .cs-go::after{transform:scaleX(1);}
+.cs-card.soon .cs-go,.cs-card.soon .cs-card-title{color:var(--w4);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+.page-inner{max-width:1200px;margin:0 auto;padding:0 48px;}
+footer{background:var(--asphalt);color:var(--coconut);}
+.foot-inner{max-width:1200px;margin:0 auto;padding:var(--space-xl) 60px var(--space-lg);display:grid;gap:var(--space-lg);}
+.foot-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--space-lg);flex-wrap:wrap;}
+.foot-quote{font-family:"Satoshi",sans-serif;font-weight:700;font-size:clamp(1.25rem,2.6vw,2.1rem);line-height:1.25;letter-spacing:.02em;}
+.foot-tagline{margin-top:12px;font-size:clamp(1rem,1.6vw,1.15rem);color:var(--coconut-soft);max-width:44ch;}
+.foot-links{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-sm);}
+.foot-links .email,.foot-links .phone{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:"Satoshi",sans-serif;font-weight:400;font-size:clamp(1.05rem,2vw,1.5rem);
+  color:var(--coconut);text-decoration:none;transition:color 160ms ease;
+}
+.foot-links .email svg,.foot-links .phone svg{flex-shrink:0;}
+.foot-links .email:hover,.foot-links .phone:hover{color:var(--vermillion);}
+.socials{display:flex;gap:var(--space-md);flex-wrap:wrap;}
+.socials a{
+  color:var(--coconut-soft);text-decoration:none;
+  font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;
+  transition:color 160ms ease;
+}
+.socials a::after{content:"\2197";margin-left:6px;color:var(--vermillion);}
+.socials a:hover{color:var(--coconut);}
+.foot-divider{
+  height:10px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'%3E%3Cpath d='M0 5 Q 6 1 12 5 T 24 5' fill='none' stroke='%236b6964' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 10px;
+  opacity:.75;
+}
+.foot-contact-row{
+  display:flex;flex-direction:column;align-items:flex-end;
+  gap:4px;
+  font-size:.85rem;letter-spacing:.1em;color:var(--coconut-soft);
+}
+@media(max-width:880px){.other-cs-grid{grid-template-columns:1fr;}}
 
 /* ── RESPONSIVE ── */
 @media(max-width:880px){
@@ -372,6 +460,18 @@ body{
   .gap-row,.comp-row,.comp-head,.ai-row,.ai-head{grid-template-columns:1fr;gap:14px;}
 }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet" />
+<style>
+  /* Case study title, matched to the index. Staatliches is a single-weight caps face, so the
+     weight and negative tracking that came with the old Satoshi setting are overridden too.
+     !important because one of these pages styles its h1 inline. */
+  h1 {
+    font-family: "Staatliches", "Impact", "Arial Narrow", sans-serif !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em !important;
+    font-synthesis-weight: none;
+  }
+</style>
 </head>
 <body>
 
@@ -381,7 +481,10 @@ body{
   <nav class="hdr-nav" aria-label="Primary">
     <a href="index.html#work">Work</a>
     <a href="about.html">About me</a>
-    <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
+    <span class="resume-group">
+      <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
+      <a class="resume-dl" href="https://drive.google.com/uc?export=download&id=1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh" download rel="noopener" aria-label="Download resume" title="Download resume">&darr;</a>
+    </span>
     <a href="index.html#contact">Contact me</a>
   </nav>
 </header>
@@ -577,7 +680,7 @@ body{
 <!-- 05 AI ARCHITECTURE -->
 <section class="sec">
   <div class="sec-num">05 — AI Architecture at PM Depth</div>
-  <h2 class="sec-head" style="white-space:nowrap;">Two systems, chosen for two jobs.</h2>
+  <h2 class="sec-head">Two systems, chosen for two jobs.</h2>
   <p class="sec-lede">Text and voice do not share a pipeline. Each input type routes to the system that fits it. This is the most important technical decision in the product.</p>
 
   <div class="flows">
@@ -654,21 +757,27 @@ body{
 
   <div class="screens">
     <div class="screen">
-      <div class="scr-img"><span class="ph">Onboarding</span><span class="ph2">Drop screen export here</span></div>
+      <div class="scr-img"><span class="ph">Onboarding</span><span class="ph2">images/wisewoman-onboarding.png</span><img src="images/wisewoman-onboarding.png" alt="WiseWoman onboarding screen, reading cycle context and life roles" onerror="this.remove()"></div>
       <div class="scr-txt"><div class="k">Onboarding</div><h3>Set the rhythm, not a form</h3><p>Onboarding reads cycle context and life roles up front, so the first plan already fits the person. No long setup before any value appears.</p></div>
     </div>
     <div class="screen flip">
-      <div class="scr-img"><span class="ph">Contextual Home</span><span class="ph2">Drop screen export here</span></div>
+      <div class="scr-img"><span class="ph">Contextual Home</span><span class="ph2">images/wisewoman-home.png</span><img src="images/wisewoman-home.png" alt="WiseWoman home screen, energy and phase shown before the task plan" onerror="this.remove()"></div>
       <div class="scr-txt"><div class="k">Contextual Home</div><h3>The day, read in context</h3><p>The home surface leads with energy and phase, then the plan. The user sees why the day is shaped the way it is before they see the tasks.</p></div>
     </div>
     <div class="screen">
-      <div class="scr-img"><span class="ph">Task Capture</span><span class="ph2">Drop screen export here</span></div>
+      <div class="scr-img"><span class="ph">Task Capture</span><span class="ph2">images/wisewoman-task-capture.png</span><img src="images/wisewoman-task-capture.png" alt="WiseWoman task capture screen, voice and text entry" onerror="this.remove()"></div>
       <div class="scr-txt"><div class="k">Task Capture &amp; Scheduling</div><h3>Speak it, or type it</h3><p>Voice routes through the LLM, text through the rule engine. Either way the task lands grouped by role and slotted into a predictable schedule.</p></div>
     </div>
     <div class="screen flip">
-      <div class="scr-img"><span class="ph">Habit Reflection</span><span class="ph2">Drop screen export here</span></div>
+      <div class="scr-img"><span class="ph">Habit Reflection</span><span class="ph2">images/wisewoman-habit-reflection.png</span><img src="images/wisewoman-habit-reflection.png" alt="WiseWoman habit reflection screen, built from real activity not manual check-ins" onerror="this.remove()"></div>
       <div class="scr-txt"><div class="k">Habit Reflection</div><h3>Tracking without the logging</h3><p>Habits are read from real activity, not manual check-ins. Reflection comes from what actually happened, which removes another daily chore.</p></div>
     </div>
+  </div>
+
+  <div class="mini-label" style="margin-top:80px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w4);">Watch it end to end</div>
+  <div class="demo-slot">
+    <span class="ph">Full walkthrough</span><span class="ph2">images/wisewoman-walkthrough.mp4</span>
+    <video src="images/wisewoman-walkthrough.mp4" poster="images/wisewoman-walkthrough-poster.png" controls muted playsinline onerror="this.remove()"></video>
   </div>
 </section>
 
@@ -732,49 +841,78 @@ body{
 
 </section>
 
-<!-- MORE WORK -->
-<section class="more">
-  <div class="more-eyebrow">More Work</div>
-  <h2 class="more-head">Other Case Studies</h2>
-  <div class="cs-grid">
-    <a class="cs-card" href="https://www.shabnamraghavan.com/ihx">
-      <div class="cs-thumb ihx"><span>IHX Ops Dashboard</span></div>
-      <div class="cs-body">
-        <div class="cs-tags"><i>Health Insurtech</i><i>B2B SaaS</i><i>IA</i></div>
-        <div class="cs-title">Reimagining IHX Nucleus Ops Dashboard</div>
-        <div class="cs-desc">Claims operations dashboard for 21,000+ hospitals.</div>
-      </div>
-    </a>
-    <a class="cs-card soon">
-      <div class="cs-thumb soon"><span>Coming Soon</span></div>
-      <div class="cs-body">
-        <div class="cs-tags"><i>Healthcare</i><i>AI</i></div>
-        <div class="cs-title">Conversational AI Agent — Future of Claim Submission</div>
-        <div class="cs-desc">Coming Soon</div>
-      </div>
-    </a>
-    <a class="cs-card soon">
-      <div class="cs-thumb soon"><span>Coming Soon</span></div>
-      <div class="cs-body">
-        <div class="cs-tags"><i>B2B SaaS</i><i>Analytics</i></div>
-        <div class="cs-title">Adoption Dashboard — Driving Platform Usage</div>
-        <div class="cs-desc">Coming Soon</div>
-      </div>
-    </a>
+<!-- OTHER CASE STUDIES -->
+<section class="more-work">
+  <div class="wrap">
+    <div class="sec-tag">More Work</div>
+    <h2 style="font-family:'Satoshi',sans-serif;font-size:32px;font-weight:900;color:var(--ink);letter-spacing:-0.02em;">Other Case Studies</h2>
+    <div class="other-cs-grid" style="margin-top:36px;">
+      <a href="ihx-user-management-case-study.html" class="cs-card">
+        <div class="cs-thumb"><img src="ihx-user-mgmt-cover.png" alt="IHX User Management case study hero screen"></div>
+        <div class="cs-card-body">
+          <div class="cs-tags"><span>B2B SaaS</span><span>Health InsurTech</span><span>User Management</span></div>
+          <div class="cs-card-title">In-Product User Management Module Redesign</div>
+          <p class="cs-card-desc">Took ~80 daily manual access requests off Ops' plate with a self-serve module and a real role hierarchy.</p>
+          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      <a href="ihx_tpa_ops_.html" class="cs-card">
+        <div class="cs-thumb"><img src="ihx-cover.png" alt="IHX Ops Dashboard claims listing screen"></div>
+        <div class="cs-card-body">
+          <div class="cs-tags"><span>B2B SaaS</span><span>WebApp</span><span>Health InsurTech</span></div>
+          <div class="cs-card-title">IHX Ops Dashboard</div>
+          <p class="cs-card-desc">Restructured the IA of a hospital claims platform used by two user teams.</p>
+          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      <a href="ihx-ai-features-case-study.html" class="cs-card">
+        <div class="cs-thumb soon"><span>Write-up, no screens yet</span></div>
+        <div class="cs-card-body">
+          <div class="cs-tags"><span>AI Product</span><span>Health InsurTech</span></div>
+          <div class="cs-card-title">AI-Enabled Features at the Point of Failure</div>
+          <p class="cs-card-desc">Where AI belongs in a legacy claims platform, and how to design it so people trust it.</p>
+          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section class="contact">
-  <h2>Let's build<br>something real.</h2>
-  <p class="sub">Open to product design roles in B2B SaaS across healthcare, insurance, fintech, and enterprise operations.</p>
-  <div class="links">
-    <a href="tel:+917022665338"><svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+91 7022665338</a>
-    <a href="mailto:shabnam.rs.work@gmail.com"><svg viewBox="0 0 24 24" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>shabnam.rs.work@gmail.com</a>
-    <a href="https://dribbble.com/ShabnamRaghavan"><svg viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6 6 9.42 8 17.72M2.4 9.7c5.5.74 11.7.5 16-2.5M21.6 14.3c-4.5-1.5-9.6-1.2-14 .5"/></svg>Dribbble</a>
-    <a href="https://linkedin.com/in/shabnamraghavan"><svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+<!-- FOOTER — typography ported from index.html's footer (.foot-quote / .foot-links / .socials) -->
+<footer id="contact">
+<div class="foot-inner">
+  <div class="foot-head">
+    <div>
+      <p class="foot-quote">Still exploring. Still building.</p>
+      <p class="foot-tagline">Let&rsquo;s talk to build something great.</p>
+    </div>
+    <div class="foot-links">
+      <a class="email" href="mailto:shabnam.rs.work@gmail.com">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        shabnam.rs.work@gmail.com
+      </a>
+      <a class="phone" href="tel:+917022665338">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3a1 1 0 011-1h2.5l1 3-1.5 1.5a9 9 0 004.5 4.5L11 9.5l3 1V13a1 1 0 01-1 1A12 12 0 012 3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        +91 70226 65338
+      </a>
+    </div>
   </div>
-</section>
+
+  <div class="socials">
+    <a href="https://www.linkedin.com/in/shabnam-raghavan-b89798a5" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="#" rel="noopener">GitHub</a>
+    <a href="https://dribbble.com/ShabnamRaghavan" target="_blank" rel="noopener">Dribbble</a>
+    <a href="#" rel="noopener">Medium</a>
+  </div>
+
+  <div class="foot-divider" aria-hidden="true"></div>
+
+  <div class="foot-contact-row">
+    <p>Built by Shabnam Raghavan + Claude Code</p>
+    <p>Bangalore, India</p>
+  </div>
+</div>
+</footer>
 
 </body>
 </html>

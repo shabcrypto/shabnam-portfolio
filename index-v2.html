@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Shabnam Raghavan — Product Designer</title>
+<title>Shabnam Raghavan · Product Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="preload" as="image" href="images/hero-sky.jpg" />
+<link rel="preload" as="image" href="images/hero-front.webp" />
 <style>
   :root {
     --coconut: #fdfdfb;      /* barely off-white, whisper of cream (was #f0ede5) */
@@ -26,10 +27,23 @@
     --space-lg: 48px;
     --space-xl: 96px;
 
-    --font-display: "Satoshi", sans-serif;
+    /* the asphalt frame: the gap around the card equals the card's corner radius */
+    --frame: clamp(16px, 2vw, 28px);
+
+    --font-display: "Staatliches", "Impact", "Arial Narrow", sans-serif;
     --font-body: "Manrope", sans-serif;
 
-    --intro-offset: 3300ms; /* hero begins appearing as the curtain panels open */
+    /* type scale; Staatliches is a single-weight condensed caps face, so size carries the hierarchy */
+    --step--1: clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem);
+    --step-0:  clamp(1rem, 0.96rem + 0.25vw, 1.125rem);
+    --step-1:  clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+    --step-2:  clamp(1.5rem, 1.2rem + 1.4vw, 2.4rem);
+    --step-3:  clamp(2rem, 1.4rem + 2.6vw, 3.6rem);
+    --step-5:  clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
+    --step-giant: clamp(3.2rem, 15vw, 15rem); /* sits inside the sky, above the first cloud line */
+
+    --intro-offset: 0ms; /* v2 has no curtain intro: the lead copy rises straight away */
+
     --ritual-offset: 9999s; /* parks the illustration until it scrolls into view */
   }
 
@@ -40,16 +54,19 @@
     color: var(--asphalt);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
+    font-synthesis-weight: none; /* Staatliches ships one weight; never fake-bold it */
     overflow-x: hidden;
   }
 
   /* the whole page rides inside one rounded card floating on the asphalt ground;
      the footer (already asphalt) stays full-bleed outside it. No overflow clip here
      so the vantage section's sticky cards keep working. */
+  /* One continuous card from the nav down to the resume CTA, inset from the asphalt by --frame
+     on all four sides. It carries the surface, so nothing inside needs its own background. */
   .page-card {
     position: relative;
-    margin: clamp(6px, 1vw, 12px);
-    border-radius: clamp(16px, 2vw, 28px);
+    margin: var(--frame);
+    border-radius: var(--frame);
     background-color: var(--coconut);
     background-image:
       repeating-linear-gradient(to right, rgba(48, 47, 44, 0.045) 0 1px, transparent 1px 56px),
@@ -58,79 +75,26 @@
 
   a:focus-visible { outline: 2px solid var(--vermillion); outline-offset: 4px; border-radius: 2px; }
 
-  /* ============ INTRO: lines on a black canvas ============ */
-  /*
-    Warp lines drop, a turmeric weft crosses them, a red circle finds its
-    shape, then the canvas parts top and bottom onto the hero.
-      0        three warp lines draw down (coconut, one red)
-      600ms    the turmeric weft crosses
-      1000ms   the red circle draws itself
-      2700ms   the scene fades out
-      3300ms   the canvas parts gently, top half up / bottom half down
-  */
-  .intro {
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    cursor: pointer;
-    overflow: hidden;
-  }
-
-  /* two asphalt panels, split by a single straight horizontal seam at center, that part
-     top-and-bottom, slowly and gently, to reveal the coconut hero underneath. The panels
-     overlap the center by 2% so no sliver of the hero is ever visible before the split. */
-  .intro-panel {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 52%;
-    background: var(--asphalt);
-    overflow: hidden;
-  }
-  .intro-panel-top {
-    top: -1%;
-    animation: curtainTopOut 2000ms cubic-bezier(0.65, 0, 0.35, 1) 3300ms forwards;
-  }
-  .intro-panel-bottom {
-    bottom: -1%;
-    animation: curtainBottomOut 2000ms cubic-bezier(0.65, 0, 0.35, 1) 3300ms forwards;
-  }
-  @keyframes curtainTopOut { to { transform: translateY(-100%); } }
-  @keyframes curtainBottomOut { to { transform: translateY(100%); } }
-
-  .intro-content { position: relative; width: 100%; height: 100%; }
-
-  .intro-scene {
-    position: absolute; top: 50%; left: 50%;
-    width: min(76vmin, 500px); height: auto; overflow: visible;
-    transform: translate(-50%, -50%);
-    opacity: 1;
-    animation: introSceneOut 500ms ease 2700ms forwards;
-  }
-  @keyframes introSceneOut { to { opacity: 0; transform: translate(-50%, -50%) scale(0.94); } }
-
-  .iwarp {
-    stroke: var(--coconut); stroke-width: 1.1; stroke-linecap: round;
-    stroke-dasharray: 240; stroke-dashoffset: 240; opacity: 0.5;
-    animation: introDraw 900ms cubic-bezier(0.22,1,0.36,1) forwards;
-  }
-  .iwarp.red { stroke: var(--vermillion); stroke-width: 1.6; opacity: 0.95; }
-  .iweft {
-    fill: none; stroke: var(--turmeric); stroke-width: 2; stroke-linecap: round;
-    stroke-dasharray: 480; stroke-dashoffset: 480;
-    animation: introDraw 1400ms cubic-bezier(0.22,1,0.36,1) 600ms forwards;
-  }
-  .iring {
-    fill: none; stroke: var(--vermillion); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
-    stroke-dasharray: 970; stroke-dashoffset: 970;
-    animation: introDraw 1700ms cubic-bezier(0.45,0,0.3,1) 1000ms forwards;
-  }
-  @keyframes introDraw { to { stroke-dashoffset: 0; } }
-
-  /* ============ TOP BAR ============ */
+  /* ============ TOP BAR (floats over the dark hero) ============ */
+  /* fixed, so it is there for the whole scroll. It starts transparent over the dark hero and
+     picks up a coconut bar (class added by script) once the intro sheet is behind it. */
   .topbar {
-    position: absolute;
-    inset: 0 0 auto 0;
+    position: fixed;
+    top: var(--frame);
+    left: var(--frame);
+    right: var(--frame);
+    z-index: 40;
+    border-radius: var(--frame) var(--frame) 0 0;
+    /* one duration and one easing for every property, so the bar glides into the pill
+       as a single movement instead of several overlapping ones */
+    transition: top 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                left 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                right 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                padding 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                border-radius 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                background-color 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                box-shadow 560ms cubic-bezier(0.33, 1, 0.68, 1),
+                color 400ms ease;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -138,112 +102,192 @@
     font-size: 0.85rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--asphalt-soft);
-    z-index: 5;
+    color: var(--coconut-soft);
   }
-  .wordmark { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--asphalt); }
-  .wordmark .name { font-family: var(--font-display); font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 1.2rem; }
+  .wordmark { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--coconut); }
+  .wordmark .name { font-family: var(--font-display); font-weight: 400; text-transform: none; letter-spacing: 0.04em; font-size: 1.1rem; }
   .topbar nav { display: flex; gap: var(--space-md); }
   .topbar nav a {
     position: relative;
-    color: var(--asphalt-soft); text-decoration: none; padding: 8px 0;
+    color: var(--coconut-soft); text-decoration: none; padding: 8px 0;
     transition: color 160ms ease;
   }
-  /* the weft thread from the loom, borrowed as an underline */
+  /* the weft thread from the loom, borrowed as an underline (white, over the dark hero) */
   .topbar nav a::after {
     content: "";
     position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23fdfdfb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
     background-size: 24px 8px;
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .topbar nav a:hover { color: var(--vermillion-deep); }
+  .topbar nav a:hover { color: var(--coconut); }
   .topbar nav a:hover::after { transform: scaleX(1); }
-  /* "Resume" opens the doc for viewing; this small arrow beside it is a direct-download
-     shortcut, so both actions are reachable from the nav without a dropdown. */
-  .resume-group { display: inline-flex; align-items: baseline; gap: 6px; }
-  .resume-dl {
-    color: var(--asphalt-soft); text-decoration: none; font-size: 0.85em;
-    transition: color 160ms ease;
-  }
-  .resume-dl:hover { color: var(--vermillion-deep); }
 
-  /* ============ HERO ============ */
+  /* off the hero it detaches into a floating pill, inset from both sides, ink on coconut */
+  .topbar.solid {
+    top: clamp(10px, 1.4vw, 20px);
+    left: clamp(16px, 6vw, 104px);
+    right: clamp(16px, 6vw, 104px);
+    border-radius: 999px;
+    padding: 12px clamp(20px, 2.2vw, 32px);
+    background-color: rgba(253, 253, 251, 0.94);
+    box-shadow: 0 2px 6px oklch(26% 0.021 42 / 0.08), 0 14px 38px oklch(26% 0.021 42 / 0.14);
+  }
+  @supports (backdrop-filter: blur(10px)) {
+    .topbar.solid { background-color: rgba(253, 253, 251, 0.82); backdrop-filter: blur(14px); }
+  }
+  .topbar.solid,
+  .topbar.solid nav a { color: var(--asphalt-soft); }
+  .topbar.solid .wordmark { color: var(--asphalt); }
+  .topbar.solid nav a:hover { color: var(--vermillion-deep); }
+  .topbar.solid nav a::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  /* ============ CUSTOM CURSOR ============ */
+  /* A red dot follows the pointer, and swells into the "view case study" chip over a case
+     card. Only on real pointers: touch and coarse pointers keep the native cursor. */
+  .cursor { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    html, body, a, button, .scroll-cue, .case { cursor: none; }
+    .cursor {
+      display: block;
+      position: fixed; top: 0; left: 0;
+      z-index: 100;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+    }
+  }
+  .cursor-dot {
+    position: absolute; top: 0; left: 0;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--vermillion);
+    transform: translate(-50%, -50%) scale(1);
+    transition: opacity 180ms ease, transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cursor-chip {
+    position: absolute; top: 0; left: 0;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 24px;
+    background: #171513; color: var(--coconut);
+    border-radius: 999px;
+    font-family: var(--font-body); font-weight: 700;
+    font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.82);
+    box-shadow: 0 12px 32px rgba(10, 8, 7, 0.45);
+    transition: opacity 200ms ease, transform 340ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cursor-chip::before {
+    content: ""; flex-shrink: 0;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--vermillion);
+  }
+  .cursor.on-case .cursor-dot { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  .cursor.on-case .cursor-chip { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+  /* the scroll cue: a small coconut disc with a red chevron, breathing gently */
+  .scroll-cue {
+    position: absolute; left: 50%; bottom: clamp(20px, 3.5vh, 44px);
+    z-index: 5;
+    display: flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--coconut);
+    color: var(--vermillion);
+    box-shadow: 0 8px 24px rgba(18, 12, 10, 0.34);
+    animation: cueBounce 1900ms ease-in-out infinite;
+  }
+  @keyframes cueBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(7px); }
+  }
+  .scroll-cue:hover { color: var(--vermillion-deep); }
+
+  /* ============ HERO: the TRUTH image, in parallax layers ============ */
+  /*
+    Three layers (GSAP ScrollTrigger, wired at the bottom of the page):
+      1  the whole illustration, uncut
+      2  the name, poster-scale
+      3  the figure alone, cut from layer 1
+    Layers 1 and 3 are always transformed identically, so the figure sits exactly over its
+    own pixels: she holds the name behind her, any error in her mask stays invisible, and
+    there is no second copy of her to ghost. Only the name drifts. Without JS, or with
+    reduced motion, the layers sit still.
+
+    The hero sits at the top of the one long card and fills the fold; the intro meets it on a
+    sharp line and is reached by a smooth scroll from the cue.
+  */
   .hero {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: var(--space-lg);
-    padding: calc(clamp(110px, 12vh, 150px) + 100px) 24px 0; /* no min-height: work grid follows the CTA directly */
-  }
-
-  .cta-row {
-    position: relative;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: calc(var(--space-md) + 5px);
-    padding-top: var(--space-md);
-    opacity: 0;
-    animation: rise 700ms cubic-bezier(0.22,1,0.36,1) calc(var(--intro-offset) + 600ms) forwards;
+    height: calc(100svh - var(--frame));   /* fills the fold, inside the frame */
+    min-height: 520px;
+    overflow: hidden;
+    border-radius: var(--frame) var(--frame) 0 0;
+    background: #1c1513;
+    isolation: isolate;
+  }
+  /* a plain wrapper now: the card behind it carries the surface. Kept because the hero's
+     parallax scrub triggers on this element's approach. */
+  .after-hero { position: relative; }
+  .hero-layers { position: absolute; inset: 0; }
+  .hero-layer {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    will-change: transform;
+  }
+  img.hero-layer { display: block; object-fit: cover; object-position: 50% 50%; }
+  .hero-title {
+    display: flex; justify-content: center; align-items: flex-start;
+    padding-top: clamp(64px, 10vh, 120px);
+    pointer-events: none;
+  }
+  .giant {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--step-giant);
+    line-height: 0.9;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--coconut);
+    opacity: 0.96;
+  }
+  .giant span { display: block; padding-left: 0.03em; } /* re-centres: tracking adds space after the last letter only */
+  /* film grain, then the photo dissolves into the coconut card */
+  .hero-grain {
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    opacity: 0.14; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .see-work-badge {
-    position: relative;
-    width: clamp(90px, 10vw, 115px);
-    height: clamp(90px, 10vw, 115px);
-    display: none; /* hidden for now; markup + fit script kept for easy re-enable */
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: var(--asphalt);
-    border-radius: 50%;
-    transition: color 200ms ease;
-    flex-shrink: 0;
+  /* ============ OPENING: the message, set large ============ */
+  .opening { position: relative; padding: clamp(72px, 8vw, 128px) 24px clamp(48px, 7vw, 96px); }
+  .opening-inner {
+    position: relative; z-index: 1;
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    gap: var(--space-lg) var(--space-xl); align-items: end;
   }
-  .see-work-badge:hover { color: var(--vermillion-deep); }
-  .badge-ring {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    animation: badgeSpin 16s linear infinite;
+  .opening-h {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: var(--step-5); line-height: 0.96; letter-spacing: 0.02em;
+    text-wrap: balance;
   }
-  @keyframes badgeSpin { to { transform: rotate(360deg); } }
-  .badge-text {
-    font-family: var(--font-display); font-weight: 700;
-    font-size: 9px; letter-spacing: 0.03em;
-    fill: currentColor;
-  }
-  .badge-dot { fill: var(--asphalt-soft); }
-  .badge-arrow {
-    position: relative;
-    display: flex; align-items: center; justify-content: center;
-    width: 32px; height: 32px;
-    color: var(--asphalt);
-    animation: badgeBounce 1600ms ease-in-out infinite;
-  }
-  @keyframes badgeBounce {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(4px); }
-  }
-
-  a.longer-story {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    border-bottom: 1px solid var(--asphalt-soft);
-    transition: border-color 160ms ease;
-  }
-  a.longer-story:hover { border-color: transparent; }
-
-  .copy { max-width: min(92vw, 900px); margin-inline: auto; }
+  .opening-h em { font-style: normal; color: var(--vermillion); }
+  /* bottom-aligned with the headline (the grid is align-items: end), so the metrics sit around
+     the middle of the title and "currently working at IHX" lands on its last line */
+  .opening-meta { display: flex; flex-direction: column; gap: var(--space-lg); align-items: flex-start; padding-bottom: 0.18em; }
+  .opening .provenance { flex-direction: column; align-items: flex-start; gap: var(--space-md); margin-top: 0; }
+  .opening .ritual-place { margin: 0; }
 
   .eyebrow {
-    display: inline-flex; align-items: center; justify-content: center; line-height: 1.3; gap: var(--space-sm);
+    display: inline-flex; align-items: center; justify-content: flex-start; line-height: 1.3; gap: var(--space-sm);
     font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--vermillion-deep);
     margin-bottom: var(--space-md);
@@ -267,27 +311,6 @@
     75%, 95%  { transform: translateY(-3.9em); }
     100%      { transform: translateY(-5.2em); }
   }
-
-  h1 {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(2.4rem, 5.2vw, 4.4rem);
-    line-height: 1.14;
-    letter-spacing: -0.01em;
-    white-space: nowrap; /* the <br> gives exactly two lines; neither half may wrap further */
-    margin-top: 0;
-    margin-bottom: calc(var(--space-lg) - 5px);
-  }
-  h1 em { color: var(--vermillion); font-style: normal; }
-
-  .lede {
-    margin-top: var(--space-md);
-    font-size: clamp(1.05rem, 1.6vw, 1.22rem);
-    line-height: 1.65;
-    color: var(--asphalt-soft);
-    max-width: 54ch;
-  }
-  .lede strong { color: var(--asphalt); font-weight: 700; }
 
   .link {
     position: relative;
@@ -431,11 +454,11 @@
   @keyframes drop { from { opacity: 0; transform: translateY(-16px); } to { opacity: 0.55; transform: none; } }
   @keyframes draw { to { stroke-dashoffset: 0; } }
 
-  .copy > * { opacity: 0; animation: rise 700ms cubic-bezier(0.22,1,0.36,1) forwards; }
-  .copy .eyebrow          { animation-delay: calc(var(--intro-offset) + 100ms); }
-  .copy h1                { animation-delay: calc(var(--intro-offset) + 220ms); }
-  .copy .ritual-place     { animation-delay: calc(var(--intro-offset) + 340ms); }
-  .copy .provenance       { animation-delay: calc(var(--intro-offset) + 460ms); }
+  .opening-main > *, .opening-meta > * { opacity: 0; animation: rise 700ms cubic-bezier(0.22,1,0.36,1) forwards; }
+  .opening .eyebrow       { animation-delay: 100ms; }
+  .opening .opening-h     { animation-delay: 220ms; }
+  .opening .provenance    { animation-delay: 340ms; }
+  .opening .ritual-place  { animation-delay: 460ms; }
 
   .ribbon {
     height: 14px;
@@ -462,8 +485,8 @@
     font-family: var(--font-display);
     font-weight: 700;
     font-size: clamp(1.5rem, 2.4vw, 2rem);
-    line-height: 1.35;
-    letter-spacing: -0.005em;
+    line-height: 1.25;
+    letter-spacing: 0.015em;
   }
   .rv-word {
     display: inline-block;
@@ -473,7 +496,7 @@
   }
   .philosophy-quote strong .rv-word { color: var(--vermillion); }
 
-  .vantage-write { min-width: 0; display: flex; flex-direction: column; gap: var(--space-lg); padding-bottom: 30vh; }
+  .vantage-write { min-width: 0; display: flex; flex-direction: column; gap: var(--space-lg); }
 
   /* Stacked cards: every card sticks at the same line, so the next one scrolls up over it and
      covers it. Uniform min-height keeps a shorter card from leaving the previous one peeking out. */
@@ -486,12 +509,28 @@
     border-radius: 16px;
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.04), 0 16px 40px oklch(26% 0.021 42 / 0.08);
   }
-  .stack-card.step { display: flex; gap: var(--space-lg); }
+  /* the five steps: asphalt cards, content-height. The grid equalises them to the tallest so the
+     sticky stack still covers cleanly (a shorter card over a taller one would leave it peeking). */
+  .dp-steps { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); }
+  .stack-card.step {
+    display: flex; gap: var(--space-lg);
+    min-height: 0; padding: 28px 32px;
+    /* darker at the top, lighter at the foot: where the next card overlaps this one its
+       dark head meets this card's light foot, so the seam reads without a drop shadow */
+    background: linear-gradient(180deg, #2b2a27 0%, #35342f 62%, #403e38 100%);
+    color: var(--coconut);
+    border: 0;
+    box-shadow: none;
+  }
+  /* the step cards carry no .rv-word spans at all: the reveal made light copy unreadable,
+     so they are plain text and the stacking overlap alone carries the motion */
+  .step p { opacity: 1; }
+  .step .process-num { color: var(--coconut-soft); }
 
   /* ===== nested design-philosophy / design-process cards (card-inside-the-card) ===== */
   .dp-card {
     background: var(--coconut-deep);
-    border: 1px solid oklch(26% 0.021 42 / 0.1);
+    border: 0;
     border-radius: 20px;
     padding: clamp(22px, 3vw, 40px);
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.04), 0 14px 36px oklch(26% 0.021 42 / 0.06);
@@ -506,8 +545,7 @@
   .dp-figure { flex: 0 0 38%; display: flex; justify-content: center; }
   .dp-figure .ritual { min-height: 0; }
   .dp-figure .ritual svg.scene { max-width: 340px; }
-  .dp-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: var(--space-md); }
-  .dp-body .philosophy-quote { margin-top: 0; }
+  .dp-body { flex: 1 1 auto; min-width: 0; }
   /* the philosophy copy sits straight on its card: no inner chrome, no sticky pinning */
   .dp-philosophy .stack-card {
     position: static;
@@ -518,25 +556,19 @@
     min-height: 0;
   }
 
-  .dp-headline { font-size: clamp(1.6rem, 2.9vw, 2.4rem); }
-  .dp-pill {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 14px;
-    padding: 7px 16px 6px;
-    background: var(--asphalt);
-    color: var(--coconut);
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 0.68rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    border-radius: 999px;
-    white-space: nowrap;
+  .dp-headline { font-size: var(--step-2); letter-spacing: 0.015em; }
+  /* the process intro sits straight on its card too; only the 01..05 steps stay as inner cards */
+  .dp-process .process-group {
+    position: static;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    min-height: 0;
   }
 
   .vantage-write .inspiration {
-    margin-top: var(--space-sm);
+    margin-top: var(--space-md);
     max-width: 56ch;
     font-size: clamp(1.05rem, 1.6vw, 1.22rem);
     line-height: 1.65;
@@ -545,7 +577,7 @@
 
   .vantage-inner {
     max-width: 1120px; margin: 0 auto;
-    padding: var(--space-xl) 24px;
+    padding: var(--space-xl) 24px var(--space-lg); /* bottom = the gap to the peers card, same as between cards */
   }
 
   .process-group .philosophy-quote { max-width: 60ch; }
@@ -557,18 +589,20 @@
     width: 32px;
   }
   .step h4 {
-    font-family: var(--font-display); font-weight: 700;
-    font-size: 1.1rem;
+    font-family: var(--font-display); font-weight: 400;
+    font-size: var(--step-1); letter-spacing: 0.03em;
     margin-bottom: 6px;
   }
   .step p {
-    color: var(--asphalt-soft); line-height: 1.6; max-width: 56ch;
+    /* just off white: full coconut on asphalt was too harsh against the headings */
+    color: rgba(253, 253, 251, 0.72); line-height: 1.6;
+    max-width: none;   /* the copy runs to the card's padding */
   }
-  .step p .rv-word { color: var(--asphalt-soft); }
+  .step p .rv-word { color: rgba(253, 253, 251, 0.72); }
 
   /* ============ FEATURED WORK ============ */
   .work { background: transparent; color: var(--asphalt); }
-  .work-inner { padding: 240px 24px var(--space-xl); }
+  .work-inner { padding: 0 24px var(--space-xl); }
   .work-head {
     display: none; /* title hidden; grid sits directly under the hero CTA */
     align-items: baseline; justify-content: space-between;
@@ -591,6 +625,7 @@
   .case:hover { transform: translateY(-4px); }
 
   .case-img {
+    position: relative;
     overflow: hidden; aspect-ratio: 16 / 10; background: var(--coconut-deep);
     border-radius: 14px; border: 1px solid oklch(26% 0.021 42 / 0.1);
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);
@@ -613,14 +648,14 @@
     display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-md);
   }
   .case h3 {
-    font-family: "Satoshi", var(--font-body); font-weight: 700;
+    font-family: var(--font-display); font-weight: 700;
     font-size: 14px; line-height: 1.3; color: var(--asphalt);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
   }
 
   .case-metrics {
     flex-shrink: 0; white-space: nowrap;
-    font-family: "Satoshi", var(--font-body); font-weight: 400;
+    font-family: var(--font-display); font-weight: 400;
     font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--asphalt-soft);
   }
@@ -628,8 +663,8 @@
 
   /* ============ PEER REVIEW ============ */
   .peers { background: transparent; }
-  .peers-inner { padding: var(--space-xl) 24px; }
-  .peers h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: var(--space-lg); }
+  .peers-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px var(--space-xl); }
+  .peers h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--step-3); letter-spacing: 0.03em; margin-bottom: var(--space-lg); }
   .peer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); }
   .quote { display: flex; flex-direction: column; gap: var(--space-md); }
   .quote.lead { grid-column: 1 / -1; max-width: 66ch; }
@@ -667,16 +702,29 @@
     color: var(--coconut-soft);
   }
   .foot-links { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
+  /* Manrope, one step down the scale. The loom's weft underlines them on hover, in white. */
   .foot-links .email, .foot-links .phone {
+    position: relative;
     display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(1.05rem, 2vw, 1.5rem);
+    font-family: var(--font-body); /* an address in a caps display face reads wrong */
+    font-weight: 500;
+    font-size: var(--step-0);
+    padding-bottom: 8px;
     color: var(--coconut); text-decoration: none;
     transition: color 160ms ease;
   }
+  .foot-links .email::after, .foot-links .phone::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23fdfdfb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 8px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .foot-links .email:hover::after, .foot-links .phone:hover::after { transform: scaleX(1); }
   .foot-links .email svg, .foot-links .phone svg { flex-shrink: 0; }
-  .foot-links .email:hover, .foot-links .phone:hover { color: var(--vermillion); }
+  .foot-links .email:hover, .foot-links .phone:hover { color: var(--coconut); }
   .socials { display: flex; gap: var(--space-md); flex-wrap: wrap; }
   .socials a {
     color: var(--coconut-soft); text-decoration: none;
@@ -701,8 +749,7 @@
   /* ============ ACCESSIBILITY & RESPONSIVE ============ */
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
-    .intro { display: none; }
-    .copy > *, .ritual-caption, .ritual-place, .cta-row, .rv-word { opacity: 1; }
+    .opening-main > *, .opening-meta > *, .ritual-caption, .ritual-place, .rv-word { opacity: 1; }
     .petal { opacity: 1; transform: rotate(var(--a)); }
     .warp-thread { opacity: 0.55; }
     .weft { stroke-dashoffset: 0; }
@@ -715,16 +762,17 @@
   }
 
   @media (max-width: 900px) {
-    .hero { padding-top: 110px; }
-    h1 { white-space: normal; font-size: clamp(2rem, 7vw, 2.6rem); }
-    .cta-row { flex-direction: column; align-items: center; gap: var(--space-lg); }
-    a.longer-story { position: static; transform: none; display: inline-block; }
+    img.hero-layer { object-position: 50% 45%; }
+    .hero-title { padding-top: 84px; }
+    .opening-inner { grid-template-columns: 1fr; }
+    .opening-meta { padding-bottom: 0; }
+    .stack-card.step { padding: 24px; }
     .ritual { min-height: 360px; }
     .ritual svg.scene { max-width: 272px; }
     .dp-philosophy { flex-direction: column; gap: var(--space-md); }
     .dp-figure { flex-basis: auto; width: 100%; }
     .dp-card { padding: 20px; }
-    .page-card { margin: 6px; border-radius: 14px; }
+    :root { --frame: 12px; }   /* a narrower border on small screens */
     .vantage-write .inspiration { max-width: none; }
     .topbar nav { display: none; }
     .case-grid, .peer-grid { grid-template-columns: 1fr; }
@@ -740,83 +788,70 @@
 </head>
 <body>
 
-<!-- ============ INTRO ============ -->
-<div class="intro" id="intro" aria-hidden="true">
-  <div class="intro-panel intro-panel-top"></div>
-  <div class="intro-panel intro-panel-bottom"></div>
-  <div class="intro-content">
-    <svg class="intro-scene" viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <line class="iwarp"     x1="200" y1="150" x2="200" y2="370" style="animation-delay: 0ms"/>
-      <line class="iwarp red" x1="260" y1="140" x2="260" y2="380" style="animation-delay: 150ms"/>
-      <line class="iwarp"     x1="320" y1="150" x2="320" y2="370" style="animation-delay: 300ms"/>
-      <path class="iweft" d="M56 260 C 90 248, 128 272, 162 260 S 230 248, 264 260 S 332 272, 366 260 S 434 248, 464 260"/>
-      <path class="iring" d="M412.2 260.0 L410.8 281.2 L406.8 302.1 L398.4 321.6 L389.2 340.7 L377.2 358.3 L362.4 373.7 L344.6 385.4 L326.8 396.9 L307.1 404.8 L286.4 409.7 L265.3 413.0 L244.1 411.2 L223.3 407.4 L202.7 401.9 L183.8 391.9 L166.7 379.4 L151.0 365.3 L137.0 349.3 L126.7 330.9 L116.9 312.1 L110.8 291.7 L108.5 270.6 L107.5 249.3 L110.3 228.2 L117.0 208.0 L125.4 188.4 L137.8 171.2 L151.4 155.2 L165.7 139.3 L184.3 128.8 L203.3 119.7 L223.0 111.6 L244.0 108.2 L265.3 109.0 L286.3 110.7 L306.8 116.0 L326.4 123.9 L344.3 135.0 L361.7 147.0 L376.1 162.6 L388.7 179.6 L398.2 198.5 L405.2 218.4 L409.4 239.0 L412.2 260.0"/>
-    </svg>
-  </div>
+<div class="cursor" aria-hidden="true">
+  <span class="cursor-dot"></span>
+  <span class="cursor-chip">View case study</span>
 </div>
 
 <div class="page-card">
 <header class="topbar">
-  <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
+  <a class="wordmark" href="index-v2.html" aria-label="Shabnam Raghavan home">
     <span class="name">Shabnam Raghavan</span>
   </a>
   <nav aria-label="Primary">
     <a href="#work">Work</a>
     <a href="about.html">About me</a>
-    <span class="resume-group">
-      <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
-      <a class="resume-dl" href="https://drive.google.com/uc?export=download&id=1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh" download rel="noopener" aria-label="Download resume" title="Download resume">&darr;</a>
-    </span>
+    <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
     <a href="#contact">Contact me</a>
   </nav>
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="copy">
-    <p class="eyebrow">Product <span class="plus" aria-hidden="true">+</span>
-      <span class="roller" aria-label="Designer, Thinker, Builder, Strategist">
-        <span class="roll-track" aria-hidden="true">
-          <span>Designer</span>
-          <span>Thinker</span>
-          <span>Builder</span>
-          <span>Strategist</span>
-          <span>Designer</span>
-        </span>
-      </span>
-    </p>
-
-    <h1>
-      A generalist who asks<br>
-      <em>the right questions</em>.
-    </h1>
-
-    <p class="ritual-place">Currently working at IHX</p>
-
-    <div class="provenance">
-      <span><b>3 Yrs</b> in high-stakes UX</span>
-      <span><b>3 core</b> products shipped</span>
-      <span><b>1M</b> monthly users impacted</span>
+<section class="hero" aria-label="Introduction">
+  <div class="hero-layers" data-parallax-layers>
+    <img class="hero-layer" data-parallax-layer="1" src="images/hero-sky.jpg" width="1376" height="768" loading="eager" fetchpriority="high"
+         alt="Illustration of a cloaked figure on a mountain peak among painted clouds, under a red aurora with constellations, golden-ratio spirals and an open eye drawn across the sky" />
+    <div class="hero-layer hero-title" data-parallax-layer="2">
+      <h1 class="giant"><span class="g1">Shabnam</span><span class="g2">Raghavan</span></h1>
     </div>
-
+    <img class="hero-layer" data-parallax-layer="3" src="images/hero-front.webp" width="1376" height="768" loading="eager" alt="" aria-hidden="true" />
   </div>
+  <div class="hero-grain" aria-hidden="true"></div>
+  <a class="scroll-cue" href="#intro" aria-label="Scroll to the introduction">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</section>
 
-  <div class="cta-row">
-    <a class="see-work-badge" href="#work" aria-label="Scroll to see my work">
-      <svg class="badge-ring" viewBox="0 0 100 100" aria-hidden="true">
-        <defs>
-          <path id="badgeCirclePath" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" />
-        </defs>
-        <text class="badge-text" xml:space="preserve">
-          <textPath href="#badgeCirclePath" startOffset="0%"><tspan>SCROLL TO SEE MY WORK  </tspan><tspan class="badge-dot">&#9679;</tspan><tspan>  SCROLL TO SEE MY WORK  </tspan><tspan class="badge-dot">&#9679;</tspan><tspan>  </tspan></textPath>
-        </text>
-      </svg>
-      <span class="badge-arrow" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v13M4 11l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
-    </a>
+<!-- everything below the hero rides over it as one opaque sheet while the hero stays pinned -->
+<div class="after-hero">
 
-    <a class="longer-story link" href="about.html">The longer story &rarr;</a>
+<!-- ============ OPENING ============ -->
+<section class="opening" id="intro">
+  <div class="opening-inner">
+    <div class="opening-main">
+      <p class="eyebrow">Product <span class="plus" aria-hidden="true">+</span>
+        <span class="roller" aria-label="Designer, Thinker, Builder, Strategist">
+          <span class="roll-track" aria-hidden="true">
+            <span>Designer</span>
+            <span>Thinker</span>
+            <span>Builder</span>
+            <span>Strategist</span>
+            <span>Designer</span>
+          </span>
+        </span>
+      </p>
+      <h2 class="opening-h">A UX generalist who asks <em>the right questions</em>.</h2>
+    </div>
+    <div class="opening-meta">
+      <div class="provenance">
+        <span><b>3 Yrs</b> in high-stakes UX</span>
+        <span><b>3 core</b> products shipped</span>
+        <span><b>1M</b> monthly users impacted</span>
+      </div>
+      <p class="ritual-place">Currently working at IHX</p>
+    </div>
   </div>
 </section>
 
@@ -1254,7 +1289,8 @@
 
         <div class="dp-body">
           <article class="stack-card philosophy-group">
-        <p class="philosophy-quote dp-headline reveal-quote"><span class="dp-pill">Design Philosophy</span> <span class="rv-word">I</span> <span class="rv-word">notice</span> <span class="rv-word">what</span> <span class="rv-word">others</span> <span class="rv-word">walk</span> <span class="rv-word">past:</span> <span class="rv-word">the</span> <span class="rv-word">small</span> <span class="rv-word">friction,</span> <span class="rv-word">the</span> <span class="rv-word">unspoken</span> <span class="rv-word">pattern,</span> <span class="rv-word">the</span> <span class="rv-word">system</span> <span class="rv-word">behind</span> <span class="rv-word">the</span> <span class="rv-word">screen.</span> <span class="rv-word">I</span> <span class="rv-word">hold</span> <span class="rv-word">my</span> <span class="rv-word">work</span> <span class="rv-word">to</span> <strong><span class="rv-word">evidence</span> <span class="rv-word">over</span> <span class="rv-word">applause.</span></strong> <span class="rv-word">Depth</span> <span class="rv-word">is</span> <span class="rv-word">my</span> <span class="rv-word">default.</span></p>
+        <p class="vantage-title">Design Philosophy</p>
+        <p class="philosophy-quote dp-headline reveal-quote"><span class="rv-word">I</span> <span class="rv-word">notice</span> <span class="rv-word">what</span> <span class="rv-word">others</span> <span class="rv-word">walk</span> <span class="rv-word">past:</span> <span class="rv-word">the</span> <span class="rv-word">small</span> <span class="rv-word">friction,</span> <span class="rv-word">the</span> <span class="rv-word">unspoken</span> <span class="rv-word">pattern,</span> <span class="rv-word">the</span> <span class="rv-word">system</span> <span class="rv-word">behind</span> <span class="rv-word">the</span> <span class="rv-word">screen.</span> <span class="rv-word">I</span> <span class="rv-word">hold</span> <span class="rv-word">my</span> <span class="rv-word">work</span> <span class="rv-word">to</span> <strong><span class="rv-word">evidence</span> <span class="rv-word">over</span> <span class="rv-word">applause.</span></strong> <span class="rv-word">Depth</span> <span class="rv-word">is</span> <span class="rv-word">my</span> <span class="rv-word">default.</span></p>
 
         <p class="inspiration reveal-quote"><span class="rv-word">My</span> <span class="rv-word">design</span> <span class="rv-word">inspiration</span> <span class="rv-word">comes</span> <span class="rv-word">from</span> <span class="rv-word">the</span> <span class="rv-word">world</span> <span class="rv-word">around</span> <span class="rv-word">me</span> <span class="rv-word">and</span> <span class="rv-word">what</span> <span class="rv-word">I</span> <span class="rv-word">observe,</span> <span class="rv-word">the</span> <span class="rv-word">patterns</span> <span class="rv-word">I</span> <span class="rv-word">notice</span> <span class="rv-word">in</span> <span class="rv-word">people.</span> <span class="rv-word">I</span> <span class="rv-word">am</span> <span class="rv-word">curious</span> <span class="rv-word">about</span> <span class="rv-word">art,</span> <span class="rv-word">culture,</span> <span class="rv-word">and</span> <span class="rv-word">people.</span></p>
           </article>
@@ -1267,41 +1303,43 @@
         <p class="philosophy-quote reveal-quote"><span class="rv-word">There</span> <span class="rv-word">is</span> <span class="rv-word">no</span> <span class="rv-word">one</span> <span class="rv-word">size</span> <span class="rv-word">fits</span> <span class="rv-word">all</span> <span class="rv-word">process.</span> <span class="rv-word">Every</span> <span class="rv-word">problem</span> <span class="rv-word">carries</span> <span class="rv-word">its</span> <span class="rv-word">own</span> <span class="rv-word">context,</span> <span class="rv-word">its</span> <span class="rv-word">own</span> <span class="rv-word">constraints,</span> <span class="rv-word">and</span> <span class="rv-word">its</span> <span class="rv-word">own</span> <span class="rv-word">definition</span> <span class="rv-word">of</span> <span class="rv-word">done.</span></p>
 
         </article>
-          <article class="stack-card step reveal-quote">
+        <div class="dp-steps">
+          <article class="stack-card step">
             <span class="process-num">01</span>
             <div>
-              <h4><span class="rv-word">Understanding</span> <span class="rv-word">the</span> <span class="rv-word">Why</span></h4>
-              <p><span class="rv-word">I</span> <span class="rv-word">start</span> <span class="rv-word">by</span> <span class="rv-word">asking</span> <span class="rv-word">why</span> <span class="rv-word">the</span> <span class="rv-word">work</span> <span class="rv-word">needs</span> <span class="rv-word">to</span> <span class="rv-word">exist</span> <span class="rv-word">and</span> <span class="rv-word">who</span> <span class="rv-word">it</span> <span class="rv-word">is</span> <span class="rv-word">really</span> <span class="rv-word">for.</span> <span class="rv-word">Once</span> <span class="rv-word">the</span> <span class="rv-word">context</span> <span class="rv-word">is</span> <span class="rv-word">clear,</span> <span class="rv-word">everything</span> <span class="rv-word">downstream</span> <span class="rv-word">gets</span> <span class="rv-word">easier</span> <span class="rv-word">to</span> <span class="rv-word">decide.</span></p>
+              <h4>Understanding the Why</h4>
+              <p>I start by asking why the work needs to exist and who it is really for. Once the context is clear, everything downstream gets easier to decide.</p>
             </div>
           </article>
-          <article class="stack-card step reveal-quote">
+          <article class="stack-card step">
             <span class="process-num">02</span>
             <div>
-              <h4><span class="rv-word">Finding</span> <span class="rv-word">the</span> <span class="rv-word">Ground</span> <span class="rv-word">Truths</span></h4>
-              <p><span class="rv-word">I</span> <span class="rv-word">talk</span> <span class="rv-word">to</span> <span class="rv-word">the</span> <span class="rv-word">people</span> <span class="rv-word">closest</span> <span class="rv-word">to</span> <span class="rv-word">the</span> <span class="rv-word">problem</span> <span class="rv-word">before</span> <span class="rv-word">I</span> <span class="rv-word">open</span> <span class="rv-word">a</span> <span class="rv-word">design</span> <span class="rv-word">tool.</span> <span class="rv-word">Assumptions</span> <span class="rv-word">get</span> <span class="rv-word">tested,</span> <span class="rv-word">not</span> <span class="rv-word">inherited.</span></p>
+              <h4>Finding the Ground Truths</h4>
+              <p>I talk to the people closest to the problem before I open a design tool. Assumptions get tested, not inherited.</p>
             </div>
           </article>
-          <article class="stack-card step reveal-quote">
+          <article class="stack-card step">
             <span class="process-num">03</span>
             <div>
-              <h4><span class="rv-word">Designing</span> <span class="rv-word">in</span> <span class="rv-word">the</span> <span class="rv-word">Open</span></h4>
-              <p><span class="rv-word">Wireframes,</span> <span class="rv-word">prototypes,</span> <span class="rv-word">and</span> <span class="rv-word">reviews</span> <span class="rv-word">happen</span> <span class="rv-word">in</span> <span class="rv-word">public,</span> <span class="rv-word">not</span> <span class="rv-word">behind</span> <span class="rv-word">a</span> <span class="rv-word">curtain.</span> <span class="rv-word">The</span> <span class="rv-word">work</span> <span class="rv-word">gets</span> <span class="rv-word">sharper</span> <span class="rv-word">every</span> <span class="rv-word">time</span> <span class="rv-word">someone</span> <span class="rv-word">pushes</span> <span class="rv-word">back</span> <span class="rv-word">on</span> <span class="rv-word">it.</span></p>
+              <h4>Designing in the Open</h4>
+              <p>Wireframes, prototypes, and reviews happen in public, not behind a curtain. The work gets sharper every time someone pushes back on it.</p>
             </div>
           </article>
-          <article class="stack-card step reveal-quote">
+          <article class="stack-card step">
             <span class="process-num">04</span>
             <div>
-              <h4><span class="rv-word">Building</span> <span class="rv-word">It,</span> <span class="rv-word">Not</span> <span class="rv-word">Just</span> <span class="rv-word">Handing</span> <span class="rv-word">It</span> <span class="rv-word">Off</span></h4>
-              <p><span class="rv-word">I</span> <span class="rv-word">stay</span> <span class="rv-word">close</span> <span class="rv-word">through</span> <span class="rv-word">implementation.</span> <span class="rv-word">A</span> <span class="rv-word">design</span> <span class="rv-word">that</span> <span class="rv-word">never</span> <span class="rv-word">ships,</span> <span class="rv-word">or</span> <span class="rv-word">ships</span> <span class="rv-word">wrong,</span> <span class="rv-word">has</span> <span class="rv-word">not</span> <span class="rv-word">actually</span> <span class="rv-word">solved</span> <span class="rv-word">anything.</span></p>
+              <h4>Building It, Not Just Handing It Off</h4>
+              <p>I stay close through implementation. A design that never ships, or ships wrong, has not actually solved anything.</p>
             </div>
           </article>
-          <article class="stack-card step reveal-quote">
+          <article class="stack-card step">
             <span class="process-num">05</span>
             <div>
-              <h4><span class="rv-word">Working</span> <span class="rv-word">Faster</span> <span class="rv-word">With</span> <span class="rv-word">AI</span></h4>
-              <p><span class="rv-word">AI</span> <span class="rv-word">speeds</span> <span class="rv-word">up</span> <span class="rv-word">research</span> <span class="rv-word">and</span> <span class="rv-word">lets</span> <span class="rv-word">me</span> <span class="rv-word">try</span> <span class="rv-word">more</span> <span class="rv-word">directions</span> <span class="rv-word">before</span> <span class="rv-word">committing</span> <span class="rv-word">to</span> <span class="rv-word">one.</span> <span class="rv-word">It</span> <span class="rv-word">also</span> <span class="rv-word">makes</span> <span class="rv-word">prototyping</span> <span class="rv-word">fast</span> <span class="rv-word">enough</span> <span class="rv-word">to</span> <span class="rv-word">do</span> <span class="rv-word">live</span> <span class="rv-word">with</span> <span class="rv-word">stakeholders</span> <span class="rv-word">and</span> <span class="rv-word">users,</span> <span class="rv-word">helping</span> <span class="rv-word">them</span> <span class="rv-word">shape</span> <span class="rv-word">the</span> <span class="rv-word">product</span> <span class="rv-word">the</span> <span class="rv-word">way</span> <span class="rv-word">they</span> <span class="rv-word">envision</span> <span class="rv-word">it.</span></p>
+              <h4>Working Faster With AI</h4>
+              <p>AI speeds up research and lets me try more directions before committing to one. It also makes prototyping fast enough to do live with stakeholders and users, helping them shape the product the way they envision it.</p>
             </div>
           </article>
+        </div>
       </div>
     </div>
   </div>
@@ -1310,6 +1348,7 @@
 <!-- ============ PEER REVIEW ============ -->
 <section class="peers" id="peers">
   <div class="peers-inner">
+    <div class="dp-card peers-card">
     <h2>What peers say</h2>
     <div class="peer-grid">
 
@@ -1332,12 +1371,14 @@
       </figure>
 
     </div>
+    </div>
   </div>
 </section>
 
 <div class="resume-cta">
   <a class="link" href="https://drive.google.com/uc?export=download&id=1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh" download rel="noopener">Download resume &darr;</a>
 </div>
+</div><!-- /.after-hero -->
 </div>
 
 <div class="ribbon" aria-hidden="true"></div>
@@ -1380,65 +1421,102 @@
 
 <script>
 (function () {
-  function fitBadgeRing() {
-    var text = document.querySelector(".badge-text");
-    var path = document.getElementById("badgeCirclePath");
-    if (!text || !path) return;
-    var R = 38;
-    var refSize = 9;
-    var OVERFILL = 1.18; // text-on-a-tight-curve consumes more arc length than its
-                          // flat getComputedTextLength() suggests; overshoot on purpose
-                          // so the loop fully closes (slight overlap) instead of gapping.
-    text.style.fontSize = refSize + "px";
-    var refLen = text.getComputedTextLength();
-    if (!refLen || refLen < 10) return;
-    var circumference = 2 * Math.PI * R;
-    var fittedSize = (circumference * OVERFILL / refLen) * refSize;
-    text.style.fontSize = fittedSize + "px";
-    var d = "M50,50 m-" + R + ",0 a" + R + "," + R + " 0 1,1 " + (2 * R) + ",0 a" + R + "," + R + " 0 1,1 -" + (2 * R) + ",0";
-    path.setAttribute("d", d);
+  // The fixed nav is transparent over the dark hero and picks up a coconut bar once the
+  // intro sheet has risen behind it. Driven off the hero's own box, not a fixed offset.
+  var bar = document.querySelector(".topbar");
+  var hero = document.querySelector(".hero");
+  if (!bar || !hero) return;
+  var barH = bar.offsetHeight;
+  // one rect read per scroll event, applied straight away: cheap enough for a single element,
+  // and it keeps the bar correct on the very first frame instead of a rAF later
+  function apply() {
+    bar.classList.toggle("solid", hero.getBoundingClientRect().bottom <= barH + 8);
   }
-  // getComputedTextLength() only measures whatever font is ACTUALLY applied at call time.
-  // Satoshi loads from an external stylesheet; if that font swaps in after this first
-  // measurement, the ring stays sized for the fallback font's (different) glyph widths.
-  // Re-run on every signal that could mean the font just changed, so it always converges.
-  function runFit() { fitBadgeRing(); }
-  if (document.fonts) {
-    if (document.fonts.load) {
-      document.fonts.load('700 9px Satoshi').then(runFit).catch(function () {});
-      document.fonts.load('700 9px "Satoshi"').then(runFit).catch(function () {});
-    }
-    if (document.fonts.ready) document.fonts.ready.then(runFit).catch(function () {});
-    document.fonts.addEventListener && document.fonts.addEventListener("loadingdone", runFit);
-  }
-  window.addEventListener("load", runFit);
-  setTimeout(runFit, 300);
-  setTimeout(runFit, 1000);
-  setTimeout(runFit, 2500);
+  window.addEventListener("scroll", apply, { passive: true });
+  window.addEventListener("resize", function () { barH = bar.offsetHeight; apply(); });
+  apply();
 })();
 
 (function () {
-  var KEY = "shab-intro-seen";
-  var intro = document.getElementById("intro");
+  // Custom cursor: a red dot that trails the pointer, swelling into the chip over a case card.
+  // Only for fine pointers, so touch keeps the native behaviour and nothing is hidden there.
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  var cur = document.querySelector(".cursor");
+  if (!cur) return;
 
-  function skip() {
-    document.documentElement.style.setProperty("--intro-offset", "0ms");
-    if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+  var soft = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var tx = window.innerWidth / 2, ty = window.innerHeight / 2, x = tx, y = ty;
+
+  function frame() {
+    var k = soft ? 0.2 : 1;                 // the lag is what makes it feel fluid
+    x += (tx - x) * k;
+    y += (ty - y) * k;
+    cur.style.transform = "translate3d(" + x.toFixed(2) + "px," + y.toFixed(2) + "px,0)";
+    requestAnimationFrame(frame);
   }
 
-  try {
-    if (sessionStorage.getItem(KEY)) {
-      skip();
-      return;
-    }
-    sessionStorage.setItem(KEY, "1");
-  } catch (e) { /* storage unavailable; play intro anyway */ }
+  document.addEventListener("mousemove", function (e) { tx = e.clientX; ty = e.clientY; }, { passive: true });
+  document.addEventListener("mouseover", function (e) {
+    cur.classList.toggle("on-case", !!(e.target.closest && e.target.closest(".case")));
+  }, { passive: true });
+  document.addEventListener("mouseleave", function () { cur.style.opacity = "0"; });
+  document.addEventListener("mouseenter", function () { cur.style.opacity = "1"; });
+  frame();
+})();
 
-  if (intro) {
-    intro.addEventListener("click", skip);
-    setTimeout(function () {
-      if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
-    }, 5600);
+(function () {
+  // The cue glides the intro up into view rather than jumping to it. Lenis owns the scroll
+  // when it is loaded, so hand the tween to it; otherwise fall back to the native smooth
+  // scroll, and to a plain jump if the browser has neither.
+  var cue = document.querySelector(".scroll-cue");
+  var intro = document.getElementById("intro");
+  if (!cue || !intro) return;
+  cue.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (window.__lenis) {
+      window.__lenis.scrollTo(intro, { duration: 1.5, easing: function (t) { return 1 - Math.pow(1 - t, 4); } });
+    } else if ("scrollBehavior" in document.documentElement.style) {
+      intro.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      intro.scrollIntoView();
+    }
+  });
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script>
+(function () {
+  // Hero depth. The hero is pinned and .after-hero rides up over it, so the hero's own box no
+  // longer scrolls and cannot drive the scrub: the trigger is .after-hero's approach instead,
+  // running from the moment it enters the viewport to the moment it has covered the hero.
+  // Only the name drifts. The sky and the figure share one scale so they stay locked together
+  // (she must sit exactly over her own pixels), and scaling rather than shifting them means no
+  // gap can open at the hero's edges. Lenis smooths the wheel so the scrub reads as motion.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!window.gsap || !window.ScrollTrigger) return; // CDN blocked: layers stay static
+  gsap.registerPlugin(ScrollTrigger);
+
+  var trigger = document.querySelector("[data-parallax-layers]");
+  var sheet = document.querySelector(".after-hero");
+  if (!trigger || !sheet) return;
+
+  var tl = gsap.timeline({
+    scrollTrigger: { trigger: sheet, start: "top bottom", end: "top top", scrub: 0 }
+  });
+  tl.to(trigger.querySelectorAll('[data-parallax-layer="1"], [data-parallax-layer="3"]'),
+        { scale: 1.06, ease: "none" }, 0);
+  tl.to(trigger.querySelectorAll('[data-parallax-layer="2"]'),
+        { yPercent: 32, ease: "none" }, 0);
+
+  if (window.Lenis) {
+    var lenis = new Lenis();
+    window.__lenis = lenis;                       // the scroll cue steers it, see below
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
   }
 })();
 
@@ -1473,6 +1551,9 @@
   // slices of that travel (weighted by word count) so the quote finishes before the caption.
   var BAND = 2; // soft transition width, in word-units
   var model = cards.map(function (card) {
+    // The asphalt step cards opt out of the reveal entirely: light copy at any reduced
+    // opacity read as unreadable / truncated. They stay fully lit.
+    var floor = card.classList.contains("step") ? 1 : 0.2;
     var units = Array.prototype.slice.call(card.querySelectorAll(".reveal-quote"));
     if (!units.length) units = [card]; // step cards carry their words directly
     var words = units.map(function (u) { return u.querySelectorAll(".rv-word"); });
@@ -1480,7 +1561,7 @@
     var total = weights.reduce(function (a, b) { return a + b; }, 0);
     var segs = [], acc = 0;
     weights.forEach(function (w) { segs.push([acc / total, (acc + w) / total]); acc += w; });
-    return { card: card, words: words, segs: segs };
+    return { card: card, words: words, segs: segs, floor: floor };
   });
 
   function stickTop() {
@@ -1503,7 +1584,7 @@
         var target = local * (n + 2 * BAND) - BAND;
         for (var i = 0; i < n; i++) {
           var w = Math.min(1, Math.max(0, (target - i) / BAND));
-          words[i].style.opacity = 0.2 + w * 0.8;
+          words[i].style.opacity = m.floor + w * (1 - m.floor);
         }
       });
     });

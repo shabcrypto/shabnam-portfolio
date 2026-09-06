@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>In-Product User Management Module Redesign — Shabnam Raghavan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Manrope:wght@400;500;600;700;800&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coconut:#f0ede5;
+  --coconut-soft:#b3ada0;
+  --asphalt:#302f2c;
+  --asphalt-soft:#6b6964;
+  --turmeric-deep:oklch(54% 0.125 78);
+  --ground:#f0ede5;
+  --ground-alt:#eae5d8;
+  --indigo:#3C3ADA;
+  --indigo-light:#6E6CF0;
+  --teal:#00B894;
+  --teal-deep:#046A50;
+  --vermillion:#C13D1E;
+  --ink:#1C1912;
+  --ink-soft:#5B5449;
+  --muted:#5F584F;
+  --border:rgba(20,18,14,0.08);
+  --card-bg:#f0ede5;
+  --row-bg:#e6e2d7;
+  --row-border:rgba(20,18,14,0.06);
+  --shadow-card:0 1px 2px rgba(20,18,14,0.04), 0 10px 28px rgba(20,18,14,0.06);
+  --radius-card:16px;
+
+  --font-display:"Gloock", serif;
+  --font-body:"Alegreya Sans", sans-serif;
+  --space-xs:8px;
+  --space-sm:12px;
+  --space-md:24px;
+  --space-lg:48px;
+  --space-xl:96px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'Manrope',sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Satoshi',sans-serif;}
+.serif{font-family:'Gloock',serif;font-style:italic;font-weight:400;}
+a{color:inherit;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+.page-inner{max-width:1200px;margin:0 auto;padding:0 48px;}
+
+/* site header — exact component from index.html's .topbar/.wordmark, dark variant (paper-on-coal instead of ink-on-paper) */
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding: clamp(16px, 2.5vw, 28px) clamp(24px, 5vw, 60px);
+  font-size:0.85rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--asphalt-soft);
+}
+.hdr-logo{font-family:"Satoshi",sans-serif;font-weight:700;font-size:1.2rem;letter-spacing:0;text-transform:none;color:var(--asphalt);white-space:nowrap;text-decoration:none;}
+.hdr-nav{display:flex;align-items:center;gap:var(--space-md);}
+.hdr-nav a{position:relative;font-family:"Manrope",sans-serif;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
+.hdr-nav a::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%236E6CF0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 8px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
+}
+.hdr-nav a:hover{color:var(--indigo);}
+.hdr-nav a:hover::after{transform:scaleX(1);}
+.resume-group{display:inline-flex;align-items:baseline;gap:6px;}
+.resume-dl{color:var(--asphalt-soft);text-decoration:none;font-size:0.85em;transition:color 160ms ease;}
+.resume-dl:hover{color:var(--vermillion);}
+
+/* section subnav */
+.subnav{
+  position:sticky;top:0;z-index:49;
+  background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);overflow-x:auto;
+}
+.subnav .wrap{display:flex;gap:4px;height:46px;align-items:center;}
+.subnav a{
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  color:var(--muted);text-decoration:none;font-size:.76rem;font-weight:700;
+  padding:6px 12px;border-radius:100px;transition:color .2s,background .2s;
+}
+.subnav a b{font-family:'Satoshi',sans-serif;font-weight:900;color:var(--indigo);font-size:.7rem;}
+.subnav a:hover{color:var(--ink);background:var(--card-bg);}
+
+/* Shared card shadow: every top-level card surface gets the same soft, neutral lift instead
+   of leaning on borders alone. Reuse this exact rule (selectors + var(--shadow-card)) on the
+   other case studies when they get the same light-theme + polish pass. */
+.hero-stats, .big-num-card, .pain, .hflow, .gap, .tree, .persona, .dec, .phase, .tldr, .sol,
+.outcome, .data-table, .callout {
+  box-shadow: var(--shadow-card);
+}
+
+/* ---------- hero ---------- */
+.hero{padding:56px 0 56px;position:relative;}
+.hero .wrap{max-width:900px;}
+.hero-grid{display:flex;flex-direction:column;gap:40px;}
+.kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo);
+  margin-bottom:22px;
+}
+.kicker::before{content:"";width:28px;height:2px;background:var(--indigo-light);display:inline-block;}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.6rem);font-weight:900;line-height:1.08;letter-spacing:-0.02em;max-width:820px;margin-top:18px;}
+.hero h1 .serif{color:var(--indigo);}
+.hero .sub{margin-top:20px;max-width:660px;color:var(--ink-soft);font-size:1.05rem;}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+.meta-row.hero-tags-top{margin-top:0;}
+.chip{
+  border:1px solid var(--border);border-radius:100px;padding:6px 14px;
+  font-size:.75rem;font-weight:700;color:var(--ink-soft);background:var(--card-bg);
+}
+.chip.accent{color:var(--indigo);border-color:rgba(110,108,240,0.4);}
+.draft-note{
+  margin-top:26px;display:inline-flex;align-items:center;gap:8px;
+  font-size:.75rem;font-weight:700;color:var(--muted);
+  border:1px dashed rgba(20,18,14,0.25);border-radius:8px;padding:8px 14px;
+}
+.draft-note b{color:var(--ink-soft);}
+
+/* hero stats */
+.hero-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:44px;
+}
+.hero-stats .cell{background:var(--card-bg);padding:24px 20px;position:relative;}
+.hero-stats .num{font-family:'Satoshi',sans-serif;font-weight:900;font-size:2rem;line-height:1;}
+.hero-stats .num.accent{color:var(--indigo);} .hero-stats .num.teal{color:var(--teal-deep);} .hero-stats .num.indigo{color:var(--indigo);}
+.hero-stats .lbl{font-size:.78rem;color:var(--muted);margin-top:8px;font-weight:600;}
+.hero-stats .tag{
+  position:absolute;top:14px;right:14px;font-size:.62rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* ---------- sections ---------- */
+section{padding:64px 0;border-top:1px solid var(--border);}
+.sec-tag{font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.sec-tag em{color:var(--indigo);font-style:normal;}
+section h2{font-size:clamp(1.5rem,3.2vw,2.1rem);font-weight:900;letter-spacing:-0.01em;max-width:720px;}
+.sec-intro{color:var(--ink-soft);margin-top:12px;max-width:680px;font-size:.98rem;}
+.mini-label{
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  margin:40px 0 16px;display:flex;align-items:center;gap:10px;
+}
+.mini-label::after{content:"";flex:1;height:1px;background:var(--border);}
+
+/* problem split */
+.split-80{display:grid;grid-template-columns:1fr 1.4fr;gap:24px;margin-top:40px;}
+.big-num-card{
+  background:#f0ede5;border:1px solid var(--border);border-radius:16px;padding:32px 28px;
+  display:flex;flex-direction:column;justify-content:center;position:relative;
+}
+.big-num-card .giant{font-family:'Satoshi',sans-serif;font-weight:900;font-size:4.6rem;line-height:1;color:var(--indigo);}
+.big-num-card .giant span{font-size:1.6rem;color:var(--ink-soft);}
+.big-num-card .cap{margin-top:10px;color:var(--ink-soft);font-weight:600;font-size:.95rem;}
+.bar-split{margin-top:22px;}
+.bar-split .bar{display:flex;height:14px;border-radius:100px;overflow:hidden;}
+.bar-split .b1{background:var(--indigo-light);width:62.5%;}
+.bar-split .b2{background:var(--teal);width:37.5%;}
+.bar-split .legend{display:flex;justify-content:space-between;margin-top:10px;font-size:.75rem;color:var(--muted);font-weight:600;}
+.bar-split .legend b{color:var(--ink);}
+
+.pain-grid{display:grid;gap:12px;}
+.pain{
+  background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;
+  padding:16px 18px;
+}
+.pain b{display:block;font-size:.92rem;}
+.pain p{font-size:.84rem;color:var(--muted);margin-top:2px;}
+
+/* numbered problem cards: crisp title + one line, a numbered badge instead of an icon chip */
+.num-card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px;}
+.split-80 .num-card-grid{grid-template-columns:1fr 1fr;margin-top:0;}
+.num-card{
+  background:#f0ede5;border:1px solid var(--border);border-radius:16px;
+  padding:26px 22px;box-shadow:var(--shadow-card);
+}
+.num-card .badge-num{
+  display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
+  border-radius:10px;background:rgba(60,58,218,0.1);color:var(--indigo);
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:1rem;margin-bottom:18px;
+}
+.num-card b{font-size:1rem;line-height:1.35;display:block;margin-bottom:8px;}
+.num-card p{font-size:.87rem;color:var(--muted);line-height:1.55;}
+
+/* fact pills: the crisp evidence row under the problem cards, replaces a bigger stat block */
+.fact-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
+.fact-pill{
+  border:1px solid var(--border);border-radius:100px;padding:10px 18px;
+  font-size:.82rem;color:var(--ink-soft);background:#f0ede5;box-shadow:var(--shadow-card);
+}
+.fact-pill b{color:var(--indigo);font-weight:800;}
+
+/* horizontal flow diagram */
+.hflow{
+  display:flex;align-items:stretch;gap:0;margin-top:16px;
+  background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:22px;overflow-x:auto;
+}
+.hflow .node{
+  flex:1;min-width:130px;background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;
+  padding:16px 14px;text-align:center;position:relative;
+}
+.hflow .node .step{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.66rem;letter-spacing:.12em;
+  color:var(--muted);text-transform:uppercase;display:block;margin-bottom:8px;
+}
+.hflow .node b{font-size:.84rem;line-height:1.35;display:block;font-weight:700;}
+.hflow .node p{font-size:.72rem;color:var(--muted);margin-top:5px;line-height:1.4;}
+.hflow .node.bad{border-color:rgba(110,108,240,0.35);}
+.hflow .node.good{border-color:rgba(0,184,148,0.35);}
+.hflow .node.warn{border-color:rgba(245,166,35,0.4);background:rgba(245,166,35,0.05);}
+.hflow .node.bad .step{color:var(--indigo);}
+.hflow .node.good .step{color:var(--teal-deep);}
+.hflow .node.warn .step{color:#B87209;}
+.hflow .conn{
+  flex:none;display:flex;align-items:center;padding:0 8px;color:var(--muted);font-size:1.1rem;font-weight:900;
+}
+.flow-caption{font-size:.78rem;color:var(--muted);margin-top:10px;font-weight:600;}
+.flow-caption b{color:var(--ink-soft);}
+
+.callout{
+  margin-top:28px;background:#f0ede5;border-left:3px solid var(--indigo-light);border-radius:0 14px 14px 0;
+  padding:22px 26px;
+}
+.callout .t{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;}
+.callout p{color:var(--ink-soft);font-size:.95rem;max-width:760px;}
+.callout .badges{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+/* shared chip recipe: .badge and .tagpill must always render identically (size, weight, radius,
+   case, border) — only the colour variants differ. Reuse this exact block on other case studies. */
+.badge, .tagpill{
+  display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  padding:5px 12px;border-radius:6px;
+}
+.badge{background:rgba(110,108,240,0.12);color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
+.badge.teal{background:rgba(0,184,148,0.12);color:var(--teal-deep);border-color:rgba(0,184,148,0.35);}
+
+/* gaps grid */
+.gap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px;}
+.gap{
+  background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:22px 20px;position:relative;
+}
+.gap .gnum{
+  font-family:'Satoshi',sans-serif;font-weight:900;color:var(--indigo);font-size:.72rem;letter-spacing:.1em;
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;
+}
+.gap .gnum::after{content:"";width:20px;height:1px;background:rgba(110,108,240,0.4);}
+.gap b{font-size:.92rem;display:block;line-height:1.4;}
+.gap p{font-size:.82rem;color:var(--muted);margin-top:6px;}
+
+/* scope flow */
+.scope-flow{
+  margin-top:30px;display:flex;align-items:stretch;gap:0;background:var(--card-bg);
+  border:1px solid var(--border);border-radius:16px;overflow:hidden;
+}
+.scope-flow .stage{flex:1;padding:26px 26px;}
+.scope-flow .stage .l{font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.scope-flow .stage b{font-size:1.02rem;font-family:'Satoshi',sans-serif;font-weight:700;}
+.scope-flow .stage p{font-size:.82rem;color:var(--muted);margin-top:6px;}
+.scope-flow .arrow{
+  flex:none;display:flex;align-items:center;padding:0 6px;color:var(--indigo);
+  font-size:1.6rem;font-weight:900;background:linear-gradient(90deg,transparent,rgba(110,108,240,0.06),transparent);
+}
+.scope-flow .stage.after b{color:var(--indigo);}
+
+/* role hierarchy tree */
+.tree{
+  margin-top:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;
+  padding:32px 24px;text-align:center;
+}
+.tree .lvl{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.tree .tnode{
+  display:inline-block;background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;
+  padding:14px 22px;text-align:center;min-width:150px;
+}
+.tree .tnode .r{font-family:'Satoshi',sans-serif;font-weight:900;font-size:.92rem;display:block;}
+.tree .tnode p{font-size:.7rem;color:var(--muted);margin-top:3px;line-height:1.4;}
+.tree .tnode.ops{border-color:rgba(20,18,14,0.25);}
+.tree .tnode.grp{border-color:rgba(110,108,240,0.5);}
+.tree .tnode.grp .r{color:var(--indigo);}
+.tree .tnode.ctr{border-color:rgba(0,184,148,0.4);}
+.tree .tnode.ctr .r{color:var(--teal-deep);}
+.tree .vline{width:1px;height:22px;background:rgba(20,18,14,0.25);margin:0 auto;}
+.tree .branch{
+  height:22px;margin:0 auto;max-width:560px;position:relative;
+}
+.tree .branch::before{content:"";position:absolute;top:0;left:15%;right:15%;height:1px;background:rgba(20,18,14,0.25);}
+.tree .branch::after{content:"";position:absolute;top:0;left:50%;width:1px;height:0;}
+.tree .branch .d{position:absolute;top:0;width:1px;height:22px;background:rgba(20,18,14,0.25);}
+.tree .branch .d1{left:15%;} .tree .branch .d2{left:50%;} .tree .branch .d3{right:15%;}
+.tree .note{
+  margin-top:22px;font-size:.76rem;color:var(--muted);font-weight:600;
+  border-top:1px dashed var(--row-border);padding-top:16px;
+}
+.tree .note b{color:var(--indigo);}
+
+/* user problem */
+.persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px;}
+.persona{background:#f0ede5;border:1px solid var(--border);border-radius:14px;padding:24px 22px;display:flex;flex-direction:column;}
+.persona .who{
+  font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;
+  display:inline-block;
+}
+.persona .who.indigo{color:var(--indigo);} .persona .who.teal{color:var(--teal-deep);}
+.persona b{font-size:.95rem;line-height:1.45;display:block;}
+.persona p{font-size:.84rem;color:var(--muted);margin-top:8px;flex:1;}
+.persona .tagpill{align-self:flex-start;margin-top:16px;}
+.persona .maps{
+  margin-top:16px;padding-top:14px;border-top:1px dashed var(--row-border);
+  font-size:.74rem;font-weight:700;color:var(--ink-soft);
+}
+.persona .maps span{color:var(--indigo);}
+
+/* decisions */
+.dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:36px;}
+.dec{
+  background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:24px 24px;position:relative;
+  transition:border-color .2s;
+}
+.dec:hover{border-color:rgba(110,108,240,0.45);}
+.dec .n{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.8rem;color:var(--muted);
+  margin-bottom:10px;letter-spacing:.08em;
+}
+.dec b{font-size:1rem;font-family:'Satoshi',sans-serif;font-weight:700;display:block;line-height:1.35;}
+.dec p{font-size:.85rem;color:var(--muted);margin-top:8px;}
+.dec .closes{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap;}
+.tagpill.ops{background:rgba(110,108,240,0.12);color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
+.tagpill.sec{background:rgba(0,184,148,0.12);color:var(--teal-deep);border:1px solid rgba(0,184,148,0.35);}
+.tagpill.grp{background:rgba(20,18,14,0.08);color:var(--ink-soft);border:1px solid var(--row-border);}
+.tagpill.ship{background:transparent;border:1px solid var(--row-border);color:var(--muted);}
+.dec.wide{grid-column:1 / -1;}
+
+/* ---------- solution phases ---------- */
+.phase{
+  margin-top:40px;background:var(--card-bg);border:1px solid var(--border);border-radius:18px;
+  padding:34px 30px;
+}
+.phase .ph-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+.phase .ph-num{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--teal-deep);
+}
+.phase h3{font-size:1.25rem;font-weight:900;}
+.phase .ph-sub{color:var(--muted);font-size:.9rem;max-width:640px;}
+.phase .ph-body{display:grid;grid-template-columns:1fr 1.1fr;gap:24px;margin-top:24px;align-items:start;}
+
+/* vertical mini flow */
+.vflow{display:flex;flex-direction:column;}
+.vflow .vnode{
+  background:var(--row-bg);border:1px solid var(--row-border);border-radius:11px;padding:13px 16px;
+  display:flex;gap:12px;align-items:center;
+}
+.vflow .vnode .dot{
+  flex:none;width:24px;height:24px;border-radius:50%;background:rgba(110,108,240,0.14);color:var(--indigo);
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.7rem;display:flex;align-items:center;justify-content:center;
+}
+.vflow .vnode b{font-size:.85rem;font-weight:700;display:block;}
+.vflow .vnode p{font-size:.73rem;color:var(--muted);line-height:1.4;}
+.vflow .vconn{width:1px;height:16px;background:rgba(20,18,14,0.2);margin-left:27px;}
+
+/* before/after compare */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.compare .col{background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;padding:18px;}
+.compare .col.after{border-color:rgba(0,184,148,0.35);}
+.compare .col .cl{
+  font-size:.68rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin-bottom:12px;color:var(--muted);
+}
+.compare .col.after .cl{color:var(--teal-deep);}
+.compare .col ol{list-style:none;}
+.compare .col li{
+  font-size:.8rem;color:var(--ink-soft);padding:7px 0;border-bottom:1px dashed var(--row-border);
+  display:flex;gap:10px;align-items:baseline;
+}
+.compare .col li:last-child{border-bottom:none;}
+.compare .col li i{
+  font-style:normal;font-family:'Satoshi',sans-serif;font-weight:900;font-size:.68rem;color:var(--muted);flex:none;
+}
+.compare .col.after li i{color:var(--teal-deep);}
+.compare .col .time{
+  margin-top:12px;font-family:'Satoshi',sans-serif;font-weight:900;font-size:.95rem;color:var(--ink);
+}
+.compare .col.after .time{color:var(--teal-deep);}
+.compare .col .time small{font-size:.68rem;color:var(--muted);display:block;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+
+/* screen placeholder */
+.screen{
+  border:1.5px dashed rgba(20,18,14,0.3);border-radius:14px;overflow:hidden;background:var(--ground);
+}
+.screen .bar{
+  display:flex;align-items:center;gap:6px;background:var(--row-bg);padding:9px 14px;border-bottom:1px dashed rgba(20,18,14,0.18);
+}
+.screen .bar span{width:9px;height:9px;border-radius:50%;background:rgba(20,18,14,0.18);}
+.screen .bar .url{
+  flex:1;margin-left:8px;font-size:.66rem;color:var(--muted);background:var(--ground);
+  border-radius:5px;padding:3px 10px;font-weight:600;
+}
+.screen .canvas{
+  aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  color:var(--muted);
+}
+.screen .canvas .cam{font-size:1.6rem;opacity:.6;}
+.screen .canvas b{font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);}
+.screen .canvas p{font-size:.72rem;max-width:320px;text-align:center;line-height:1.5;}
+.screen.tall .canvas{aspect-ratio:4/3;}
+
+/* module matrix mini-diagram */
+.matrix{border:1px solid var(--row-border);border-radius:12px;overflow:hidden;font-size:.72rem;margin-top:14px;}
+.matrix table{width:100%;border-collapse:collapse;}
+.matrix th,.matrix td{padding:8px 10px;text-align:center;border-bottom:1px solid var(--row-border);}
+.matrix th{
+  background:var(--row-bg);font-family:'Satoshi',sans-serif;font-weight:800;font-size:.64rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+}
+.matrix td:first-child,.matrix th:first-child{text-align:left;color:var(--ink-soft);font-weight:700;}
+.matrix tr:last-child td{border-bottom:none;}
+.matrix .on{color:var(--teal-deep);font-weight:900;}
+.matrix .off{color:rgba(20,18,14,0.18);font-weight:900;}
+
+/* image / video placeholders — real filenames baked in per the source doc's images/ convention.
+   Drop a matching file into an images/ folder next to this page and it resolves automatically;
+   the fallback card (icon + expected filename) only shows while the file is missing. */
+/* .img-slot sizing model: while empty, it holds a guessed 16/9 (or .tall/.portrait) box so the
+   dashed placeholder has sensible proportions. The moment a real <img> loads, script below adds
+   .has-image and the box switches to aspect-ratio:auto — the container just becomes the image's
+   own natural shape. No object-fit, no cropping, no letterboxing, nothing to tune per image.
+   This is the fix for the "image doesn't fill / gets cropped" problem, permanently: stop trying
+   to force arbitrary screenshots into a fixed box at all. Reuse this whole pattern verbatim on
+   the other case studies instead of re-solving it per image. */
+.img-slot,.video-slot{
+  position:relative;border:1.5px dashed rgba(20,18,14,0.3);border-radius:14px;overflow:hidden;
+  background:var(--ground);aspect-ratio:16/9;
+}
+.img-slot.tall,.video-slot.tall{aspect-ratio:4/3;}
+.img-slot.portrait{aspect-ratio:2/3;}
+/* once a real image is in, drop the dashed "placeholder" look for the same thin solid border
+   and soft lift every other card on the page uses, so loaded screenshots read as finished, not
+   still-pending. Genuinely empty slots keep the dashed border above as the "missing" signal. */
+.img-slot.has-image{aspect-ratio:auto;border:1px solid var(--border);border-style:solid;box-shadow:var(--shadow-card);}
+.img-slot-fallback,.video-slot-fallback{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  padding:20px;text-align:center;color:var(--muted);
+}
+.img-slot-fallback .cam,.video-slot-fallback .cam{font-size:1.8rem;opacity:.6;}
+.img-slot-fallback b,.video-slot-fallback b{font-size:.8rem;font-weight:800;letter-spacing:.06em;color:var(--ink-soft);max-width:340px;}
+.img-slot-fallback code,.video-slot-fallback code{
+  font-size:.68rem;color:var(--indigo);background:var(--card-bg);border:1px solid var(--row-border);
+  border-radius:5px;padding:3px 9px;font-family:monospace;
+}
+.img-slot img{position:relative;width:100%;height:auto;display:block;}
+.video-slot video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000;}
+.img-slot-cap{margin-top:10px;font-size:.78rem;color:var(--muted);line-height:1.5;}
+
+/* old vs new / decision tables — text-forward variant of .matrix */
+.data-table{border:1px solid var(--row-border);border-radius:12px;overflow:hidden;margin-top:20px;}
+.data-table table{width:100%;border-collapse:collapse;}
+.data-table th,.data-table td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--row-border);vertical-align:top;font-size:.85rem;}
+.data-table th{
+  background:var(--row-bg);font-family:'Satoshi',sans-serif;font-weight:800;font-size:.66rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td:first-child{font-weight:700;color:var(--ink);white-space:nowrap;}
+.data-table td.new{color:var(--teal-deep);}
+.closes-tag{
+  display:inline-block;font-size:.68rem;font-weight:700;color:var(--indigo);
+  background:rgba(110,108,240,0.1);border:1px solid rgba(110,108,240,0.3);border-radius:100px;padding:2px 10px;
+}
+
+/* flagged / open item — honest "not resolved yet" markers, distinct from the confident callout */
+.flag-note{
+  margin-top:20px;background:rgba(245,166,35,0.06);border:1px dashed rgba(245,166,35,0.4);border-radius:12px;
+  padding:16px 20px;font-size:.85rem;color:var(--ink-soft);line-height:1.6;
+}
+.flag-note b{color:#F5A623;}
+
+/* hero shot — the redesigned screen framed like a browser window, right under the hero copy */
+.hero-shot{margin-top:0;}
+.hero-shot .frame{
+  max-width:900px;margin:0 auto;border:1px solid var(--border);border-radius:16px 16px 0 0;
+  border-bottom:none;background:var(--row-bg);padding:12px 12px 0;
+  box-shadow:0 20px 50px rgba(20,18,14,0.06);
+}
+.hero-shot .frame .bar{display:flex;align-items:center;gap:6px;padding:2px 4px 12px;}
+.hero-shot .frame .bar span{width:9px;height:9px;border-radius:50%;background:rgba(20,18,14,0.18);}
+.hero-shot .img-slot{border-radius:8px 8px 0 0;border-style:solid;}
+/* Deliberate exception to the auto-sizing rule above: the source screenshot has a lot of empty
+   grey below its 5-row table, and unlike the "doesn't fill the box" bug, that empty space is
+   real pixels in the file, not a CSS mismatch, so natural sizing would still show it. Force this
+   one slot to stay a fixed 16:9 crop (cover, top-anchored) to cut that dead space off instead. */
+.hero-shot .img-slot.has-image{aspect-ratio:16/9;}
+.hero-shot .img-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;}
+
+/* Section rhythm: alternating ground/ground-alt down the page, same pattern to reuse on
+   every case study. Order is hero(ground) → tldr(alt) → demo(ground) → s1(alt) → s2(ground)
+   → s3(alt) → s4(ground) → s5(alt) → take(ground) → more-work(alt) → footer(ground). Cards
+   always sit one step deeper than whichever ground they're on (--card-bg, then --row-bg
+   nested inside a card), so the ramp reads white → F9F9F9 → F6F6F6 → EFEFEF regardless of
+   which section a card lands in. */
+#tldr, #s1, #s3, #s5, .more-work{background:var(--ground-alt);}
+.tldr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:36px;}
+.tldr{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px 18px;}
+.tldr .k{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--indigo);margin-bottom:10px;display:block;
+}
+.tldr p{font-size:.82rem;line-height:1.55;color:var(--ink-soft);}
+.tldr p b{color:var(--ink);}
+
+/* annotated before/after — text and screenshot side by side, alternating */
+.annot{display:grid;grid-template-columns:1fr 1.3fr;gap:36px;align-items:start;margin-top:44px;}
+.annot.flip{grid-template-columns:1.3fr 1fr;}
+.annot.flip .txt{order:2;}
+.annot .txt h3{font-size:1.1rem;font-weight:900;letter-spacing:-0.01em;color:var(--ink);}
+.annot .tagline{
+  display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 12px;border-radius:6px;margin-bottom:12px;
+}
+.tagline.bad{background:rgba(110,108,240,0.12);color:var(--indigo);}
+.tagline.good{background:rgba(0,184,148,0.12);color:var(--teal-deep);}
+.annot .txt ul{list-style:none;margin-top:12px;}
+.annot .txt li{
+  font-size:.85rem;color:var(--ink-soft);padding:9px 0;border-bottom:1px dashed var(--row-border);
+  display:flex;gap:10px;align-items:baseline;
+}
+.annot .txt li:last-child{border-bottom:none;}
+.annot .txt li::before{content:"—";color:var(--indigo);font-weight:800;flex:none;}
+.annot .shot{margin:0;}
+.annot .shot figcaption{font-size:.76rem;color:var(--muted);margin-top:10px;line-height:1.5;}
+
+/* solution — grouped by screen, narrative + inline shots instead of a flat table */
+.sol{margin-top:48px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:30px 28px;}
+.sol .sol-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
+.sol .n{font-family:'Satoshi',sans-serif;font-weight:900;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-deep);}
+.sol h3{font-size:1.15rem;font-weight:900;letter-spacing:-0.01em;color:var(--ink);}
+.sol .sol-sub{margin-top:6px;font-size:.9rem;color:var(--ink-soft);line-height:1.65;max-width:680px;}
+.sol .closes-tag{margin-top:12px;}
+.sol .shot{margin-top:22px;}
+.sol-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+.shot-narrow{max-width:420px;}
+
+/* side-by-side .sol variant: copy left, one image right, for screens where a single shot would
+   otherwise sit stacked under the copy leaving the other half of the card empty. */
+.sol.side{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
+.sol.side .sol-text{min-width:0;}
+.sol.side .shot{margin-top:0;}
+.sol.side .shot-narrow{max-width:none;margin:0 auto;}
+
+/* closing pull-quote — the last word before "other case studies" */
+.take{text-align:center;padding:72px 0 64px;border-top:1px solid var(--border);}
+.take .big{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.3rem,3vw,1.9rem);
+  color:var(--ink);letter-spacing:-0.01em;max-width:720px;margin:0 auto;line-height:1.4;
+}
+.take .big em{font-style:normal;color:var(--indigo);}
+.take .fine{margin-top:18px;font-size:.78rem;color:var(--muted);letter-spacing:.04em;}
+
+@media(max-width:860px){
+  .tldr-grid{grid-template-columns:1fr 1fr;}
+  .annot,.annot.flip{grid-template-columns:1fr;}
+  .annot.flip .txt{order:0;}
+  .sol-2col{grid-template-columns:1fr;}
+}
+@media(max-width:560px){
+  .tldr-grid{grid-template-columns:1fr;}
+}
+
+/* overview — portfolio-safe narrative, sits between hero and the numbered breakdown */
+.overview{padding:56px 0 64px;border-top:1px solid var(--border);}
+.overview .ov-block{margin-top:32px;max-width:780px;}
+.overview .ov-block:first-of-type{margin-top:0;}
+.overview .ov-label{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;}
+.overview .ov-block p{font-size:.98rem;color:var(--ink-soft);line-height:1.75;}
+.overview .ov-block p + p{margin-top:12px;}
+
+/* outcomes — refined metric cards */
+.outcome-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:36px;}
+.outcome{
+  background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:26px;position:relative;
+  display:flex;flex-direction:column;transition:border-color .2s;
+}
+.outcome:hover{border-color:rgba(110,108,240,0.4);}
+.outcome .loop{
+  position:absolute;top:18px;right:18px;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--row-border);border-radius:100px;padding:3px 10px;
+}
+.outcome .t{font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:18px;}
+.outcome .hero-val{
+  font-family:'Satoshi',sans-serif;font-weight:900;font-size:2.6rem;line-height:1;color:var(--indigo);
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+}
+.outcome .hero-val small{font-size:.95rem;color:var(--ink-soft);font-weight:700;}
+.outcome .ph{
+  color:var(--indigo);background:rgba(110,108,240,0.1);border:1px dashed rgba(110,108,240,0.5);
+  border-radius:8px;padding:2px 14px;display:inline-block;
+}
+.outcome .desc{font-size:.82rem;color:var(--muted);margin-top:12px;flex:1;}
+.outcome .baseline{
+  margin-top:18px;padding-top:14px;border-top:1px dashed var(--row-border);
+  display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.75rem;
+}
+.outcome .baseline .bl{color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.64rem;}
+.outcome .baseline .bv{color:var(--ink-soft);font-weight:800;font-family:'Satoshi',sans-serif;}
+.outcome-note{
+  margin-top:20px;background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;padding:18px 22px;
+  font-size:.86rem;color:var(--muted);
+}
+.outcome-note b{color:var(--ink-soft);}
+.ph-inline{
+  color:var(--indigo);background:rgba(110,108,240,0.1);border:1px dashed rgba(110,108,240,0.5);
+  border-radius:6px;padding:1px 9px;display:inline-block;
+}
+
+/* footer — synced to index.html's updated dark footer */
+footer{background:var(--asphalt);color:var(--coconut);}
+.foot-inner{max-width:1200px;margin:0 auto;padding:var(--space-xl) 60px var(--space-lg);display:grid;gap:var(--space-lg);}
+.foot-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--space-lg);flex-wrap:wrap;}
+.foot-quote{font-family:"Satoshi",sans-serif;font-weight:700;font-size:clamp(1.25rem,2.6vw,2.1rem);line-height:1.25;letter-spacing:.02em;}
+.foot-tagline{margin-top:12px;font-size:clamp(1rem,1.6vw,1.15rem);color:var(--coconut-soft);max-width:44ch;}
+.foot-links{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-sm);}
+.foot-links .email,.foot-links .phone{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:"Satoshi",sans-serif;font-weight:400;font-size:clamp(1.05rem,2vw,1.5rem);
+  color:var(--coconut);text-decoration:none;transition:color 160ms ease;
+}
+.foot-links .email svg,.foot-links .phone svg{flex-shrink:0;}
+.foot-links .email:hover,.foot-links .phone:hover{color:var(--vermillion);}
+.socials{display:flex;gap:var(--space-md);flex-wrap:wrap;}
+.socials a{
+  color:var(--coconut-soft);text-decoration:none;
+  font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;
+  transition:color 160ms ease;
+}
+.socials a::after{content:"\2197";margin-left:6px;color:var(--vermillion);}
+.socials a:hover{color:var(--coconut);}
+.foot-divider{
+  height:10px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'%3E%3Cpath d='M0 5 Q 6 1 12 5 T 24 5' fill='none' stroke='%236b6964' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 10px;
+  opacity:.75;
+}
+.foot-contact-row{
+  display:flex;flex-direction:column;align-items:flex-end;
+  gap:4px;
+  font-size:.85rem;letter-spacing:.1em;color:var(--coconut-soft);
+}
+
+/* other case studies — exact .case card component from index.html's "Selected Work" grid, dark variant */
+.other-cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-lg);}
+.cs-card{
+  display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
+  border:1px solid rgba(20,18,14,0.1);border-radius:16px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(20,18,14,0.04), 0 12px 32px rgba(20,18,14,0.07);
+  transition:transform 200ms cubic-bezier(0.22,1,0.36,1), border-color 200ms ease, box-shadow 200ms ease;
+}
+.cs-card:hover{
+  transform:translateY(-4px);border-color:rgba(20,18,14,0.28);
+  box-shadow:0 1px 2px rgba(20,18,14,0.05), 0 20px 44px rgba(20,18,14,0.1);
+}
+.cs-thumb{overflow:hidden;aspect-ratio:4/3;background:var(--row-bg);}
+.cs-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 400ms cubic-bezier(0.22,1,0.36,1);}
+.cs-card:hover .cs-thumb img{transform:scale(1.03);}
+.cs-thumb.soon{display:flex;align-items:center;justify-content:center;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.cs-card-body{padding:var(--space-md) var(--space-md) var(--space-lg);display:flex;flex-direction:column;gap:var(--space-sm);flex:1;}
+.cs-tags{display:flex;gap:var(--space-sm);flex-wrap:wrap;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);}
+.cs-tags span{border:1px solid rgba(20,18,14,0.28);border-radius:999px;padding:3px 8px;}
+.cs-card-title{font-family:'Satoshi',var(--font-body);font-weight:700;font-size:clamp(1.15rem,1.8vw,1.4rem);line-height:1.25;}
+.cs-card-desc{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+.cs-go{
+  margin-top:auto;position:relative;font-weight:700;color:var(--vermillion);
+  display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding-bottom:10px;font-size:.9rem;
+}
+.cs-go::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23C13D1E' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 8px;transform:scaleX(0);transform-origin:left;
+  transition:transform 320ms cubic-bezier(0.22,1,0.36,1);
+}
+.cs-card:hover .cs-go::after{transform:scaleX(1);}
+.cs-card.soon .cs-go, .cs-card.soon .cs-card-title{color:var(--muted);}
+
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+@media(max-width:860px){
+  .hero-stats{grid-template-columns:1fr;}
+  .split-80{grid-template-columns:1fr;}
+  .gap-grid,.persona-grid,.num-card-grid{grid-template-columns:1fr 1fr;}
+  .dec-grid,.outcome-grid,.compare,.other-cs-grid,.sol.side{grid-template-columns:1fr;}
+  .scope-flow,.hflow{flex-direction:column;}
+  .scope-flow .arrow{transform:rotate(90deg);justify-content:center;padding:10px 0;}
+  .hflow .conn{transform:rotate(90deg);justify-content:center;padding:6px 0;}
+  .phase .ph-body{grid-template-columns:1fr;}
+  .page-inner{padding:0 24px;}
+}
+@media(max-width:560px){
+  .gap-grid,.persona-grid,.num-card-grid,.split-80 .num-card-grid{grid-template-columns:1fr;}
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet" />
+<style>
+  /* Case study title, matched to the index. Staatliches is a single-weight caps face, so the
+     weight and negative tracking that came with the old Satoshi setting are overridden too.
+     !important because one of these pages styles its h1 inline. */
+  h1 {
+    font-family: "Staatliches", "Impact", "Arial Narrow", sans-serif !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em !important;
+    font-synthesis-weight: none;
+  }
+</style>
+</head>
+<body id="top">
+
+<!-- ============ SITE NAV (consistent with index / other case studies) ============ -->
+<header class="hdr">
+  <a class="hdr-logo" href="index.html" aria-label="Shabnam Raghavan home">Shabnam Raghavan</a>
+  <nav class="hdr-nav" aria-label="Primary">
+    <a href="index.html#work">Work</a>
+    <a href="about.html">About me</a>
+    <span class="resume-group">
+      <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
+      <a class="resume-dl" href="https://drive.google.com/uc?export=download&id=1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh" download rel="noopener" aria-label="Download resume" title="Download resume">&darr;</a>
+    </span>
+    <a href="index.html#contact">Contact me</a>
+  </nav>
+</header>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="meta-row hero-tags-top">
+        <span class="chip accent">IHX Case Study</span>
+        <span class="chip">B2B SaaS</span>
+        <span class="chip">Health InsurTech</span>
+        <span class="chip">User Management</span>
+      </div>
+      <h1>Every hospital user management ran through support. <span class="serif">We handed the keys back.</span></h1>
+      <p class="sub">A healthcare claims platform used by thousands of hospitals had no way for those hospitals to manage their own staff access, until this project gave it to them.</p>
+      <div class="hero-stats reveal">
+        <div class="cell"><span class="tag">Tickets / day</span><div class="num accent">80 &rarr; 10</div><div class="lbl">Support tickets routed to Ops</div></div>
+        <div class="cell"><span class="tag">Time to create</span><div class="num teal">30 &rarr; 10 min</div><div class="lbl">A new user, start to finish</div></div>
+        <div class="cell"><span class="tag">Deactivate</span><div class="num indigo">4 &rarr; 1</div><div class="lbl">Manual steps to deactivate or delete a user</div></div>
+      </div>
+    </div>
+    <div class="hero-shot reveal">
+      <div class="frame">
+        <div class="bar"><span></span><span></span><span></span></div>
+        <figure class="img-slot">
+          <div class="img-slot-fallback"><span class="cam">▣</span><b>User Management table</b><code>images/user-management-table-single-center.png</code></div>
+          <img src="images/user-management-table-single-center.png" alt="User Management table, single center, with Create New User CTA" onerror="this.remove()">
+        </figure>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="wrap">
+    <a href="#tldr"><b>00</b> tl;dr</a>
+    <a href="#s1"><b>01</b> problem statement</a>
+    <a href="#s2"><b>02</b> feedback &amp; pain points</a>
+    <a href="#s3"><b>03</b> product gap</a>
+    <a href="#s4"><b>04</b> design decisions</a>
+    <a href="#s5"><b>05</b> outcome</a>
+  </div>
+</div>
+
+<section id="tldr">
+  <div class="wrap">
+    <div class="sec-tag">TL;DR</div>
+    <h2>The whole story, in five cards.</h2>
+    <div class="tldr-grid">
+      <div class="tldr reveal"><span class="k">Problem</span><p>No in-product way to manage users. <b>Every action needed a person outside the hospital.</b></p></div>
+      <div class="tldr reveal"><span class="k">Risk</span><p>No quick way to <b>deactivate a user</b>, a real security concern for hospitals of any size, on a platform holding patient and financial data.</p></div>
+      <div class="tldr reveal"><span class="k">Solution</span><p>A <b>discoverable, holistic UI</b> for user management, designed around a real role hierarchy and real user needs.</p></div>
+      <div class="tldr reveal"><span class="k">Numbers</span><p><b>87% fewer support tickets.</b> User creation 30 &rarr; 10 min. Deactivating a user: 4 steps &rarr; 1.</p></div>
+      <div class="tldr reveal"><span class="k">Takeaway</span><p>Problems users can solve themselves deserve <b>product-led solutions</b>, not process. Digging into this one surfaced real <b>security lapses</b> too.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <div class="mini-label" style="margin-top:0;">Watch it end to end</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">▶</span><b>Screen recording: full user management walkthrough</b><code>images/user-management-walkthrough.mp4</code></div>
+      <video src="images/user-management-walkthrough.mp4" poster="images/user-management-walkthrough-poster.png" controls muted playsinline onerror="this.remove()"></video>
+    </figure>
+    <p class="img-slot-cap">Create, manage, and control access, recorded end to end. Drop the export into <code>images/user-management-walkthrough.mp4</code> and it will resolve automatically.</p>
+  </div>
+</section>
+
+<section id="s1">
+  <div class="wrap">
+    <div class="sec-tag"><em>01</em> — Problem Statement</div>
+    <h2>User management operations lived outside the product, despite an in-product user management module.</h2>
+    <p class="sec-intro">The module existed. It was not solving the problem, and in one place, it was actively misleading users. Four problems defined the work.</p>
+
+    <div class="split-80">
+      <div class="big-num-card reveal">
+        <div class="giant">80<span>/day</span></div>
+        <div class="cap">Support tickets routed to Ops, every day</div>
+        <div class="bar-split">
+          <div class="bar"><div class="b1"></div><div class="b2"></div></div>
+          <div class="legend"><span><b>~50</b> user creations</span><span><b>~30</b> password resets</span></div>
+        </div>
+      </div>
+      <div class="num-card-grid">
+        <div class="num-card reveal">
+          <span class="badge-num">1</span>
+          <b>The existing module went unused</b>
+          <p>Creation, editing, and disabling all existed as features. Hospital staff simply did not know the module was there.</p>
+        </div>
+        <div class="num-card reveal">
+          <span class="badge-num">2</span>
+          <b>No owner for access revocation</b>
+          <p>Deactivating a user meant email, to the account manager, to DB support: no one owned it end to end.</p>
+        </div>
+        <div class="num-card reveal">
+          <span class="badge-num">3</span>
+          <b>Group hospitals had a view, not control</b>
+          <p>Enterprise chains could see their centers, but could not manage a single user across them.</p>
+        </div>
+        <div class="num-card reveal">
+          <span class="badge-num">4</span>
+          <b>Feature enablement was an engineering burden</b>
+          <p>SSO, 2FA, and new users all routed through support, a project manager, and database engineering.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fact-row reveal">
+      <span class="fact-pill">SSO, 2FA, and user role specific features needed <b>an engineer</b> to flip a DB flag</span>
+      <span class="fact-pill">User deactivation <b>&rarr;</b> a manual email chain: account manager, DB support, no time limit</span>
+      <span class="fact-pill">Tagged <b>Revenue Innovation</b></span>
+    </div>
+
+    <div class="callout reveal">
+      <div class="t">The misleading detail</div>
+      <p>In the Account Details section, hospital staff could update their own bank details, believing insurers were automatically updated with that information. They were not.</p>
+    </div>
+  </div>
+</section>
+
+<section id="s2">
+  <div class="wrap">
+    <div class="sec-tag"><em>02</em> — User Feedback &amp; Pain Points</div>
+    <h2>Support and account management pointed to the same root problem.</h2>
+    <p class="sec-intro">Not a summary. What the people closest to it actually said: hospital admins, the customer support team, and account management.</p>
+    <div class="persona-grid">
+      <div class="persona reveal">
+        <span class="who indigo">Account admin</span>
+        <b>&ldquo;I did not know user management was even a page in this product.&rdquo;</b>
+        <p>The module existed. The people meant to use it never found it.</p>
+        <span class="tagpill grp">Visibility</span>
+      </div>
+      <div class="persona reveal">
+        <span class="who teal">Group hospital admin</span>
+        <b>&ldquo;I can see every center in my group. I cannot manage a single user in any of them.&rdquo;</b>
+        <p>A centralized view with no centralized control: visibility without a single action to take.</p>
+        <span class="tagpill ops">Group Control</span>
+      </div>
+      <div class="persona reveal">
+        <span class="who indigo">Account management</span>
+        <b>&ldquo;One deactivation meant an email, then a wait for DB support, then another wait.&rdquo;</b>
+        <p>Most hospitals gave up partway. The account stayed active because revoking it took too long.</p>
+        <span class="tagpill sec">Access Revocation</span>
+      </div>
+    </div>
+    <div class="callout reveal">
+      <div class="t">Full feedback — Customer Support Team</div>
+      <p>&ldquo;Every time we were enabling 2FA, the hospitals had a problem. Users forgot their emails, had not verified them, or used dummy emails to create a login. It became a painful, lengthy, manual process involving the account manager, the project manager, and the database support team. That broke the platform's stickiness: it pushed users out of the platform entirely, submitting claims by mail instead, because they were not able to log in.&rdquo;</p>
+      <div class="badges"><span class="badge">Platform Stickiness</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="s3">
+  <div class="wrap">
+    <div class="sec-tag"><em>03</em> — Product Gap</div>
+    <h2>What the old module actually looked like.</h2>
+    <p class="sec-intro">Three screens carried most of the friction: the hospital's own profile, the modal used to create or edit a user, and group login itself.</p>
+
+    <div class="annot">
+      <div class="txt reveal">
+        <span class="tagline bad">Old screen — Hospital Profile</span>
+        <h3>A user list squeezed into a side panel.</h3>
+        <ul>
+          <li>Account Details tab held one payer's bank information, dead weight once the platform went multi-payer</li>
+          <li>Infrastructure tab sat unused, standalone</li>
+          <li>User list was a side panel: no count, no visible access level, no clear call to action</li>
+        </ul>
+      </div>
+      <figure class="shot reveal">
+        <div class="img-slot">
+          <div class="img-slot-fallback"><span class="cam">▣</span><b>Old Hospital Profile</b><code>images/old-hospital-profile-panel.png</code></div>
+          <img src="images/old-hospital-profile-panel.png" alt="Old Hospital Profile with Account Details, Infrastructure, and cramped User Accounts panel" onerror="this.remove()">
+        </div>
+        <figcaption>The old Hospital Profile: four tabs, users in a cramped right-hand panel.</figcaption>
+      </figure>
+    </div>
+
+    <div class="annot flip">
+      <div class="txt reveal">
+        <span class="tagline bad">Old screen — Create / Edit User</span>
+        <h3>Permissions that did not match the product.</h3>
+        <ul>
+          <li>Profile picture upload nobody used</li>
+          <li>One Read Only / Edit toggle spanning six flat buckets, no read, write, export, or import split</li>
+          <li>Claims was a single bucket, not separated into PreAuth, Claim, and Reconciliation</li>
+        </ul>
+      </div>
+      <figure class="shot reveal">
+        <div class="img-slot">
+          <div class="img-slot-fallback"><span class="cam">▣</span><b>Old Create/Edit User modal</b><code>images/old-create-user-modal.png</code></div>
+          <img src="images/old-create-user-modal.png" alt="Old Create/Edit User modal with profile picture upload and flat Read Only/Edit toggles" onerror="this.remove()">
+        </div>
+        <figcaption>The old modal: flat toggles, a permission list that had drifted from the real product IA.</figcaption>
+      </figure>
+    </div>
+
+    <div class="annot">
+      <div class="txt reveal">
+        <span class="tagline bad">Old screen — Group Login</span>
+        <h3>Every module made you pick a center again.</h3>
+        <ul>
+          <li>Center had to be re-selected inside every module, no context carried over</li>
+          <li>A separate UI had to be built and maintained just for center-level login</li>
+          <li>The hierarchy of centers under a group was not retained anywhere</li>
+          <li>User management did not exist at the group level at all</li>
+        </ul>
+      </div>
+      <figure class="shot reveal">
+        <div class="img-slot">
+          <div class="img-slot-fallback"><span class="cam">▣</span><b>Old Group Login UI</b><code>images/old-group-login-ui.png</code></div>
+          <img src="images/old-group-login-ui.png" alt="Old group login UI requiring the center to be re-selected inside every module" onerror="this.remove()">
+        </div>
+        <figcaption>The old group login: a center picker re-asked inside every module, no memory of the hierarchy above it.</figcaption>
+      </figure>
+    </div>
+
+    <div class="mini-label">Old vs. new</div>
+    <div class="data-table reveal">
+      <table>
+        <tr><th></th><th>Old</th><th>New</th></tr>
+        <tr><td>Permission granularity</td><td>Read Only / Edit, one toggle</td><td class="new">Read, Write, Export, Import per module</td></tr>
+        <tr><td>Module structure</td><td>Six flat buckets</td><td class="new">Grouped: Claims Module, Auto Reconciliation Module</td></tr>
+        <tr><td>Hierarchy</td><td>None</td><td class="new">Group Admin → Group User / Center Admin → Center User</td></tr>
+      </table>
+    </div>
+    <p class="flow-caption">Scope expanded mid-project from single-center admins to Group Admins, tracking the group-hospital friction from Section 01.</p>
+
+    <div class="mini-label">The role hierarchy the product had to learn to represent</div>
+    <div class="tree reveal">
+      <div class="lvl"><div class="tnode ops"><span class="r">IHX Ops</span><p>Creates the first Group Admin, the only Ops-owned step left in v1</p></div></div>
+      <div class="vline"></div>
+      <div class="lvl"><div class="tnode grp"><span class="r">Group Admin</span><p>One admin, the whole chain, across every mapped center</p></div></div>
+      <div class="branch"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span></div>
+      <div class="lvl">
+        <div class="tnode ctr"><span class="r">Center Admin</span><p>Manages one center's team, scoped at login</p></div>
+        <div class="tnode ctr"><span class="r">Center User</span><p>Scoped to their own center's workflows</p></div>
+        <div class="tnode ctr"><span class="r">Group User</span><p>Cross-center visibility without admin rights</p></div>
+      </div>
+      <div class="note">Group Admin, Group User, Center Admin, Center User: four roles where none existed.</div>
+    </div>
+  </div>
+</section>
+
+<section id="s4">
+  <div class="wrap">
+    <div class="sec-tag"><em>04</em> — Design Decisions</div>
+    <h2>Each screen, what changed, what it closes.</h2>
+    <div class="data-table reveal">
+      <table>
+        <tr><th>Screen</th><th>Decision</th><th>Closes</th></tr>
+        <tr><td>Reset Password modal</td><td>Admin-triggered reset, live strength / requirement checklist</td><td><span class="closes-tag">No reset path</span></td></tr>
+        <tr><td>User Management table</td><td>Full table: Name, Email, Role, Last Login, SSO, Devices, one "Create New User" CTA</td><td><span class="closes-tag">No visibility</span></td></tr>
+        <tr><td>Create New User modal</td><td>OTP channel (email / mobile), no password field</td><td><span class="closes-tag">Password custody risk</span></td></tr>
+        <tr><td>Create New User modal</td><td>Read / Write / Export / Import per module, grouped by real product IA</td><td><span class="closes-tag">Flat permissions</span></td></tr>
+        <tr><td>Locked modules (Govt Schemes, Nucleus App)</td><td>Lock icon instead of hiding the feature</td><td><span class="closes-tag">Discoverability</span></td></tr>
+        <tr><td>Group Hospital view</td><td>"All Centers" switcher, centers list with count</td><td><span class="closes-tag">Group hospitals, zero control</span></td></tr>
+        <tr><td>Create User (group level)</td><td>Branches into Group Admin / User vs Center Admin / User</td><td><span class="closes-tag">No hierarchy</span></td></tr>
+        <tr><td>Hospital Details</td><td>Tabs cut four to two, Infrastructure folded in</td><td><span class="closes-tag">Dead tabs</span></td></tr>
+        <tr><td>User table row</td><td>Inactive alert at four weeks</td><td><span class="closes-tag">Deactivation lag</span></td></tr>
+      </table>
+    </div>
+
+    <div class="mini-label">Screen by screen</div>
+
+    <div class="sol reveal">
+      <div class="sol-head"><span class="n">Screen 01</span><h3>User Management, as a real table</h3></div>
+      <p class="sol-sub">Name, Email, Role, Last Login, SSO, Devices, and one clear "Create New User" CTA. An admin-triggered reset with a live strength and requirement checklist. Inactive accounts flagged at four weeks.</p>
+      <span class="closes-tag">No visibility</span> <span class="closes-tag">No reset path</span> <span class="closes-tag">Deactivation lag</span>
+      <div class="shot">
+        <div class="img-slot">
+          <div class="img-slot-fallback"><span class="cam">▣</span><b>User Management table, single center</b><code>images/user-management-table-single-center.png</code></div>
+          <img src="images/user-management-table-single-center.png" alt="User Management table, single center, with Create New User CTA" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="sol-2col">
+        <div>
+          <div class="img-slot">
+            <div class="img-slot-fallback"><span class="cam">▣</span><b>Inactive user flag, in the table</b><code>images/figma-inactive-user-alert.png</code></div>
+            <img src="images/figma-inactive-user-alert.png" alt="User Management table with a warning flag next to an inactive user's name" onerror="this.remove()">
+          </div>
+          <p class="img-slot-cap">The row itself flags it, a warning icon next to the name.</p>
+        </div>
+        <div>
+          <div class="img-slot">
+            <div class="img-slot-fallback"><span class="cam">▣</span><b>Inactive user alert popup</b><code>images/inactive-user-alert-popup.png</code></div>
+            <img src="images/inactive-user-alert-popup.png" alt="Inactive user popup prompting Keep and disable or Delete Account after four weeks with no login" onerror="this.remove()">
+          </div>
+          <p class="img-slot-cap">The system flags this proactively: at four weeks with no login, the hospital gets this prompt directly, before anyone has to ask Ops to check.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sol side reveal">
+      <div class="sol-text">
+        <div class="sol-head"><span class="n">Screen 02</span><h3>Create New User — one flow, real permissions</h3></div>
+        <p class="sol-sub">Basic info and an OTP delivery channel, email or mobile, no password field anywhere. Permissions are Read, Write, Export, Import per module, grouped by the platform's real IA. Locked modules stay visible with a lock icon instead of disappearing.</p>
+        <span class="closes-tag">Password custody risk</span> <span class="closes-tag">Flat permissions</span> <span class="closes-tag">Discoverability</span>
+      </div>
+      <div class="shot shot-narrow">
+        <div class="img-slot portrait">
+          <div class="img-slot-fallback"><span class="cam">▣</span><b>Create New User — basic info + OTP</b><code>images/create-user-modal-basic-otp.png</code></div>
+          <img src="images/create-user-modal-basic-otp.png" alt="Create New User modal, basic info and OTP channel selection, with per-module Read/Write/Export/Import permissions" onerror="this.remove()">
+        </div>
+      </div>
+    </div>
+
+    <div class="sol reveal">
+      <div class="sol-head"><span class="n">Screen 03</span><h3>Group hospitals, managed as one organization</h3></div>
+      <p class="sol-sub">An "All Centers" switcher and a centers list with count. Creating a user at group level branches into Group Admin / User or Center Admin / User. Hospital Details drops from four tabs to two, Infrastructure folded in. Filtering by center never changes the Group Admin's global scope.</p>
+      <span class="closes-tag">Group hospitals, zero control</span> <span class="closes-tag">No hierarchy</span> <span class="closes-tag">Dead tabs</span>
+      <div class="shot">
+        <div class="img-slot">
+          <div class="img-slot-fallback"><span class="cam">▣</span><b>Group Hospital view</b><code>images/group-hospital-user-table.png</code></div>
+          <img src="images/group-hospital-user-table.png" alt="Group Hospital view with All Centers switcher and Centers under this Group panel" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="sol-2col">
+        <div class="img-slot">
+          <div class="img-slot-fallback"><span class="cam">▣</span><b>Create User — role branch</b><code>images/create-user-role-branch.png</code></div>
+          <img src="images/create-user-role-branch.png" alt="Create User role branch: Group Admin/User vs Center Admin/User" onerror="this.remove()">
+        </div>
+        <div class="img-slot">
+          <div class="img-slot-fallback"><span class="cam">▣</span><b>Group login, new center change</b><code>images/group-center-switcher.png</code></div>
+          <img src="images/group-center-switcher.png" alt="Center switcher dropdown open, listing every center under the group with an All Centres option" onerror="this.remove()">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s5">
+  <div class="wrap">
+    <div class="sec-tag"><em>05</em> — Outcome</div>
+    <h2>What moved, measured against the same baseline used to define the problem.</h2>
+    <div class="outcome-grid">
+      <div class="outcome reveal">
+        <span class="loop">Closes S01 · Ops load</span>
+        <div class="t">Daily ticket volume</div>
+        <div class="hero-val">10<small>/day, down from 80</small></div>
+        <p class="desc">87.5% reduction, roughly 2,100 support tickets eliminated a month.</p>
+        <div class="baseline"><span class="bl">Baseline</span><span class="bv">~50 creations + ~30 resets / day</span></div>
+      </div>
+      <div class="outcome reveal">
+        <span class="loop">Closes S02 · Time to act</span>
+        <div class="t">Time to create a user</div>
+        <div class="hero-val">10 min<small>self-serve</small></div>
+        <p class="desc">Down from a 25 to 30 minute process spanning multiple teams.</p>
+        <div class="baseline"><span class="bl">Baseline</span><span class="bv">25–30 min, multi-team</span></div>
+      </div>
+      <div class="outcome reveal" style="grid-column:1/-1;">
+        <span class="loop">Closes S01 · Security</span>
+        <div class="t">Deactivating a user</div>
+        <div class="hero-val">1 step<small>down from 4, taken directly by the hospital admin</small></div>
+        <p class="desc">A four-step manual process with no time guarantee on any step, now one step inside the product.</p>
+        <div class="baseline"><span class="bl">Baseline</span><span class="bv">4-step manual process</span></div>
+      </div>
+    </div>
+    <div class="outcome-note reveal">
+      <b>What moved:</b> user management shifted from an external, multi-party process into a native module inside IHX. The larger shift was not the interface, it was where the process lived.
+    </div>
+  </div>
+</section>
+
+<div class="take">
+  <div class="wrap">
+    <p class="big reveal">A support ticket volume problem is rarely a support problem. <em>Most of the time, it is a discoverability and trust problem with the solution that already exists.</em></p>
+    <p class="fine">IHX &middot; In-Product User Management Module Redesign, designed end to end</p>
+  </div>
+</div>
+
+<!-- OTHER CASE STUDIES -->
+<section class="more-work">
+  <div class="wrap">
+    <div class="sec-tag">More Work</div>
+    <h2>Other Case Studies</h2>
+    <div class="other-cs-grid" style="margin-top:36px;">
+      <a href="ihx_tpa_ops_.html" class="cs-card">
+        <div class="cs-thumb"><img src="ihx-cover.png" alt="IHX Ops Dashboard claims listing screen"></div>
+        <div class="cs-card-body">
+          <div class="cs-tags"><span>B2B SaaS</span><span>WebApp</span><span>Health InsurTech</span></div>
+          <div class="cs-card-title">IHX Ops Dashboard</div>
+          <p class="cs-card-desc">Restructured the IA of a hospital claims platform used by two user teams.</p>
+          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      <a href="wisewomen-case-study.html" class="cs-card">
+        <div class="cs-thumb"><img src="wisewoman-cover.jpg" alt="WiseWoman cycle-aware planner app screen"></div>
+        <div class="cs-card-body">
+          <div class="cs-tags"><span>B2C</span><span>FemTech</span><span>AI</span></div>
+          <div class="cs-card-title">WiseWoman — Cycle-Aware AI Smart Planner</div>
+          <p class="cs-card-desc">AI-native productivity app built in 5 days.</p>
+          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      <a href="ihx-ai-features-case-study.html" class="cs-card">
+        <div class="cs-thumb soon"><span>Write-up, no screens yet</span></div>
+        <div class="cs-card-body">
+          <div class="cs-tags"><span>AI Product</span><span>Health InsurTech</span></div>
+          <div class="cs-card-title">AI-Enabled Features at the Point of Failure</div>
+          <p class="cs-card-desc">Where AI belongs in a legacy claims platform, and how to design it so people trust it.</p>
+          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER — typography ported from index.html's footer (.foot-quote / .foot-links / .socials) -->
+<footer id="contact">
+<div class="foot-inner">
+  <div class="foot-head">
+    <div>
+      <p class="foot-quote">Still exploring. Still building.</p>
+      <p class="foot-tagline">Let&rsquo;s talk to build something great.</p>
+    </div>
+    <div class="foot-links">
+      <a class="email" href="mailto:shabnam.rs.work@gmail.com">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        shabnam.rs.work@gmail.com
+      </a>
+      <a class="phone" href="tel:+917022665338">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3a1 1 0 011-1h2.5l1 3-1.5 1.5a9 9 0 004.5 4.5L11 9.5l3 1V13a1 1 0 01-1 1A12 12 0 012 3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        +91 70226 65338
+      </a>
+    </div>
+  </div>
+
+  <div class="socials">
+    <a href="https://www.linkedin.com/in/shabnam-raghavan-b89798a5" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="#" rel="noopener">GitHub</a>
+    <a href="https://dribbble.com/ShabnamRaghavan" target="_blank" rel="noopener">Dribbble</a>
+    <a href="#" rel="noopener">Medium</a>
+  </div>
+
+  <div class="foot-divider" aria-hidden="true"></div>
+
+  <div class="foot-contact-row">
+    <p>Built by Shabnam Raghavan + Claude Code</p>
+    <p>Bangalore, India</p>
+  </div>
+</div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, {threshold: 0.12});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// image/video placeholders: hide the real element on load failure so the fallback card underneath shows through.
+// inline onerror covers <img>; <video> needs an explicit listener since its resource-error event does not
+// reliably reach the inline handler across browsers.
+document.querySelectorAll('.video-slot video').forEach(v => {
+  v.addEventListener('error', () => v.remove());
+  if (v.error || v.networkState === 3) v.remove();
+});
+
+// .img-slot sizing: once a real image loads, drop the fixed 16:9 placeholder box in favour of
+// the image's own natural aspect ratio (see .img-slot.has-image in <style>), and hide the
+// fallback card underneath it — the img is no longer absolutely positioned over it by default.
+document.querySelectorAll('.img-slot img').forEach(img => {
+  const markLoaded = () => {
+    img.closest('.img-slot').classList.add('has-image');
+    const fallback = img.previousElementSibling;
+    if (fallback && fallback.classList.contains('img-slot-fallback')) fallback.style.display = 'none';
+  };
+  if (img.complete && img.naturalWidth > 0) markLoaded();
+  else img.addEventListener('load', markLoaded);
+});
+</script>
+
+</body>
+</html>
