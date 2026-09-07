@@ -488,10 +488,15 @@
   .opening-h em { font-style: normal; color: var(--vermillion); }
   /* bottom-aligned with the headline (the grid is align-items: end), so the metrics sit around
      the middle of the title and "currently working at IHX" lands on its last line */
-  /* ragged left, flush right: the block ends on the second case card's right edge, which is the
-     grid's right edge, so the opening closes on the same line the work grid closes on */
-  .opening-meta { display: flex; flex-direction: column; gap: var(--space-lg); align-items: flex-end; text-align: right; padding-bottom: 0.18em; }
-  .opening .provenance { flex-direction: column; align-items: flex-end; gap: var(--space-md); margin-top: 0; }
+  /* the block is centred on the second case card (max-content + auto margins), but the rows read
+     left to right off one shared left edge, so the labels line up instead of going ragged both sides */
+  .opening-meta {
+    display: flex; flex-direction: column; gap: var(--space-lg);
+    align-items: flex-start; text-align: left;
+    width: max-content; max-width: 100%; margin-inline: auto;
+    padding-bottom: 0.18em;
+  }
+  .opening .provenance { flex-direction: column; align-items: flex-start; gap: var(--space-md); margin-top: 0; }
   .opening .ritual-place { margin: 0; }
 
   .eyebrow {
@@ -988,8 +993,7 @@
     .hero-title { padding-top: 84px; }
     .opening-inner { grid-template-columns: 1fr; }
     /* one column now, so the metrics go back under the headline and share its left edge */
-    .opening-meta { padding-bottom: 0; align-items: flex-start; text-align: left; }
-    .opening .provenance { align-items: flex-start; }
+    .opening-meta { padding-bottom: 0; width: auto; margin-inline: 0; }
     .stack-card.step { padding: 24px; }
     .ritual { min-height: 360px; }
     .ritual svg.scene { max-width: 272px; }
