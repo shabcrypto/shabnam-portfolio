@@ -472,12 +472,13 @@
 
   /* ============ OPENING: the message, set large ============ */
   .opening { position: relative; padding: clamp(72px, 8vw, 128px) 24px clamp(48px, 7vw, 96px); }
-  /* no max-width: the headline must share its left and right edges with the case grid below,
-     which runs to the card's own 24px gutters. Capping this at 1280 pushed the title inboard. */
+  /* deliberately the SAME grid as .case-grid below: no max-width, two equal columns, the same
+     gap. So the headline starts on the first case card's left edge and the metrics start on the
+     second card's, at every width. Do not reintroduce a max-width or an 8fr/4fr split here. */
   .opening-inner {
     position: relative; z-index: 1;
-    display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-    gap: var(--space-lg) var(--space-xl); align-items: end;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg); align-items: end;
   }
   .opening-h {
     font-family: var(--font-display); font-weight: 400;
