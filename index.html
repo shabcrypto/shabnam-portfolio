@@ -472,9 +472,10 @@
 
   /* ============ OPENING: the message, set large ============ */
   .opening { position: relative; padding: clamp(72px, 8vw, 128px) 24px clamp(48px, 7vw, 96px); }
+  /* no max-width: the headline must share its left and right edges with the case grid below,
+     which runs to the card's own 24px gutters. Capping this at 1280 pushed the title inboard. */
   .opening-inner {
     position: relative; z-index: 1;
-    max-width: 1280px; margin: 0 auto;
     display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
     gap: var(--space-lg) var(--space-xl); align-items: end;
   }
