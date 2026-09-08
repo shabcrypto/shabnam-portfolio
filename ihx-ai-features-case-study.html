@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Manrope:wght@400;500;600;700;800&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --coconut:#f0ede5;
@@ -28,14 +28,18 @@
   --ink-soft:#5B5449;
   --muted:#6b6964;
   --border:rgba(20,18,14,0.08);
-  --card-bg:#f0ede5;
-  --row-bg:#e6e2d7;
+  --card-bg:#fdfdfb;
+  --row-bg:#fdfdfb;
   --row-border:rgba(20,18,14,0.06);
-  --shadow-card:0 1px 2px rgba(20,18,14,0.04), 0 10px 28px rgba(20,18,14,0.06);
+  --shadow-card:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);
   --radius-card:16px;
 
-  --font-display:"Gloock", serif;
-  --font-body:"Alegreya Sans", sans-serif;
+  /* the site chrome (nav, Other Case Studies, footer) uses the index page's display
+     face; the case study's own content keeps Satoshi and Gloock */
+  --font-display:"Staatliches","Impact","Arial Narrow",sans-serif;
+  --font-body:"Manrope",sans-serif;
+  --frame:clamp(16px,2vw,28px);   /* gap around the card == its corner radius */
+  --vermillion-deep:oklch(44% 0.17 31);
   --space-xs:8px;
   --space-sm:12px;
   --space-md:24px;
@@ -45,7 +49,9 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{
-  background:var(--ground);
+  background:var(--asphalt);
+  overflow-x:hidden;
+  font-synthesis-weight:none;
   color:var(--ink);
   font-family:'Manrope',sans-serif;
   font-size:16px;
@@ -105,7 +111,7 @@ a{color:inherit;}
 }
 
 /* ---------- hero ---------- */
-.hero{padding:56px 0 56px;position:relative;}
+.hero{padding:clamp(112px,12vw,152px) 0 56px;position:relative;}
 .hero .wrap{max-width:900px;}
 .hero-grid{display:flex;flex-direction:column;gap:40px;}
 .kicker{
@@ -538,7 +544,7 @@ section h2{font-size:clamp(1.5rem,3.2vw,2.1rem);font-weight:900;letter-spacing:-
   display:flex;gap:10px;align-items:baseline;
 }
 .annot .txt li:last-child{border-bottom:none;}
-.annot .txt li::before{content:"—";color:var(--indigo);font-weight:800;flex:none;}
+.annot .txt li::before{content:"·";color:var(--indigo);font-weight:800;flex:none;}
 .annot .shot{margin:0;}
 .annot .shot figcaption{font-size:.76rem;color:var(--muted);margin-top:10px;line-height:1.5;}
 
@@ -729,19 +735,232 @@ footer{background:var(--asphalt);color:var(--coconut);}
 </head>
 <body id="top">
 
-<!-- ============ SITE NAV (consistent with index / other case studies) ============ -->
-<header class="hdr">
-  <a class="hdr-logo" href="index.html" aria-label="Shabnam Raghavan home">Shabnam Raghavan</a>
-  <nav class="hdr-nav" aria-label="Primary">
+<div class="page-card">
+
+<!-- NAV (shared chrome, identical across every case study) -->
+<header class="topbar">
+  <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
+    <span class="name">Shabnam Raghavan</span>
+  </a>
+  <nav aria-label="Primary">
     <a href="index.html#work">Work</a>
     <a href="about.html">About me</a>
-    <span class="resume-group">
-      <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
-      <a class="resume-dl" href="https://drive.google.com/uc?export=download&id=1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh" download rel="noopener" aria-label="Download resume" title="Download resume">&darr;</a>
-    </span>
+    <a href="https://drive.google.com/file/d/1yGD3EFUgKo-r1Yi_L77YKjpShIrzDrJh/view" target="_blank" rel="noopener">Resume</a>
     <a href="index.html#contact">Contact me</a>
   </nav>
 </header>
+
+<style>
+/* ============================================================================
+   SITE CHROME, shared with index.html: the framed card on asphalt, the top bar
+   that becomes a floating pill, the Other Case Studies grid and the footer.
+   This block sits after the head stylesheet on purpose, so it wins on cascade
+   order without needing !important on any of the older rules it replaces.
+   ============================================================================ */
+
+/* the page rides as one rounded coconut card on the asphalt ground, with the same
+   gap on every side as its corner radius. The footer stays outside it, full bleed. */
+.page-card{
+  position:relative;
+  margin:var(--frame);
+  border-radius:var(--frame);
+  background-color:var(--coconut);
+  background-image:
+    repeating-linear-gradient(to right, rgba(48,47,44,0.045) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(to bottom, rgba(48,47,44,0.03) 0 1px, transparent 1px 56px);
+  overflow:clip;     /* clip, NOT hidden: hidden makes this a scroll container and kills .subnav sticky */
+}
+
+/* ---- TOP BAR ----
+   Fixed, so it is there for the whole scroll. The index page starts this bar
+   transparent because it sits over a dark hero; a case study opens on the light
+   card instead, so here it starts with dark text and picks up the pill on scroll.
+   One duration and one easing across every property, so it glides into the pill
+   as a single movement rather than several overlapping ones. */
+.topbar{
+  position:fixed;
+  top:var(--frame);left:var(--frame);right:var(--frame);
+  z-index:40;
+  border-radius:var(--frame) var(--frame) 0 0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:clamp(16px,2.5vw,28px) 24px;
+  font-size:0.85rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--asphalt-soft);
+  transition:top 560ms cubic-bezier(0.33,1,0.68,1),
+             left 560ms cubic-bezier(0.33,1,0.68,1),
+             right 560ms cubic-bezier(0.33,1,0.68,1),
+             padding 560ms cubic-bezier(0.33,1,0.68,1),
+             border-radius 560ms cubic-bezier(0.33,1,0.68,1),
+             background-color 560ms cubic-bezier(0.33,1,0.68,1),
+             box-shadow 560ms cubic-bezier(0.33,1,0.68,1),
+             color 400ms ease;
+}
+.wordmark{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--asphalt);}
+.wordmark .name{font-family:var(--font-display);font-weight:400;text-transform:none;letter-spacing:0.04em;font-size:1.1rem;}
+.topbar nav{display:flex;align-items:center;gap:var(--space-md);}
+.topbar nav a{position:relative;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
+/* the weft thread from the loom, borrowed as an underline */
+.topbar nav a::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 8px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
+}
+.topbar nav a:hover{color:var(--vermillion-deep);}
+.topbar nav a:hover::after{transform:scaleX(1);}
+/* off the top it detaches into a floating pill, inset from both sides */
+.topbar.solid{
+  top:clamp(10px,1.4vw,20px);
+  left:clamp(16px,6vw,104px);
+  right:clamp(16px,6vw,104px);
+  border-radius:999px;
+  padding:12px clamp(20px,2.2vw,32px);
+  background-color:rgba(253,253,251,0.94);
+  box-shadow:0 2px 6px oklch(26% 0.021 42 / 0.08), 0 14px 38px oklch(26% 0.021 42 / 0.14);
+}
+@supports (backdrop-filter: blur(10px)){
+  .topbar.solid{background-color:rgba(253,253,251,0.82);backdrop-filter:blur(14px);}
+}
+.resume-group{display:inline-flex;align-items:baseline;gap:6px;}
+.resume-dl{color:var(--asphalt-soft);text-decoration:none;font-size:0.85em;transition:color 160ms ease;}
+.resume-dl:hover{color:var(--vermillion-deep);}
+
+/* ---- OTHER CASE STUDIES ----
+   Sits inside the card now, so it drops its own background and its heavy card
+   chrome and matches the index grid: bare 16/9 media, hairline, hover lift. */
+.more-work{background:transparent;padding:var(--space-xl) 24px;}
+.more-work .wrap{max-width:1120px;padding:0;}
+.more-work .sec-tag{
+  font-family:var(--font-body);font-weight:700;font-size:0.85rem;
+  letter-spacing:0.18em;text-transform:uppercase;color:var(--asphalt-soft);margin-bottom:10px;
+}
+.more-work h2{
+  font-family:var(--font-display)!important;font-weight:400!important;
+  font-size:clamp(2rem,1.4rem + 2.6vw,3.6rem)!important;
+  letter-spacing:0.03em!important;color:var(--asphalt)!important;
+}
+.other-cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-lg);}
+.cs-card{
+  display:flex;flex-direction:column;gap:var(--space-sm);
+  text-decoration:none;color:var(--asphalt);
+  border:none;border-radius:0;overflow:visible;box-shadow:none;
+  transition:transform 200ms cubic-bezier(0.22,1,0.36,1);
+}
+.cs-card:hover{transform:translateY(-4px);box-shadow:none;border-color:transparent;}
+.cs-thumb{
+  position:relative;overflow:hidden;aspect-ratio:16/9;background:var(--row-bg);
+  border-radius:14px;border:1px solid oklch(26% 0.021 42 / 0.1);
+  box-shadow:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);
+  transition:border-color 200ms ease, box-shadow 200ms ease;
+}
+.cs-card:hover .cs-thumb{
+  border-color:oklch(26% 0.021 42 / 0.3);
+  box-shadow:0 1px 2px oklch(26% 0.021 42 / 0.05), 0 20px 44px oklch(26% 0.021 42 / 0.1);
+}
+.cs-thumb img,.cs-thumb video{display:block;width:100%;height:100%;object-fit:cover;transition:transform 400ms cubic-bezier(0.22,1,0.36,1);}
+.cs-card:hover .cs-thumb img,.cs-card:hover .cs-thumb video{transform:scale(1.03);}
+.cs-thumb.soon{display:flex;align-items:center;justify-content:center;}
+.cs-thumb.soon span{
+  font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--asphalt-soft);
+  border:1px solid oklch(26% 0.021 42 / 0.22);border-radius:999px;padding:6px 16px;
+}
+.cs-card-body{
+  padding:4px 2px 0;display:flex;flex-direction:row;   /* the rule this replaces was column */
+  align-items:baseline;justify-content:space-between;
+  gap:var(--space-md);flex:none;
+}
+.cs-tags{display:none;}          /* the index grid carries a title and a metric, nothing else */
+.cs-card-desc{display:none;}
+.cs-go{display:none;}
+.cs-card-title{
+  font-family:var(--font-display);font-weight:400;
+  font-size:14px;line-height:1.3;letter-spacing:0.02em;text-transform:uppercase;color:var(--asphalt);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
+}
+.cs-metrics{
+  flex-shrink:0;white-space:nowrap;
+  font-family:var(--font-display);font-weight:400;
+  font-size:14px;letter-spacing:0.1em;text-transform:uppercase;color:var(--asphalt-soft);
+}
+.cs-thumb.soon ~ .cs-card-body .cs-card-title{color:var(--asphalt-soft);}
+
+/* ---- FOOTER ---- matches index.html exactly */
+.foot-quote{font-family:var(--font-display)!important;font-weight:400!important;letter-spacing:0.03em!important;}
+.foot-links .email,.foot-links .phone{position:relative;padding-bottom:8px;}
+.foot-links .email::after,.foot-links .phone::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23fdfdfb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background-size:24px 8px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
+}
+.foot-links .email:hover::after,.foot-links .phone:hover::after{transform:scaleX(1);}
+.foot-links .email:hover,.foot-links .phone:hover{color:var(--coconut);}
+
+/* ---- CARD SURFACES ----
+   Every card on the page reads one way: no outline, one soft drop shadow taken from the
+   index cards, and a clean surface that lifts off the coconut page card rather than the
+   tan panels that used to sit flat on it.
+   Dividers BETWEEN cells stay (border-right, border-bottom): those are structure, not a
+   stroke around a card. Accent bars stay too, like .callout's left rule. */
+.tldr,
+.persona,
+.num-card,
+.big-num-card,
+.dec,
+.outcome,
+.sol,
+.data-table,
+.tree,
+.scope-flow,
+.hero-stats,
+.hflow .node,
+.callout,
+.callout.plain,
+.hero-shot .frame {
+  border: none;
+  box-shadow: var(--shadow-card);
+}
+/* .callout keeps its accent rule; it is a marker, not an outline */
+.callout { border-left: 3px solid var(--indigo-light); }
+.callout.plain { border-left: none; }
+/* these sit ON a card rather than on the page, so they lose the outline but take no
+   shadow of their own. The hairline between cells is structure and stays. */
+.outcome-note,
+.compare .col,
+.tree .tnode,
+.matrix {
+  border: none;
+  box-shadow: none;
+}
+/* the tan fills were the real problem, not the outlines: on a coconut page card they
+   sink instead of lifting. Everything that carried one moves to the clean surface. */
+.big-num-card,
+.num-card,
+.callout,
+.persona {
+  background: #fdfdfb;
+}
+
+/* ---- SUBNAV ----
+   The chapter rail. The top bar is fixed now, so this sticks below it rather than at
+   the very top, and it picks up the card's surface instead of pure white. */
+.subnav {
+  top: clamp(64px, 8vw, 78px);
+  background: rgba(253,253,251,0.92);
+}
+
+/* one continuous card surface: the alternating tan bands belonged to a page that ran
+   edge to edge. Inside .page-card the hairline between sections carries the rhythm. */
+#tldr, #s1, #s3, #s5, .more-work { background: transparent; }
+
+@media (max-width:900px){
+  .topbar nav{display:none;}
+  .other-cs-grid{grid-template-columns:1fr;}
+  :root{--frame:12px;}
+}
+</style>
 
 <header class="hero">
   <div class="wrap hero-grid">
@@ -1100,37 +1319,33 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <h2>Other Case Studies</h2>
     <div class="other-cs-grid" style="margin-top:36px;">
       <a href="ihx_tpa_ops_.html" class="cs-card">
-        <div class="cs-thumb"><img src="ihx-cover.png" alt="IHX Ops Dashboard claims listing screen"></div>
+        <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-tags"><span>B2B SaaS</span><span>WebApp</span><span>Health InsurTech</span></div>
           <div class="cs-card-title">IHX Ops Dashboard</div>
-          <p class="cs-card-desc">Restructured the IA of a hospital claims platform used by two user teams.</p>
-          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+          <span class="cs-metrics">67% revenue &middot; 51% task time</span>
         </div>
       </a>
       <a href="ihx-user-management-case-study.html" class="cs-card">
         <div class="cs-thumb"><img src="ihx-user-mgmt-cover.png" alt="IHX User Management case study hero screen"></div>
         <div class="cs-card-body">
-          <div class="cs-tags"><span>B2B SaaS</span><span>Health InsurTech</span></div>
-          <div class="cs-card-title">In-Product User Management Module Redesign</div>
-          <p class="cs-card-desc">Took ~80 daily manual access requests off Ops' plate with a self-serve module.</p>
-          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+          <div class="cs-card-title">IHX User Management</div>
+          <span class="cs-metrics">87.5% fewer tickets &middot; 4 roles shipped</span>
         </div>
       </a>
       <a href="wisewomen-case-study.html" class="cs-card">
-        <div class="cs-thumb"><img src="wisewoman-cover.jpg" alt="WiseWoman cycle-aware planner app screen"></div>
+        <div class="cs-thumb"><video src="wisewoman-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-tags"><span>B2C</span><span>FemTech</span><span>AI</span></div>
-          <div class="cs-card-title">WiseWoman: Cycle-Aware AI Smart Planner</div>
-          <p class="cs-card-desc">AI-native productivity app built in 5 days.</p>
-          <span class="cs-go">Pull the thread <span aria-hidden="true">&rarr;</span></span>
+          <div class="cs-card-title">WiseWoman</div>
+          <span class="cs-metrics">5 days to ship &middot; live</span>
         </div>
       </a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER — typography ported from index.html's footer (.foot-quote / .foot-links / .socials) -->
+</div><!-- /.page-card -->
+
+<!-- FOOTER: typography ported from index.html's footer (.foot-quote / .foot-links / .socials) -->
 <footer id="contact">
 <div class="foot-inner">
   <div class="foot-head">
@@ -1160,8 +1375,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <div class="foot-divider" aria-hidden="true"></div>
 
   <div class="foot-contact-row">
-    <p>Built by Shabnam Raghavan + Claude Code</p>
     <p>Bangalore, India</p>
+    <p>Built by Shabnam Raghavan + Claude Code</p>
   </div>
 </div>
 </footer>
@@ -1192,6 +1407,28 @@ document.querySelectorAll('.img-slot img').forEach(img => {
   if (img.complete && img.naturalWidth > 0) markLoaded();
   else img.addEventListener('load', markLoaded);
 });
+</script>
+
+<script>
+// The bar starts flat against the top of the card and detaches into a floating pill once
+// the page has scrolled. index.html measures this off the bottom of its dark hero; a case
+// study has no dark hero, so it goes on a plain threshold instead.
+(function () {
+  var bar = document.querySelector(".topbar");
+  if (!bar) return;
+  function apply() { bar.classList.toggle("solid", window.scrollY > 24); }
+  window.addEventListener("scroll", apply, { passive: true });
+  apply();
+})();
+
+// A looping <video> is neither a CSS animation nor a transition, so the reduced-motion
+// stylesheet cannot reach it. Freeze the cover on its first frame.
+(function () {
+  if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  Array.prototype.forEach.call(document.querySelectorAll(".cs-thumb video"), function (v) {
+    v.loop = false; v.autoplay = false; v.pause();
+  });
+})();
 </script>
 
 </body>
