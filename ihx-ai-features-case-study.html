@@ -972,7 +972,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
         <span class="chip">Applied AI</span>
       </div>
       <h1>Designing AI-Enabled Features at the <span class="serif">Point of Human Failure</span> Inside a Legacy Claims Platform</h1>
-      <p class="sub">How I identify where AI genuinely helps inside a legacy claims platform, what historical data already sitting in the product can be reused instead of built from scratch, and how to design the human-AI handoff so people actually trust it.</p>
+      <p class="sub">To build a conversational agent for claim submission, you first have to find where claim submission actually breaks. This is the map of those four friction points, the AI module I designed for each, and how shipping them made the case for IHX MIRA.</p>
       <div class="hero-stats reveal">
         <div class="cell"><span class="tag">Scale</span><div class="num accent">1.8&ndash;2L<small style="font-size:.5em;">/mo</small></div><div class="lbl">Diagnosis entries submitted monthly, 61% uncoded</div></div>
         <div class="cell"><span class="tag">Delay cost</span><div class="num teal">+37%</div><div class="lbl">Longer processing time when beneficiary search fails</div></div>
@@ -990,7 +990,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <a href="#s3"><b>03</b> coderight.ai</a>
     <a href="#s4"><b>04</b> docusense.ai</a>
     <a href="#s5"><b>05</b> querylens.ai</a>
-    <a href="#s6"><b>06</b> scope</a>
+    <a href="#s7"><b>06</b> ihx mira</a>
+    <a href="#s6"><b>07</b> scope</a>
   </div>
 </div>
 
@@ -1003,7 +1004,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="tldr reveal"><span class="k">Approach</span><p>Reuse data <b>already sitting in the product</b>, like a member card, a diagnosis history, or an ICD mapping, instead of asking hospitals for new input.</p></div>
       <div class="tldr reveal"><span class="k">Trust</span><p>Multi-select over auto-fill, visible confidence, and <b>one shared disclaimer language</b> across every AI surface on the platform.</p></div>
       <div class="tldr reveal"><span class="k">Status</span><p><b>4 features shipped</b>, from beneficiary search to query resolution, each one live on the platform.</p></div>
-      <div class="tldr reveal"><span class="k">Takeaway</span><p>The real skill is not the four features. It is knowing <b>where AI belongs</b> in a legacy product, and designing the handoff so people rely on it.</p></div>
+      <div class="tldr reveal"><span class="k">Where it leads</span><p>The four modules are not four features. They are the capabilities <b>one conversational agent needs</b>. IHX MIRA is prototyped, three to four months out.</p></div>
     </div>
   </div>
 </section>
@@ -1305,9 +1306,38 @@ footer{background:var(--asphalt);color:var(--coconut);}
   </div>
 </section>
 
+<section id="s7">
+  <div class="wrap">
+    <div class="sec-tag"><em>06</em> &middot; IHX MIRA &middot; Where This Is Going</div>
+    <h2>Four narrow agents, one conversation.</h2>
+    <p class="sec-intro">Mapping the friction points is what made the case for the agent, not the other way round. Each module already does one thing a hospital user would otherwise have to ask for in a sentence. Put together, that is a conversation about submitting a claim.</p>
+
+    <div class="hflow reveal">
+      <div class="node"><span class="step">BenefSnap.AI</span><b>&ldquo;Who is the patient?&rdquo;</b><p>Reads the member card instead of asking for it</p></div>
+      <div class="conn">&rarr;</div>
+      <div class="node"><span class="step">CodeRight.AI</span><b>&ldquo;What is the diagnosis?&rdquo;</b><p>Proposes the ICD code from what is already written</p></div>
+      <div class="conn">&rarr;</div>
+      <div class="node"><span class="step">DocuSense.AI</span><b>&ldquo;What is still missing?&rdquo;</b><p>Knows what this payer will ask for next</p></div>
+      <div class="conn">&rarr;</div>
+      <div class="node"><span class="step">QueryLens.AI</span><b>&ldquo;What did they ask?&rdquo;</b><p>Classifies the query and who should answer it</p></div>
+    </div>
+    <p class="flow-caption">Each shipped module is a capability the agent needs. <b>The conversation is what happens when they stop being four separate screens.</b></p>
+
+    <div class="mini-label">Prototype</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">&#9654;</span><b>IHX MIRA conversational claim submission prototype</b><code>images/ihx-mira-prototype.mp4</code></div>
+      <video src="images/ihx-mira-prototype.mp4" controls muted playsinline onerror="this.remove()"></video>
+    </figure>
+
+    <div class="callout reveal">
+      <p><b>Status, stated plainly.</b> The four modules are live and carrying the numbers on this page. MIRA itself is a prototype, roughly three to four months out. It sits here as the direction the shipped work is building toward, not as work that is finished.</p>
+    </div>
+  </div>
+</section>
+
 <div class="take" id="s6">
   <div class="wrap">
-    <p class="big reveal">BenefSnap, CodeRight, DocuSense, and QueryLens are all live on the platform. <em>A fifth feature is in early scoping, and will be added here once its design work is complete.</em></p>
+    <p class="big reveal">BenefSnap, CodeRight, DocuSense, and QueryLens are all live on the platform. <em>Each one earns its place on its own today, and each one is a capability the agent will need tomorrow. That is the whole bet.</em></p>
     <p class="fine">IHX &middot; AI-Enabled Features at the Point of Failure, ongoing</p>
   </div>
 </div>
