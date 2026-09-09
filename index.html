@@ -193,6 +193,7 @@
   }
   .cursor.on-case .cursor-dot { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
   .cursor.on-case .cursor-chip { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  .cursor.on-soon .cursor-chip::before { background: var(--asphalt-soft); }
 
   /* the scroll cue: a small coconut disc with a red chevron, breathing gently */
   .scroll-cue {
@@ -862,6 +863,24 @@
   .case:hover .case-img img,
   .case:hover .case-img video { transform: scale(1.03); }
   .case-img.soon { display: flex; align-items: center; justify-content: center; }
+
+  /* Shipped products whose write-up is not done. The metrics are real so they stay legible;
+     the media is muted and the cursor says so on hover, rather than promising a page that
+     does not exist yet. These are divs, not links, so there is nothing to click. */
+  .case.is-soon .case-img { filter: grayscale(1); opacity: 0.55; }
+  .case.is-soon:hover { transform: none; }
+  .case[hidden] { display: none; }
+
+  .work-more { display: flex; justify-content: center; padding-top: var(--space-lg); }
+  .more-btn {
+    font-family: var(--font-body); font-weight: 700;
+    font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--asphalt); background: transparent;
+    border: 1px solid oklch(26% 0.021 42 / 0.22); border-radius: 999px;
+    padding: 14px 30px;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .more-btn:hover { color: var(--vermillion-deep); border-color: var(--vermillion); }
   .case-img.soon span {
     font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--asphalt-soft);
     border: 1px solid oklch(26% 0.021 42 / 0.22); border-radius: 999px; padding: 6px 16px;
@@ -1224,6 +1243,26 @@
         </div>
       </a>
 
+      <div class="case is-soon is-extra" hidden data-cursor="Case study in progress">
+        <div class="case-img soon"><span>Case study in progress</span></div>
+        <div class="case-body">
+          <h3>IHX OneHealth</h3>
+          <span class="case-metrics">Patient app &middot; concept to launch</span>
+        </div>
+      </div>
+
+      <div class="case is-soon is-extra" hidden data-cursor="Case study in progress">
+        <div class="case-img soon"><span>Case study in progress</span></div>
+        <div class="case-body">
+          <h3>IHX Nucleus Mobile</h3>
+          <span class="case-metrics">9,500+ DAU &middot; 33% more client acquisition</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="work-more">
+      <button class="more-btn" type="button" aria-expanded="false">View more case studies</button>
     </div>
   </div>
 </section>
@@ -1807,8 +1846,13 @@
   }
 
   document.addEventListener("mousemove", function (e) { tx = e.clientX; ty = e.clientY; }, { passive: true });
+  var chip = cur.querySelector(".cursor-chip");
   document.addEventListener("mouseover", function (e) {
-    cur.classList.toggle("on-case", !!(e.target.closest && e.target.closest(".case")));
+    var card = e.target.closest && e.target.closest(".case");
+    cur.classList.toggle("on-case", !!card);
+    cur.classList.toggle("on-soon", !!(card && card.classList.contains("is-soon")));
+    // each card can name its own chip; the default is the live "view" label
+    if (card && chip) chip.textContent = card.getAttribute("data-cursor") || "View case study";
   }, { passive: true });
   document.addEventListener("mouseleave", function () { cur.style.opacity = "0"; });
   document.addEventListener("mouseenter", function () { cur.style.opacity = "1"; });
@@ -1962,6 +2006,23 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
   update();
+})();
+</script>
+
+<script>
+(function () {
+  // "View more case studies" reveals the cards that have no write-up yet. They ship in the
+  // markup hidden, so the grid is correct before this script runs and if it never does.
+  var btn = document.querySelector(".more-btn");
+  if (!btn) return;
+  var extra = document.querySelectorAll(".case-grid .case.is-extra");
+  if (!extra.length) { btn.hidden = true; return; }
+  btn.addEventListener("click", function () {
+    var open = btn.getAttribute("aria-expanded") === "true";
+    Array.prototype.forEach.call(extra, function (c) { c.hidden = open; });
+    btn.setAttribute("aria-expanded", String(!open));
+    btn.textContent = open ? "View more case studies" : "Show fewer";
+  });
 })();
 </script>
 
