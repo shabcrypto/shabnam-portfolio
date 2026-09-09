@@ -732,6 +732,19 @@
   /* the five steps: asphalt cards, content-height. The grid equalises them to the tallest so the
      sticky stack still covers cleanly (a shorter card over a taller one would leave it peeking). */
   .dp-steps { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); }
+
+  /* DESIGN PROCESS, PINNED DECK.
+     The card stops under the floating nav and holds while the five step cards slide up into a
+     deck; only once the deck is complete does the card release and scroll on. This has to be
+     scripted. Nesting position:sticky cannot express it: a pinned card and its children move as
+     one box, so the steps would have nothing left to move against. What is written here is the
+     scripted state; the plain CSS sticky stack above is the fallback that shows when GSAP is
+     blocked, motion is reduced, or the viewport is narrow. */
+  .dp-steps.is-deck { display: block; position: relative; }
+  .dp-steps.is-deck .stack-card.step {
+    position: absolute; top: 0; left: 0; right: 0;
+    will-change: transform;
+  }
   .stack-card.step {
     display: flex; gap: var(--space-lg);
     min-height: 0; padding: 28px 32px;
@@ -2023,6 +2036,74 @@
     btn.setAttribute("aria-expanded", String(!open));
     btn.textContent = open ? "View more case studies" : "Show fewer";
   });
+})();
+</script>
+
+<script>
+(function () {
+  // See ".dp-steps.is-deck" in the stylesheet for why this is scripted rather than sticky.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!window.matchMedia("(min-width: 901px)").matches) return;  // steps are static below this
+  if (!window.gsap || !window.ScrollTrigger) return;             // CDN blocked: CSS stack stands
+  gsap.registerPlugin(ScrollTrigger);
+
+  var card = document.querySelector(".dp-process");
+  var deck = card && card.querySelector(".dp-steps");
+  if (!card || !deck) return;
+  var steps = Array.prototype.slice.call(deck.querySelectorAll(".stack-card.step"));
+  if (steps.length < 2) return;
+
+  var REST = 16;    // sliver of each card left showing under the one that lands on top of it
+  var PER  = 260;   // scroll distance each card takes to fly in
+
+  // The bar is fixed at the top of the card; the deck comes to rest just below it.
+  function topGap() {
+    var bar = document.querySelector(".topbar");
+    return (bar ? bar.getBoundingClientRect().height : 56) + 28;
+  }
+
+  var tl;
+  function build() {
+    if (tl) { tl.scrollTrigger && tl.scrollTrigger.kill(); tl.kill(); tl = null; }
+    gsap.set(steps, { clearProps: "transform,zIndex" });
+    deck.classList.remove("is-deck");
+    deck.style.height = "";
+
+    // measure in natural flow first, then collapse into the overlay
+    var tallest = steps.reduce(function (h, s) { return Math.max(h, s.offsetHeight); }, 0);
+    deck.classList.add("is-deck");
+    deck.style.height = (tallest + (steps.length - 1) * REST) + "px";
+
+    var drop = deck.offsetHeight + REST;   // where a card waits before it is pulled up
+    steps.forEach(function (s, i) {
+      gsap.set(s, { zIndex: i + 1, y: i === 0 ? 0 : drop });
+    });
+
+    tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: card,
+        start: "top " + topGap(),
+        end: "+=" + (PER * (steps.length - 1)),
+        pin: true,
+        pinSpacing: true,
+        scrub: 0.5,
+        invalidateOnRefresh: true
+      }
+    });
+    steps.forEach(function (s, i) {
+      if (i === 0) return;
+      tl.to(s, { y: i * REST, ease: "none", duration: 1 }, i - 1);
+    });
+  }
+
+  build();
+  var t;
+  window.addEventListener("resize", function () {
+    clearTimeout(t);
+    t = setTimeout(function () {
+      if (window.matchMedia("(min-width: 901px)").matches) build();
+    }, 200);
+  }, { passive: true });
 })();
 </script>
 
