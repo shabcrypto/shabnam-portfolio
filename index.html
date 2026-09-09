@@ -490,16 +490,14 @@
   .opening-h em { font-style: normal; color: var(--vermillion); }
   /* bottom-aligned with the headline (the grid is align-items: end), so the metrics sit around
      the middle of the title and "currently working at IHX" lands on its last line */
-  /* the block is centred on the second case card (max-content + auto margins), but the rows read
-     left to right off one shared left edge, so the labels line up instead of going ragged both sides */
+  /* starts on the second case card's left edge, because .opening-inner shares .case-grid's
+     columns. align-items:end on the grid bottom-aligns it with the last line of the headline. */
   .opening-meta {
     display: flex; flex-direction: column; gap: var(--space-lg);
     align-items: flex-start; text-align: left;
-    width: max-content; max-width: 100%; margin-inline: auto;
     padding-bottom: 0.18em;
   }
   .opening .provenance { flex-direction: column; align-items: flex-start; gap: var(--space-md); margin-top: 0; }
-  .opening .ritual-place { margin: 0; }
 
   .eyebrow {
     display: inline-flex; align-items: center; justify-content: flex-start; line-height: 1.3; gap: var(--space-sm);
@@ -680,7 +678,6 @@
   .opening.in .eyebrow      { animation-delay: 60ms; }
   .opening.in .opening-h    { animation-delay: 180ms; }
   .opening.in .provenance   { animation-delay: 320ms; }
-  .opening.in .ritual-place { animation-delay: 440ms; }
 
   .ribbon {
     height: 14px;
@@ -995,7 +992,7 @@
     .hero-title { padding-top: 84px; }
     .opening-inner { grid-template-columns: 1fr; }
     /* one column now, so the metrics go back under the headline and share its left edge */
-    .opening-meta { padding-bottom: 0; width: auto; margin-inline: 0; }
+    .opening-meta { padding-bottom: 0; }
     .stack-card.step { padding: 24px; }
     .ritual { min-height: 360px; }
     .ritual svg.scene { max-width: 272px; }
@@ -1182,7 +1179,6 @@
         <span><b>3 core</b> products shipped</span>
         <span><b>1M</b> monthly users impacted</span>
       </div>
-      <p class="ritual-place">Currently working at IHX</p>
     </div>
   </div>
 </section>
