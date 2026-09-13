@@ -947,15 +947,19 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .cs-go{display:none;}
 .cs-card-title{
   font-family:var(--font-display);font-weight:400;
-  font-size:14px;line-height:1.3;letter-spacing:0.02em;text-transform:uppercase;color:var(--asphalt);
+  font-size:14px;line-height:1.3;letter-spacing:0.06em;text-transform:uppercase;color:var(--asphalt);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
 }
 .cs-metrics{
   flex-shrink:0;white-space:nowrap;
-  font-family:var(--font-display);font-weight:400;
+  font-family:"Manrope",sans-serif;font-weight:700;
   font-size:14px;letter-spacing:0.1em;text-transform:uppercase;color:var(--asphalt-soft);
 }
 .cs-thumb.soon ~ .cs-card-body .cs-card-title{color:var(--asphalt-soft);}
+/* a metric line too long to sit beside the title wraps below it, instead of widening the column */
+.other-cs-grid > *{min-width:0;}
+.cs-card-body{flex-wrap:wrap;row-gap:4px;}
+.cs-metrics{flex-shrink:1;min-width:0;white-space:normal;}
 
 /* ---- FOOTER ---- matches index.html exactly */
 .foot-quote{font-family:var(--font-display)!important;font-weight:400!important;letter-spacing:0.03em!important;}
@@ -1044,11 +1048,11 @@ footer{background:var(--asphalt);color:var(--coconut);}
         <span class="chip">Health InsurTech</span>
         <span class="chip">User Management</span>
       </div>
-      <h1>Every hospital user management ran through support. <span class="serif">We handed the keys back.</span></h1>
+      <h1>87% of Support Tickets Were for <span class="serif">a Page Users Never Found</span></h1>
       <p class="sub">A healthcare claims platform used by thousands of hospitals had no way for those hospitals to manage their own staff access, until this project gave it to them.</p>
       <div class="hero-stats reveal">
         <div class="cell"><span class="tag">Tickets / day</span><div class="num accent">80 &rarr; 10</div><div class="lbl">Support tickets routed to Ops</div></div>
-        <div class="cell"><span class="tag">Time to create</span><div class="num teal">30 &rarr; 10 min</div><div class="lbl">A new user, start to finish</div></div>
+        <div class="cell"><span class="tag">Time to create</span><div class="num teal">30 &rarr; 5 min</div><div class="lbl">A new user, email request to in-product self-serve</div></div>
         <div class="cell"><span class="tag">Deactivate</span><div class="num indigo">4 &rarr; 1</div><div class="lbl">Manual steps to deactivate or delete a user</div></div>
       </div>
     </div>
@@ -1083,7 +1087,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="tldr reveal"><span class="k">Problem</span><p>No in-product way to manage users. <b>Every action needed a person outside the hospital.</b></p></div>
       <div class="tldr reveal"><span class="k">Risk</span><p>No quick way to <b>deactivate a user</b>, a real security concern for hospitals of any size, on a platform holding patient and financial data.</p></div>
       <div class="tldr reveal"><span class="k">Solution</span><p>A <b>discoverable, holistic UI</b> for user management, designed around a real role hierarchy and real user needs.</p></div>
-      <div class="tldr reveal"><span class="k">Numbers</span><p><b>87% fewer support tickets.</b> User creation 30 &rarr; 10 min. Deactivating a user: 4 steps &rarr; 1.</p></div>
+      <div class="tldr reveal"><span class="k">Numbers</span><p><b>87.5% reduction in user ops tickets.</b> User creation 30 min by email &rarr; 5 min self-serve in product. Deactivating a user: 4 steps &rarr; 1.</p></div>
       <div class="tldr reveal"><span class="k">Takeaway</span><p>Problems users can solve themselves deserve <b>product-led solutions</b>, not process. Digging into this one surfaced real <b>security lapses</b> too.</p></div>
     </div>
   </div>
@@ -1378,9 +1382,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="outcome reveal">
         <span class="loop">Closes S02 · Time to act</span>
         <div class="t">Time to create a user</div>
-        <div class="hero-val">10 min<small>self-serve</small></div>
-        <p class="desc">Down from a 25 to 30 minute process spanning multiple teams.</p>
-        <div class="baseline"><span class="bl">Baseline</span><span class="bv">25–30 min, multi-team</span></div>
+        <div class="hero-val">5 min<small>self-serve, in product</small></div>
+        <p class="desc">Down from an average of 30 minutes over email, a process spanning multiple teams.</p>
+        <div class="baseline"><span class="bl">Baseline</span><span class="bv">~30 min average, by email, multi-team</span></div>
       </div>
       <div class="outcome reveal" style="grid-column:1/-1;">
         <span class="loop">Closes S01 · Security</span>
@@ -1412,8 +1416,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <a href="ihx_tpa_ops_.html" class="cs-card">
         <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-card-title">IHX Ops Dashboard</div>
-          <span class="cs-metrics">67% revenue &middot; 51% task time</span>
+          <div class="cs-card-title">IHX Nucleus Ops Dashboard</div>
+          <span class="cs-metrics">21K+ hospitals &middot; 67% increase in revenue/claim &middot; 51% reduction in task time</span>
         </div>
       </a>
       <a href="wisewomen-case-study.html" class="cs-card">
@@ -1424,10 +1428,10 @@ footer{background:var(--asphalt);color:var(--coconut);}
         </div>
       </a>
       <a href="ihx-ai-features-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of failure case study screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of human failure case study screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-card-title">AI at the point of failure</div>
-          <span class="cs-metrics">270 hospitals &middot; 40&ndash;60% faster TAT</span>
+          <div class="cs-card-title">AI at the Point of Human Failure</div>
+          <span class="cs-metrics">Claim submission 5 min to 2 min &middot; agentic</span>
         </div>
       </a>
     </div>

@@ -712,15 +712,19 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .cs-tags,.cs-card-desc,.cs-go{display:none;}
 .cs-card-title{
   font-family:var(--font-display);font-weight:400;
-  font-size:14px;line-height:1.3;letter-spacing:0.02em;text-transform:uppercase;color:var(--asphalt);
+  font-size:14px;line-height:1.3;letter-spacing:0.06em;text-transform:uppercase;color:var(--asphalt);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
 }
 .cs-metrics{
   flex-shrink:0;white-space:nowrap;
-  font-family:var(--font-display);font-weight:400;
+  font-family:"Manrope",sans-serif;font-weight:700;
   font-size:14px;letter-spacing:0.1em;text-transform:uppercase;color:var(--asphalt-soft);
 }
 .cs-thumb.soon ~ .cs-card-body .cs-card-title{color:var(--asphalt-soft);}
+/* a metric line too long to sit beside the title wraps below it, instead of widening the column */
+.other-cs-grid > *{min-width:0;}
+.cs-card-body{flex-wrap:wrap;row-gap:4px;}
+.cs-metrics{flex-shrink:1;min-width:0;white-space:normal;}
 
 /* ---- FOOTER ---- matches index.html */
 .foot-quote{font-family:var(--font-display)!important;font-weight:400!important;letter-spacing:0.03em!important;}
@@ -765,7 +769,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <h1 class="hero-giant">Wise<span class="accent">Woman</span></h1>
   <p class="hero-sub">A daily planning system that reads the body, not just the calendar. It maps tasks to life roles, reads cycle-phase energy, and builds one schedule across work and personal life.</p>
   </div>
-  <figure class="hero-image"><span class="hi-ph">Hero image</span><code>images/wisewoman-hero-wide.jpg</code><img src="images/wisewoman-hero-wide.jpg" alt="WiseWoman hero image" onerror="this.remove()"></figure>
+  <figure class="hero-image"><span class="hi-ph">Hero image</span><code>images/wisewoman-hero.jpg</code><img src="images/wisewoman-hero.jpg" alt="WiseWoman hero image" onerror="this.remove()"></figure>
   <div class="project-info">
     <div class="pi"><span class="pi-l">Role</span><span class="pi-v">Product Designer + Builder</span></div>
     <div class="pi"><span class="pi-l">Timeframe</span><span class="pi-v">5 days · Sept 2025</span></div>
@@ -1151,22 +1155,22 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <a href="ihx_tpa_ops_.html" class="cs-card">
         <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-card-title">IHX Ops Dashboard</div>
-          <span class="cs-metrics">67% revenue &middot; 51% task time</span>
+          <div class="cs-card-title">IHX Nucleus Ops Dashboard</div>
+          <span class="cs-metrics">21K+ hospitals &middot; 67% increase in revenue/claim &middot; 51% reduction in task time</span>
         </div>
       </a>
       <a href="ihx-user-management-case-study.html" class="cs-card">
         <div class="cs-thumb"><video src="ihx-user-mgmt-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX User Management case study hero screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-card-title">IHX User Management</div>
-          <span class="cs-metrics">87.5% fewer tickets &middot; 4 roles shipped</span>
+          <div class="cs-card-title">87% of Support Tickets Were for a Page Users Never Found</div>
+          <span class="cs-metrics">87.5% reduction in user ops tickets &middot; 30 min to 5 min self-serve</span>
         </div>
       </a>
       <a href="ihx-ai-features-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of failure case study screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of human failure case study screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-card-title">AI at the point of failure</div>
-          <span class="cs-metrics">270 hospitals &middot; 40&ndash;60% faster TAT</span>
+          <div class="cs-card-title">AI at the Point of Human Failure</div>
+          <span class="cs-metrics">Claim submission 5 min to 2 min &middot; agentic</span>
         </div>
       </a>
     </div>

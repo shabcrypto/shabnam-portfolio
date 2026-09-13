@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI-Enabled Features at the Point of Failure · Shabnam Raghavan</title>
+<title>AI at the Point of Human Failure · Shabnam Raghavan</title>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="icon" type="image/svg+xml" href="favicon_Shab_logo-whitebg.svg" />
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
@@ -226,6 +226,8 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 }
 .hflow .node b{font-size:var(--step--1);line-height:1.35;display:block;font-weight:700;}
 .hflow .node p{font-size:var(--step--1);color:var(--muted);margin-top:6px;line-height:1.45;}
+a.node{text-decoration:none;color:inherit;transition:transform .2s ease,border-color .2s ease;}
+a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 .hflow .conn{
   flex:none;display:flex;align-items:center;padding:0 2px;color:var(--muted);font-size:var(--step-0);font-weight:900;
 }
@@ -457,6 +459,8 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
    and soft lift every other card on the page uses, so loaded screenshots read as finished, not
    still-pending. Genuinely empty slots keep the dashed border above as the "missing" signal. */
 .img-slot.has-image{aspect-ratio:auto;border:1px solid var(--border);border-style:solid;box-shadow:var(--shadow-card);}
+.video-slot:has(video){border:1px solid var(--border);box-shadow:var(--shadow-card);}
+.sec-intro + .video-slot{margin-top:32px;}
 .img-slot-fallback,.video-slot-fallback{
   position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
   padding:20px;text-align:center;color:var(--muted);
@@ -951,15 +955,19 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .cs-go{display:none;}
 .cs-card-title{
   font-family:var(--font-display);font-weight:400;
-  font-size:14px;line-height:1.3;letter-spacing:0.02em;text-transform:uppercase;color:var(--asphalt);
+  font-size:14px;line-height:1.3;letter-spacing:0.06em;text-transform:uppercase;color:var(--asphalt);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
 }
 .cs-metrics{
   flex-shrink:0;white-space:nowrap;
-  font-family:var(--font-display);font-weight:400;
+  font-family:"Manrope",sans-serif;font-weight:700;
   font-size:14px;letter-spacing:0.1em;text-transform:uppercase;color:var(--asphalt-soft);
 }
 .cs-thumb.soon ~ .cs-card-body .cs-card-title{color:var(--asphalt-soft);}
+/* a metric line too long to sit beside the title wraps below it, instead of widening the column */
+.other-cs-grid > *{min-width:0;}
+.cs-card-body{flex-wrap:wrap;row-gap:4px;}
+.cs-metrics{flex-shrink:1;min-width:0;white-space:normal;}
 
 /* ---- FOOTER ---- matches index.html exactly */
 .foot-quote{font-family:var(--font-display)!important;font-weight:400!important;letter-spacing:0.03em!important;}
@@ -1049,7 +1057,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
         <span class="chip">Applied AI</span>
       </div>
       <h1>Designing AI-Enabled Features at the <span class="serif">Point of Human Failure</span> Inside a Legacy Claims Platform</h1>
-      <p class="sub">To build a conversational agent for claim submission, you first have to find where claim submission actually breaks. This is the map of those four friction points, the AI module I designed for each, and how shipping them made the case for IHX MIRA.</p>
+      <p class="sub">IHX MIRA lets a hospital submit a claim as a conversation. This case study starts with that conversation, then breaks it into the four AI modules underneath it, each one designed for a point where claim submission used to break.</p>
       <div class="hero-stats reveal">
         <div class="cell"><span class="tag">Scale</span><div class="num accent">1.8&ndash;2L<small style="font-size:.5em;">/mo</small></div><div class="lbl">Diagnosis entries submitted monthly, 61% uncoded</div></div>
         <div class="cell"><span class="tag">Delay cost</span><div class="num teal">+37%</div><div class="lbl">Longer processing time when beneficiary search fails</div></div>
@@ -1062,13 +1070,12 @@ footer{background:var(--asphalt);color:var(--coconut);}
 <div class="subnav">
   <div class="wrap">
     <a href="#tldr"><b>00</b> tl;dr</a>
-    <a href="#s1"><b>01</b> the shared pattern</a>
+    <a href="#s1"><b>01</b> ihx mira</a>
     <a href="#s2"><b>02</b> benefsnap.ai</a>
     <a href="#s3"><b>03</b> coderight.ai</a>
     <a href="#s4"><b>04</b> docusense.ai</a>
     <a href="#s5"><b>05</b> querylens.ai</a>
-    <a href="#s7"><b>06</b> ihx mira</a>
-    <a href="#s6"><b>07</b> scope</a>
+    <a href="#s6"><b>06</b> scope</a>
   </div>
 </div>
 
@@ -1081,31 +1088,44 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="tldr reveal"><span class="k">Approach</span><p>Reuse data <b>already sitting in the product</b>, like a member card, a diagnosis history, or an ICD mapping, instead of asking hospitals for new input.</p></div>
       <div class="tldr reveal"><span class="k">Trust</span><p>Multi-select over auto-fill, visible confidence, and <b>one shared disclaimer language</b> across every AI surface on the platform.</p></div>
       <div class="tldr reveal"><span class="k">Status</span><p><b>4 features shipped</b>, from beneficiary search to query resolution, each one live on the platform.</p></div>
-      <div class="tldr reveal"><span class="k">Where it leads</span><p>The four modules are not four features. They are the capabilities <b>one conversational agent needs</b>. IHX MIRA is prototyped, three to four months out.</p></div>
+      <div class="tldr reveal"><span class="k">Where it leads</span><p>The four modules are not four features. They are the capabilities <b>one conversational agent needs</b>. IHX MIRA, prototyped and three to four months out, is where this story starts.</p></div>
     </div>
   </div>
 </section>
 
 <section id="s1">
   <div class="wrap">
-    <div class="sec-tag"><em>01</em> · The Shared Pattern</div>
-    <h2>Four different moments. One shared pattern.</h2>
-    <p class="sec-intro">IHX processes claims through several manual entry points, each one a place where a hospital user types something into a free-text field under time pressure. Every one of these points was silently costing the business.</p>
+    <div class="sec-tag"><em>01</em> &middot; IHX MIRA &middot; The Claim Conversation</div>
+    <h2>A claim, submitted as one conversation.</h2>
+    <p class="sec-intro">IHX MIRA lets a hospital desk submit a claim by talking it through instead of working across four separate screens. It asks who the patient is, what the diagnosis is and what is still missing, then brings the payer&rsquo;s questions back into the same thread.</p>
 
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">&#9654;</span><b>IHX MIRA claim conversation</b><code>images/ihx-mira-claim-conversation.mp4</code></div>
+      <video src="images/ihx-mira-claim-conversation.mp4" controls muted playsinline preload="metadata" onerror="this.remove()"></video>
+    </figure>
+    <p class="img-slot-cap">IHX MIRA prototype: a claim taken from intimation to submission in one conversation.</p>
+
+    <div class="mini-label">Breaking the conversation into modules</div>
+    <p class="sec-intro">Underneath, the conversation is four narrow AI modules. Each one was built for a manual entry point where a hospital user typed into a free-text field under time pressure, and where every entry silently cost the business.</p>
     <div class="hflow reveal">
-      <div class="node"><span class="step">Point 01</span><b>Beneficiary Search</b><p>Manual member &amp; policy entry, before every claim</p></div>
+      <a class="node" href="#s2"><span class="step">02 &middot; BenefSnap.AI</span><b>&ldquo;Who is the patient?&rdquo;</b><p>Replaces manual member and policy entry before every claim</p></a>
       <div class="conn">&rarr;</div>
-      <div class="node"><span class="step">Point 02</span><b>Diagnosis Entry</b><p>61% of entries carry no ICD-10 code</p></div>
+      <a class="node" href="#s3"><span class="step">03 &middot; CodeRight.AI</span><b>&ldquo;What is the diagnosis?&rdquo;</b><p>61% of diagnosis entries carried no ICD-10 code</p></a>
       <div class="conn">&rarr;</div>
-      <div class="node"><span class="step">Point 03</span><b>Document Upload</b><p>No way to know what a payer will ask for</p></div>
+      <a class="node" href="#s4"><span class="step">04 &middot; DocuSense.AI</span><b>&ldquo;What is still missing?&rdquo;</b><p>No way to know what a payer would ask for</p></a>
       <div class="conn">&rarr;</div>
-      <div class="node"><span class="step">Point 04</span><b>Query Resolution</b><p>Free-text queries, routed and replied by hand</p></div>
+      <a class="node" href="#s5"><span class="step">05 &middot; QueryLens.AI</span><b>&ldquo;What did the payer ask?&rdquo;</b><p>Free-text queries, routed and replied to by hand</p></a>
     </div>
-    <p class="flow-caption">Unstructured human input at the point of failure. The cost shows up later as <b>turnaround time, query volume, and rejected revenue.</b></p>
+    <p class="flow-caption">Each module is live on its own screen today. <b>The conversation is what happens when they stop being four separate screens.</b></p>
 
     <div class="callout reveal">
       <div class="t">The actual capability, not the four features</div>
-      <p>What I focus on in this case study is not the four features themselves. It is the underlying design capability: knowing where inside an existing, legacy SaaS product AI genuinely helps, what historical data already sitting in the product can be reused instead of built from scratch, and how to design the human-AI handoff so the person on the other end actually trusts the output enough to rely on it. Each section below applies that capability to one real point of failure.</p>
+      <p>What I focus on in this case study is not the four features themselves. It is the underlying design capability: knowing where inside an existing, legacy SaaS product AI genuinely helps, what historical data already sitting in the product can be reused instead of built from scratch, and how to design the human-AI handoff so the person on the other end trusts the output enough to rely on it. Each module section below applies that capability to one real point of failure.</p>
+    </div>
+
+    <div class="callout plain reveal">
+      <div class="t">Status, stated plainly</div>
+      <p>The four modules are live and carry the numbers on this page. MIRA itself is a prototype, roughly three to four months out. It leads this case study because it is the direction the shipped work builds toward, not because it is finished.</p>
     </div>
   </div>
 </section>
@@ -1114,6 +1134,12 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <div class="sec-tag"><em>02</em> · BenefSnap.AI · Beneficiary Search</div>
     <h2>Manual beneficiary search was 37% slower to fail than to succeed.</h2>
     <p class="sec-intro">BenefSnap digitizes member card information and performs automated payer search validation before submission, replacing manual parameter entry with document upload and extraction.</p>
+
+    <div class="mini-label">Module walkthrough</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">▶</span><b>BenefSnap document upload and auto-fill flow</b><code>images/benefsnap-upload-autofill.mp4</code></div>
+      <video src="images/benefsnap-upload-autofill.mp4" controls muted playsinline preload="metadata" onerror="this.remove()"></video>
+    </figure>
 
     <div class="split-80">
       <div class="big-num-card reveal">
@@ -1158,12 +1184,6 @@ footer{background:var(--asphalt);color:var(--coconut);}
       </div>
     </div>
 
-    <div class="mini-label">Screen recording</div>
-    <figure class="video-slot reveal">
-      <div class="video-slot-fallback"><span class="cam">▶</span><b>BenefSnap document upload and auto-fill flow</b><code>images/benefsnap-upload-autofill.mp4</code></div>
-      <video src="images/benefsnap-upload-autofill.mp4" controls muted playsinline onerror="this.remove()"></video>
-    </figure>
-
     <div class="mini-label">Impact</div>
     <div class="outcome-grid">
       <div class="outcome reveal">
@@ -1185,6 +1205,12 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <div class="sec-tag"><em>03</em> · CodeRight.AI · Diagnosis &amp; ICD Coding</div>
     <h2>61% of diagnosis entries carried no ICD-10 code, and the person typing them isn't a clinician.</h2>
     <p class="sec-intro">CodeRight lets hospital staff enter a diagnosis in natural language and maps that language to a ranked set of ICD-10 code suggestions, instead of requiring the user to search a clinical coding system directly.</p>
+
+    <div class="mini-label">Module walkthrough</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">▶</span><b>CodeRight diagnosis search and suggestion flow</b><code>images/coderight-diagnosis-search.mp4</code></div>
+      <video src="images/coderight-diagnosis-search.mp4" controls muted playsinline preload="metadata" onerror="this.remove()"></video>
+    </figure>
 
     <div class="split-80">
       <div class="big-num-card reveal">
@@ -1239,12 +1265,6 @@ footer{background:var(--asphalt);color:var(--coconut);}
       </div>
     </div>
 
-    <div class="mini-label">Screen recording</div>
-    <figure class="video-slot reveal">
-      <div class="video-slot-fallback"><span class="cam">▶</span><b>CodeRight diagnosis search and suggestion flow</b><code>images/coderight-diagnosis-search.mp4</code></div>
-      <video src="images/coderight-diagnosis-search.mp4" controls muted playsinline onerror="this.remove()"></video>
-    </figure>
-
     <div class="mini-label">Impact</div>
     <div class="outcome-grid">
       <div class="outcome reveal">
@@ -1266,6 +1286,12 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <div class="sec-tag"><em>04</em> · DocuSense.AI · Document Intelligence</div>
     <h2>Hospitals learned what a payer wanted only when the query arrived, often after discharge.</h2>
     <p class="sec-intro">DocuSense generates a dynamic, claim-specific document checklist at upload time, based on the diagnosis and procedure already entered, and shows the hospital a live estimate of how likely this claim is to trigger a payer query.</p>
+
+    <div class="mini-label">Module walkthrough</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">▶</span><b>DocuSense dynamic checklist and query-probability indicator</b><code>images/docusense-checklist.mp4</code></div>
+      <video src="images/docusense-checklist.mp4" controls muted playsinline preload="metadata" onerror="this.remove()"></video>
+    </figure>
 
     <div class="callout plain reveal">
       <div class="t">The problem</div>
@@ -1300,12 +1326,6 @@ footer{background:var(--asphalt);color:var(--coconut);}
       </div>
     </div>
 
-    <div class="mini-label">Screen recording</div>
-    <figure class="video-slot reveal">
-      <div class="video-slot-fallback"><span class="cam">▶</span><b>DocuSense dynamic checklist and query-probability indicator</b><code>images/docusense-checklist.mp4</code></div>
-      <video src="images/docusense-checklist.mp4" controls muted playsinline onerror="this.remove()"></video>
-    </figure>
-
     <div class="mini-label">Impact</div>
     <div class="outcome-grid">
       <div class="outcome reveal">
@@ -1327,6 +1347,12 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <div class="sec-tag"><em>05</em> · QueryLens.AI · Query Categorization &amp; Routing</div>
     <h2>Categorization was implicit, routing was tribal knowledge, resolution was fragmented across four tools.</h2>
     <p class="sec-intro">QueryLens reads an incoming payer query, classifies what kind of query it is, suggests who on the hospital's team should own it, and gives the hospital an in-platform chat and structured reply flow, so the whole resolution happens inside IHX instead of across WhatsApp, email, and a payer portal.</p>
+
+    <div class="mini-label">Module walkthrough</div>
+    <figure class="video-slot reveal">
+      <div class="video-slot-fallback"><span class="cam">▶</span><b>QueryLens categorization, assignment, and in-platform chat</b><code>images/querylens-categorization-chat.mp4</code></div>
+      <video src="images/querylens-categorization-chat.mp4" controls muted playsinline preload="metadata" onerror="this.remove()"></video>
+    </figure>
 
     <div class="hflow reveal">
       <div class="node"><span class="step">Categorize</span><b>Implicit</b><p>Desk reads free text and decides mentally, with no system record of that decision</p></div>
@@ -1361,12 +1387,6 @@ footer{background:var(--asphalt);color:var(--coconut);}
       </div>
     </div>
 
-    <div class="mini-label">Screen recording</div>
-    <figure class="video-slot reveal">
-      <div class="video-slot-fallback"><span class="cam">▶</span><b>QueryLens categorization, assignment, and in-platform chat</b><code>images/querylens-categorization-chat.mp4</code></div>
-      <video src="images/querylens-categorization-chat.mp4" controls muted playsinline onerror="this.remove()"></video>
-    </figure>
-
     <div class="mini-label">Impact</div>
     <div class="outcome-grid">
       <div class="outcome reveal">
@@ -1383,39 +1403,10 @@ footer{background:var(--asphalt);color:var(--coconut);}
   </div>
 </section>
 
-<section id="s7">
-  <div class="wrap">
-    <div class="sec-tag"><em>06</em> &middot; IHX MIRA &middot; Where This Is Going</div>
-    <h2>Four narrow agents, one conversation.</h2>
-    <p class="sec-intro">Mapping the friction points is what made the case for the agent, not the other way round. Each module already does one thing a hospital user would otherwise have to ask for in a sentence. Put together, that is a conversation about submitting a claim.</p>
-
-    <div class="hflow reveal">
-      <div class="node"><span class="step">BenefSnap.AI</span><b>&ldquo;Who is the patient?&rdquo;</b><p>Reads the member card instead of asking for it</p></div>
-      <div class="conn">&rarr;</div>
-      <div class="node"><span class="step">CodeRight.AI</span><b>&ldquo;What is the diagnosis?&rdquo;</b><p>Proposes the ICD code from what is already written</p></div>
-      <div class="conn">&rarr;</div>
-      <div class="node"><span class="step">DocuSense.AI</span><b>&ldquo;What is still missing?&rdquo;</b><p>Knows what this payer will ask for next</p></div>
-      <div class="conn">&rarr;</div>
-      <div class="node"><span class="step">QueryLens.AI</span><b>&ldquo;What did they ask?&rdquo;</b><p>Classifies the query and who should answer it</p></div>
-    </div>
-    <p class="flow-caption">Each shipped module is a capability the agent needs. <b>The conversation is what happens when they stop being four separate screens.</b></p>
-
-    <div class="mini-label">Prototype</div>
-    <figure class="video-slot reveal">
-      <div class="video-slot-fallback"><span class="cam">&#9654;</span><b>IHX MIRA conversational claim submission prototype</b><code>images/ihx-mira-prototype.mp4</code></div>
-      <video src="images/ihx-mira-prototype.mp4" controls muted playsinline onerror="this.remove()"></video>
-    </figure>
-
-    <div class="callout reveal">
-      <p><b>Status, stated plainly.</b> The four modules are live and carrying the numbers on this page. MIRA itself is a prototype, roughly three to four months out. It sits here as the direction the shipped work is building toward, not as work that is finished.</p>
-    </div>
-  </div>
-</section>
-
 <div class="take" id="s6">
   <div class="wrap">
     <p class="big reveal">BenefSnap, CodeRight, DocuSense, and QueryLens are all live on the platform. <em>Each one earns its place on its own today, and each one is a capability the agent will need tomorrow. That is the whole bet.</em></p>
-    <p class="fine">IHX &middot; AI-Enabled Features at the Point of Failure, ongoing</p>
+    <p class="fine">IHX &middot; AI at the Point of Human Failure, ongoing</p>
   </div>
 </div>
 
@@ -1428,15 +1419,15 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <a href="ihx_tpa_ops_.html" class="cs-card">
         <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-card-title">IHX Ops Dashboard</div>
-          <span class="cs-metrics">67% revenue &middot; 51% task time</span>
+          <div class="cs-card-title">IHX Nucleus Ops Dashboard</div>
+          <span class="cs-metrics">21K+ hospitals &middot; 67% increase in revenue/claim &middot; 51% reduction in task time</span>
         </div>
       </a>
       <a href="ihx-user-management-case-study.html" class="cs-card">
         <div class="cs-thumb"><video src="ihx-user-mgmt-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX User Management case study hero screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-card-title">IHX User Management</div>
-          <span class="cs-metrics">87.5% fewer tickets &middot; 4 roles shipped</span>
+          <div class="cs-card-title">87% of Support Tickets Were for a Page Users Never Found</div>
+          <span class="cs-metrics">87.5% reduction in user ops tickets &middot; 30 min to 5 min self-serve</span>
         </div>
       </a>
       <a href="wisewomen-case-study.html" class="cs-card">
