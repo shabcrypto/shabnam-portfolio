@@ -47,7 +47,7 @@
     --step-5:  clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
     --step-giant: clamp(3.2rem, 15vw, 15rem); /* sits inside the sky, above the first cloud line */
 
-    --intro-offset: 10780ms; /* the last sentence has cleared and the curtain starts to part */
+    --intro-offset: 12354ms; /* the last sentence has cleared and the curtain starts to part; the intro script rewrites this from its own timeline */
 
     --ritual-offset: 0ms; /* delays count from the moment .ritual gets .is-live, see below */
   }
@@ -227,22 +227,21 @@
 
   /* ============ INTRO: a count that becomes three sentences ============ */
   /*
-    White on asphalt, nothing else. A small centred counter ticks 1% to 10% and wipes up out
-    of its mask, then the three sentences are typed into the same slot on one line, each one
-    deleted before the next is typed, in the display face with a blinking block caret.
+    White on asphalt, nothing else. A small centred counter ticks 1% to 100% under the line,
+    and the three sentences decrypt into the same slot on one line: scrambled glyphs that
+    resolve left to right (38ms stagger), hold, then scramble back out before the next.
 
-    The typing is an absolute timeline: every frame derives the text from elapsed time
-    alone, so nothing accumulates drift and the curtain, which runs on its own CSS timer,
-    cannot fall out of step with the last keystroke. The last sentence is deliberately not
-    deleted; it stays up and the canvas parts over it.
+    The decrypt is an absolute timeline: every frame derives each character's state from
+    elapsed time alone, so nothing accumulates drift. The script writes its end time into
+    --intro-offset, so the curtain's CSS timer and the last character can never disagree.
 
       0        the counter wipes up into view under the line; a vermillion rule sits on the
-               floor. Both run the whole way to 100% off the same loop as the typing.
-      1750ms   sentence one types in at 36ms/char, holds 900ms, deletes at 20ms/char
-      4050ms   sentence two
-      6742ms   sentence three, which deletes as well, so nothing is left over the hero
-      10780ms  the count reaches 100, the content fades, the canvas parts  (--intro-offset)
-      12080ms  fully open; the node is dropped at 12280ms
+               floor. Both run the whole way to 100% off the same loop as the decrypt.
+      1750ms   sentence one decrypts (locked 2982), holds 1000ms, scrambles out by 4558
+      4718ms   sentence two, gone by 7890
+      8050ms   sentence three, holds 1300ms, scrambles out too, so nothing is left over the hero
+      12354ms  the count reaches 100, the content fades, the canvas parts  (--intro-offset)
+      13654ms  fully open; the node is dropped at 13854ms
 
     Sits above the top bar (40) and below the custom cursor (100). Click anywhere to skip,
     and it is skipped outright on a second page view in the same session.
@@ -315,20 +314,16 @@
   /* an in-out curve, not the usual ease-out: an ease-out puts nearly all the travel in the
      first fifth and the wipe is over before it registers. This keeps the edge moving across
      the whole 560ms so the reveal is something you actually watch. */
-  /* the sentences are typed, not revealed, so the line holds still and only its text
-     changes. The caret is a solid block that keeps blinking the whole way through. */
-  .intro-caret {
+  /* the sentences decrypt, so the line holds still and only its characters change. Each
+     character is its own box, width locked by script to its final letter; a scrambled glyph
+     sits centred in that box at half strength, a locked letter at full white. */
+  .intro-line .dc {
     display: inline-block;
-    width: 0.07em; height: 0.8em;
-    margin-left: 0.08em;
-    vertical-align: -0.02em;
-    background: var(--coconut);
-    animation: caretBlink 1000ms steps(1, end) infinite;
+    text-align: center;
+    white-space: pre;
   }
-  @keyframes caretBlink {
-    0%, 50%      { opacity: 1; }
-    50.01%, 100% { opacity: 0; }
-  }
+  .intro-line .dc[data-s="scr"] { opacity: 0.5; }
+  .intro-line .dc[data-s="off"] { visibility: hidden; }
 
   /* the counter: small, centred, in the body face so it reads as a loading label rather
      than as a sentence. It sits just under the typed line and runs the whole way to 100,
@@ -1108,7 +1103,7 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
   <div class="intro-content">
     <div class="intro-lines">
       <div class="intro-mask intro-count"><span><span id="intro-num">1</span><span class="pc">%</span></span></div>
-      <p class="intro-mask intro-line"><span><span id="intro-type"></span><span class="intro-caret" aria-hidden="true"></span></span></p>
+      <p class="intro-mask intro-line"><span><span id="intro-type"></span></span></p>
     </div>
     <div class="intro-rule" id="intro-rule"></div>
   </div>
@@ -1145,7 +1140,16 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
   // absolute timeline rather than chained timeouts: every frame derives the text from
   // elapsed time alone, so nothing accumulates drift and the curtain, which is on its own
   // CSS timer, cannot fall out of step with the last keystroke.
-  var TYPE = 36, DEL = 20, PAUSE = 900, LAST_HOLD = 1350, TYPE_START = 1750;
+  // Decrypt: each sentence lands as a line of scrambled glyphs that resolve left to right,
+  // one character every STAGGER ms, holds, then scrambles back out left to right and is gone.
+  //   LEAD       how long the whole line scrambles before the first character locks
+  //   STAGGER    gap between one character locking and the next (the reference uses 38)
+  //   OUT_STAG   the exit wave is quicker than the entry, so it reads as a wipe, not a replay
+  //   OUT_SCR    how long a character scrambles on its way out before it disappears
+  //   TICK       glyphs reshuffle on this clock, not every frame, so the noise is legible
+  var LEAD = 320, STAGGER = 38, HOLD = 1000, LAST_HOLD = 1300, OUT_STAG = 14, OUT_SCR = 240,
+      GAP = 160, TICK = 55, TYPE_START = 1750;
+  var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>?";
   var WORDS = [
     "3 years in high stakes UX",
     "AI native product and web design",
@@ -1154,29 +1158,67 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
   var type = document.getElementById("intro-type");
   var segs = [], mark = TYPE_START;
   WORDS.forEach(function (w, i) {
-    var last = i === WORDS.length - 1;
-    segs.push({ s: mark, e: mark + w.length * TYPE, w: w, mode: 1 });
-    mark += w.length * TYPE;
-    segs.push({ s: mark, e: mark + (last ? LAST_HOLD : PAUSE), w: w, mode: 2 });
-    mark += last ? LAST_HOLD : PAUSE;
-    // the last line deletes too, so the curtain opens on an empty field rather than
+    var n = w.length, last = i === WORDS.length - 1;
+    var locked = mark + LEAD + (n - 1) * STAGGER;
+    var outStart = locked + (last ? LAST_HOLD : HOLD);
+    // the last line scrambles out too, so the curtain opens on an empty field rather than
     // leaving the sentence sitting over the hero while the panels part
-    segs.push({ s: mark, e: mark + w.length * DEL, w: w, mode: 3 });
-    mark += w.length * DEL;
+    var end = outStart + (n - 1) * OUT_STAG + OUT_SCR;
+    segs.push({ s: mark, outStart: outStart, e: end, w: w });
+    mark = end + (last ? 0 : GAP);
   });
-  var TYPE_END = mark;   // must match --intro-offset
+  var TYPE_END = mark;
+  // the curtain's CSS timer and this timeline share one number, written from here
+  document.documentElement.style.setProperty("--intro-offset", TYPE_END + "ms");
 
-  function textAt(t) {
-    if (t < TYPE_START) return "";
-    if (t >= TYPE_END) return "";   // deleted itself; the curtain opens on nothing
-    for (var i = 0; i < segs.length; i++) {
-      var s = segs[i];
-      if (t < s.s || t >= s.e) continue;
-      if (s.mode === 2) return s.w;
-      if (s.mode === 1) return s.w.slice(0, Math.min(s.w.length, Math.floor((t - s.s) / TYPE) + 1));
-      return s.w.slice(0, Math.max(0, s.w.length - Math.floor((t - s.s) / DEL) - 1));
+  // a cheap deterministic hash, so a character shows the same glyph for a whole TICK and a
+  // frame drawn twice never flickers
+  function glyph(i, t, k) {
+    var h = (i * 374761393 + Math.floor(t / TICK) * 668265263 + k * 2147483647) | 0;
+    h = (h ^ (h >>> 13)) * 1274126177 | 0;
+    return GLYPHS.charAt(Math.abs(h ^ (h >>> 16)) % GLYPHS.length);
+  }
+
+  // Staatliches is proportional, so a scrambled glyph is wider or narrower than the letter
+  // it stands in for. Each character gets its own box locked to its final width, which
+  // keeps the centred line perfectly still while the noise runs through it.
+  var cells = [], built = -1;
+  function build(k) {
+    type.textContent = "";
+    cells = [];
+    built = k;
+    if (k < 0) return;
+    var w = segs[k].w;
+    for (var i = 0; i < w.length; i++) {
+      var c = document.createElement("span");
+      c.className = "dc";
+      c.textContent = w[i] === " " ? " " : w[i];
+      type.appendChild(c);
+      cells.push(c);
     }
-    return "";
+    cells.forEach(function (c) { c.style.width = c.getBoundingClientRect().width + "px"; });
+  }
+
+  function render(t) {
+    var k = -1;
+    for (var j = 0; j < segs.length; j++) if (t >= segs[j].s && t < segs[j].e) k = j;
+    if (k !== built) build(k);
+    if (k < 0) return;
+    var sg = segs[k], w = sg.w;
+    for (var i = 0; i < cells.length; i++) {
+      if (w[i] === " ") continue;
+      var state, ch = w[i];
+      if (t < sg.outStart) {
+        state = t < sg.s + LEAD + i * STAGGER ? "scr" : "on";
+      } else {
+        var u = t - sg.outStart - i * OUT_STAG;
+        state = u < 0 ? "on" : u < OUT_SCR ? "scr" : "off";
+      }
+      if (state === "scr") ch = glyph(i, t, k);
+      var c = cells[i];
+      if (c.textContent !== ch) c.textContent = ch;
+      if (c.getAttribute("data-s") !== state) c.setAttribute("data-s", state);
+    }
   }
 
   // One loop drives the number, the rule and the typing, so the load state and the copy can
@@ -1189,15 +1231,15 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
     var p = Math.min(1, Math.max(0, t / TYPE_END));
     num.textContent = Math.max(1, Math.ceil(p * 100));
     rule.style.transform = "scaleX(" + p + ")";
-    var txt = textAt(t);
-    if (type.textContent !== txt) type.textContent = txt;
+    render(t);
     if (t < TYPE_END) requestAnimationFrame(tick);
+    else build(-1);
   })(t0);
 
-  // the panels finish parting at 10780 + 1300ms; drop the node once it is off screen
+  // the panels finish parting 1300ms after TYPE_END; drop the node once it is off screen
   setTimeout(function () {
     if (intro.parentNode) intro.parentNode.removeChild(intro);
-  }, 12280);
+  }, TYPE_END + 1500);
 })();
 </script>
 
@@ -2145,12 +2187,12 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
     card.style.setProperty("--step-h", stepH + "px");
     card.style.setProperty("--pin-top", pinTop + "px");
 
-    // card fills the screen under the nav, but never less than header + finished deck + padding
+    // the card wraps its content: header, the finished (fully stacked) deck, then 50px of padding
     var header = card.querySelector(".process-group");
     var cs = getComputedStyle(card);
     var chrome = parseFloat(cs.paddingTop) + 50 + (header ? header.offsetHeight : 0) + parseFloat(cs.rowGap || cs.gap || 0);
     var finished = stepH + (steps.length - 1) * REST;
-    cardH = Math.max(window.innerHeight - pinTop - 16, Math.ceil(chrome + finished));
+    cardH = Math.ceil(chrome + finished);
     card.style.setProperty("--pin-h", cardH + "px");
 
     travel = (steps.length - 1) * (stepH + SPREAD - REST);
