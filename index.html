@@ -744,32 +744,27 @@
      sticky stack still covers cleanly (a shorter card over a taller one would leave it peeking). */
   .dp-steps { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); }
 
-  /* DESIGN PROCESS, SPREAD STACK (desktop).
-     The process card runs long: the five steps sit well apart in normal flow, and each one sticks
-     just under the floating nav, a step lower than the one before, so the next card slides up over
-     it and a sliver of every earlier card stays visible. Spacing is a flex gap, never a margin: a
-     sticky card counts its own margin against the container, so margins made the first cards let go
-     before the last one landed. The trailing gap before ::after is how long the finished deck holds.
-     Plain position:sticky, no pinning script. */
-  @media (min-width: 901px) {
-    .dp-steps {
-      --deck-top: 104px;     /* clears the floating nav pill */
-      --deck-rest: 18px;     /* sliver of each card left showing under the next */
-      --deck-gap: 34vh;      /* how far apart the steps sit before they stack */
-      display: flex; flex-direction: column;
-      gap: var(--deck-gap);
-    }
-    .dp-steps::after { content: ""; height: 1px; }
-    .dp-steps .stack-card.step {
-      position: sticky;
-      top: calc(var(--deck-top) + var(--i, 0) * var(--deck-rest));
-      min-height: 232px;     /* equal heights, so a shorter card never leaves the one below peeking */
-    }
-    .dp-steps .stack-card.step:nth-child(2) { --i: 1; }
-    .dp-steps .stack-card.step:nth-child(3) { --i: 2; }
-    .dp-steps .stack-card.step:nth-child(4) { --i: 3; }
-    .dp-steps .stack-card.step:nth-child(5) { --i: 4; }
+  /* DESIGN PROCESS, PINNED CARD WITH A STACKING DECK (desktop, scripted: see the script at the end).
+     The whole card sticks 10px under the floating nav and fills the screen. Inside it the five steps
+     start spread out; scrolling moves them up until each one lands a sliver below the last. Only
+     once step 5 has landed on step 4 does the card release and scroll on. A sticky card and sticky
+     children would move as one box, so the steps are driven by scroll position instead, and an
+     empty spacer after the card sets how long it stays pinned. Mobile and reduced motion keep the
+     plain list. */
+  .dp-process.is-pin {
+    position: sticky;
+    top: var(--pin-top, 88px);
+    height: var(--pin-h, 80vh);
+    overflow: hidden;
+    padding-bottom: 50px;
   }
+  .dp-process.is-pin .dp-steps { display: block; position: relative; flex: 1 1 auto; }
+  .dp-process.is-pin .stack-card.step {
+    position: absolute; top: 0; left: 0; right: 0;
+    min-height: var(--step-h, 232px);
+    will-change: transform;
+  }
+  .dp-pin-spacer { height: var(--pin-travel, 0px); }
   .stack-card.step {
     display: flex; gap: var(--space-lg);
     min-height: 0; padding: 28px 32px;
@@ -2094,6 +2089,110 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
     btn.setAttribute("aria-expanded", String(!open));
     btn.textContent = open ? "View more case studies" : "Show fewer";
   });
+})();
+</script>
+
+<script>
+(function () {
+  // Design process: pin the card under the nav while its five steps stack, then release.
+  var card = document.querySelector(".dp-process");
+  var deck = card && card.querySelector(".dp-steps");
+  if (!card || !deck) return;
+  var steps = Array.prototype.slice.call(deck.querySelectorAll(".stack-card.step"));
+  if (steps.length < 2) return;
+
+  var GAP_BELOW_NAV = 10;  // card top sits this far under the floating nav
+  var REST = 18;           // sliver of each step left showing under the next
+  var SPREAD = 24;         // gap between steps before they stack
+  var desktop = window.matchMedia("(min-width: 901px)");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  var spacer = document.createElement("div");
+  spacer.className = "dp-pin-spacer";
+  spacer.setAttribute("aria-hidden", "true");
+
+  var active = false, stepH = 0, travel = 0, cardH = 0;
+
+  function navBottom() {
+    var bar = document.querySelector(".topbar");
+    if (!bar) return 64;
+    // once the bar has become the floating pill, its real bottom edge; before that (the card is
+    // built while the bar still sits flat over the hero) the pill's resting top plus its height
+    if (bar.classList.contains("solid")) return bar.getBoundingClientRect().bottom;
+    var solidTop = Math.min(20, Math.max(10, window.innerWidth * 0.014));
+    return solidTop + bar.offsetHeight;
+  }
+
+  function teardown() {
+    card.classList.remove("is-pin");
+    steps.forEach(function (st) { st.style.transform = ""; st.style.zIndex = ""; });
+    card.style.removeProperty("--pin-top");
+    card.style.removeProperty("--pin-h");
+    card.style.removeProperty("--step-h");
+    if (spacer.parentNode) spacer.parentNode.removeChild(spacer);
+    active = false;
+  }
+
+  function build() {
+    teardown();
+    if (!desktop.matches || reduced.matches) return;
+
+    // measure the steps in normal flow first
+    stepH = steps.reduce(function (h, st) { return Math.max(h, st.offsetHeight); }, 0);
+    var pinTop = Math.round(navBottom() + GAP_BELOW_NAV);
+
+    card.classList.add("is-pin");
+    card.style.setProperty("--step-h", stepH + "px");
+    card.style.setProperty("--pin-top", pinTop + "px");
+
+    // card fills the screen under the nav, but never less than header + finished deck + padding
+    var header = card.querySelector(".process-group");
+    var cs = getComputedStyle(card);
+    var chrome = parseFloat(cs.paddingTop) + 50 + (header ? header.offsetHeight : 0) + parseFloat(cs.rowGap || cs.gap || 0);
+    var finished = stepH + (steps.length - 1) * REST;
+    cardH = Math.max(window.innerHeight - pinTop - 16, Math.ceil(chrome + finished));
+    card.style.setProperty("--pin-h", cardH + "px");
+
+    travel = (steps.length - 1) * (stepH + SPREAD - REST);
+    spacer.style.setProperty("--pin-travel", travel + "px");
+    card.parentNode.insertBefore(spacer, card.nextSibling);
+
+    steps.forEach(function (st, i) { st.style.zIndex = String(i + 1); });
+    active = true;
+    update();
+  }
+
+  function update() {
+    if (!active) return;
+    // where the card's top would be if it were not stuck: the spacer's top minus the card height
+    var natural = spacer.getBoundingClientRect().top - cardH;
+    var pinTop = parseFloat(card.style.getPropertyValue("--pin-top")) || 0;
+    var progress = Math.min(travel, Math.max(0, pinTop - natural));
+    steps.forEach(function (st, i) {
+      var spread = i * (stepH + SPREAD);
+      var y = Math.max(i * REST, spread - progress);
+      st.style.transform = "translateY(" + y + "px)";
+    });
+  }
+
+  // one rect read and five transforms per scroll event: cheap enough to run straight away, so the
+  // deck never lags a frame behind the page (same approach as the nav's own scroll check)
+  var lastNav = 0;
+  function onScroll() {
+    if (!active) return;
+    var nb = Math.round(navBottom() + GAP_BELOW_NAV);
+    if (nb !== lastNav) { lastNav = nb; card.style.setProperty("--pin-top", nb + "px"); }
+    update();
+  }
+
+  var t;
+  function onResize() { clearTimeout(t); t = setTimeout(build, 150); }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onResize);
+  desktop.addEventListener("change", build);
+  window.addEventListener("load", build);   // fonts can change step heights
+  build();
 })();
 </script>
 

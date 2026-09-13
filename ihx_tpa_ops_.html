@@ -524,6 +524,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .tldr .k{font-family:"Manrope",sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;display:block;}
 .tldr p{font-size:var(--step--1);line-height:1.55;color:var(--ink-soft);}
 .tldr p b{color:var(--ink);font-weight:700;}
+/* TL;DR reads centred on every case study: label, heading and each card */
+#tldr .section-label,#tldr .cs-heading{text-align:center;margin-left:auto;margin-right:auto;}
+.tldr{text-align:center;}
 @media(max-width:1000px){.tldr-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:600px){.tldr-grid{grid-template-columns:1fr;}}
 .cs-card-body{flex-wrap:wrap;row-gap:4px;}

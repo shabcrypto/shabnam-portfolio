@@ -89,7 +89,7 @@ a{color:inherit;}
 
 /* section subnav */
 .subnav{
-  position:sticky;top:0;z-index:49;
+  position:static;z-index:49;
   background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border);overflow-x:auto;
 }
@@ -105,10 +105,12 @@ a{color:inherit;}
 /* Shared card shadow: every top-level card surface gets the same soft, neutral lift instead
    of leaning on borders alone. Reuse this exact rule (selectors + var(--shadow-card)) on the
    other case studies when they get the same light-theme + polish pass. */
-.hero-stats, .big-num-card, .pain, .hflow, .gap, .tree, .persona, .dec, .phase, .tldr, .sol,
+.hero-stats, .big-num-card, .pain, .gap, .tree, .persona, .dec, .phase, .tldr, .sol,
 .outcome, .data-table, .callout {
   box-shadow: var(--shadow-card);
 }
+/* .hflow is left out on purpose: it is the row that holds the step cards, not a card. Its own
+   shadow drew a long strip under the cards; each .hflow .node carries its shadow instead. */
 
 /* ---------- hero ---------- */
 .hero{padding:clamp(112px,12vw,152px) 0 56px;position:relative;}
@@ -215,7 +217,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
    doubled up the box-in-a-box look, and per-node coloured borders (blue/blue/amber) fought
    each other and broke the page's blue+teal-only rule. One flat row of ordinary cards reads
    calmer and matches every other card on the page. */
-.hflow{display:flex;align-items:stretch;gap:14px;margin-top:20px;overflow-x:auto;}
+.hflow{display:flex;align-items:stretch;gap:14px;margin-top:20px;overflow:visible;}
 .hflow .node{
   flex:1;min-width:150px;background:var(--card-bg);border:1px solid var(--border);border-radius:14px;
   padding:20px 18px;text-align:center;position:relative;box-shadow:var(--shadow-card);
@@ -530,6 +532,9 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 }
 .tldr p{font-size:var(--step--1);line-height:1.55;color:var(--ink-soft);}
 .tldr p b{color:var(--ink);}
+/* TL;DR reads centred on every case study: label, heading and each card */
+#tldr .sec-tag,#tldr h2{text-align:center;margin-left:auto;margin-right:auto;}
+.tldr{text-align:center;}
 
 /* annotated before/after — text and screenshot side by side, alternating */
 .annot{display:grid;grid-template-columns:1fr 1.3fr;gap:36px;align-items:start;margin-top:44px;}
@@ -1189,7 +1194,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="outcome reveal">
         <div class="t">Adoption</div>
         <div class="hero-val">270<small>hospitals live</small></div>
-        <p class="desc">Rolled out platform-wide as a premium AI feature, priced at 20&ndash;30 paisa per policy.</p>
+        <p class="desc">Rolled out platform-wide as a premium AI feature.</p>
       </div>
       <div class="outcome reveal">
         <div class="t">Automation</div>
