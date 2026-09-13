@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Shabnam Raghavan · Product Designer</title>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="icon" type="image/svg+xml" href="favicon_Shab_logo-whitebg.svg" />
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -110,6 +111,12 @@
   }
   .wordmark { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--coconut); }
   .wordmark .name { font-family: var(--font-display); font-weight: 400; text-transform: none; letter-spacing: 0.04em; font-size: 1.1rem; }
+  /* white mark over the hero, crossfading to the ink mark once the bar becomes the pill */
+  .wordmark .mark { display: grid; }
+  .wordmark .mark img { grid-area: 1 / 1; display: block; height: 30px; width: auto; transition: opacity 400ms ease; }
+  .wordmark .mark-dark,
+  .topbar.solid .wordmark .mark-light { opacity: 0; }
+  .topbar.solid .wordmark .mark-dark { opacity: 1; }
   .topbar nav { display: flex; gap: var(--space-md); }
   .topbar nav a {
     position: relative;
@@ -1156,7 +1163,10 @@
 <div class="page-card">
 <header class="topbar">
   <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
-    <span class="name">Shabnam Raghavan</span>
+    <span class="mark">
+      <img class="mark-light" src="logo_nobg_white.svg" width="986" height="1008" alt="" />
+      <img class="mark-dark" src="logo_nobg_black.svg" width="986" height="1008" alt="" />
+    </span>
   </a>
   <nav aria-label="Primary">
     <a href="#work">Work</a>
@@ -1225,10 +1235,10 @@
     <div class="case-grid">
 
       <a class="case" href="ihx_tpa_ops_.html">
-        <div class="case-img"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
+        <div class="case-img"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Ops Dashboard claims listing screen"></video></div>
         <div class="case-body">
-          <h3>IHX Ops Dashboard</h3>
-          <span class="case-metrics">67% revenue &middot; 51% task time</span>
+          <h3>IHX Nucleus Ops Dashboard</h3>
+          <span class="case-metrics">21K+ hospitals &middot; 67% increase in revenue/claim &middot; 51% reduction in task time</span>
         </div>
       </a>
 
