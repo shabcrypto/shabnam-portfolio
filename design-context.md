@@ -4,6 +4,8 @@ This file is the source of truth for extending this portfolio. Read it fully bef
 
 Reference implementation: `index.html` (home page). All tokens, timings, and patterns below are extracted from it. This file was substantially revised after a coconut/asphalt palette and Satoshi/Manrope typography redesign; §3, §4, §5, §7, §8, and §11a supersede the original v10 hero-shabnam build this doc used to describe.
 
+**Upkeep rule:** this file is `design-context.md` (renamed from `design-context_1.md` on 2026-09-13). Whenever a case study page changes or a new one is added, update §11b in the same piece of work. §11b is verified against the rendered pages. Some index-only sections (§4 typography, §5 layout, §8 components) predate the Staatliches redesign and are stale, so check `index.html` before relying on them.
+
 ---
 
 ## 1. Who this portfolio belongs to
@@ -36,8 +38,8 @@ Copy these exactly.
 
 ```css
 :root {
-  --coconut: #f0ede5;         /* page background, everywhere including the intro */
-  --coconut-deep: #e6e2d7;    /* recessed light surface (placeholders, gradient blends) */
+  --coconut: #fdfdfb;         /* page card background, everywhere (was #f0ede5) */
+  --coconut-deep: #f4f3ef;    /* card surface and recessed placeholders (was #e6e2d7) */
   --coconut-soft: #b3ada0;    /* secondary text ON a dark (asphalt) surface, e.g. footer */
   --asphalt: #302f2c;         /* primary text, linework, and the one dark surface (footer) */
   --asphalt-soft: #6b6964;    /* secondary text on coconut */
@@ -151,8 +153,8 @@ These are absolute for any copy written in this project:
 
 When building new pages (case studies, About, Writing):
 
-- Case study pages: each keeps its own independent light-theme background and its own established accent colour (see §11a) — do not force index.html's coconut/asphalt palette onto a case study's *content* sections. Nav and footer are the deliberate exceptions (shared chrome, see §11a). Open with a title and a short lede, then let real product imagery carry colour. Reuse the ribbon as section divider. End with a Pull the thread link to the next case study.
-- Case study content structure Shabnam favours: ground truths first (research, who she talked to, what was actually true), then reframing, then design decisions with reasoning, then build and ship detail, then measured outcomes. Depth over gloss.
+- Case study pages: share index's surfaces exactly (page card, card surface, shadow, no strokes; see §11b) and keep only their own accent colour (see §11a). Nav and footer are the deliberate exceptions (shared chrome, see §11a). Open with a title and a short lede, then let real product imagery carry colour. Reuse the ribbon as section divider. End with a Pull the thread link to the next case study.
+- Below the fixed hero block (§11c), a case study's structure is its own: section order, layout, how many sections and how many assets are chosen per case study. "Ground truths first, then reframing, decisions with reasoning, build and ship, measured outcomes" is a habit Shabnam often uses, not a template to enforce. Depth over gloss.
 - About page: this is where the person appears. Use a real photograph here. Cover Malabar origins, the research-first practice, and the seeker identity. Its own location line now lives beneath its h1 (see §8); the hero illustration stays symbolic on index.html, the About page is human.
 - Do not introduce new symbols, new fonts, new hues, or new interaction patterns without checking against §2. If a new page seems to need something outside this system, the correct move is to compose existing symbols differently, not to invent.
 
@@ -160,13 +162,117 @@ When building new pages (case studies, About, Writing):
 
 This section has been revised twice now. Current state:
 
-- **Each case study page keeps its own independent background, distinct from index.html's coconut/asphalt system** — but accent colour is shared *within* a project family, not per-page: TPA Ops, User Management, and AI-Enabled Features are all IHX case studies and all use the exact same indigo/teal (`#3C3ADA`/`#6E6CF0`/`#00B894`/`#046A50`); WiseWoman is a separate project and keeps its own purple. Do not give a same-family case study (e.g. a future second WiseWoman-style page) its own distinct hue by default — confirm which family it belongs to first. All four case studies are light-themed (coconut-toned backgrounds, ported from index's palette specifically for their neutral gray ramp — this was a deliberate later pass, see the case-study-light-theme-spec memory for the exact ramp) but each keeps its own saturated accent hue independent of the others and of index.html's vermillion. Do not replace a case study's own accent with vermillion to "match the home page."
+- **Case study backgrounds are no longer independent: they match index exactly, see §11b.** Accent colour is shared *within* a project family, not per-page: TPA Ops, User Management, and AI-Enabled Features are all IHX case studies and all use the exact same indigo/teal (`#3C3ADA`/`#6E6CF0`/`#00B894`/`#046A50`); WiseWoman is a separate project and keeps its own purple. Do not give a same-family case study (e.g. a future second WiseWoman-style page) its own distinct hue by default — confirm which family it belongs to first. All four case studies are light-themed (coconut-toned backgrounds, ported from index's palette specifically for their neutral gray ramp — this was a deliberate later pass, see the case-study-light-theme-spec memory for the exact ramp) but each keeps its own saturated accent hue independent of the others and of index.html's vermillion. Do not replace a case study's own accent with vermillion to "match the home page."
 - **Two pieces of chrome ARE now byte-identical shared chrome across all six pages** (index, about, and all four case studies): the **top nav** (wordmark font/weight/colour, nav-link font/colour — only each page's own hover accent colour is allowed to differ) and the **footer** (full markup, copy, and the asphalt/coconut styling — no per-page variation at all, not even accent colour; even the "Other Case Studies" grid and its `.cs-go` CTA already used vermillion as chrome, not each page's own hue, before this pass). This is new and deliberately overrides the older, stricter "case studies never share index's colours" rule for these two specific components. Everything else on a case study page — hero, body sections, cards, data visualisations — stays independent.
 - **AI-Enabled Features at the Point of Failure** (`ihx-ai-features-case-study.html`) has no real screenshots yet — every screen reference uses the existing `.video-slot`/`.img-slot` fallback pattern (dashed placeholder + expected filename), consistent with its "designed / in development" status rather than pretending finished visuals exist. Its hero also has no single screenshot to frame (four features at four different stages), so the hero's right column is a `.status-card`/`.status-row`/`.status-pill` component (new, not shared with other case studies) listing each feature's ship status instead of a framed screen.
 - **Typography/structure is worth porting more broadly than colour is.** Font-family choices, font sizes, spacing scale, component layout (tag-pills-above-title, card grid structure, hover-underline mechanics) can be ported from index.html into a case study while keeping the case study's own colour variables — this was always true and still is.
 - If a future request says "make the case study consistent with the home page," confirm whether that means nav/footer chrome (yes, already the standard), typography/layout (usually yes), or the page's own content-area colour (no, unless explicitly re-confirmed) before touching any accent-colour value.
 
+## 11b. Case study surface system (verified 2026-09-13)
+
+Applies to every case study: `ihx_tpa_ops_.html`, `ihx-user-management-case-study.html`, `ihx-ai-features-case-study.html`, `wisewomen-case-study.html`, and any new one. Checked against computed styles in a rendered browser, not only the CSS source. Update this section whenever a case study changes.
+
+**Page**
+- `body` is `--asphalt` `#302f2c`. Content sits in one `.page-card` inset by `--frame` (`clamp(16px, 2vw, 28px)`) with radius `--frame`. The footer stays outside the card, full bleed.
+- `.page-card` background is `#fdfdfb`, identical to index. No grid texture on case studies (index keeps its grid; case studies had it removed on request).
+- Sections inside the card are transparent. No alternating tinted bands; the hairline `border-top` between sections carries the rhythm.
+
+**Tokens (copy exactly into a new case study's `:root`)**
+```css
+--coconut: #fdfdfb;        /* page card */
+--coconut-deep: #f4f3ef;   /* card surface, matches index .dp-card */
+--ground: #f4f3ef;         /* recessed surfaces: placeholders, small badges */
+--card-bg: #f4f3ef;
+--row-bg: #f4f3ef;         /* rows nested inside a card; dividers carry the structure */
+--shadow-card: 0 1px 2px oklch(26% 0.021 42 / 0.04), 0 14px 36px oklch(26% 0.021 42 / 0.06);
+```
+
+**Cards (any content panel: tl;dr, stats, personas, decisions, outcomes, callouts, flow nodes)**
+- No stroke around a card: `border: none`.
+- One drop shadow: `var(--shadow-card)`, the same value index uses on `.dp-card`.
+- Surface is `var(--card-bg)` (`#f4f3ef`). Never hardcode a hex for a card fill. Hardcoded `#f0ede5` fills are what left cards off-system before.
+- Intentional exceptions that stay:
+  - Accent-tinted cards keep their tint (ops indigo `rgba(60,58,218,0.06)`, WiseWoman lilac `rgba(139,92,246,0.05)`), still with no stroke and with the shadow.
+  - Accent rules are markers, not outlines: a 3 to 4px left border on callouts (`.callout`, `.synthesis`, inline accent callouts on ops).
+  - Dividers between cells inside a card stay (the 1px gap-grid in `.hero-stats` and `.stat-grid`, row borders).
+  - Elements that sit on top of a card (`.outcome-note`, `.tnode`) take no shadow of their own.
+- Media frames (screenshots, video, demo slots) keep a 1px hairline plus the shadow, matching index's `.case-img`. Dashed borders mark missing-asset placeholders (`.video-slot`, `.img-slot` before its image loads) and go away once the asset is added.
+
+**Hero tags (every case study has them)**
+- A row of chips sits directly above the title: `<div class="meta-row hero-tags-top">` with `<span class="chip">` children. Same markup and same style on all four pages; no accent-coloured chip.
+- Chip: Manrope 700, `.75rem`, sentence/title case (not uppercase), padding `6px 14px`, radius `100px`, border `1px solid rgba(20,18,14,0.08)`, text `#5B5449`, background `var(--card-bg)`. Row gap `10px`, `18px` below the row, title `margin-top: 0`.
+- Content: 4 chips. First is the project family ("IHX Case Study"), then domain/type tags. Current sets: Ops `IHX Case Study · B2B SaaS · WebApp · Health InsurTech`; User Management `IHX Case Study · B2B SaaS · Health InsurTech · User Management`; AI `IHX Case Study · AI Product · Health InsurTech · Applied AI`; WiseWoman `FemTech · MVP · B2C UX · AI Native`.
+- The style lives in the shared title override block (next to the `h1` rule) with literal colours, because not every page defines `--border`.
+
+**Typography (audited 2026-09-13)**
+- Two faces only. **Staatliches** (weight 400, tracking about 0.02em, never negative) for display: titles, section headings, card titles at 20px and up, big numbers, pull quotes. **Manrope** for everything else: body, captions, labels, table heads, small bold labels. No Satoshi, Gloock or monospace anywhere on a case study, and their font `<link>`s are removed.
+- Every `font-size` is a token from index's scale, copied into each case study's `:root`: `--step--1` 0.78 to 0.88rem, `--step-0` 1 to 1.125rem, `--step-1` 1.15 to 1.4rem, `--step-2` 1.5 to 2.4rem, `--step-3` 2 to 3.6rem, `--step-4` 2.3 to 4.8rem, `--step-5` 2.7 to 6.4rem. `em` sizes inside a number (a unit like "hrs") are the only relative exception.
+- Roles, identical on every page: `h1` step-4; section `h2` step-3; `h3` step-1; hero metric numbers step-2; body and intros step-0; card copy, labels, eyebrows, captions step--1. Everything else snaps to the nearest step: under 15px step--1, 15 to 20 step-0, 20 to 30 step-1, 30 to 48 step-2, 48 to 67 step-3, 67 to 90 step-4, 90 and up step-5.
+- `font-synthesis-weight: none` on the page, so Staatliches is never faux-bolded.
+- `body` font-size is `var(--step-0)`, so text that inherits its size is on the scale too. `code` (placeholder file paths) uses Manrope, not monospace.
+- Shared chrome must not name a face the page does not load. When the Satoshi link was removed, the footer email and phone fell back to a generic sans; they now match index exactly (Manrope 500, step-0).
+- The metric card resets `.tag` (`padding: 0; border: 0; border-radius: 0; background: none`) because some pages also define a global `.tag` pill that would otherwise box the corner label and push it into the number.
+- Shared nav, Other Case Studies grid and footer are excluded from this audit; they already match index.
+
+**Titles**
+- `h1` is Staatliches 400, tracking 0.02em, size `var(--step-4)`, line-height 1 on every page (enforced with `!important`, because the Ops title is styled inline and inherited the body's 1.6).
+- Inline `style=""` attributes must use single quotes for font names (`font-family:'Manrope', sans-serif`). Double quotes close the attribute and silently drop every declaration after them; this happened once on Ops and lost the title's line-height.
+- No decorative hero image on Ops: the faint laptop illustration next to the title was removed on request, and the Ops hero is a single column. An emphasis span in a title (`.serif`, `.accent`) changes colour only, never font, weight or style, the same as index's headline.
+
+**Hero metrics (every case study has them)**
+- One component, taken from User Management: `<div class="hero-stats">` with three `.cell`s, each `<span class="tag">` (corner label) + `<div class="num">` + `<div class="lbl">`. Three cells, always.
+- Style: grid of 3 with 1px dividers (`gap: 1px` over `rgba(20,18,14,0.08)`), no outer stroke, radius 16px, `--shadow-card`, cells on `--card-bg`, padding 24px 20px. Tag Manrope 800 step--1 uppercase top-right; number Staatliches step-2 in the page's accent (`.accent`/`.indigo` #3C3ADA, `.teal` #046A50, `.violet` #7C3AED), 28px below the top so a tag never collides with it; label Manrope 600 step--1. One column under 900px. The CSS lives in the shared override block, identical on every page.
+- **Order is fixed: project info row first, then the metric card**, both full width directly under the hero copy (under the hero row on two-column heroes). Never put metrics above project info.
+
+**Project info (every case study has it)**
+- `<div class="project-info">` with four `<div class="pi"><span class="pi-l">Label</span><span class="pi-v">Value</span></div>` items, immediately followed by `.hero-stats`. On Ops both sit in one `.page-inner` so their edges align.
+- Style: 4-column grid, gap `24px 32px`, `margin-top: 44px`, `padding-top: 24px`, `border-top: 1px solid rgba(20,18,14,0.08)`. Label Manrope 700 step--1 uppercase, tracking .14em, `#5F584F`; value Manrope 600 step--1, `#5B5449`. The metric card after it takes `margin-top: 32px`. Two columns under 900px. CSS lives in the shared override block.
+- Fields: Ops `Role · Team · Timeframe · Also Covered`; WiseWoman `Role · Timeframe · Stack · Type`. User Management and AI Features have the CSS but no row yet: the pages do not state role, team or timeframe, so those facts must come from Shabnam, not be written in.
+- Numbers must already be backed by the case study. Current sets: Ops ↑67% revenue per claim, 3.23 → 1.56 min time on task (51% reduction), 3 group hospital contracts; User Management 80 → 10 tickets/day, 30 → 10 min to create, 4 → 1 deactivate steps; AI 1.8 to 2L/mo diagnosis entries, +37% delay cost, 12 to 48h stuck queries; WiseWoman 5 days to a live MVP, 6 AI functions, Live with real users.
+
+**WiseWoman section 06, Experience Strategy & Interaction Design (rebuilt 2026-09-13 to Shabnam's reference layout)**
+- The section is exactly four blocks, in order: (1) header, `.sec-head` title left and `.exp-intro` paragraph right; (2) "Branding and Colours": label, one-line note, then the app icon tile beside a row of 7 swatches (2 purples, 1 near-white, 4 darks); (3) logo on mobile (tall 4:5 image) beside a column holding the cycle symbol tile, the "Cycle Symbol in the app logo" label and its paragraph; (4) "Intentional Onboarding Design" h3 and paragraph beside the onboarding screen image. The old swatch strip, moon SVG note, the four screen cards and the walkthrough video slot were removed on request.
+- Copy is Shabnam's verbatim, except one em dash in the onboarding paragraph replaced with a colon.
+- Page background is unchanged. Asset tiles (`.exp-asset`) are dark `#141318` because the artwork is made for black; each shows a dashed placeholder with its filename until the file exists, then the dash goes transparent (`:has(img)`).
+- Swatches, in order, each labelled with its own hex: `#8B5CF6`, `#B08CF5`, `#F2F2F2`, `#1A1832`, `#181630`, `#252538`, `#29293D`. Tiles are 11:10, radius 8px, label centred; only the near-white `#F2F2F2` tile carries the card shadow.
+- The cycle symbol and its "Cycle Symbol in the app logo" note sit together inside one black (`#000`) card, radius 20px, beside the logo-on-mobile image.
+- Assets: `images/wisewoman-app-icon.svg` (from `wisewoman logo.svg`, own `#1E1B2E` tile), `images/wisewoman-cycle-symbol.svg` (from `symbolicmage.svg`, transparent, made for the black card), `images/wisewoman-logo-on-mobile.jpg` (1600×1600 web export of the 3000×3000, 15.7 MB `onmobileuilogo.png`). Image slots drop their placeholder chrome once the file loads.
+- Onboarding image: `images/wisewoman-onboarding.png` (462×568, copied from `intentional onboarding.png`): a hand holding the onboarding screen on its own black rounded-corner card, transparent only outside the corners. Shown with `object-fit: contain` so it is never cropped; once it loads the slot's own tile goes transparent and the image's black card is what reads, matching the cycle symbol card.
+
+**WiseWoman hero layout**
+- Follows §11c: `.hero` is one column. `.hero-copy` (tags, title, lede), then the full-width `.hero-image` slot, then `.project-info`, then `.hero-stats`. The earlier two-column version (photo beside the title) was replaced on 2026-09-13.
+- `images/wisewoman-hero.jpg` (1600×1200 export of `heroimage.png`) is no longer used in the hero; the slot now waits for `images/wisewoman-hero-wide.jpg`. Never embed a hero image as base64.
+
+**Shared chrome** (byte-identical across all case studies, see §11a): top nav, Other Case Studies grid, footer.
+
+**Starting a new case study:** copy the tokens above, wrap content in `.page-card`, reuse the shared chrome markup from an existing case study, then run the card check: every content panel has no stroke, has `--shadow-card`, and uses `--card-bg`.
+
+## 11c. What is fixed on every case study, and what is free (set by Shabnam, 2026-09-13)
+
+This is the governing rule for every case study, current and future. It overrides any older wording in this file that implies one shared page structure.
+
+**Fixed: the hero block.** Every case study opens with the same block, same components, same order:
+
+1. Top nav (shared chrome, §11a)
+2. Hero tags (chips, §11b)
+3. Hero title (`h1`, §11b Titles)
+4. Lede (the short intro paragraph under the title)
+5. Hero image, **full width, directly below the title and lede**. Until the real image is added, every case study holds this space with the shared `.hero-image` slot: `<figure class="hero-image">` with a `.hi-ph` label, the expected filename in `<code>`, and an `<img onerror="this.remove()">`. 16:9, radius 20px, `--card-bg` with a 1px dashed `rgba(20,18,14,0.18)` border; once the image loads the dash goes transparent and the card shadow applies. CSS lives in the shared override block on all four pages. Hero images are added last, after the rest of a case study is done.
+6. Project info row (§11b)
+7. Metrics card (§11b)
+8. TL;DR (**required on every case study**, directly after the metrics, same design everywhere)
+
+"Info section" and "project info" are the same thing: the row of Role, Timeline/Timeframe and similar project facts (item 6). There is no separate info section.
+
+**Fixed: element and card design.** Every reusable element looks the same wherever it appears: cards (surface, no stroke, shadow, radius), chips, metric cells, image and video slots, labels, headings and type roles, and the shared chrome. If a card exists on a page, it is the §11b card.
+
+**Free: everything below the hero block.** The body of each case study is deliberately subjective: which sections exist, their order, their layout, how many assets, and which visual treatments suit that story. Do not force one case study's body into another's structure, and do not treat differences below the TL;DR as inconsistencies to fix. Build new body sections from the shared elements, laid out however that case study needs.
+
 ## 12. Known open items (do not silently resolve)
+
+- Hero image slots: WiseWoman has its full-width placeholder (expects `images/wisewoman-hero-wide.jpg`). Ops, User Management and AI Features still need the placeholder added below the title and lede when each is worked on; User Management's current screenshot below the metrics moves up into that slot at that point. Hero images themselves are added last.
+- TL;DR is missing on Ops and WiseWoman; content has to come from Shabnam.
+- Project info row is missing on User Management and AI Features; role, team, timeframe and a fourth field have to come from Shabnam.
 
 - Replace placeholder peer quotes with real, permission-obtained quotes and names.
 - Replace placeholder email, phone, resume link, and social URLs (GitHub and Medium links are currently `#` placeholders in the footer).
