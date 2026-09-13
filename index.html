@@ -895,7 +895,8 @@
   /* Shipped products whose write-up is not done. The metrics are real so they stay legible;
      the media is muted and the cursor says so on hover, rather than promising a page that
      does not exist yet. These are divs, not links, so there is nothing to click. */
-  .case.is-soon .case-img { filter: grayscale(1); opacity: 0.55; }
+  /* only the empty placeholder is muted; a card that already has its cover plays it in full */
+  .case.is-soon .case-img.soon { filter: grayscale(1); opacity: 0.55; }
   .case.is-soon:hover { transform: none; }
   .case[hidden] { display: none; }
 
@@ -1355,10 +1356,10 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
       </a>
 
       <div class="case is-soon is-extra" hidden data-cursor="Case study in progress">
-        <div class="case-img soon"><span>Case study in progress</span></div>
+        <div class="case-img"><video src="ihx-onehealth-phr-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX OneHealth patient health record app screen"></video></div>
         <div class="case-body">
           <h3>IHX OneHealth</h3>
-          <span class="case-metrics">Patient app &middot; concept to launch</span>
+          <span class="case-metrics">B2C Patient Health Record &middot; Smart Reports</span>
         </div>
       </div>
 
