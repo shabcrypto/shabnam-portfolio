@@ -49,7 +49,7 @@
 
     --intro-offset: 10780ms; /* the last sentence has cleared and the curtain starts to part */
 
-    --ritual-offset: 9999s; /* parks the illustration until it scrolls into view */
+    --ritual-offset: 0ms; /* delays count from the moment .ritual gets .is-live, see below */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -575,6 +575,10 @@
     gap: var(--space-md);
   }
   .ritual svg.scene { width: 100%; height: auto; max-width: 416px; overflow: visible; }
+  /* Nothing in the illustration animates until the design philosophy card is on screen. With the
+     animation name held at none, every animation (and every delay) starts from the moment .is-live
+     lands, not from page load, so a visitor who lingers on the work above still sees it draw. */
+  .ritual:not(.is-live), .ritual:not(.is-live) * { animation-name: none !important; }
 
   .petal {
     transform-origin: 260px 260px;
@@ -740,17 +744,31 @@
      sticky stack still covers cleanly (a shorter card over a taller one would leave it peeking). */
   .dp-steps { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); }
 
-  /* DESIGN PROCESS, PINNED DECK.
-     The card stops under the floating nav and holds while the five step cards slide up into a
-     deck; only once the deck is complete does the card release and scroll on. This has to be
-     scripted. Nesting position:sticky cannot express it: a pinned card and its children move as
-     one box, so the steps would have nothing left to move against. What is written here is the
-     scripted state; the plain CSS sticky stack above is the fallback that shows when GSAP is
-     blocked, motion is reduced, or the viewport is narrow. */
-  .dp-steps.is-deck { display: block; position: relative; }
-  .dp-steps.is-deck .stack-card.step {
-    position: absolute; top: 0; left: 0; right: 0;
-    will-change: transform;
+  /* DESIGN PROCESS, SPREAD STACK (desktop).
+     The process card runs long: the five steps sit well apart in normal flow, and each one sticks
+     just under the floating nav, a step lower than the one before, so the next card slides up over
+     it and a sliver of every earlier card stays visible. Spacing is a flex gap, never a margin: a
+     sticky card counts its own margin against the container, so margins made the first cards let go
+     before the last one landed. The trailing gap before ::after is how long the finished deck holds.
+     Plain position:sticky, no pinning script. */
+  @media (min-width: 901px) {
+    .dp-steps {
+      --deck-top: 104px;     /* clears the floating nav pill */
+      --deck-rest: 18px;     /* sliver of each card left showing under the next */
+      --deck-gap: 34vh;      /* how far apart the steps sit before they stack */
+      display: flex; flex-direction: column;
+      gap: var(--deck-gap);
+    }
+    .dp-steps::after { content: ""; height: 1px; }
+    .dp-steps .stack-card.step {
+      position: sticky;
+      top: calc(var(--deck-top) + var(--i, 0) * var(--deck-rest));
+      min-height: 232px;     /* equal heights, so a shorter card never leaves the one below peeking */
+    }
+    .dp-steps .stack-card.step:nth-child(2) { --i: 1; }
+    .dp-steps .stack-card.step:nth-child(3) { --i: 2; }
+    .dp-steps .stack-card.step:nth-child(4) { --i: 3; }
+    .dp-steps .stack-card.step:nth-child(5) { --i: 4; }
   }
   .stack-card.step {
     display: flex; gap: var(--space-lg);
@@ -893,14 +911,25 @@
 
   .work-more { display: flex; justify-content: center; padding-top: var(--space-lg); }
   .more-btn {
+    position: relative;
     font-family: var(--font-body); font-weight: 700;
     font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--asphalt); background: transparent;
-    border: 1px solid oklch(26% 0.021 42 / 0.22); border-radius: 999px;
-    padding: 14px 30px;
-    transition: color 200ms ease, border-color 200ms ease;
+    border: 0; padding: 8px 0; cursor: pointer;
+    transition: color 160ms ease;
   }
-  .more-btn:hover { color: var(--vermillion-deep); border-color: var(--vermillion); }
+  /* the same weft thread every text CTA carries, scribbling in under the label on hover */
+  .more-btn::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
+background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 8px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .more-btn:hover, .more-btn:focus-visible { color: var(--vermillion-deep); }
+  .more-btn:hover::after, .more-btn:focus-visible::after { transform: scaleX(1); }
   .case-img.soon span {
     font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--asphalt-soft);
     border: 1px solid oklch(26% 0.021 42 / 0.22); border-radius: 999px; padding: 6px 16px;
@@ -949,6 +978,24 @@
   .quote.lead blockquote { font-size: 1.2rem; line-height: 1.7; }
   .quote figcaption { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--asphalt-soft); }
   .quote figcaption b { display: block; color: var(--asphalt); letter-spacing: 0.06em; margin-bottom: 2px; }
+  /* each name links to that person's LinkedIn, with the same weft thread on hover as every text CTA */
+  .peer-link {
+    position: relative; display: inline-flex; align-items: baseline; gap: 6px;
+    padding-bottom: 6px; color: inherit; text-decoration: none;
+    transition: color 160ms ease;
+  }
+  .peer-link::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: -2px; height: 8px;
+background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background-size: 24px 8px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .peer-link .peer-arrow { color: var(--vermillion); font-size: 0.8em; }
+  .peer-link:hover, .peer-link:focus-visible { color: var(--vermillion-deep); }
+  .peer-link:hover::after, .peer-link:focus-visible::after { transform: scaleX(1); }
 
   /* ============ FOOTER / CONTACT ============ */
   footer { background: var(--asphalt); color: var(--coconut); }
@@ -1749,19 +1796,19 @@
       <figure class="quote lead">
         <span class="mark">&ldquo;</span>
         <blockquote>Shabnam consistently brought <b>clarity and simplicity</b> to complex workflows, making our platform much more intuitive for hospitals and payers. Her attention to detail and ability to translate ideas into <b>clean user journeys</b> made a big difference.</blockquote>
-        <figcaption><b>Aditya Pathak</b>Director of Product, IHX</figcaption>
+        <figcaption><b><a class="peer-link" href="https://www.linkedin.com/in/adityapathak100/" target="_blank" rel="noopener" aria-label="Aditya Pathak on LinkedIn">Aditya Pathak<span class="peer-arrow" aria-hidden="true">&#8599;</span></a></b>Founder &amp; CEO, RXpress</figcaption>
       </figure>
 
       <figure class="quote">
         <span class="mark">&ldquo;</span>
         <blockquote>Shabnam consistently delivered designs that were not just polished but also <b>practical</b>. She has a good eye for detail, keeps usability front and center, and pushes for experiences that feel <b>smooth and intuitive</b>.</blockquote>
-        <figcaption><b>Manas Malik</b>Tech Lead, IHX</figcaption>
+        <figcaption><b><a class="peer-link" href="https://www.linkedin.com/in/manas-malik/" target="_blank" rel="noopener" aria-label="Manas Malik on LinkedIn">Manas Malik<span class="peer-arrow" aria-hidden="true">&#8599;</span></a></b>Technical Lead, IHX</figcaption>
       </figure>
 
       <figure class="quote">
         <span class="mark">&ldquo;</span>
         <blockquote>Her approach was highly <b>data-driven</b>, supported by strong market research. The impact was clear: her work drove <b>real user engagement</b>, simplified adoption, and added measurable value to our products.</blockquote>
-        <figcaption><b>Aswini Puppala</b>Product Manager, IHX</figcaption>
+        <figcaption><b><a class="peer-link" href="https://www.linkedin.com/in/aswini-puppala-471217160/" target="_blank" rel="noopener" aria-label="Aswini Puppala on LinkedIn">Aswini Puppala<span class="peer-arrow" aria-hidden="true">&#8599;</span></a></b>Product, Lenskart</figcaption>
       </figure>
 
     </div>
@@ -1798,7 +1845,7 @@
     </div>
 
     <div class="socials">
-      <a href="https://www.linkedin.com/in/shabnam-raghavan-b89798a5" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/shabnamraghavan/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="#" rel="noopener">GitHub</a>
       <a href="https://dribbble.com/ShabnamRaghavan" target="_blank" rel="noopener">Dribbble</a>
       <a href="#" rel="noopener">Medium</a>
@@ -1954,22 +2001,19 @@
 })();
 
 (function () {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var target = document.querySelector(".vantage .ritual");
-  if (!target) return;
-  if (!("IntersectionObserver" in window)) {
-    document.documentElement.style.setProperty("--ritual-offset", "0ms");
-    return;
-  }
+  var ritual = document.querySelector(".vantage .ritual");
+  var card = document.querySelector(".dp-philosophy");
+  if (!ritual) return;
+  function go() { ritual.classList.add("is-live"); }
+  if (!card || !("IntersectionObserver" in window) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches) { go(); return; }
+  // start the drawing once a quarter of the philosophy card is in view
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        document.documentElement.style.setProperty("--ritual-offset", "0ms");
-        io.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) { go(); io.disconnect(); }
     });
-  }, { threshold: 0.3 });
-  io.observe(target);
+  }, { threshold: 0.25 });
+  io.observe(card);
 })();
 
 (function () {
@@ -2050,74 +2094,6 @@
     btn.setAttribute("aria-expanded", String(!open));
     btn.textContent = open ? "View more case studies" : "Show fewer";
   });
-})();
-</script>
-
-<script>
-(function () {
-  // See ".dp-steps.is-deck" in the stylesheet for why this is scripted rather than sticky.
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  if (!window.matchMedia("(min-width: 901px)").matches) return;  // steps are static below this
-  if (!window.gsap || !window.ScrollTrigger) return;             // CDN blocked: CSS stack stands
-  gsap.registerPlugin(ScrollTrigger);
-
-  var card = document.querySelector(".dp-process");
-  var deck = card && card.querySelector(".dp-steps");
-  if (!card || !deck) return;
-  var steps = Array.prototype.slice.call(deck.querySelectorAll(".stack-card.step"));
-  if (steps.length < 2) return;
-
-  var REST = 16;    // sliver of each card left showing under the one that lands on top of it
-  var PER  = 260;   // scroll distance each card takes to fly in
-
-  // The bar is fixed at the top of the card; the deck comes to rest just below it.
-  function topGap() {
-    var bar = document.querySelector(".topbar");
-    return (bar ? bar.getBoundingClientRect().height : 56) + 28;
-  }
-
-  var tl;
-  function build() {
-    if (tl) { tl.scrollTrigger && tl.scrollTrigger.kill(); tl.kill(); tl = null; }
-    gsap.set(steps, { clearProps: "transform,zIndex" });
-    deck.classList.remove("is-deck");
-    deck.style.height = "";
-
-    // measure in natural flow first, then collapse into the overlay
-    var tallest = steps.reduce(function (h, s) { return Math.max(h, s.offsetHeight); }, 0);
-    deck.classList.add("is-deck");
-    deck.style.height = (tallest + (steps.length - 1) * REST) + "px";
-
-    var drop = deck.offsetHeight + REST;   // where a card waits before it is pulled up
-    steps.forEach(function (s, i) {
-      gsap.set(s, { zIndex: i + 1, y: i === 0 ? 0 : drop });
-    });
-
-    tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: card,
-        start: "top " + topGap(),
-        end: "+=" + (PER * (steps.length - 1)),
-        pin: true,
-        pinSpacing: true,
-        scrub: 0.5,
-        invalidateOnRefresh: true
-      }
-    });
-    steps.forEach(function (s, i) {
-      if (i === 0) return;
-      tl.to(s, { y: i * REST, ease: "none", duration: 1 }, i - 1);
-    });
-  }
-
-  build();
-  var t;
-  window.addEventListener("resize", function () {
-    clearTimeout(t);
-    t = setTimeout(function () {
-      if (window.matchMedia("(min-width: 901px)").matches) build();
-    }, 200);
-  }, { passive: true });
 })();
 </script>
 
