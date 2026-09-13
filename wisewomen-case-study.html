@@ -380,6 +380,27 @@ body{
 .exp-onboard-txt p{margin-top:20px;font-size:var(--step--1);font-weight:400;line-height:1.75;color:var(--w2);max-width:480px;}
 .exp-onboard-img{aspect-ratio:4/5;}
 
+/* Feature rows (Task Creation, Habit Reflection): a dark showcase card holding the phone shot
+   and its caption, beside the section copy. Rows alternate which side the card sits on.
+   The card's black-to-violet fade follows Shabnam's reference. */
+.exp-feature{margin-top:120px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:center;}
+.exp-feature-card{background:linear-gradient(180deg,#0c0c0e 0%,#130f1d 55%,#1d1433 100%);border-radius:20px;padding:clamp(24px,3vw,32px);display:flex;flex-direction:column;gap:24px;}
+.exp-feature-shot{width:100%;aspect-ratio:1/1;}
+.exp-feature-shot.is-wide{aspect-ratio:3/2;border-radius:14px;}
+/* the schedule recording sits under the Task Creation copy, phone-sized */
+.exp-feature-video{display:block;margin-top:32px;width:min(100%,260px);aspect-ratio:720/1074;border-radius:24px;object-fit:cover;background:#000;box-shadow:var(--shadow-card);}
+.exp-feature-card .exp-label{color:#fff;}
+.exp-feature-card p{margin-top:10px;font-size:var(--step--1);font-weight:400;line-height:1.6;color:rgba(255,255,255,.88);}
+.exp-feature-txt h3{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;letter-spacing:.02em;line-height:1;color:var(--w1);}
+.exp-feature-txt p{margin-top:20px;font-size:var(--step--1);font-weight:400;line-height:1.75;color:var(--w2);max-width:480px;}
+.exp-feature-txt p+p{margin-top:16px;}
+@media(max-width:880px){ .exp-feature{grid-template-columns:1fr;} }
+
+/* UI showcase: one full-width image closing section 06, the app's screens laid out together.
+   Uses the shared .exp-asset slot, so it shows a placeholder until the file exists. */
+.exp-showcase{margin-top:120px;width:100%;aspect-ratio:3/2;}
+.exp-showcase:has(img){box-shadow:var(--shadow-card);}
+
 @media(max-width:880px){
   .exp-head,.exp-logo,.exp-onboard{grid-template-columns:1fr;}
   .exp-brand{flex-direction:column;}
@@ -1024,6 +1045,38 @@ footer{background:var(--asphalt);color:var(--coconut);}
     </div>
     <figure class="exp-asset exp-onboard-img"><span class="exp-ph">Onboarding</span><code>images/wisewoman-onboarding.png</code><img src="images/wisewoman-onboarding.png" alt="WiseWoman onboarding screen held in a hand, collecting role context" style="object-fit:contain;" onerror="this.remove()"></figure>
   </div>
+
+  <div class="exp-feature">
+    <div class="exp-feature-card">
+      <figure class="exp-asset exp-feature-shot is-wide"><span class="exp-ph">Task capture</span><code>images/wisewoman-scheduling.jpg</code><img src="images/wisewoman-scheduling.jpg" alt="Three WiseWoman Add Task screens: category picker, empty task list, and voice capture with tasks auto-tagged by role and energy" style="object-fit:cover;" onerror="this.remove()"></figure>
+      <div>
+        <h4 class="exp-label">Intelligent Task Capture</h4>
+        <p>Users add tasks via text or voice. The system auto-categorizes them by role and intent, then provides cycle aware nudges to guide timing and workload.<br>Final scheduling remains user-controlled.</p>
+      </div>
+    </div>
+    <div class="exp-feature-txt">
+      <h3>Task Creation &amp; Intelligent Scheduling</h3>
+      <p>Task capture is designed to reduce cognitive overhead from the start. Natural language input is interpreted using lightweight NLP to extract intent and auto-map tasks to life roles with suggested energy intensity. This removes manual tagging and micro-decisions at the point of entry.</p>
+      <p>Over time, user edits and corrections act as feedback signals, refining classification and scheduling suggestions. The system gradually aligns with individual planning habits, making structuring feel increasingly intuitive rather than configured.</p>
+      <video class="exp-feature-video" src="images/wisewoman-scheduling.mp4" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman Today's Schedule, a phone recording of the planned day"></video>
+    </div>
+  </div>
+
+  <div class="exp-feature">
+    <div class="exp-feature-txt">
+      <h3>Habit Reflection &amp; Tracking</h3>
+      <p>The habit section translates completed tasks and synced events into visible behavioral patterns. Instead of manually logging habits, the system derives insight from actual daily activity across roles.<br>It surfaces where time is spent, how workload is distributed, and what routines are forming over days and weeks. The goal is awareness, not streak pressure: helping users understand their lived patterns rather than optimize obsessively.</p>
+    </div>
+    <div class="exp-feature-card">
+      <figure class="exp-asset exp-feature-shot"><span class="exp-ph">Your Activities</span><code>images/wisewoman-habit-reflection.png</code><img src="images/wisewoman-habit-reflection.png" alt="WiseWoman Your Activities dashboard, weekly time split across roles with self-care actions" style="object-fit:contain;" onerror="this.remove()"></figure>
+      <div>
+        <h4 class="exp-label">Your Activities Dashboard</h4>
+        <p>Your Activities tracks completed tasks and synced events across day, week, and month views. It visualises where time goes across roles without requiring manual logging. Users can also add small self care actions from here.</p>
+      </div>
+    </div>
+  </div>
+
+  <figure class="exp-asset exp-showcase"><span class="exp-ph">UI showcase</span><code>images/wisewoman-ui-showcase.jpg</code><img src="images/wisewoman-ui-showcase.jpg" alt="WiseWoman screens laid out together: energy guidance, schedule, cycle, profile and your activities" style="object-fit:cover;" loading="lazy" onerror="this.remove()"></figure>
 </section>
 
 <div class="divider"></div>
@@ -1170,7 +1223,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 // stylesheet cannot reach it. Freeze the cover on its first frame.
 (function () {
   if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  Array.prototype.forEach.call(document.querySelectorAll(".cs-thumb video"), function (v) {
+  Array.prototype.forEach.call(document.querySelectorAll(".cs-thumb video, .exp-feature-video"), function (v) {
     v.loop = false; v.autoplay = false; v.pause();
   });
 })();
