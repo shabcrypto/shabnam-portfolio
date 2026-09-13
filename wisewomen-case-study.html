@@ -199,6 +199,14 @@ body{
   font-size:var(--step-0);font-weight:300;line-height:1.78;color:var(--w2);
 }
 .divider{height:1px;background:var(--line-2);max-width:1200px;margin:0 auto;}
+/* TL;DR: the five-card summary every case study opens with, in this page's violet */
+.tldr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:40px;}
+.tldr{background:var(--card-bg);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow-card);}
+.tldr .k{font-family:"Manrope",sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;color:var(--v2);margin-bottom:10px;display:block;}
+.tldr p{font-size:var(--step--1);line-height:1.55;color:var(--w2);}
+.tldr p b{color:var(--w1);font-weight:700;}
+@media(max-width:1000px){.tldr-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.tldr-grid{grid-template-columns:1fr;}}
 
 /* ── 01 PROBLEM — failure modes (no boxes) ── */
 .fail-grid{margin-top:72px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
@@ -769,7 +777,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <h1 class="hero-giant">Wise<span class="accent">Woman</span></h1>
   <p class="hero-sub">A daily planning system that reads the body, not just the calendar. It maps tasks to life roles, reads cycle-phase energy, and builds one schedule across work and personal life.</p>
   </div>
-  <figure class="hero-image"><span class="hi-ph">Hero image</span><code>images/wisewoman-hero.jpg</code><img src="images/wisewoman-hero.jpg" alt="WiseWoman hero image" onerror="this.remove()"></figure>
+  <figure class="hero-image"><span class="hi-ph">Hero image</span><code>images/wisewoman-hero.webp</code><img src="images/wisewoman-hero.webp" alt="WiseWoman hero image" onerror="this.remove()"></figure>
   <div class="project-info">
     <div class="pi"><span class="pi-l">Role</span><span class="pi-v">Product Designer + Builder</span></div>
     <div class="pi"><span class="pi-l">Timeframe</span><span class="pi-v">5 days · Sept 2025</span></div>
@@ -780,6 +788,21 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <div class="cell"><span class="tag">Build</span><div class="num violet">5 days</div><div class="lbl">From first design to a live MVP</div></div>
     <div class="cell"><span class="tag">AI functions</span><div class="num violet">6</div><div class="lbl">Each mapped to rules, an LLM or deterministic logic</div></div>
     <div class="cell"><span class="tag">Status</span><div class="num violet">Live</div><div class="lbl">MVP in use with real users</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TL;DR -->
+<section class="sec" id="tldr">
+  <div class="sec-num">TL;DR</div>
+  <h2 class="sec-head">The whole story, in five cards.</h2>
+  <div class="tldr-grid">
+    <div class="tldr"><span class="k">Problem</span><p>Planners assume <b>one role and constant energy</b>. Energy shifts across the cycle, and work, home, care and self all pile into one flat list.</p></div>
+    <div class="tldr"><span class="k">Approach</span><p>A <b>planning chain, not a to-do list</b>: cycle phase, energy, role context and task grouping come together as one daily plan.</p></div>
+    <div class="tldr"><span class="k">AI</span><p><b>Rules handle 90%+ of the work.</b> The LLM steps in only where rules fail, free speech and tone. The system assists, the user decides.</p></div>
+    <div class="tldr"><span class="k">Build</span><p><b>5 days</b> from first design to a live MVP with real users, on Lovable, Gemini 2.5 Flash and Supabase.</p></div>
+    <div class="tldr"><span class="k">Takeaway</span><p>Building for personal use first kept the scope honest, and a deterministic scheduler made the system <b>predictable, so users trusted it</b>.</p></div>
   </div>
 </section>
 
@@ -854,9 +877,24 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 <div class="divider"></div>
 
-<!-- 02 RESEARCH -->
+<!-- 02 PROCESS -->
 <section class="sec">
-  <div class="sec-num">02 &middot; Research &amp; Pattern Synthesis</div>
+  <div class="sec-num">02 &middot; Design Process</div>
+  <h2 class="sec-head">Five days, four moves.</h2>
+
+  <div class="process">
+    <div class="ph"><div class="ph-i">01</div><div class="ph-t">Problem Validation</div><div class="ph-d">Built for personal use first. Secondary research came second, to test the hypothesis rather than invent it.</div></div>
+    <div class="ph"><div class="ph-i">02</div><div class="ph-t">Define Direction</div><div class="ph-d">Set the planning chain and the assist-not-automate principle before any screen existed.</div></div>
+    <div class="ph"><div class="ph-i">03</div><div class="ph-t">Build MVP</div><div class="ph-d">Vibe-coded on Lovable. Rules-based scheduling over full LLM to keep the MVP stable in a five-day window.</div></div>
+    <div class="ph"><div class="ph-i">04</div><div class="ph-t">Iterate &amp; Refine</div><div class="ph-d">Tightened the AI routing, separated voice and text systems, and fixed tone on energy guidance.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 03 RESEARCH -->
+<section class="sec">
+  <div class="sec-num">03 &middot; Research &amp; Pattern Synthesis</div>
   <h2 class="sec-head">Small sample. Honest method.</h2>
   <p class="method">No inflated numbers. Patterns were drawn from <b>Reddit threads</b> on productivity and women's planning, <b>3 direct conversations</b>, and <b>12 app store audits</b> across cycle and productivity tools. The signal was consistent enough to act on, not large enough to claim more than it was.</p>
 
@@ -891,9 +929,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 <div class="divider"></div>
 
-<!-- 03 MARKET -->
+<!-- 04 MARKET -->
 <section class="sec">
-  <div class="sec-num">03 &middot; Market Signal &amp; Competitive Landscape</div>
+  <div class="sec-num">04 &middot; Market Signal &amp; Competitive Landscape</div>
   <h2 class="sec-head">Two markets that never met.</h2>
 
   <div class="mkt">
@@ -920,9 +958,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 <div class="divider"></div>
 
-<!-- 04 SYSTEM LOGIC -->
+<!-- 05 SYSTEM LOGIC -->
 <section class="sec">
-  <div class="sec-num">04 &middot; Core System Logic &amp; Product Strategy</div>
+  <div class="sec-num">05 &middot; Core System Logic &amp; Product Strategy</div>
   <h2 class="sec-head">A planning chain, not a to-do list.</h2>
   <p class="sec-lede">Every task moves through five stages before it reaches the schedule. The system reads context first, then plans.</p>
 
@@ -955,9 +993,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 <div class="divider"></div>
 
-<!-- 05 AI ARCHITECTURE -->
+<!-- 06 AI ARCHITECTURE -->
 <section class="sec">
-  <div class="sec-num">05 &middot; AI Architecture at PM Depth</div>
+  <div class="sec-num">06 &middot; AI Architecture at PM Depth</div>
   <h2 class="sec-head">Two systems, chosen for two jobs.</h2>
   <p class="sec-lede">Text and voice do not share a pipeline. Each input type routes to the system that fits it. This is the most important technical decision in the product.</p>
 
@@ -1009,9 +1047,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 <div class="divider"></div>
 
-<!-- 06 EXPERIENCE -->
+<!-- 07 EXPERIENCE -->
 <section class="sec exp">
-  <div class="sec-num">06 &middot; Experience Strategy &amp; Interaction Design</div>
+  <div class="sec-num">07 &middot; Experience Strategy &amp; Interaction Design</div>
   <div class="exp-head">
     <h2 class="sec-head">Experience Strategy &amp; Interaction Design</h2>
     <p class="exp-intro">WiseWoman translates cycle intelligence into usable daily interactions. Every screen reduces planning friction, aligns workload with biological capacity, and eliminates manual structuring overhead. WiseWoman adapts planning to biological rhythms and real-life roles.</p>
@@ -1035,7 +1073,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   </div>
 
   <div class="exp-logo">
-    <figure class="exp-asset exp-phone"><span class="exp-ph">Logo on mobile</span><code>images/wisewoman-logo-on-mobile.jpg</code><img src="images/wisewoman-logo-on-mobile.jpg" alt="WiseWoman app icon on a phone home screen" style="object-fit:cover;" onerror="this.remove()"></figure>
+    <figure class="exp-asset exp-phone"><span class="exp-ph">Logo on mobile</span><code>images/wisewoman-logo-on-mobile.webp</code><img src="images/wisewoman-logo-on-mobile.webp" alt="WiseWoman app icon on a phone home screen" style="object-fit:cover;" onerror="this.remove()"></figure>
     <div class="exp-symbol">
       <figure class="exp-asset exp-mark"><span class="exp-ph">Cycle symbol</span><code>images/wisewoman-cycle-symbol.svg</code><img src="images/wisewoman-cycle-symbol.svg" alt="WiseWoman cycle symbol, the moon inside nested rounded squares" style="object-fit:contain;" onerror="this.remove()"></figure>
       <div class="exp-symbol-txt">
@@ -1050,12 +1088,12 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <h3>Intentional Onboarding Design</h3>
       <p>The onboarding is intentionally structured to collect only high-signal inputs required for cycle-aware planning: basic identity, cycle data, and role context. Each step directly feeds the planning logic: cycle prediction, capacity mapping, and role-based task grouping. No excess preferences, no unnecessary profiling. The goal is fast personalisation with minimal friction.</p>
     </div>
-    <figure class="exp-asset exp-onboard-img"><span class="exp-ph">Onboarding</span><code>images/wisewoman-onboarding.png</code><img src="images/wisewoman-onboarding.png" alt="WiseWoman onboarding screen held in a hand, collecting role context" style="object-fit:contain;" onerror="this.remove()"></figure>
+    <figure class="exp-asset exp-onboard-img"><span class="exp-ph">Onboarding</span><code>images/wisewoman-onboarding.webp</code><img src="images/wisewoman-onboarding.webp" alt="WiseWoman onboarding screen held in a hand, collecting role context" style="object-fit:contain;" onerror="this.remove()"></figure>
   </div>
 
   <div class="exp-feature">
     <div class="exp-feature-card">
-      <figure class="exp-asset exp-feature-shot is-wide"><span class="exp-ph">Task capture</span><code>images/wisewoman-scheduling.jpg</code><img src="images/wisewoman-scheduling.jpg" alt="Three WiseWoman Add Task screens: category picker, empty task list, and voice capture with tasks auto-tagged by role and energy" style="object-fit:cover;" onerror="this.remove()"></figure>
+      <figure class="exp-asset exp-feature-shot is-wide"><span class="exp-ph">Task capture</span><code>images/wisewoman-scheduling.webp</code><img src="images/wisewoman-scheduling.webp" alt="Three WiseWoman Add Task screens: category picker, empty task list, and voice capture with tasks auto-tagged by role and energy" style="object-fit:cover;" onerror="this.remove()"></figure>
       <div>
         <h4 class="exp-label">Intelligent Task Capture</h4>
         <p>Users add tasks via text or voice. The system auto-categorizes them by role and intent, then provides cycle aware nudges to guide timing and workload.<br>Final scheduling remains user-controlled.</p>
@@ -1075,7 +1113,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <p>The habit section translates completed tasks and synced events into visible behavioral patterns. Instead of manually logging habits, the system derives insight from actual daily activity across roles.<br>It surfaces where time is spent, how workload is distributed, and what routines are forming over days and weeks. The goal is awareness, not streak pressure: helping users understand their lived patterns rather than optimize obsessively.</p>
     </div>
     <div class="exp-feature-card">
-      <figure class="exp-asset exp-feature-shot"><span class="exp-ph">Your Activities</span><code>images/wisewoman-habit-reflection.png</code><img src="images/wisewoman-habit-reflection.png" alt="WiseWoman Your Activities dashboard, weekly time split across roles with self-care actions" style="object-fit:contain;" onerror="this.remove()"></figure>
+      <figure class="exp-asset exp-feature-shot"><span class="exp-ph">Your Activities</span><code>images/wisewoman-habit-reflection.webp</code><img src="images/wisewoman-habit-reflection.webp" alt="WiseWoman Your Activities dashboard, weekly time split across roles with self-care actions" style="object-fit:contain;" onerror="this.remove()"></figure>
       <div>
         <h4 class="exp-label">Your Activities Dashboard</h4>
         <p>Your Activities tracks completed tasks and synced events across day, week, and month views. It visualises where time goes across roles without requiring manual logging. Users can also add small self care actions from here.</p>
@@ -1083,22 +1121,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
     </div>
   </div>
 
-  <figure class="exp-asset exp-showcase"><span class="exp-ph">UI showcase</span><code>images/wisewoman-ui-showcase.jpg</code><img src="images/wisewoman-ui-showcase.jpg" alt="WiseWoman screens laid out together: energy guidance, schedule, cycle, profile and your activities" style="object-fit:cover;" loading="lazy" onerror="this.remove()"></figure>
-</section>
-
-<div class="divider"></div>
-
-<!-- 07 PROCESS -->
-<section class="sec">
-  <div class="sec-num">07 &middot; Design Process</div>
-  <h2 class="sec-head">Five days, four moves.</h2>
-
-  <div class="process">
-    <div class="ph"><div class="ph-i">01</div><div class="ph-t">Problem Validation</div><div class="ph-d">Built for personal use first. Secondary research came second, to test the hypothesis rather than invent it.</div></div>
-    <div class="ph"><div class="ph-i">02</div><div class="ph-t">Define Direction</div><div class="ph-d">Set the planning chain and the assist-not-automate principle before any screen existed.</div></div>
-    <div class="ph"><div class="ph-i">03</div><div class="ph-t">Build MVP</div><div class="ph-d">Vibe-coded on Lovable. Rules-based scheduling over full LLM to keep the MVP stable in a five-day window.</div></div>
-    <div class="ph"><div class="ph-i">04</div><div class="ph-t">Iterate &amp; Refine</div><div class="ph-d">Tightened the AI routing, separated voice and text systems, and fixed tone on energy guidance.</div></div>
-  </div>
+  <figure class="exp-asset exp-showcase"><span class="exp-ph">UI showcase</span><code>images/wisewoman-ui-showcase.webp</code><img src="images/wisewoman-ui-showcase.webp" alt="WiseWoman screens laid out together: energy guidance, schedule, cycle, profile and your activities" style="object-fit:cover;" loading="lazy" onerror="this.remove()"></figure>
 </section>
 
 <div class="divider"></div>
