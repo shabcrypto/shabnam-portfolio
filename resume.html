@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>About &middot; Shabnam Raghavan</title>
+<title>Resume &middot; Shabnam Raghavan</title>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="icon" type="image/svg+xml" href="favicon_Shab_logo-whitebg.svg" />
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
@@ -22,7 +22,7 @@
     --vermillion-deep: oklch(44% 0.17 31);
     --turmeric: oklch(72% 0.13 82);
     --turmeric-deep: oklch(54% 0.125 78);
-    --coconut: #f0ede5;
+    --coconut: #fdfdfb;
     --coconut-soft: #b3ada0;
     --asphalt: #302f2c;
     --asphalt-soft: #6b6964;
@@ -43,6 +43,7 @@
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    font-synthesis-weight: none;
   }
 
   a:focus-visible { outline: 2px solid var(--vermillion); outline-offset: 4px; border-radius: 2px; }
@@ -121,82 +122,40 @@
   .topbar nav a:hover { color: var(--vermillion-deep); }
   .topbar nav a:hover::after { transform: scaleX(1); }
 
-  /* ============ ABOUT ============ */
-  .about {
+  /* ============ RESUME ============ */
+  /* the designed resume, shown page by page for reading; the download is the plain-text
+     ATS version, so what a recruiter saves is the file their systems can parse */
+  .resume {
     max-width: 1200px; margin: 0 auto;
-    /* the top bar is fixed, so this clears it rather than sitting under it */
     padding: clamp(112px, 12vw, 152px) clamp(24px, 5vw, 60px) var(--space-xl);
   }
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: var(--space-sm);
-    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--vermillion-deep);
-    margin-bottom: var(--space-md);
+  .resume-head {
+    max-width: 880px; margin: 0 auto var(--space-lg);
+    display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-md); flex-wrap: wrap;
   }
-  .eyebrow::before { content: ""; width: 40px; height: 1px; background: var(--vermillion); }
-
-  .about h1 {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    line-height: 1.14;
-    max-width: 16ch;
-    margin-bottom: var(--space-lg);
+  .resume-head h1 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem); line-height: 1; letter-spacing: 0.02em;
+    color: var(--asphalt);
   }
-  .about h1 em { color: inherit; font-style: normal; }   /* the title stays one colour */
-
-  .about-place {
-    font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: var(--space-lg);
+  .resume-head p { margin-top: 10px; font-size: clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem); color: var(--asphalt-soft); }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-radius: 999px;
+    background: var(--asphalt); color: var(--coconut);
+    font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 160ms ease, transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .about-place::before { content: "\25CF"; color: var(--vermillion); font-size: 0.6rem; margin-right: 10px; vertical-align: 2px; }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: var(--space-xl);
-    align-items: start;
+  .dl-btn:hover { background: var(--vermillion-deep); transform: translateY(-2px); }
+  .dl-btn svg { flex-shrink: 0; }
+  .resume-pages { max-width: 880px; margin: 0 auto; display: grid; gap: var(--space-md); }
+  .resume-pages a { display: block; border-radius: 8px; cursor: zoom-in; }
+  .resume-pages img {
+    display: block; width: 100%; height: auto; border-radius: 8px;
+    box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);
   }
-
-  .about-portrait {
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    border: 1px solid oklch(26% 0.021 42 / 0.14);
-  }
-  .about-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  .about-copy p {
-    font-size: clamp(1.05rem, 1.6vw, 1.22rem);
-    line-height: 1.75;
-    color: var(--ink-soft);
-    max-width: 62ch;
-    margin-bottom: var(--space-md);
-  }
-  .about-copy p strong { color: var(--ink); font-weight: 700; }
-  .about-copy p em { color: var(--vermillion-deep); font-style: italic; font-weight: 500; }
-
-  .about-traits {
-    margin-top: var(--space-lg);
-    font-family: var(--font-display);
-    font-size: clamp(1.2rem, 2vw, 1.6rem);
-    color: var(--ink);
-  }
-
-  .about-tags { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-md); }
-  .about-tags span {
-    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft);
-    border: 1px solid oklch(26% 0.021 42 / 0.2); border-radius: 999px; padding: 6px 16px;
-  }
-
-  .ribbon {
-    height: 14px;
-    background: repeating-linear-gradient(90deg,
-      var(--vermillion) 0 28px,
-      var(--turmeric) 28px 36px,
-      var(--ink) 36px 40px,
-      var(--turmeric) 40px 48px);
-  }
+  .resume-foot { max-width: 880px; margin: var(--space-lg) auto 0; display: flex; justify-content: center; }
 
   /* ============ FOOTER / CONTACT ============ */
   footer { background: var(--asphalt); color: var(--coconut); }
@@ -259,8 +218,6 @@
   }
 
   @media (max-width: 900px) {
-    .about-grid { grid-template-columns: 1fr; }
-    .about-portrait { max-width: 420px; }
     .topbar nav { display: none; }
     .foot-inner { padding-left: 24px; padding-right: 24px; }
     .foot-contact-row { flex-direction: column; align-items: flex-start; gap: var(--space-xs); }
@@ -283,38 +240,28 @@
   </nav>
 </header>
 
-<section class="about">
-  <p class="eyebrow">The longer story</p>
-  <h1>A <em>seeker</em>.</h1>
-  <p class="about-place">Bangalore, via the Malabar Coast</p>
-
-  <div class="about-grid">
-    <div class="about-portrait">
-      <img src="about_me_image.webp" alt="Shabnam Raghavan" />
+<section class="resume">
+  <div class="resume-head">
+    <div>
+      <h1>Resume</h1>
+      <p>Two pages. The download is a PDF that job application systems can read.</p>
     </div>
+    <a class="dl-btn" href="Shabnam_Raghavan_Resume.pdf" download="Shabnam_Raghavan_Resume.pdf"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M3 13h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Download resume</a>
+  </div>
 
-    <div class="about-copy">
-      <p>Shabnam grew up on the Malabar Coast of Kerala, the land of lords and looms: <strong>Theyyam</strong> ritual performance and handloom weaving. Where she is from, craft and devotion share the same word, and that idea has shaped how she works ever since.</p>
+  <div class="resume-pages">
+    <a href="shabnam-raghavan-resume.pdf" target="_blank" rel="noopener" aria-label="Open page 1 as a PDF to zoom">
+      <img src="images/resume-page-1.webp" width="1600" height="2264" alt="Shabnam Raghavan resume, page 1 of 2: profile and experience at IHX" />
+    </a>
+    <a href="shabnam-raghavan-resume.pdf" target="_blank" rel="noopener" aria-label="Open page 2 as a PDF to zoom">
+      <img src="images/resume-page-2.webp" width="1600" height="1875" alt="Shabnam Raghavan resume, page 2 of 2: experience continued, projects, earlier career, skills, certifications and education" loading="lazy" />
+    </a>
+  </div>
 
-      <p>She does the research herself, sits with users and stakeholders until the <strong>ground truths</strong> surface, then designs and builds <strong>end to end</strong>. Six years in design, three plus in high-stakes health InsurTech, shipping B2B SaaS used by <strong>22,000+ healthcare providers</strong> across India, the GCC, and Kenya. At IHX, colleagues have a shorthand for the standard: <em>&ldquo;do something Shabnam to it.&rdquo;</em></p>
-
-      <p>She calls herself a collector of memories, conversations, and experiences. She defines herself as a <strong>seeker</strong>: she finds purpose in whatever she does, and believes learning is a continuous process and a career is a journey.</p>
-
-      <p class="about-traits">Ambivert. Objective. Inquisitive. Allergic to generic.</p>
-
-      <div class="about-tags">
-        <span>Reading</span>
-        <span>Travel</span>
-        <span>Art &amp; Culture</span>
-        <span>Human Behaviour</span>
-        <span>Techno &amp; Afro House</span>
-        <span>Socialising</span>
-      </div>
-    </div>
+  <div class="resume-foot">
+    <a class="dl-btn" href="Shabnam_Raghavan_Resume.pdf" download="Shabnam_Raghavan_Resume.pdf"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M3 13h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Download resume</a>
   </div>
 </section>
-
-<div class="ribbon"></div>
 
 </div><!-- /.page-card -->
 
