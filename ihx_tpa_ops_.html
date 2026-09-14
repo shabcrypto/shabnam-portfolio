@@ -526,6 +526,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .tldr .k{font-family:"Manrope",sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;display:block;}
 .tldr p{font-size:var(--step--1);line-height:1.55;color:var(--ink-soft);}
 .tldr p b{color:var(--ink);font-weight:700;}
+@media (max-width:1100px){.team-row{grid-template-columns:1fr !important;}}
 /* TL;DR reads centred on every case study: label, heading and each card */
 #tldr .section-label,#tldr .cs-heading{text-align:center;margin-left:auto;margin-right:auto;}
 .tldr{text-align:center;}
@@ -774,16 +775,16 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <p class="cs-sub">I spoke with account managers, sat with the PM, and had direct conversations with hospital staff. What I found was two distinct operations, each with different pressures, timelines, and a completely different relationship with the platform.</p>
 
   <!-- Pre-Auth + Claim Team row -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+  <div class="team-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
 
     <!-- PRE-AUTH TEAM -->
     <div style="border:none;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-card);">
       <!-- Header -->
-      <div style="background:rgba(60,58,218,0.19);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;border-bottom:1px solid rgba(60,58,218,0.3);min-height:56px;">
+      <div style="background:rgba(60,58,218,0.19);padding:16px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-bottom:1px solid rgba(60,58,218,0.3);">
         <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);">Pre-Auth Team</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;">
-          <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3C3ADA;display:flex;align-items:center;gap:4px;">⚡ TIME-CRITICAL</span>
-          <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3C3ADA;display:flex;align-items:center;gap:4px;">⚡ PATIENT FACING</span>
+        <div style="display:flex;gap:6px 10px;flex-wrap:wrap;">
+          <span style="white-space:nowrap;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3C3ADA;display:flex;align-items:center;gap:4px;">⚡ TIME-CRITICAL</span>
+          <span style="white-space:nowrap;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3C3ADA;display:flex;align-items:center;gap:4px;">⚡ PATIENT FACING</span>
         </div>
       </div>
       <!-- Bullets -->
@@ -795,22 +796,22 @@ footer{background:var(--asphalt);color:var(--coconut);}
       </div>
       <!-- Critical note -->
       <div style="padding:14px 20px;background:rgba(60,58,218,0.06);border-top:1px solid rgba(60,58,218,0.15);">
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.6;"><span style="color:var(--indigo);font-weight:700;">Every action is time-critical</span>: an unanswered query increases TAT, a delayed discharge costs the hospital a bed/hour.</p>
+        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.6;"><b style="font-weight:700;">Every action is time-critical</b>: an unanswered query increases TAT, a delayed discharge costs the hospital a bed/hour.</p>
       </div>
     </div>
 
     <!-- CLAIM TEAM -->
-    <div style="border:none;border-radius:8px;overflow:hidden;box-shadow:var(--shadow-card);">
+    <div style="border:none;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-card);">
       <!-- Header -->
-      <div style="background:rgba(0,184,148,0.19);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;border-bottom:1px solid rgba(0,184,148,0.25);min-height:56px;">
+      <div style="background:rgba(0,184,148,0.19);padding:16px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-bottom:1px solid rgba(0,184,148,0.25);">
         <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);">Claim Team</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#046A50;display:flex;align-items:center;gap:4px;">💰 FINANCE-CRITICAL</span>
-          <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#046A50;display:flex;align-items:center;gap:4px;">⚡ SETTLEMENT FOCUSED</span>
+        <div style="display:flex;gap:6px 10px;flex-wrap:wrap;">
+          <span style="white-space:nowrap;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#046A50;display:flex;align-items:center;gap:4px;">💰 FINANCE-CRITICAL</span>
+          <span style="white-space:nowrap;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#046A50;display:flex;align-items:center;gap:4px;">⚡ SETTLEMENT FOCUSED</span>
         </div>
       </div>
       <!-- Bullets -->
-      <div style="padding:16px 20px;background:rgba(0,184,148,0.06);">
+      <div style="padding:16px 20px;background:rgba(0,184,148,0.06);flex:1;">
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Submits the formal claim to the insurer after discharge is approved</div>
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Initiates settlement in bulk at end of day across multiple payers</div>
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Resolves finance-level queries that affect the settlement timeline</div>
@@ -818,7 +819,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       </div>
       <!-- Critical note -->
       <div style="padding:14px 20px;background:rgba(0,184,148,0.06);border-top:1px solid rgba(9,124,101,0.2);">
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.6;"><span style="color:var(--indigo);font-weight:700;">Every delay means money already spent on care sitting</span> unreturned, impacting operational capital.</p>
+        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.6;"><b style="font-weight:700;">Every delay means money already spent on care sitting</b> unreturned, impacting operational capital.</p>
       </div>
     </div>
 
@@ -829,10 +830,10 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <!-- Header -->
     <div style="background:rgba(245,166,35,0.08);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid rgba(245,166,35,0.15);">
       <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);">Supervisors / Team Heads</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;">⚡ TIME-SENSITIVE</span>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;">⚡ MANAGEMENT CRITICAL</span>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;">⚡ CXO FACING</span>
+      <div style="display:flex;gap:6px 10px;flex-wrap:wrap;">
+        <span style="white-space:nowrap;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;">⚡ TIME-SENSITIVE</span>
+        <span style="white-space:nowrap;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;">⚡ MANAGEMENT CRITICAL</span>
+        <span style="white-space:nowrap;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;">⚡ CXO FACING</span>
       </div>
     </div>
     <!-- Bullets -->
@@ -844,7 +845,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
     </div>
     <!-- Accountability note -->
     <div style="padding:14px 20px;background:rgba(245,166,35,0.05);border-top:1px solid rgba(245,166,35,0.12);">
-      <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Every unanswered query and delayed discharge is visible to them first. <span style="color:var(--indigo);font-weight:600;">They are accountable for the team's turnaround time.</span></p>
+      <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Every unanswered query and delayed discharge is visible to them first. <b style="font-weight:700;">They are accountable for the team's turnaround time.</b></p>
     </div>
   </div>
 
@@ -858,7 +859,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <!-- Journey map image -->
   <div style="position:relative;margin-bottom:12px;">
     <div style="margin-bottom:12px;">
-  <img src="images/ops-claim-lifecycle-journey-map.webp" alt="Claim Lifecycle Journey Map" style="width:100%;height:auto;border-radius:6px;display:block;">
+  <img src="images/ops-claim-lifecycle-journey-map-v2.webp" alt="Claim lifecycle journey map: ten stages from pre-auth initiation to reconciliation, the team's mood from steady to strained at each stage, the pain points under each, and the handoff from the Pre-Auth team to the Claim team at discharge approval" style="width:100%;height:auto;border-radius:6px;display:block;">
   
   </div>
 

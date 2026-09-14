@@ -229,7 +229,7 @@ body{
 .gap-row:last-child{border-bottom:1px solid var(--line-2);}
 .gap-reality{font-size:var(--step-0);font-weight:600;color:var(--w1);}
 .gap-reality small{display:block;font-size:var(--step--1);font-weight:300;color:var(--w4);margin-top:4px;}
-.gap-bars{display:flex;flex-direction:column;gap:12px;}
+.gap-bars{display:flex;flex-direction:column;gap:12px;padding-right:190px;}
 .gap-bar{height:9px;border-radius:5px;position:relative;}
 .gap-bar.apps{background:var(--w4);opacity:.45;}
 .gap-bar.need{background:linear-gradient(90deg,var(--v1),var(--v2));}
@@ -465,7 +465,7 @@ body{
 .process{margin-top:72px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
 .ph{padding:0 36px;border-left:1px solid var(--line);position:relative;}
 .ph:first-child{padding-left:0;border-left:none;}
-.ph-i{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-4);font-weight:400;color:rgba(240,237,230,0.07);letter-spacing:0.02em;line-height:1;}
+.ph-i{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-4);font-weight:400;color:rgba(139,92,246,0.35);letter-spacing:0.02em;line-height:1;}
 .ph-t{margin-top:8px;font-size:var(--step-0);font-weight:700;color:var(--w1);}
 .ph-d{margin-top:12px;font-size:var(--step--1);font-weight:300;line-height:1.7;color:var(--w3);}
 
@@ -785,7 +785,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <h1 class="hero-giant">Wise<span class="accent">Woman</span></h1>
   <p class="hero-sub">A daily planning system that reads the body, not just the calendar. It maps tasks to life roles, reads cycle-phase energy, and builds one schedule across work and personal life.</p>
   </div>
-  <figure class="hero-image"><span class="hi-ph">Hero image</span><code>images/wisewoman-hero.webp</code><img src="images/wisewoman-hero.webp" alt="WiseWoman hero image" onerror="this.remove()"></figure>
+  <figure class="hero-image"><span class="hi-ph">Hero image</span><code>images/wisewoman-hero.webp</code><img src="images/wisewoman-hero.webp" alt="WiseWoman on two phones: the morning energy guidance and the Your Activities dashboard" onerror="this.remove()"></figure>
   <div class="project-info">
     <div class="pi"><span class="pi-l">Role</span><span class="pi-v">Product Designer + Builder</span></div>
     <div class="pi"><span class="pi-l">Timeframe</span><span class="pi-v">5 days · Sept 2025</span></div>
@@ -810,7 +810,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <div class="tldr"><span class="k">Approach</span><p>A <b>planning chain, not a to-do list</b>: cycle phase, energy, role context and task grouping come together as one daily plan.</p></div>
     <div class="tldr"><span class="k">AI</span><p><b>Rules handle 90%+ of the work.</b> The LLM steps in only where rules fail, free speech and tone. The system assists, the user decides.</p></div>
     <div class="tldr"><span class="k">Build</span><p><b>5 days</b> from first design to a live MVP with real users, on Lovable, Gemini 2.5 Flash and Supabase.</p></div>
-    <div class="tldr"><span class="k">Takeaway</span><p>Building for personal use first kept the scope honest, and a deterministic scheduler made the system <b>predictable, so users trusted it</b>.</p></div>
+    <div class="tldr"><span class="k">Takeaway</span><p>Designing for a body that changes means <b>a plan that flexes</b>, not one that punishes the low-energy days.</p></div>
   </div>
 </section>
 
@@ -1003,7 +1003,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 <!-- 06 AI ARCHITECTURE -->
 <section class="sec">
-  <div class="sec-num">06 &middot; AI Architecture at PM Depth</div>
+  <div class="sec-num">06 &middot; AI Architecture</div>
   <h2 class="sec-head">Two systems, chosen for two jobs.</h2>
   <p class="sec-lede">Text and voice do not share a pipeline. Each input type routes to the system that fits it. This is the most important technical decision in the product.</p>
 
@@ -1017,7 +1017,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="flow-step"><span class="i">5</span><span class="x">Tasks render in the UI for review.</span></div>
     </div>
     <div>
-      <div class="flow-t">Energy Recommendations &middot; LLM path</div>
+      <div class="flow-t">Energy Guidance &middot; LLM path</div>
       <div class="flow-step"><span class="i">1</span><span class="x">Cycle phase and context are <b>gathered</b>.</span></div>
       <div class="flow-step"><span class="i">2</span><span class="x">Sent to <b>Gemini</b> for interpretation.</span></div>
       <div class="flow-step"><span class="i">3</span><span class="x">Two outputs: an <b>energy read</b> and a <b>guidance message</b>.</span></div>
@@ -1057,15 +1057,15 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 <!-- 07 EXPERIENCE -->
 <section class="sec exp">
-  <div class="sec-num">07 &middot; Experience Strategy &amp; Interaction Design</div>
+  <div class="sec-num">07 &middot; Experience</div>
   <div class="exp-head">
     <h2 class="sec-head">Experience Strategy &amp; Interaction Design</h2>
-    <p class="exp-intro">WiseWoman translates cycle intelligence into usable daily interactions. Every screen reduces planning friction, aligns workload with biological capacity, and eliminates manual structuring overhead. WiseWoman adapts planning to biological rhythms and real-life roles.</p>
+    <p class="exp-intro">WiseWoman turns cycle awareness into everyday planning. Each screen cuts the effort of planning, matches the day's workload to the energy available, and structures tasks without manual setup.</p>
   </div>
 
   <div class="exp-block">
     <h4 class="exp-label">Branding and Colours</h4>
-    <p class="exp-note">The planner interprets cycle signals, maps tasks to roles, and structures the day based on available capacity.</p>
+    <p class="exp-note">Two violets carry the moon mark and key actions, a near-white carries text, and four deep indigo neutrals build the dark surfaces.</p>
     <div class="exp-brand">
       <figure class="exp-asset exp-icon"><span class="exp-ph">App icon</span><code>images/wisewoman-app-icon.svg</code><img src="images/wisewoman-app-icon.svg" alt="WiseWoman app icon, a crescent moon on a dark tile" style="object-fit:contain;" onerror="this.remove()"></figure>
       <div class="exp-swatches">
@@ -1086,7 +1086,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <figure class="exp-asset exp-mark"><span class="exp-ph">Cycle symbol</span><code>images/wisewoman-cycle-symbol.svg</code><img src="images/wisewoman-cycle-symbol.svg" alt="WiseWoman cycle symbol, the moon inside nested rounded squares" style="object-fit:contain;" onerror="this.remove()"></figure>
       <div class="exp-symbol-txt">
         <h4 class="exp-label">Cycle Symbol in the app logo</h4>
-        <p>The WiseWoman logo uses the moon as a symbol of cyclical change. Just as the moon moves through visible phases, energy and focus shift across the menstrual cycle. The mark represents adaptive planning that honors rhythm instead of forcing constant output.</p>
+        <p>The WiseWoman logo uses the moon as a symbol of cyclical change. Just as the moon moves through visible phases, energy and focus shift across the menstrual cycle. The mark represents adaptive planning that honours rhythm instead of forcing constant output.</p>
       </div>
     </div>
   </div>
@@ -1104,12 +1104,12 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <figure class="exp-asset exp-feature-shot is-wide"><span class="exp-ph">Task capture</span><code>images/wisewoman-scheduling.webp</code><img src="images/wisewoman-scheduling.webp" alt="Three WiseWoman Add Task screens: category picker, empty task list, and voice capture with tasks auto-tagged by role and energy" style="object-fit:cover;" onerror="this.remove()"></figure>
       <div>
         <h4 class="exp-label">Intelligent Task Capture</h4>
-        <p>Users add tasks via text or voice. The system auto-categorizes them by role and intent, then provides cycle aware nudges to guide timing and workload.<br>Final scheduling remains user-controlled.</p>
+        <p>Users add tasks via text or voice. The system auto-categorises them by role and intent, then offers cycle-aware nudges to guide timing and workload.<br>Final scheduling remains user-controlled.</p>
       </div>
     </div>
     <div class="exp-feature-txt">
       <h3>Task Creation &amp; Intelligent Scheduling</h3>
-      <p>Task capture is designed to reduce cognitive overhead from the start. Natural language input is interpreted using lightweight NLP to extract intent and auto-map tasks to life roles with suggested energy intensity. This removes manual tagging and micro-decisions at the point of entry.</p>
+      <p>Task capture is designed to reduce cognitive overhead from the start. Typed tasks are categorised by client-side rules and spoken tasks are parsed by Gemini, so every task is auto-mapped to a life role with a suggested energy intensity. This removes manual tagging and micro-decisions at the point of entry.</p>
       <p>Over time, user edits and corrections act as feedback signals, refining classification and scheduling suggestions. The system gradually aligns with individual planning habits, making structuring feel increasingly intuitive rather than configured.</p>
       <video class="exp-feature-video" src="images/wisewoman-scheduling.mp4" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman Today's Schedule, a phone recording of the planned day"></video>
     </div>
@@ -1118,13 +1118,13 @@ footer{background:var(--asphalt);color:var(--coconut);}
   <div class="exp-feature">
     <div class="exp-feature-txt">
       <h3>Habit Reflection &amp; Tracking</h3>
-      <p>The habit section translates completed tasks and synced events into visible behavioral patterns. Instead of manually logging habits, the system derives insight from actual daily activity across roles.<br>It surfaces where time is spent, how workload is distributed, and what routines are forming over days and weeks. The goal is awareness, not streak pressure: helping users understand their lived patterns rather than optimize obsessively.</p>
+      <p>The habit section translates completed tasks and synced events into visible behavioural patterns. Instead of manually logging habits, the system derives insight from actual daily activity across roles.<br>It surfaces where time is spent, how workload is distributed, and what routines are forming over days and weeks. The goal is awareness, not streak pressure: helping users understand their lived patterns rather than optimise obsessively.</p>
     </div>
     <div class="exp-feature-card">
       <figure class="exp-asset exp-feature-shot"><span class="exp-ph">Your Activities</span><code>images/wisewoman-habit-reflection.webp</code><img src="images/wisewoman-habit-reflection.webp" alt="WiseWoman Your Activities dashboard, weekly time split across roles with self-care actions" style="object-fit:contain;" onerror="this.remove()"></figure>
       <div>
         <h4 class="exp-label">Your Activities Dashboard</h4>
-        <p>Your Activities tracks completed tasks and synced events across day, week, and month views. It visualises where time goes across roles without requiring manual logging. Users can also add small self care actions from here.</p>
+        <p>Your Activities tracks completed tasks and synced events across day, week, and month views. It visualises where time goes across roles without requiring manual logging. Users can also add small self-care actions from here.</p>
       </div>
     </div>
   </div>
@@ -1152,8 +1152,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="refl-item"><span class="m">–</span><p>Splitting voice and text into two systems took several iterations to get right.</p></div>
       <div class="refl-item"><span class="m">–</span><p>Cycle-phase energy guidance needed careful tone, not just accuracy.</p></div>
       <div class="refl-item"><span class="m">–</span><p>The five-day scope forced cutting richer pattern recognition.</p></div>
-      <div class="refl-item"><span class="m">–</span><p>Validating a personal hypothesis with limited secondary research.</p></div>
-      <div class="refl-item"><span class="m">–</span><p>Keeping the LLM assistive and never autonomous, by design, at every step.</p></div>
+      <div class="refl-item"><span class="m">–</span><p>A personal hypothesis was hard to validate with limited secondary research.</p></div>
+      <div class="refl-item"><span class="m">–</span><p>Keeping the LLM assistive, never autonomous, took deliberate limits at every step.</p></div>
     </div>
   </div>
 
@@ -1173,7 +1173,6 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <span>It does not ask her to plan harder.</span>
     <span>It plans <span class="v">with</span> her.</span>
   </p>
-  <!-- two lines -->
 
 </section>
 
