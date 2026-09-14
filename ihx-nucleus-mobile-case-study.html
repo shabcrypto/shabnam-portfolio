@@ -1110,8 +1110,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <figure class="hero-image"><span class="hi-ph">Hero image</span><code>images/nucleus-mobile-hero.webp</code><img src="images/nucleus-mobile-hero.webp" alt="IHX Nucleus Mobile app screens" onerror="this.remove()"></figure>
       <div class="project-info">
         <div class="pi"><span class="pi-l">Role</span><span class="pi-v">Product Design · UX · UI · Prototyping</span></div>
-        <div class="pi"><span class="pi-l">Team</span><span class="pi-v">1 PM · Engineering leads · 1 PD (me)</span></div>
-        <div class="pi"><span class="pi-l">Platform</span><span class="pi-v">Android · MVP</span></div>
+        <div class="pi"><span class="pi-l">Team</span><span class="pi-v">1 PM · 1 PD (me) · 1 Lead Engineer</span></div>
+        <div class="pi"><span class="pi-l">Platform</span><span class="pi-v">Android · Live on Play Store</span></div>
         <div class="pi"><span class="pi-l">Timeframe</span><span class="pi-v">3 weeks · design in 2 days</span></div>
       </div>
       <div class="hero-stats">
@@ -1126,9 +1126,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
 <div class="subnav">
   <div class="wrap">
     <a href="#tldr"><b>00</b> tl;dr</a>
-    <a href="#s1"><b>01</b> journey</a>
+    <a href="#s1"><b>01</b> context</a>
     <a href="#s2"><b>02</b> problem</a>
-    <a href="#s3"><b>03</b> designed for</a>
+    <a href="#s3"><b>03</b> users</a>
     <a href="#s4"><b>04</b> scope</a>
     <a href="#s5"><b>05</b> design</a>
     <a href="#s6"><b>06</b> outcome</a>
@@ -1151,7 +1151,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 <section id="s1">
   <div class="wrap">
-    <div class="sec-tag"><em>01</em> · Patient Journey</div>
+    <div class="sec-tag"><em>01</em> · Context</div>
     <h2>The patient journey inside a hospital for a cashless claim.</h2>
     <p class="sec-intro">With cashless insurance, the hospital claims the cost from the insurer directly, so the patient does not pay up front. That claim passes through several hands, and the patient's family is watching every step.</p>
 
@@ -1227,9 +1227,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 <section id="s3">
   <div class="wrap">
-    <div class="sec-tag"><em>03</em> · Designed For</div>
+    <div class="sec-tag"><em>03</em> · Users &amp; Constraints</div>
     <h2>Designed for any staff member, on any phone, on any signal.</h2>
-    <p class="sec-intro">The app is for the people who never file a claim but are asked about every one. The insurance desk keeps filing claims on the desktop platform.</p>
+    <p class="sec-intro">The people who never file a claim but are asked about every one: the four moments the app had to handle, and the three constraints that shaped every screen.</p>
 
     <div class="mini-label">Four moments it had to handle</div>
     <div class="persona-grid" style="grid-template-columns:repeat(2,1fr);margin-top:0;">
@@ -1264,7 +1264,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="dec reveal">
         <div class="n">CONSTRAINT 01</div>
         <b>No training needed: a home screen of tiles that answer at a glance</b>
-        <p>Hospital staff vary widely in tech literacy and language fluency, and no hospital can train every nurse and doctor. So the home screen is a set of tiles that each answer a question directly: active claims, approvals pending, open queries, discharges due and claims settled. No menus to learn.</p>
+        <p>Hospital staff vary widely in tech literacy and language fluency, and no hospital can train every nurse and doctor. So the home screen is a set of tiles that each answer a question directly: active claims, approvals pending, open queries, and discharges due today and tomorrow. No menus to learn.</p>
       </div>
       <div class="dec reveal">
         <div class="n">CONSTRAINT 02</div>
@@ -1274,7 +1274,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="dec wide reveal">
         <div class="n">CONSTRAINT 03</div>
         <b>Always current: answers that are precise and empathetic</b>
-        <p>Families ask about the claim and the bill, and anything said about insurance has to be exact. Up-to-date claim details and visibility of every open query let doctors and nurses answer families precisely, and with empathy.</p>
+        <p>Families ask about the claim and the bill, and anything said about insurance has to be exact. Up-to-date claim details, a last updated time on the dashboard, and visibility of every open query let doctors and nurses answer families precisely, and with empathy.</p>
       </div>
     </div>
   </div>
@@ -1332,13 +1332,13 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <div class="sol side reveal">
       <div class="sol-text">
         <div class="sol-head"><span class="n">Decision 01</span><h3>A home screen of tiles, not menus</h3></div>
-        <p class="sol-sub">Each tile answers one question with one number: <b>Active Claims</b>, <b>Approvals Pending</b>, <b>Open Queries</b>, <b>Discharges Due</b> (initiated and awaiting) and <b>Claims Settled</b> (settled and pending). Open Queries and Discharges Due put both of the app's jobs on the first screen, with a hospital switcher on top. Tapping a tile opens those claims.</p>
+        <p class="sol-sub">Each tile answers one question with one number: <b>Active Claims</b>, <b>Approvals Pending</b>, <b>Open Queries</b> and <b>Discharges Due</b>, split into today and tomorrow. Open Queries and Discharges Due put both of the app's jobs on the first screen, and a <b>last updated</b> time under the tiles tells staff how fresh the numbers are before they answer a family. Tapping a tile opens those claims.</p>
       </div>
       <div class="phone-row one">
         <figure>
           <div class="img-slot phone">
-            <div class="img-slot-fallback"><span class="cam">▣</span><b>Dashboard</b><code>images/nucleus-mobile-dashboard.webp</code></div>
-            <img src="images/nucleus-mobile-dashboard.webp" alt="Dashboard tiles: active claims, approvals pending, open queries, discharges due and claims settled" onerror="this.remove()">
+            <div class="img-slot-fallback"><span class="cam">▣</span><b>Dashboard</b><code>images/nucleus-mobile-dashboard-v2.webp</code></div>
+            <img src="images/nucleus-mobile-dashboard-v2.webp" alt="Dashboard tiles: active claims, approvals pending, open queries, and discharges due today and tomorrow, with a last updated time" onerror="this.remove()">
           </div>
         </figure>
       </div>
@@ -1361,7 +1361,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
     <div class="sol reveal">
       <div class="sol-head"><span class="n">Decision 03</span><h3>One claim, grouped the way staff are asked about it</h3></div>
-      <p class="sol-sub"><b>Claim Details</b> groups the facts into three cards: the patient and policy, the stay (doctor, admission, discharge, room type), and the money (claim number, claimed and approved amounts). Below them, <b>Latest Update</b> shows the current status with the insurer's remarks, such as a hospital discount that should not be collected from the patient: exactly what staff need to tell a family. <b>Documents</b> lists every attached file with its upload time, to view or download. <b>Timeline</b> shows the claim's history, from query to reply to approval, each step with its remarks and time, so staff can tell a family what happened and when.</p>
+      <p class="sol-sub"><b>Claim Details</b> groups the facts into three cards: the patient and policy, the stay (doctor, admission, discharge, room type), and the money (claim number, claimed and approved amounts). Below them, <b>Latest Update</b> shows the current status with the insurer's remarks, such as a hospital discount that should not be collected from the patient: exactly what staff need to tell a family. <b>Documents</b> lists every attached file with its upload time, to view or download. <b>Timeline</b> shows the whole stay, from pre-authorization to discharge, each step with its remarks and time. Queries stand out in orange and approvals in green, and an approval letter can be viewed or downloaded right at the step where it was approved, so staff can see a query at discharge as easily as one at admission, and tell a family what happened and when.</p>
       <div class="phone-row">
         <figure>
           <div class="img-slot phone">
@@ -1411,14 +1411,14 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <div class="sol side reveal">
       <div class="sol-text">
         <div class="sol-head"><span class="n">Decision 05</span><h3>Structured search for the MVP</h3></div>
-        <p class="sol-sub">Search is a short form: <b>patient name, mobile number, member ID, registration number, IP number</b> and <b>doctor name</b>, whichever details a family can give. Each result shows the patient, doctor, admission date, approved amount and status.</p>
+        <p class="sol-sub">Search is a short form: <b>patient name, mobile number, member ID, employee ID, IP number</b> and <b>doctor name</b>, whichever details a family can give. Each field clears on its own, or all at once, and the results show how many claims matched, each with the patient, doctor, admission date, approved amount and status.</p>
         <p class="sol-sub">A single global search bar was the goal, and it is planned for the next version. Restrictions on our end at the time meant the MVP shipped this structured search instead.</p>
       </div>
       <div class="phone-row one">
         <figure>
           <div class="img-slot phone">
-            <div class="img-slot-fallback"><span class="cam">▣</span><b>Search</b><code>images/nucleus-mobile-search.webp</code></div>
-            <img src="images/nucleus-mobile-search.webp" alt="Structured search form with results showing approved amount and status" onerror="this.remove()">
+            <div class="img-slot-fallback"><span class="cam">▣</span><b>Search</b><code>images/nucleus-mobile-search-v2.webp</code></div>
+            <img src="images/nucleus-mobile-search-v2.webp" alt="Structured search form with results showing approved amount and status" onerror="this.remove()">
           </div>
         </figure>
       </div>
@@ -1463,7 +1463,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
         <span class="loop">Business</span>
         <div class="t">Client acquisition</div>
         <div class="hero-val">&uarr;33%<small>more clients</small></div>
-        <p class="desc">Enterprise hospitals specifically want an app that keeps their doctors in the loop, so it helps win new clients and keep existing ones.</p>
+        <p class="desc">The app is live on the Play Store and comes to hospitals as part of the IHX Nucleus Pro contract. Enterprise hospitals specifically want an app that keeps their doctors in the loop, so it helps win new clients and keep existing ones.</p>
         <div class="baseline"><span class="bl">Driven by</span><span class="bv">Enterprise hospital demand</span></div>
       </div>
     </div>

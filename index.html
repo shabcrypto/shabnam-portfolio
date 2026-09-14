@@ -900,27 +900,6 @@
   .case.is-soon:hover { transform: none; }
   .case[hidden] { display: none; }
 
-  .work-more { display: flex; justify-content: center; padding-top: var(--space-lg); }
-  .more-btn {
-    position: relative;
-    font-family: var(--font-body); font-weight: 700;
-    font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--asphalt); background: transparent;
-    border: 0; padding: 8px 0; cursor: pointer;
-    transition: color 160ms ease;
-  }
-  /* the same weft thread every text CTA carries, scribbling in under the label on hover */
-  .more-btn::after {
-    content: "";
-    position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
-background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
-    background-size: 24px 8px;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .more-btn:hover, .more-btn:focus-visible { color: var(--vermillion-deep); }
-  .more-btn:hover::after, .more-btn:focus-visible::after { transform: scaleX(1); }
   .case-img.soon span {
     font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--asphalt-soft);
     border: 1px solid oklch(26% 0.021 42 / 0.22); border-radius: 999px; padding: 6px 16px;
@@ -1331,7 +1310,7 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
       </a>
 
       <a class="case" href="ihx-nucleus-mobile-case-study.html">
-        <div class="case-img"><video src="ihx-nucleus-mobile-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Mobile app screen"></video></div>
+        <div class="case-img"><video src="ihx-nucleus-mobile-cover-v2.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Mobile app screen"></video></div>
         <div class="case-body">
           <h3>IHX Nucleus Mobile</h3>
           <span class="case-metrics">9,500+ DAU &middot; 33% more client acquisition</span>
@@ -1355,7 +1334,7 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
         </div>
       </a>
 
-      <a class="case is-extra" hidden href="ihx-user-management-case-study.html">
+      <a class="case" href="ihx-user-management-case-study.html">
         <div class="case-img"><video src="ihx-user-mgmt-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX User Management case study hero screen"></video></div>
         <div class="case-body">
           <h3>87% of Support Tickets Were for a Page Users Never Found</h3>
@@ -1363,17 +1342,13 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
         </div>
       </a>
 
-      <div class="case is-soon is-extra" hidden data-cursor="Case study in progress">
+      <div class="case is-soon" data-cursor="Case study in progress">
         <div class="case-img"><video src="ihx-onehealth-phr-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX OneHealth patient health record app screen"></video></div>
         <div class="case-body">
           <h3>IHX OneHealth</h3>
           <span class="case-metrics">B2C Patient Health Record &middot; Smart Reports</span>
         </div>
       </div>
-    </div>
-
-    <div class="work-more">
-      <button class="more-btn" type="button" aria-expanded="false">View more case studies</button>
     </div>
   </div>
 </section>
@@ -2114,23 +2089,6 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
   update();
-})();
-</script>
-
-<script>
-(function () {
-  // "View more case studies" reveals the cards that have no write-up yet. They ship in the
-  // markup hidden, so the grid is correct before this script runs and if it never does.
-  var btn = document.querySelector(".more-btn");
-  if (!btn) return;
-  var extra = document.querySelectorAll(".case-grid .case.is-extra");
-  if (!extra.length) { btn.hidden = true; return; }
-  btn.addEventListener("click", function () {
-    var open = btn.getAttribute("aria-expanded") === "true";
-    Array.prototype.forEach.call(extra, function (c) { c.hidden = open; });
-    btn.setAttribute("aria-expanded", String(!open));
-    btn.textContent = open ? "View more case studies" : "Show fewer";
-  });
 })();
 </script>
 
