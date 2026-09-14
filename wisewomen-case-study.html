@@ -292,12 +292,14 @@ body{
 .comp-head span{font-size:var(--step--1);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--w4);}
 
 /* ── 04 SYSTEM LOGIC — planning chain + ai table ── */
-.chain{margin-top:80px;position:relative;padding:20px 0 20px;}
-.chain-line{position:absolute;left:0;right:0;top:56px;height:1.5px;background:var(--v1);opacity:.65;}
+/* the line is placed from the same numbers that place the dots (top padding, one label line,
+   the label gap, half a dot), so the dots always sit on it at any font size */
+.chain{--chain-pad:20px;--lab-lh:1.4;--lab-gap:34px;--dot:18px;margin-top:80px;position:relative;padding:var(--chain-pad) 0 20px;}
+.chain-line{position:absolute;left:0;right:0;top:calc(var(--chain-pad) + var(--step-0) * var(--lab-lh) + var(--lab-gap) + var(--dot) / 2 - 0.75px);height:1.5px;background:var(--v1);opacity:.65;}
 .chain-nodes{position:relative;display:flex;justify-content:space-between;align-items:flex-start;}
 .node{display:flex;flex-direction:column;align-items:center;gap:0;text-align:center;width:18%;}
-.node .lab{font-size:var(--step-0);font-weight:700;color:var(--w1);order:1;margin-bottom:18px;}
-.node .dot{width:18px;height:18px;border-radius:50%;background:var(--v2);box-shadow:0 0 0 6px var(--v-glow),0 0 22px var(--v1);order:2;position:relative;z-index:2;margin-bottom:18px;}
+.node .lab{font-size:var(--step-0);line-height:var(--lab-lh);white-space:nowrap;font-weight:700;color:var(--w1);order:1;margin-bottom:var(--lab-gap);}
+.node .dot{width:var(--dot);height:var(--dot);flex-shrink:0;border-radius:50%;background:var(--v2);box-shadow:0 0 0 6px var(--v-glow),0 0 22px var(--v1);order:2;position:relative;z-index:2;margin-bottom:18px;}
 .node .desc{font-size:var(--step--1);font-weight:300;color:var(--w4);line-height:1.5;order:3;}
 
 .aitable{margin-top:104px;}
@@ -580,6 +582,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   .rev.a,.rev.b,.rev.c,.rev.d{grid-column:1/13;margin-top:0;}
   .chain-nodes{flex-direction:column;gap:32px;align-items:flex-start;}
   .chain-line{display:none;}.node{width:auto;align-items:flex-start;text-align:left;flex-direction:row;gap:14px;}
+  .node .lab{white-space:normal;}
   .gap-row,.comp-row,.comp-head,.ai-row,.ai-head{grid-template-columns:1fr;gap:14px;}
 }
 </style>
@@ -607,11 +610,13 @@ footer{background:var(--asphalt);color:var(--coconut);}
   /* Hero tags: identical chips on every case study, sitting directly above the title.
      Literal colours, not tokens, because not every page defines --border. */
   .hero-tags-top { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 18px; position: relative; z-index: 2; }
+  /* no outline: a soft filled pill, set as a small tracked label so it reads as metadata
+     above the title rather than as a button */
   .hero-tags-top .chip {
-    border: 1px solid rgba(20,18,14,0.08); border-radius: 100px; padding: 6px 14px;
-    font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 700;
-    letter-spacing: 0; text-transform: none; line-height: 1.6;
-    color: #5B5449; background: var(--card-bg);
+    border: 0; border-radius: 100px; padding: 7px 14px 6px;
+    font-family: "Manrope", sans-serif; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.5;
+    color: #4A443B; background: rgba(20,18,14,0.055);
   }
   .hero-tags-top + h1 { margin-top: 0 !important; }
   /* Type roles: display is Staatliches, everything else Manrope, every size on index's
@@ -1178,6 +1183,20 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <div class="sec-tag">More Work</div>
     <h2>Other Case Studies</h2>
     <div class="other-cs-grid" style="margin-top:36px;">
+      <a href="ihx-ai-features-case-study.html" class="cs-card">
+        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of human failure case study screen"></video></div>
+        <div class="cs-card-body">
+          <div class="cs-card-title">AI at the Point of Human Failure</div>
+          <span class="cs-metrics">Claim submission 5 min to 2 min &middot; agentic</span>
+        </div>
+      </a>
+      <a href="ihx-nucleus-mobile-case-study.html" class="cs-card">
+        <div class="cs-thumb"><video src="ihx-nucleus-mobile-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Mobile app screen"></video></div>
+        <div class="cs-card-body">
+          <div class="cs-card-title">IHX Nucleus Mobile</div>
+          <span class="cs-metrics">9,500+ DAU &middot; 33% more client acquisition</span>
+        </div>
+      </a>
       <a href="ihx_tpa_ops_.html" class="cs-card">
         <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
         <div class="cs-card-body">
@@ -1190,13 +1209,6 @@ footer{background:var(--asphalt);color:var(--coconut);}
         <div class="cs-card-body">
           <div class="cs-card-title">87% of Support Tickets Were for a Page Users Never Found</div>
           <span class="cs-metrics">87.5% reduction in user ops tickets &middot; 30 min to 5 min self-serve</span>
-        </div>
-      </a>
-      <a href="ihx-ai-features-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of human failure case study screen"></video></div>
-        <div class="cs-card-body">
-          <div class="cs-card-title">AI at the Point of Human Failure</div>
-          <span class="cs-metrics">Claim submission 5 min to 2 min &middot; agentic</span>
         </div>
       </a>
     </div>
