@@ -404,7 +404,23 @@ body{
 .exp-feature-shot{width:100%;aspect-ratio:1/1;}
 .exp-feature-shot.is-wide{aspect-ratio:3/2;border-radius:14px;}
 /* the schedule recording sits under the Task Creation copy, phone-sized */
-.exp-feature-video{display:block;margin-top:32px;width:min(100%,260px);aspect-ratio:720/1074;border-radius:24px;object-fit:cover;background:#000;box-shadow:var(--shadow-card);}
+.exp-feature-video{position:relative;display:block;margin-top:32px;width:min(100%,260px);aspect-ratio:720/1074;border-radius:24px;overflow:hidden;background:#000;box-shadow:var(--shadow-card);}
+.exp-feature-video video{display:block;width:100%;height:100%;object-fit:cover;}
+/* click to play: every walkthrough video shows its poster frame and loads nothing until the
+   visitor presses play. The button is added by script; without it the native controls remain,
+   so a video can always be played. Never hide or remove a <video> from script. */
+.play-btn{
+  position:absolute;left:50%;top:50%;z-index:2;width:76px;height:76px;margin:-38px 0 0 -38px;
+  display:flex;align-items:center;justify-content:center;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(20,18,14,0.78);color:#fdfdfb;
+  box-shadow:0 6px 24px rgba(20,18,14,0.28);
+  transition:transform 240ms cubic-bezier(0.22,1,0.36,1),background-color 160ms ease;
+}
+@supports (backdrop-filter: blur(6px)){.play-btn{background:rgba(20,18,14,0.62);backdrop-filter:blur(6px);}}
+.play-btn:hover{transform:scale(1.08);background:rgba(20,18,14,0.88);}
+.play-btn:focus-visible{outline:2px solid #fdfdfb;outline-offset:4px;}
+.play-btn svg{margin-left:4px;}
+
 .exp-feature-card .exp-label{color:#fff;}
 .exp-feature-card p{margin-top:10px;font-size:var(--step--1);font-weight:400;line-height:1.6;color:rgba(255,255,255,.88);}
 .exp-feature-txt h3{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;letter-spacing:.02em;line-height:1;color:var(--w1);}
@@ -1111,7 +1127,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <h3>Task Creation &amp; Intelligent Scheduling</h3>
       <p>Task capture is designed to reduce cognitive overhead from the start. Typed tasks are categorised by client-side rules and spoken tasks are parsed by Gemini, so every task is auto-mapped to a life role with a suggested energy intensity. This removes manual tagging and micro-decisions at the point of entry.</p>
       <p>Over time, user edits and corrections act as feedback signals, refining classification and scheduling suggestions. The system gradually aligns with individual planning habits, making structuring feel increasingly intuitive rather than configured.</p>
-      <video class="exp-feature-video" src="images/wisewoman-scheduling.mp4" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman Today's Schedule, a phone recording of the planned day"></video>
+      <div class="exp-feature-video"><video src="images/wisewoman-scheduling.mp4" poster="images/wisewoman-scheduling-poster.webp" data-click-play controls muted loop playsinline preload="none" aria-label="WiseWoman Today's Schedule, a phone recording of the planned day"></video></div>
     </div>
   </div>
 
@@ -1267,10 +1283,30 @@ footer{background:var(--asphalt);color:var(--coconut);}
 // stylesheet cannot reach it. Freeze the cover on its first frame.
 (function () {
   if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  Array.prototype.forEach.call(document.querySelectorAll(".cs-thumb video, .exp-feature-video"), function (v) {
+  Array.prototype.forEach.call(document.querySelectorAll(".cs-thumb video"), function (v) {
     v.loop = false; v.autoplay = false; v.pause();
   });
 })();
+// Click to play. Each walkthrough <video> has a poster and preload="none", so nothing loads
+// until the visitor asks. This only swaps the native controls for one large play button;
+// if the script never runs, the native controls stay and the video still plays.
+document.querySelectorAll('video[data-click-play]').forEach(function (v) {
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'play-btn';
+  btn.setAttribute('aria-label', 'Play video: ' + (v.getAttribute('aria-label') || 'walkthrough'));
+  btn.innerHTML = '<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z" fill="currentColor"/></svg>';
+  v.controls = false;
+  v.parentNode.appendChild(btn);
+  function start() {
+    btn.remove();
+    v.controls = true;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+  btn.addEventListener('click', start);
+  v.addEventListener('play', function () { if (btn.isConnected) { btn.remove(); v.controls = true; } });
+});
 </script>
 </body>
 </html>

@@ -1485,13 +1485,8 @@ const obs = new IntersectionObserver(entries => {
 }, {threshold: 0.12});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// image/video placeholders: hide the real element on load failure so the fallback card underneath shows through.
-// inline onerror covers <img>; <video> needs an explicit listener since its resource-error event does not
-// reliably reach the inline handler across browsers.
-document.querySelectorAll('.video-slot video').forEach(v => {
-  v.addEventListener('error', () => v.remove());
-  if (v.error || v.networkState === 3) v.remove();
-});
+// image placeholders: an <img> that fails to load removes itself (inline onerror), so the
+// fallback card underneath shows through.
 
 // .img-slot sizing: once a real image loads, drop the fixed 16:9 placeholder box in favour of
 // the image's own natural aspect ratio (see .img-slot.has-image in <style>), and hide the
