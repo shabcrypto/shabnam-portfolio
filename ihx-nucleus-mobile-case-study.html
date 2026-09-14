@@ -839,6 +839,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
   .scope-col li:last-child { border-bottom: none; padding-bottom: 0; }
   .scope-col li b { display: block; font-size: var(--step-0); line-height: 1.35; }
   .scope-col li p { font-size: var(--step--1); color: var(--muted); margin-top: 4px; }
+  .scope-col li p a { text-decoration: underline; text-underline-offset: 3px; transition: color 160ms ease; }
+  .scope-col li p a:hover { color: var(--indigo); }
 
   /* the seven roles the app serves, as a quiet row of filled pills (no stroke) */
   .role-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
@@ -1297,9 +1299,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <div class="scope-col reveal">
         <div class="cl">Left out of the MVP</div>
         <ul>
-          <li><b>Filing claims</b><p>The insurance desk's job, and it stays on desktop.</p></li>
-          <li><b>Assigning roles and access</b><p>Not an everyday task for ward staff.</p></li>
           <li><b>In-app notifications</b><p>Deferred; the insurance desk tells staff when a query needs them.</p></li>
+          <li><b>Internal team chat</b><p>Planned for the next version. It was built on desktop first, as the in-platform chat in <a href="ihx-ai-features-case-study.html#s5">QueryLens.AI</a>, and comes to the app next.</p></li>
           <li><b>Global search</b><p>Planned for the next version.</p></li>
         </ul>
       </div>
