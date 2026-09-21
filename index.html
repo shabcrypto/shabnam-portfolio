@@ -948,25 +948,63 @@
   }
 
   /* ============ PEER REVIEW ============ */
+  /* Redesigned 2026-09-21. The quotes used to sit straight on the card as loose text, so three
+     testimonials of different lengths read as one run-on column. They are cards on a tray now,
+     the same sand-and-cream pairing as the design process deck, which makes the two sections
+     obviously part of one system. Cream on coconut-deep is only a 3% step and disappears, so the
+     tray has to be the deeper sand for the cards to read at all. */
   .peers { background: transparent; }
   .peers-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px var(--space-xl); }
-  .peers h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--step-3); letter-spacing: 0.03em; margin-bottom: var(--space-lg); }
-  .peer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); }
-  .quote { display: flex; flex-direction: column; gap: var(--space-md); }
-  .quote.lead { grid-column: 1 / -1; max-width: 66ch; }
-  .quote .mark { font-family: var(--font-display); font-weight: 700; font-size: 4rem; line-height: 0.5; color: var(--vermillion); }
+  .peers h2, .history h2 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: var(--step-3); letter-spacing: 0.03em; margin-bottom: var(--space-lg);
+  }
+  .peers-card { background: var(--sand); }
+  .peer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); align-items: stretch; }
+  .quote {
+    display: flex; flex-direction: column; gap: var(--space-sm);
+    background: var(--coconut);
+    border-radius: 16px;
+    padding: clamp(22px, 2.3vw, 30px);
+    box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.05), 0 8px 22px -10px oklch(26% 0.021 42 / 0.16);
+  }
+  /* The first testimonial is the longest and most specific, so it gets the full width. Stacked
+     like the others its line length capped at 64ch and left a third of the card empty, so it
+     runs two columns instead: quote on the left, attribution held at the foot of its own column
+     on the right. Below 900px it falls back to the plain stack. */
+  .quote.lead {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(170px, 218px);
+    grid-template-areas: "mark  meta"
+                         "quote meta";
+    column-gap: clamp(28px, 4.5vw, 64px);
+  }
+  .quote.lead .mark { grid-area: mark; }
+  .quote.lead blockquote { grid-area: quote; }
+  .quote.lead figcaption {
+    grid-area: meta; align-self: end;
+    margin-top: 0; padding-top: 0; border-top: 0;
+  }
+  .quote .mark { font-family: var(--font-display); font-weight: 700; font-size: 3.1rem; line-height: 0.62; color: var(--vermillion); }
   .quote blockquote {
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 1.05rem;
-    line-height: 1.75;
+    font-size: 1.02rem;
+    line-height: 1.72;
     color: var(--asphalt-soft);
     border: none;
-    max-width: 58ch;
+    max-width: none;
   }
   .quote blockquote b { color: var(--asphalt); font-weight: 700; }
-  .quote.lead blockquote { font-size: 1.2rem; line-height: 1.7; }
-  .quote figcaption { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--asphalt-soft); }
+  .quote.lead blockquote { font-size: 1.14rem; line-height: 1.7; max-width: 60ch; }
+  /* margin-top auto pins every attribution to the foot of its card, so the two cards in the
+     bottom row line their names up even when one quote runs a line longer */
+  .quote figcaption {
+    margin-top: auto; padding-top: var(--space-sm);
+    border-top: 1px solid oklch(26% 0.021 42 / 0.08);
+    font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--asphalt-soft);
+  }
   .quote figcaption b { display: block; color: var(--asphalt); letter-spacing: 0.06em; margin-bottom: 2px; }
   /* The peer's name is plain text. Only the LinkedIn mark beside it is a link.
      The weft thread underline used to run under the whole name and, once the 44px tap-target
@@ -1003,6 +1041,59 @@
     transition: opacity 140ms ease, transform 140ms ease;
   }
   .peer-li:hover::after, .peer-li:focus-visible::after { opacity: 1; transform: translate(0, -50%); }
+
+  /* ============ WORK HISTORY ============ */
+  /* A timeline rather than more cards: the roles are one continuous story, and after the peers
+     tray the page needs a change of texture. Sits on the lighter coconut-deep so it alternates
+     against the sand tray above it. Dates run in their own left column on desktop and fold above
+     the role on narrow screens, where a 190px rail would squeeze the copy to nothing. */
+  .history { background: transparent; }
+  .history-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px var(--space-xl); }
+  .roles { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-lg); }
+  .role { display: grid; grid-template-columns: 186px 1fr; gap: clamp(16px, 3vw, 40px); }
+  .role-when { display: flex; flex-direction: column; gap: 5px; padding-top: 2px; }
+  .role-dates {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: 1.02rem; letter-spacing: 0.055em; color: var(--asphalt);
+  }
+  .role-place { font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--asphalt-soft); }
+  /* the rail, with the site's red dot marking each role */
+  .role-what {
+    position: relative;
+    padding-left: clamp(20px, 2vw, 28px);
+    border-left: 1px solid oklch(26% 0.021 42 / 0.13);
+  }
+  .role-what::before {
+    content: ""; position: absolute; left: -5px; top: 7px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--vermillion);
+  }
+  .role-what h3 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: var(--step-1); letter-spacing: 0.03em; color: var(--asphalt);
+  }
+  .role-org { font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--vermillion-deep); margin-top: 4px; }
+  .role-lede { color: var(--asphalt); margin-top: 10px; max-width: 62ch; }
+  .role-what ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 9px; }
+  .role-what ul li {
+    position: relative; padding-left: 17px;
+    color: var(--asphalt-soft); line-height: 1.65; max-width: 68ch;
+  }
+  /* a small square tick rather than a bullet glyph, so the list reads as notes, not prose */
+  .role-what ul li::before {
+    content: ""; position: absolute; left: 0; top: 0.62em;
+    width: 5px; height: 5px; border-radius: 1px;
+    background: oklch(26% 0.021 42 / 0.3);
+  }
+  .role-what ul li b { color: var(--asphalt); font-weight: 600; }
+  .history-foot {
+    margin-top: var(--space-lg); padding-top: var(--space-md);
+    border-top: 1px solid oklch(26% 0.021 42 / 0.1);
+    display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline;
+  }
+  .history-foot .lbl { font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--asphalt-soft); }
+  .history-foot p { color: var(--asphalt-soft); font-size: 0.95rem; }
+  .history-foot .sep { color: var(--vermillion); padding: 0 2px; }
 
   /* ============ FOOTER / CONTACT ============ */
   footer { background: var(--asphalt); color: var(--coconut); }
@@ -1103,6 +1194,11 @@
     /* no hover on touch, so the tooltip would never show anyway, and at phone widths the pill
        is wider than the column and would push out a horizontal scrollbar */
     .peer-li::after { display: none; }
+    .quote.lead { display: flex; }
+    .quote.lead figcaption { margin-top: auto; padding-top: var(--space-sm); border-top: 1px solid oklch(26% 0.021 42 / 0.08); }
+    .quote.lead blockquote { max-width: none; }
+    .role { grid-template-columns: 1fr; gap: 10px; }
+    .role-when { flex-direction: row; align-items: baseline; gap: 10px; flex-wrap: wrap; }
     .stack-card { position: static; min-height: 0; }
     .stack-card.step { flex-direction: column; gap: var(--space-sm); }
     .vantage-write { gap: var(--space-md); padding-bottom: 0; }
@@ -1235,126 +1331,150 @@
     if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
   }
 
-  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    skip();
-    return;
+  // Chrome prerenders URLs it expects you to visit, such as a bare domain you type often. That
+  // runs this script inside a page you have not seen yet, which would spend the once-per-session
+  // flag and tear the curtain down while the document is still invisible, so the real visit lands
+  // on a page where the intro has already "played". Hold everything until the page is actually
+  // activated. Browsers without prerendering report undefined here and start straight away.
+  if (document.prerendering) {
+    document.addEventListener("prerenderingchange", begin, { once: true });
+  } else {
+    begin();
   }
 
-  try {
-    if (sessionStorage.getItem(KEY)) { skip(); return; }
-    sessionStorage.setItem(KEY, "1");
-  } catch (e) { /* storage unavailable; play the intro anyway */ }
-
-  if (!intro) return;
-  intro.addEventListener("click", skip);
-
-  var num = document.getElementById("intro-num");
-  var rule = document.getElementById("intro-rule");
-
-  // The three sentences are typed out, one after another, on a single line. Built as an
-  // absolute timeline rather than chained timeouts: every frame derives the text from
-  // elapsed time alone, so nothing accumulates drift and the curtain, which is on its own
-  // CSS timer, cannot fall out of step with the last keystroke.
-  // Decrypt: each sentence lands as a line of scrambled glyphs that resolve left to right,
-  // one character every STAGGER ms, holds, then scrambles back out left to right and is gone.
-  //   LEAD       how long the whole line scrambles before the first character locks
-  //   STAGGER    gap between one character locking and the next (the reference uses 38)
-  //   OUT_STAG   the exit wave is quicker than the entry, so it reads as a wipe, not a replay
-  //   OUT_SCR    how long a character scrambles on its way out before it disappears
-  //   TICK       glyphs reshuffle on this clock, not every frame, so the noise is legible
-  var LEAD = 320, STAGGER = 38, HOLD = 1000, LAST_HOLD = 1300, OUT_STAG = 14, OUT_SCR = 240,
-      GAP = 160, TICK = 55, TYPE_START = 1750;
-  var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>?";
-  var WORDS = [
-    "3 years in high stakes UX",
-    "AI native product and web design",
-    "Helping businesses build products users envision"
-  ];
-  var type = document.getElementById("intro-type");
-  var segs = [], mark = TYPE_START;
-  WORDS.forEach(function (w, i) {
-    var n = w.length, last = i === WORDS.length - 1;
-    var locked = mark + LEAD + (n - 1) * STAGGER;
-    var outStart = locked + (last ? LAST_HOLD : HOLD);
-    // the last line scrambles out too, so the curtain opens on an empty field rather than
-    // leaving the sentence sitting over the hero while the panels part
-    var end = outStart + (n - 1) * OUT_STAG + OUT_SCR;
-    segs.push({ s: mark, outStart: outStart, e: end, w: w });
-    mark = end + (last ? 0 : GAP);
-  });
-  var TYPE_END = mark;
-  // the curtain's CSS timer and this timeline share one number, written from here
-  document.documentElement.style.setProperty("--intro-offset", TYPE_END + "ms");
-
-  // a cheap deterministic hash, so a character shows the same glyph for a whole TICK and a
-  // frame drawn twice never flickers
-  function glyph(i, t, k) {
-    var h = (i * 374761393 + Math.floor(t / TICK) * 668265263 + k * 2147483647) | 0;
-    h = (h ^ (h >>> 13)) * 1274126177 | 0;
-    return GLYPHS.charAt(Math.abs(h ^ (h >>> 16)) % GLYPHS.length);
+  // CSS animation delays count from when the document was created, not from when it became
+  // visible. A prerendered document has been sitting there a while, so the curtain has to be
+  // pushed out by that much or the panels start parting before the typing has finished. This is
+  // zero on an ordinary load.
+  function activationStart() {
+    try {
+      var nav = performance.getEntriesByType("navigation")[0];
+      return Math.max(0, Math.round((nav && nav.activationStart) || 0));
+    } catch (e) { return 0; }
   }
 
-  // Staatliches is proportional, so a scrambled glyph is wider or narrower than the letter
-  // it stands in for. Each character gets its own box locked to its final width, which
-  // keeps the centred line perfectly still while the noise runs through it.
-  var cells = [], built = -1;
-  function build(k) {
-    type.textContent = "";
-    cells = [];
-    built = k;
-    if (k < 0) return;
-    var w = segs[k].w;
-    for (var i = 0; i < w.length; i++) {
-      var c = document.createElement("span");
-      c.className = "dc";
-      c.textContent = w[i] === " " ? " " : w[i];
-      type.appendChild(c);
-      cells.push(c);
+  function begin() {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      skip();
+      return;
     }
-    cells.forEach(function (c) { c.style.width = c.getBoundingClientRect().width + "px"; });
-  }
 
-  function render(t) {
-    var k = -1;
-    for (var j = 0; j < segs.length; j++) if (t >= segs[j].s && t < segs[j].e) k = j;
-    if (k !== built) build(k);
-    if (k < 0) return;
-    var sg = segs[k], w = sg.w;
-    for (var i = 0; i < cells.length; i++) {
-      if (w[i] === " ") continue;
-      var state, ch = w[i];
-      if (t < sg.outStart) {
-        state = t < sg.s + LEAD + i * STAGGER ? "scr" : "on";
-      } else {
-        var u = t - sg.outStart - i * OUT_STAG;
-        state = u < 0 ? "on" : u < OUT_SCR ? "scr" : "off";
+    try {
+      if (sessionStorage.getItem(KEY)) { skip(); return; }
+      sessionStorage.setItem(KEY, "1");
+    } catch (e) { /* storage unavailable; play the intro anyway */ }
+
+    if (!intro) return;
+    intro.addEventListener("click", skip);
+
+    var num = document.getElementById("intro-num");
+    var rule = document.getElementById("intro-rule");
+
+    // The three sentences are typed out, one after another, on a single line. Built as an
+    // absolute timeline rather than chained timeouts: every frame derives the text from
+    // elapsed time alone, so nothing accumulates drift and the curtain, which is on its own
+    // CSS timer, cannot fall out of step with the last keystroke.
+    // Decrypt: each sentence lands as a line of scrambled glyphs that resolve left to right,
+    // one character every STAGGER ms, holds, then scrambles back out left to right and is gone.
+    //   LEAD       how long the whole line scrambles before the first character locks
+    //   STAGGER    gap between one character locking and the next (the reference uses 38)
+    //   OUT_STAG   the exit wave is quicker than the entry, so it reads as a wipe, not a replay
+    //   OUT_SCR    how long a character scrambles on its way out before it disappears
+    //   TICK       glyphs reshuffle on this clock, not every frame, so the noise is legible
+    var LEAD = 320, STAGGER = 38, HOLD = 1000, LAST_HOLD = 1300, OUT_STAG = 14, OUT_SCR = 240,
+        GAP = 160, TICK = 55, TYPE_START = 1750;
+    var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>?";
+    var WORDS = [
+      "3 years in high stakes UX",
+      "AI native product and web design",
+      "Helping businesses build products users envision"
+    ];
+    var type = document.getElementById("intro-type");
+    var segs = [], mark = TYPE_START;
+    WORDS.forEach(function (w, i) {
+      var n = w.length, last = i === WORDS.length - 1;
+      var locked = mark + LEAD + (n - 1) * STAGGER;
+      var outStart = locked + (last ? LAST_HOLD : HOLD);
+      // the last line scrambles out too, so the curtain opens on an empty field rather than
+      // leaving the sentence sitting over the hero while the panels part
+      var end = outStart + (n - 1) * OUT_STAG + OUT_SCR;
+      segs.push({ s: mark, outStart: outStart, e: end, w: w });
+      mark = end + (last ? 0 : GAP);
+    });
+    var TYPE_END = mark;
+    // the curtain's CSS timer and this timeline share one number, written from here
+    document.documentElement.style.setProperty("--intro-offset", (TYPE_END + activationStart()) + "ms");
+
+    // a cheap deterministic hash, so a character shows the same glyph for a whole TICK and a
+    // frame drawn twice never flickers
+    function glyph(i, t, k) {
+      var h = (i * 374761393 + Math.floor(t / TICK) * 668265263 + k * 2147483647) | 0;
+      h = (h ^ (h >>> 13)) * 1274126177 | 0;
+      return GLYPHS.charAt(Math.abs(h ^ (h >>> 16)) % GLYPHS.length);
+    }
+
+    // Staatliches is proportional, so a scrambled glyph is wider or narrower than the letter
+    // it stands in for. Each character gets its own box locked to its final width, which
+    // keeps the centred line perfectly still while the noise runs through it.
+    var cells = [], built = -1;
+    function build(k) {
+      type.textContent = "";
+      cells = [];
+      built = k;
+      if (k < 0) return;
+      var w = segs[k].w;
+      for (var i = 0; i < w.length; i++) {
+        var c = document.createElement("span");
+        c.className = "dc";
+        c.textContent = w[i] === " " ? " " : w[i];
+        type.appendChild(c);
+        cells.push(c);
       }
-      if (state === "scr") ch = glyph(i, t, k);
-      var c = cells[i];
-      if (c.textContent !== ch) c.textContent = ch;
-      if (c.getAttribute("data-s") !== state) c.setAttribute("data-s", state);
+      cells.forEach(function (c) { c.style.width = c.getBoundingClientRect().width + "px"; });
     }
+
+    function render(t) {
+      var k = -1;
+      for (var j = 0; j < segs.length; j++) if (t >= segs[j].s && t < segs[j].e) k = j;
+      if (k !== built) build(k);
+      if (k < 0) return;
+      var sg = segs[k], w = sg.w;
+      for (var i = 0; i < cells.length; i++) {
+        if (w[i] === " ") continue;
+        var state, ch = w[i];
+        if (t < sg.outStart) {
+          state = t < sg.s + LEAD + i * STAGGER ? "scr" : "on";
+        } else {
+          var u = t - sg.outStart - i * OUT_STAG;
+          state = u < 0 ? "on" : u < OUT_SCR ? "scr" : "off";
+        }
+        if (state === "scr") ch = glyph(i, t, k);
+        var c = cells[i];
+        if (c.textContent !== ch) c.textContent = ch;
+        if (c.getAttribute("data-s") !== state) c.setAttribute("data-s", state);
+      }
+    }
+
+    // One loop drives the number, the rule and the typing, so the load state and the copy can
+    // never disagree. The count is linear across the whole sequence and only ever writes whole
+    // numbers, so it reads as a count rather than a blur.
+    var t0 = performance.now();
+    (function tick(now) {
+      if (!intro.parentNode) return;   // skipped part way through
+      var t = now - t0;
+      var p = Math.min(1, Math.max(0, t / TYPE_END));
+      num.textContent = Math.max(1, Math.ceil(p * 100));
+      rule.style.transform = "scaleX(" + p + ")";
+      render(t);
+      if (t < TYPE_END) requestAnimationFrame(tick);
+      else build(-1);
+    })(t0);
+
+    // the panels finish parting 1300ms after TYPE_END; drop the node once it is off screen
+    setTimeout(function () {
+      if (intro.parentNode) intro.parentNode.removeChild(intro);
+    }, TYPE_END + 1500);
   }
-
-  // One loop drives the number, the rule and the typing, so the load state and the copy can
-  // never disagree. The count is linear across the whole sequence and only ever writes whole
-  // numbers, so it reads as a count rather than a blur.
-  var t0 = performance.now();
-  (function tick(now) {
-    if (!intro.parentNode) return;   // skipped part way through
-    var t = now - t0;
-    var p = Math.min(1, Math.max(0, t / TYPE_END));
-    num.textContent = Math.max(1, Math.ceil(p * 100));
-    rule.style.transform = "scaleX(" + p + ")";
-    render(t);
-    if (t < TYPE_END) requestAnimationFrame(tick);
-    else build(-1);
-  })(t0);
-
-  // the panels finish parting 1300ms after TYPE_END; drop the node once it is off screen
-  setTimeout(function () {
-    if (intro.parentNode) intro.parentNode.removeChild(intro);
-  }, TYPE_END + 1500);
 })();
 </script>
 
@@ -1979,6 +2099,72 @@
         <figcaption><b>Aswini Puppala<a class="peer-li" href="https://www.linkedin.com/in/aswini-puppala-471217160/" target="_blank" rel="noopener" aria-label="Aswini Puppala on LinkedIn" data-tip="Click to see the LinkedIn profile"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></b>Product, Lenskart</figcaption>
       </figure>
 
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK HISTORY ============ -->
+<section class="history" id="history">
+  <div class="history-inner">
+    <div class="dp-card history-card">
+    <h2>Work history</h2>
+
+    <ol class="roles">
+      <li class="role">
+        <div class="role-when">
+          <span class="role-dates">Aug 2024 to now</span>
+          <span class="role-place">Bengaluru</span>
+        </div>
+        <div class="role-what">
+          <h3>Product Designer</h3>
+          <p class="role-org">IHX, a Perfios company</p>
+          <p class="role-lede">Sole product designer for IHX Nucleus, serving 22,000+ healthcare providers and 35+ payers and TPAs.</p>
+          <ul>
+            <li>Led the UX for <b>7 AI product lines</b> across the claims journey, from submission through to settlement.</li>
+            <li>Designed premium operations features on a per-claim subscription. Average time to initiate settlement fell from <b>3.23 to 1.56 minutes</b>, and per-claim monetization rose <b>33%</b> on one enterprise hospital contract.</li>
+            <li>Grew claim reconciliation into the Recon Hub, now covering <b>every cashless credit line</b> and recovering 25 to 30% of receivables that used to be reconciled by hand or skipped.</li>
+            <li>Built an AI-assisted prototyping chain from Figma through to Claude, cutting concept to prototype from 10 to 15 working days down to <b>2 to 3</b>.</li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="role">
+        <div class="role-when">
+          <span class="role-dates">Jul 2023 to Aug 2024</span>
+          <span class="role-place">Bengaluru</span>
+        </div>
+        <div class="role-what">
+          <h3>Associate Product Designer</h3>
+          <p class="role-org">IHX</p>
+          <ul>
+            <li>Led HMIS and HIS integration UX and its pilot across 5+ hospitals, cutting manual data entry errors by roughly <b>80%</b> and pre-auth submission time from 8.0 to 6.8 minutes.</li>
+            <li>Owned 2FA authentication UX and its rollout through ISO 27001 remediation, reaching <b>80% of claim-active hospitals</b>.</li>
+            <li>Built the Figma component library, taking frontend UI work from roughly 3 weeks down to <b>2 weeks per feature</b>.</li>
+            <li>Shipped a hospital-facing mobile app on a three-week deadline. It now has <b>9,500+ daily active users</b>.</li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="role">
+        <div class="role-when">
+          <span class="role-dates">2017 to 2023</span>
+          <span class="role-place">Bengaluru and freelance</span>
+        </div>
+        <div class="role-what">
+          <h3>Before product design</h3>
+          <p class="role-org">Graphic and apparel design</p>
+          <ul>
+            <li>Design for Tailorman, The August Co. and Miss Momo, alongside freelance clients, from 2017 to 2022.</li>
+            <li>Moved into UX in 2023 on freelance work: redesigned the eCharge EV charging platform and ran usability testing on it.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+
+    <div class="history-foot">
+      <span class="lbl">Education</span>
+      <p>MSc Microbiology, Vellore Institute of Technology, 2013 to 2015 <span class="sep">&middot;</span> Diploma in Fashion Design, JD Institute, 2017 <span class="sep">&middot;</span> HFI Certified Usability Analyst</p>
     </div>
     </div>
   </div>
