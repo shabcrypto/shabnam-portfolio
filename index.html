@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Shabnam Raghavan · Product Designer</title>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-<link rel="icon" type="image/svg+xml" href="favicon_Shab_logo-whitebg.svg" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,6 +17,7 @@
     --coconut: #fdfdfb;      /* barely off-white, whisper of cream (was #f0ede5) */
     --coconut-deep: #f4f3ef; /* lightened in step so image placeholders don't go muddy (was #e6e2d7) */
     --coconut-soft: #b3ada0;
+    --sand: #eae7dd;         /* the design-process board: a shade under the cream step cards */
     --asphalt: #302f2c;
     --asphalt-soft: #6b6964;
     --vermillion: oklch(52% 0.185 33);
@@ -763,17 +764,23 @@
   .stack-card.step {
     display: flex; gap: var(--space-lg);
     min-height: 0; padding: 28px 32px;
-    /* darker at the top, lighter at the foot: where the next card overlaps this one its
-       dark head meets this card's light foot, so the seam reads without a drop shadow */
-    background: linear-gradient(180deg, #2b2a27 0%, #35342f 62%, #403e38 100%);
-    color: var(--coconut);
+    /* Cream cards on the sand board. They used to be a near-black gradient, and once stacked the
+       slivers were dark-on-dark: no seam showed anywhere, so the deck read as one solid slab with
+       the open step's copy stranded in its lower half. Light cards on a deeper board separate. */
+    background: var(--coconut);
+    color: var(--asphalt);
     border: 0;
-    box-shadow: none;
+    /* the shadow points UP on purpose: each card covers the one before it and leaves only that
+       card's top sliver showing, so a downward shadow would fall on pixels nobody can see */
+    box-shadow:
+      0 -1px 0 oklch(26% 0.021 42 / 0.09),
+      0 -5px 12px -8px oklch(26% 0.021 42 / 0.16),
+      0 1px 3px oklch(26% 0.021 42 / 0.05);
   }
   /* the step cards carry no .rv-word spans at all: the reveal made light copy unreadable,
      so they are plain text and the stacking overlap alone carries the motion */
   .step p { opacity: 1; }
-  .step .process-num { color: var(--coconut-soft); }
+  .step .process-num { color: var(--vermillion-deep); }
 
   /* ===== nested design-philosophy / design-process cards (card-inside-the-card) ===== */
   .dp-card {
@@ -783,7 +790,9 @@
     padding: clamp(22px, 3vw, 40px);
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.04), 0 14px 36px oklch(26% 0.021 42 / 0.06);
   }
-  .dp-process { display: flex; flex-direction: column; gap: var(--space-lg); }
+  /* the process card is a tray: a shade deeper than its siblings so the cream steps read as
+     cards sitting ON it rather than as panels cut out of it */
+  .dp-process { display: flex; flex-direction: column; gap: var(--space-lg); background: var(--sand); }
 
   .dp-philosophy {
     display: flex;
@@ -842,11 +851,10 @@
     margin-bottom: 6px;
   }
   .step p {
-    /* just off white: full coconut on asphalt was too harsh against the headings */
-    color: rgba(253, 253, 251, 0.72); line-height: 1.6;
+    color: var(--asphalt-soft); line-height: 1.6;
     max-width: none;   /* the copy runs to the card's padding */
   }
-  .step p .rv-word { color: rgba(253, 253, 251, 0.72); }
+  .step p .rv-word { color: var(--asphalt-soft); }
 
   /* ============ FEATURED WORK ============ */
   .work { background: transparent; color: var(--asphalt); }
@@ -960,24 +968,41 @@
   .quote.lead blockquote { font-size: 1.2rem; line-height: 1.7; }
   .quote figcaption { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--asphalt-soft); }
   .quote figcaption b { display: block; color: var(--asphalt); letter-spacing: 0.06em; margin-bottom: 2px; }
-  /* each name links to that person's LinkedIn, with the same weft thread on hover as every text CTA */
-  .peer-link {
-    position: relative; display: inline-flex; align-items: baseline; gap: 6px;
-    padding-bottom: 6px; color: inherit; text-decoration: none;
-    transition: color 160ms ease;
+  /* The peer's name is plain text. Only the LinkedIn mark beside it is a link.
+     The weft thread underline used to run under the whole name and, once the 44px tap-target
+     padding was added below it, the thread landed on the role line underneath and read as a
+     strikethrough. It is gone from here, and the name no longer changes colour on hover either:
+     the icon is the whole affordance and it says what it does in its tooltip. */
+  .peer-li {
+    position: relative;
+    display: inline-flex; align-items: center; justify-content: center;
+    /* LinkedIn's own brand blue, deliberately outside the site palette: it is a third-party
+       mark and reads instantly as one. Hover is LinkedIn's own darker state. */
+    color: #0A66C2; text-decoration: none;
+    /* 14px glyph + 15px of padding each side = a 44px tap target. The negative margin cancels
+       it so the caption line does not move, and leaves an 8px gap after the name. */
+    padding: 15px; margin: -15px -15px -15px -7px;
+    vertical-align: -3px;
+    transition: color 160ms ease, transform 160ms ease;
   }
-  .peer-link::after {
-    content: "";
-    position: absolute; left: 0; right: 0; bottom: -2px; height: 8px;
-background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
-    background-size: 24px 8px;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  .peer-li svg { display: block; }
+  .peer-li:hover, .peer-li:focus-visible { color: #004182; transform: translateY(-1px); }
+
+  /* borderless filled pill, the same language as the rest of the site's chips */
+  .peer-li::after {
+    content: attr(data-tip);
+    /* beside the icon, not above it: above, the pill landed on the quote's last line, and
+       below it landed on the role line. The name line always has room to its right. */
+    position: absolute; left: calc(100% - 7px); top: 50%;
+    background: var(--asphalt); color: var(--coconut);
+    font-family: var(--font-body); font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.02em; text-transform: none; white-space: nowrap;
+    padding: 6px 11px; border-radius: 999px;
+    box-shadow: 0 6px 18px oklch(26% 0.021 42 / 0.18);
+    opacity: 0; transform: translate(-4px, -50%); pointer-events: none;
+    transition: opacity 140ms ease, transform 140ms ease;
   }
-  .peer-link .peer-arrow { color: var(--vermillion); font-size: 0.8em; }
-  .peer-link:hover, .peer-link:focus-visible { color: var(--vermillion-deep); }
-  .peer-link:hover::after, .peer-link:focus-visible::after { transform: scaleX(1); }
+  .peer-li:hover::after, .peer-li:focus-visible::after { opacity: 1; transform: translate(0, -50%); }
 
   /* ============ FOOTER / CONTACT ============ */
   footer { background: var(--asphalt); color: var(--coconut); }
@@ -1075,6 +1100,9 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
     .vantage-write .inspiration { max-width: none; }
     .topbar nav { display: none; }
     .case-grid, .peer-grid { grid-template-columns: 1fr; }
+    /* no hover on touch, so the tooltip would never show anyway, and at phone widths the pill
+       is wider than the column and would push out a horizontal scrollbar */
+    .peer-li::after { display: none; }
     .stack-card { position: static; min-height: 0; }
     .stack-card.step { flex-direction: column; gap: var(--space-sm); }
     .vantage-write { gap: var(--space-md); padding-bottom: 0; }
@@ -1176,7 +1204,6 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
 .wordmark{padding:7px 8px;margin:-7px -8px;}
 .socials a{display:inline-block;padding:12px 0;margin:-12px 0;}
 .foot-links .email,.foot-links .phone{display:inline-block;padding:11px 0;margin:-11px 0;}
-.peer-link{display:inline-block;padding:13px 0;margin:-13px 0;}
 .resume-cta .link{display:inline-flex;align-items:center;min-height:44px;}
 .menu-foot a{padding:12px 0;}
 </style>
@@ -1937,19 +1964,19 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
       <figure class="quote lead">
         <span class="mark">&ldquo;</span>
         <blockquote>Shabnam consistently brought <b>clarity and simplicity</b> to complex workflows, making our platform much more intuitive for hospitals and payers. Her attention to detail and ability to translate ideas into <b>clean user journeys</b> made a big difference.</blockquote>
-        <figcaption><b><a class="peer-link" href="https://www.linkedin.com/in/adityapathak100/" target="_blank" rel="noopener" aria-label="Aditya Pathak on LinkedIn">Aditya Pathak<span class="peer-arrow" aria-hidden="true">&#8599;</span></a></b>Founder &amp; CEO, RXpress</figcaption>
+        <figcaption><b>Aditya Pathak<a class="peer-li" href="https://www.linkedin.com/in/adityapathak100/" target="_blank" rel="noopener" aria-label="Aditya Pathak on LinkedIn" data-tip="Click to see the LinkedIn profile"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></b>Founder &amp; CEO, RXpress</figcaption>
       </figure>
 
       <figure class="quote">
         <span class="mark">&ldquo;</span>
         <blockquote>Shabnam consistently delivered designs that were not just polished but also <b>practical</b>. She has a good eye for detail, keeps usability front and center, and pushes for experiences that feel <b>smooth and intuitive</b>.</blockquote>
-        <figcaption><b><a class="peer-link" href="https://www.linkedin.com/in/manas-malik/" target="_blank" rel="noopener" aria-label="Manas Malik on LinkedIn">Manas Malik<span class="peer-arrow" aria-hidden="true">&#8599;</span></a></b>Technical Lead, IHX</figcaption>
+        <figcaption><b>Manas Malik<a class="peer-li" href="https://www.linkedin.com/in/manas-malik/" target="_blank" rel="noopener" aria-label="Manas Malik on LinkedIn" data-tip="Click to see the LinkedIn profile"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></b>Technical Lead, IHX</figcaption>
       </figure>
 
       <figure class="quote">
         <span class="mark">&ldquo;</span>
         <blockquote>Her approach was highly <b>data-driven</b>, supported by strong market research. The impact was clear: her work drove <b>real user engagement</b>, simplified adoption, and added measurable value to our products.</blockquote>
-        <figcaption><b><a class="peer-link" href="https://www.linkedin.com/in/aswini-puppala-471217160/" target="_blank" rel="noopener" aria-label="Aswini Puppala on LinkedIn">Aswini Puppala<span class="peer-arrow" aria-hidden="true">&#8599;</span></a></b>Product, Lenskart</figcaption>
+        <figcaption><b>Aswini Puppala<a class="peer-li" href="https://www.linkedin.com/in/aswini-puppala-471217160/" target="_blank" rel="noopener" aria-label="Aswini Puppala on LinkedIn" data-tip="Click to see the LinkedIn profile"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></b>Product, Lenskart</figcaption>
       </figure>
 
     </div>
@@ -2231,7 +2258,9 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
   if (steps.length < 2) return;
 
   var GAP_BELOW_NAV = 10;  // card top sits this far under the floating nav
-  var REST = 18;           // sliver of each step left showing under the next
+  var REST_MAX = 52;       // sliver we want: enough to show a buried step's number AND heading
+  var REST_MIN = 18;       // the least that still reads as a separate card edge
+  var REST = REST_MAX;     // recomputed per build(); shrinks when the viewport is short
   var SPREAD = 24;         // gap between steps before they stack
   var desktop = window.matchMedia("(min-width: 901px)");
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -2278,6 +2307,16 @@ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' wi
     var header = card.querySelector(".process-group");
     var cs = getComputedStyle(card);
     var chrome = parseFloat(cs.paddingTop) + 50 + (header ? header.offsetHeight : 0) + parseFloat(cs.rowGap || cs.gap || 0);
+
+    // A buried step shows only its top sliver, so REST decides how much of it you can read. At 52px
+    // the number and the heading both clear the edge, which turns the finished deck into an index
+    // of all five steps instead of four anonymous ledges. The choice is deliberately either/or:
+    // anything between the two clips the heading through the middle of its capitals, which looks
+    // broken. Short viewports (roughly under 760px of room) fall back to the plain 18px ledge.
+    var room = window.innerHeight - pinTop - 24;
+    var fits = Math.floor((room - chrome - stepH) / (steps.length - 1));
+    REST = fits >= REST_MAX ? REST_MAX : REST_MIN;
+
     var finished = stepH + (steps.length - 1) * REST;
     cardH = Math.ceil(chrome + finished);
     card.style.setProperty("--pin-h", cardH + "px");
