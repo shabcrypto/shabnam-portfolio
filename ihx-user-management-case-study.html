@@ -827,8 +827,29 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <a href="about.html">About me</a>
     <a href="resume.html">Resume</a>
     <a href="index.html#contact">Contact me</a>
-  </nav>
+</nav>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
+    <i></i><i></i>
+  </button>
 </header>
+<div class="menu-scrim"></div>
+<aside class="menu-panel" id="site-menu" aria-label="Site menu" aria-hidden="true">
+  <button class="menu-close" type="button" aria-label="Close menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+      <path d="M6 6l10 10M16 6L6 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <nav class="menu-nav" aria-label="Primary, mobile">
+    <a href="index.html#work">Work</a>
+    <a href="about.html">About me</a>
+    <a href="resume.html">Resume</a>
+    <a href="index.html#contact">Contact me</a>
+  </nav>
+  <div class="menu-foot">
+    <a href="mailto:shabnam.rs.work@gmail.com">shabnam.rs.work@gmail.com</a>
+  </div>
+</aside>
+
 
 <style>
 /* ============================================================================
@@ -955,7 +976,16 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .cs-card-title{
   font-family:var(--font-display);font-weight:400;
   font-size:14px;line-height:1.3;letter-spacing:0.06em;text-transform:uppercase;color:var(--asphalt);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
+  /* was nowrap + ellipsis, which assumed every card title was a short product name. One
+     is a full sentence, so it rendered as "87% OF SUPPORT TICKETS WERE FOR A PAGE
+     USERS NEV..." at phone widths. Titles wrap now. Matches index's .case h3. */
+  min-width:0;overflow-wrap:break-word;
+}
+@media (max-width:600px){
+  /* stacked, so every card has the same shape whatever the title length */
+  .cs-card-body{flex-direction:column;align-items:flex-start;gap:4px;}
+  .cs-card-title{font-size:16px;}
+  .cs-metrics{font-size:13px;font-weight:600;}
 }
 .cs-metrics{
   flex-shrink:0;white-space:nowrap;
@@ -1044,6 +1074,104 @@ footer{background:var(--asphalt);color:var(--coconut);}
   .other-cs-grid{grid-template-columns:1fr;}
   :root{--frame:12px;}
 }
+
+/* ============ MOBILE MENU (2026-09-20) ============
+   .topbar nav is display:none below 900px on every page and, until now, nothing replaced
+   it: on a phone the only navigation on the whole site was the wordmark linking home, so
+   a case study was a dead end. This is that replacement, and it is shared chrome. The
+   markup, CSS and script are identical on all eight pages; only the four hrefs differ,
+   exactly as each page's own <nav> already does.
+
+   Colours are written as literals rather than tokens on purpose: the eight pages do not
+   share one variable set (the case studies define --ink, index defines --asphalt), and
+   this panel has to render identically on all of them, like the footer does. */
+
+.menu-btn{
+  display:none;                      /* >900px keeps the real nav; this never shows there */
+  width:44px;height:44px;            /* Apple's 44px minimum: the icon inside is 22px */
+  margin:-8px -10px -8px 0;          /* absorb the oversized box so the bar height is unchanged */
+  align-items:center;justify-content:center;flex-direction:column;
+  background:none;border:0;padding:0;cursor:pointer;
+  color:inherit;                     /* follows .topbar through its transparent/solid states */
+  -webkit-tap-highlight-color:transparent;
+}
+.menu-btn i{display:block;width:22px;height:1.5px;background:currentColor;border-radius:2px;}
+.menu-btn i+i{margin-top:6px;}
+
+.menu-scrim{
+  position:fixed;inset:0;z-index:900;
+  background:rgba(28,21,19,0.5);
+  opacity:0;visibility:hidden;
+  transition:opacity 300ms ease,visibility 0s linear 300ms;
+}
+.menu-scrim.is-open{opacity:1;visibility:visible;transition-delay:0s;}
+
+.menu-panel{
+  position:fixed;z-index:901;top:0;right:0;bottom:0;
+  width:min(86vw,360px);
+  background:#302f2c;color:#fdfdfb;
+  display:flex;flex-direction:column;
+  padding:calc(20px + env(safe-area-inset-top,0px)) 28px calc(28px + env(safe-area-inset-bottom,0px));
+  transform:translateX(100%);
+  transition:transform 380ms cubic-bezier(0.22,1,0.36,1);
+  overflow-y:auto;overscroll-behavior:contain;
+}
+.menu-panel.is-open{transform:translateX(0);}
+
+.menu-close{
+  align-self:flex-end;
+  width:44px;height:44px;margin:0 -12px 8px 0;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:0;padding:0;cursor:pointer;color:#b3ada0;
+  -webkit-tap-highlight-color:transparent;
+}
+.menu-close:hover{color:#fdfdfb;}
+
+.menu-nav{display:flex;flex-direction:column;margin-top:8px;}
+.menu-nav a{
+  font-family:"Staatliches","Impact","Arial Narrow",sans-serif;
+  font-size:clamp(1.9rem,8vw,2.4rem);font-weight:400;
+  letter-spacing:0.03em;line-height:1.05;text-transform:none;
+  color:#fdfdfb;text-decoration:none;
+  padding:14px 0;                    /* the row, not the glyphs, is the tap target */
+  border-bottom:1px solid rgba(253,253,251,0.1);
+}
+.menu-nav a:last-child{border-bottom:0;}
+.menu-nav a:active{color:oklch(62% 0.17 33);}
+
+.menu-foot{margin-top:auto;padding-top:28px;}
+.menu-foot a{
+  font-family:"Manrope",sans-serif;font-size:0.95rem;font-weight:600;
+  letter-spacing:0;text-transform:none;
+  color:#b3ada0;text-decoration:none;
+  display:inline-block;padding:10px 0;
+}
+.menu-foot a:hover{color:#fdfdfb;}
+
+.menu-btn:focus-visible,.menu-close:focus-visible,
+.menu-nav a:focus-visible,.menu-foot a:focus-visible{
+  outline:2px solid oklch(62% 0.17 33);outline-offset:3px;border-radius:2px;
+}
+
+@media (max-width:900px){ .menu-btn{display:flex;} }
+
+@media (prefers-reduced-motion:reduce){
+  .menu-panel,.menu-scrim{transition-duration:0.01ms;}
+}
+
+/* ---- Tap targets (2026-09-20) ----
+   Apple's minimum touch target is 44x44. The wordmark rendered 29x30 and the footer's
+   social links 22px tall. Padding grows the hit area and an equal negative margin
+   absorbs it again, so every target clears 44px without anything moving on screen.
+   Done this way rather than with min-height so the top bar's height is unchanged. */
+.wordmark{padding:7px 8px;margin:-7px -8px;}
+.socials a{display:inline-block;padding:12px 0;margin:-12px 0;}
+.foot-links .email,.foot-links .phone{display:inline-block;padding:11px 0;margin:-11px 0;}
+.peer-link{display:inline-block;padding:13px 0;margin:-13px 0;}
+.resume-cta .link{display:inline-flex;align-items:center;min-height:44px;}
+.menu-foot a{padding:12px 0;}
+/* the section menu is real navigation, so its rows clear 44px too */
+.subnav a{padding-top:12px;padding-bottom:12px;}
 </style>
 
 <header class="hero">
@@ -1410,28 +1538,28 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <h2>Other Case Studies</h2>
     <div class="other-cs-grid" style="margin-top:36px;">
       <a href="ihx-ai-features-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of human failure case study screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of human failure case study screen"></video></div>
         <div class="cs-card-body">
           <div class="cs-card-title">AI at the Point of Human Failure</div>
           <span class="cs-metrics">Claim submission 5 min to 2 min &middot; agentic</span>
         </div>
       </a>
       <a href="ihx-nucleus-mobile-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-nucleus-mobile-cover-v2.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Mobile app screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-nucleus-mobile-cover-v2.mp4" poster="images/ihx-nucleus-mobile-cover-v2-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Mobile app screen"></video></div>
         <div class="cs-card-body">
           <div class="cs-card-title">IHX Nucleus Mobile</div>
           <span class="cs-metrics">9,500+ DAU &middot; 33% more client acquisition</span>
         </div>
       </a>
       <a href="ihx_tpa_ops_.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
         <div class="cs-card-body">
           <div class="cs-card-title">IHX Nucleus Ops Dashboard</div>
           <span class="cs-metrics">22K+ providers &middot; 33% increase in revenue/claim &middot; 51% reduction in task time</span>
         </div>
       </a>
       <a href="wisewomen-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="wisewoman-cover.mp4" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
+        <div class="cs-thumb"><video src="wisewoman-cover.mp4" poster="images/wisewoman-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
         <div class="cs-card-body">
           <div class="cs-card-title">WiseWoman</div>
           <span class="cs-metrics">5 days to ship &middot; live</span>
@@ -1524,5 +1652,70 @@ document.querySelectorAll('.img-slot img').forEach(img => {
 })();
 </script>
 
+<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f26ea28c97844cfabcd844e4d335180a"}'></script><!-- End Cloudflare Web Analytics -->
+
+<script>
+/* Mobile menu: opens a panel from the right. See the .menu-panel CSS note above.
+   Kept dependency-free and identical across the eight pages. */
+(function () {
+  var btn   = document.querySelector('.menu-btn');
+  var panel = document.getElementById('site-menu');
+  var scrim = document.querySelector('.menu-scrim');
+  if (!btn || !panel || !scrim) return;
+  var closeBtn = panel.querySelector('.menu-close');
+  var lastFocus = null;
+
+  function items() { return panel.querySelectorAll('a[href], button'); }
+
+  function open() {
+    lastFocus = document.activeElement;
+    panel.classList.add('is-open');
+    scrim.classList.add('is-open');
+    btn.setAttribute('aria-expanded', 'true');
+    panel.removeAttribute('inert');
+    panel.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    var f = items(); if (f.length) f[0].focus();
+    document.addEventListener('keydown', onKey);
+  }
+
+  function close() {
+    panel.classList.remove('is-open');
+    scrim.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    panel.setAttribute('inert', '');
+    panel.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';   /* clears the inline rule, not the stylesheet's */
+    document.removeEventListener('keydown', onKey);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  /* Esc closes; Tab cycles inside the panel instead of escaping to the page behind it */
+  function onKey(e) {
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key !== 'Tab') return;
+    var f = items(); if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  btn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  scrim.addEventListener('click', close);
+
+  /* a same-page anchor (#work, #contact) never reloads, so the panel must close itself */
+  panel.addEventListener('click', function (e) {
+    if (e.target.closest('a')) close();
+  });
+
+  /* rotating to landscape can cross the breakpoint and bring the real nav back */
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 900 && panel.classList.contains('is-open')) close();
+  });
+
+  panel.setAttribute('inert', '');
+})();
+</script>
 </body>
 </html>

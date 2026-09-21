@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Analytics · Shabnam Raghavan</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="icon" type="image/svg+xml" href="favicon_Shab_logo-whitebg.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* ---- site tokens, copied from index.html (§3 of design-context.md) ---- */
+    --coconut: #fdfdfb;
+    --coconut-deep: #f4f3ef;
+    --coconut-soft: #b3ada0;
+    --asphalt: #302f2c;
+    --asphalt-soft: #6b6964;
+    --vermillion: oklch(52% 0.185 33);
+    --vermillion-deep: oklch(44% 0.17 31);
+
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 24px;
+    --space-lg: 48px;
+    --space-xl: 96px;
+    --frame: clamp(16px, 2vw, 28px);
+
+    --font-display: "Staatliches", "Impact", "Arial Narrow", sans-serif;
+    --font-body: "Manrope", sans-serif;
+
+    --step--1: clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem);
+    --step-0:  clamp(1rem, 0.96rem + 0.25vw, 1.125rem);
+    --step-1:  clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+    --step-2:  clamp(1.5rem, 1.2rem + 1.4vw, 2.4rem);
+    --step-3:  clamp(2rem, 1.4rem + 2.6vw, 3.6rem);
+
+    /* ---- chart tokens ----
+       Almost every panel here plots ONE series, so the colour job is sequential /
+       emphasis, not categorical: the accent carries the data, everything else is
+       de-emphasis grey. The 4-step ordinal ramp is used only where the categories
+       have a real order (funnel stages, scroll depth). It is derived from the brand
+       vermillion at a fixed hue of 33 and passes the ordinal checks: monotone
+       lightness, adjacent dL >= 0.075, light end 2.55:1 on coconut, hue spread 1deg. */
+    --c-accent: #bc2b0b;
+    --c-accent-wash: rgba(188, 43, 11, 0.10);
+    --c-mute: #cdc8bd;
+    --c-grid: rgba(48, 47, 44, 0.10);
+    --c-ord-1: #e38975;
+    --c-ord-2: #d36b56;
+    --c-ord-3: #c34a33;
+    --c-ord-4: #b32000;
+
+    --ink: var(--asphalt);
+    --ink-soft: var(--asphalt-soft);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--asphalt);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    font-synthesis-weight: none;
+    overflow-x: hidden;
+  }
+
+  .page-card {
+    position: relative;
+    margin: var(--frame);
+    border-radius: var(--frame);
+    background-color: var(--coconut);
+    background-image:
+      repeating-linear-gradient(to right, rgba(48, 47, 44, 0.045) 0 1px, transparent 1px 56px),
+      repeating-linear-gradient(to bottom, rgba(48, 47, 44, 0.03) 0 1px, transparent 1px 56px);
+    padding: var(--space-md) clamp(16px, 4vw, 56px) var(--space-lg);
+  }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--vermillion);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* ============ HEADER ============ */
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    padding: var(--space-sm) 0 var(--space-md);
+  }
+  .wordmark { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .wordmark img { height: 28px; width: auto; display: block; }
+  .wordmark .name { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.04em; }
+  .head nav { display: flex; gap: var(--space-md); font-size: var(--step--1); }
+  .head nav a {
+    color: var(--ink-soft); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .head nav a:hover { color: var(--vermillion); }
+
+  /* sample-data notice. Borderless soft fill, never a stroked chip. */
+  .notice {
+    display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    background: var(--c-accent-wash);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: var(--space-md);
+    font-size: var(--step--1);
+    color: var(--ink);
+  }
+  .notice b { font-weight: 700; }
+  .notice span { color: var(--ink-soft); }
+
+  .title-row { margin-bottom: var(--space-md); }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--step-3);
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+  .sub { color: var(--ink-soft); font-size: var(--step-0); margin-top: 6px; }
+
+  /* ============ FILTER ROW ============
+     One row, above everything it scopes. Every panel re-renders from it. */
+  .filters {
+    display: flex; align-items: center; gap: var(--space-sm);
+    flex-wrap: wrap;
+    padding-bottom: var(--space-md);
+    margin-bottom: var(--space-md);
+    border-bottom: 1px solid var(--c-grid);
+  }
+  .filters .lbl {
+    font-size: var(--step--1); color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .seg { display: flex; gap: 4px; background: var(--coconut-deep); border-radius: 999px; padding: 4px; }
+  .seg button {
+    font-family: var(--font-body); font-size: var(--step--1); font-weight: 600;
+    color: var(--ink-soft);
+    background: transparent; border: 0; cursor: pointer;
+    padding: 7px 16px; border-radius: 999px;
+    transition: background 200ms ease, color 200ms ease;
+  }
+  .seg button:hover { color: var(--ink); }
+  .seg button[aria-pressed="true"] { background: var(--asphalt); color: var(--coconut); }
+
+  /* ============ HERO FIGURE ============ */
+  .hero-fig { margin-bottom: var(--space-lg); }
+  .hero-fig .label {
+    font-size: var(--step--1); color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;
+  }
+  /* Manrope, not Staatliches: a display face on a hero number reads as decoration,
+     and proportional figures (no tabular-nums) keep large numbers tight. */
+  .hero-fig .value {
+    font-family: var(--font-body); font-weight: 700;
+    font-size: clamp(3rem, 2rem + 4vw, 5rem);
+    line-height: 0.95; letter-spacing: -0.02em;
+  }
+  .hero-fig .meta { color: var(--ink-soft); font-size: var(--step-0); margin-top: 10px; }
+  .hero-fig .meta b { color: var(--ink); font-weight: 600; }
+
+  /* ============ KPI ROW ============ */
+  .kpi-row {
+    display: grid; gap: var(--space-sm);
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    margin-bottom: var(--space-lg);
+  }
+  .tile { background: var(--coconut-deep); border-radius: 14px; padding: 18px 20px 16px; }
+  .tile .label { font-size: var(--step--1); color: var(--ink-soft); margin-bottom: 10px; }
+  .tile .value { font-size: 2rem; font-weight: 700; line-height: 1; letter-spacing: -0.01em; }
+  .tile .foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-top: 10px; }
+  .tile .delta { font-size: var(--step--1); color: var(--ink-soft); font-weight: 600; }
+  .tile .delta .arrow { font-weight: 700; }
+  .tile svg { display: block; }
+
+  /* ============ PANELS ============ */
+  .grid-2 {
+    display: grid; gap: var(--space-sm);
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    margin-bottom: var(--space-sm);
+  }
+  .panel {
+    background: var(--coconut-deep);
+    border-radius: 14px;
+    padding: 20px clamp(16px, 2vw, 24px) 22px;
+    margin-bottom: var(--space-sm);
+  }
+  .panel-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--space-sm); margin-bottom: 4px;
+  }
+  .panel h2 {
+    font-family: var(--font-body);
+    font-size: var(--step-0); font-weight: 700; letter-spacing: -0.01em;
+  }
+  .panel .desc { font-size: var(--step--1); color: var(--ink-soft); margin-bottom: 18px; line-height: 1.5; }
+  .toggle {
+    font-family: var(--font-body); font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ink-soft); background: transparent; border: 0; cursor: pointer;
+    padding: 4px 0;
+    flex-shrink: 0;
+  }
+  .toggle:hover { color: var(--vermillion); }
+
+  /* charts get their own scroll container only when narrower than their minimum */
+  .chart-wrap { overflow-x: auto; }
+  svg.chart { display: block; overflow: visible; }
+  svg.chart text { font-family: var(--font-body); }
+
+  /* ============ TABLE VIEWS ============
+     Every chart has a table twin, so no value is reachable only by hover. */
+  table { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
+  th, td { text-align: left; padding: 9px 14px 9px 0; }
+  th {
+    font-weight: 600; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem;
+    border-bottom: 1px solid var(--c-grid);
+  }
+  td { border-bottom: 1px solid var(--c-grid); }
+  tr:last-child td { border-bottom: 0; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; padding-right: 0; }
+  td.name { font-weight: 600; }
+  .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; vertical-align: baseline; }
+
+  /* inline meter inside the case study table */
+  .meter { display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
+  .meter .track {
+    width: 78px; height: 6px; border-radius: 999px;
+    background: rgba(188, 43, 11, 0.14);
+    overflow: hidden; flex-shrink: 0;
+  }
+  /* display:block matters: an inline span ignores width/height percentages
+     and the meter silently draws empty. */
+  .meter .fill { display: block; height: 100%; border-radius: 999px; background: var(--c-accent); }
+  .meter .n { font-variant-numeric: tabular-nums; min-width: 34px; text-align: right; }
+
+  /* ============ SMALL MULTIPLES (scroll depth) ============ */
+  .sm-grid { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+  .sm h3 {
+    font-family: var(--font-body); font-size: var(--step--1); font-weight: 700;
+    margin-bottom: 4px; line-height: 1.3;
+  }
+  .sm .sm-sub { font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 10px; }
+
+  /* ============ ERRORS ============ */
+  .err-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--c-grid); }
+  .err-row:last-child { border-bottom: 0; }
+  .err-icon { flex-shrink: 0; margin-top: 2px; }
+  .err-body { flex: 1; min-width: 0; }
+  .err-msg { font-weight: 600; font-size: var(--step--1); word-break: break-word; }
+  .err-meta { font-size: 0.75rem; color: var(--ink-soft); margin-top: 3px; }
+  .err-count { font-variant-numeric: tabular-nums; font-weight: 700; font-size: var(--step--1); flex-shrink: 0; }
+  .empty { color: var(--ink-soft); font-size: var(--step--1); padding: 6px 0; }
+
+  /* ============ TOOLTIP ============ */
+  .tip {
+    position: fixed; z-index: 60; pointer-events: none;
+    background: var(--asphalt); color: var(--coconut);
+    border-radius: 10px; padding: 10px 13px;
+    font-size: 0.8rem; line-height: 1.45;
+    box-shadow: 0 6px 24px rgba(48, 47, 44, 0.22);
+    opacity: 0; transition: opacity 120ms ease;
+    max-width: 240px;
+  }
+  .tip.on { opacity: 1; }
+  .tip .t-label { color: var(--coconut-soft); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; }
+  .tip .t-value { font-weight: 700; font-size: 0.95rem; margin-top: 2px; }
+
+  footer {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--c-grid);
+    font-size: var(--step--1); color: var(--ink-soft);
+    display: flex; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap;
+  }
+  footer a { color: var(--ink-soft); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-card">
+
+  <header class="head">
+    <a class="wordmark" href="index.html">
+      <img src="logo_nobg_black.svg" alt="" />
+      <span class="name">Shabnam Raghavan</span>
+    </a>
+    <nav>
+      <a href="index.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="resume.html">Resume</a>
+    </nav>
+  </header>
+
+  <div class="notice">
+    <b>Sample data.</b>
+    <span>Nothing here is real yet. These are invented numbers in the right shapes, so the layout can be judged before anything is wired up.</span>
+  </div>
+
+  <div class="title-row">
+    <h1>Portfolio analytics</h1>
+    <p class="sub">shabnamraghavan.com</p>
+  </div>
+
+  <!-- ONE filter row, scoping every panel below it -->
+  <div class="filters">
+    <span class="lbl">Period</span>
+    <div class="seg" id="range" role="group" aria-label="Date range">
+      <button type="button" data-days="7" aria-pressed="false">7 days</button>
+      <button type="button" data-days="30" aria-pressed="true">30 days</button>
+      <button type="button" data-days="90" aria-pressed="false">90 days</button>
+    </div>
+  </div>
+
+  <!-- ============ HERO FIGURE: exactly one per view ============ -->
+  <section class="hero-fig">
+    <p class="label">Visitors</p>
+    <p class="value" id="hero-value">0</p>
+    <p class="meta" id="hero-meta"></p>
+  </section>
+
+  <!-- ============ KPI ROW ============ -->
+  <section class="kpi-row" id="kpis"></section>
+
+  <!-- ============ VISITORS OVER TIME ============ -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Visitors over time</h2>
+      <button class="toggle" type="button" data-view="visitors">Table</button>
+    </div>
+    <p class="desc">Daily unique visitors. Hover for any day.</p>
+    <div class="chart-wrap" id="visitors"></div>
+  </section>
+
+  <div class="grid-2">
+    <!-- ============ SOURCES ============ -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Where they came from</h2>
+        <button class="toggle" type="button" data-view="sources">Table</button>
+      </div>
+      <p class="desc">Direct is a catch-all: LinkedIn's app, email clients and pasted links all arrive with no referrer.</p>
+      <div class="chart-wrap" id="sources"></div>
+    </section>
+
+    <!-- ============ JOURNEY FUNNEL ============ -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>How far people get</h2>
+        <button class="toggle" type="button" data-view="funnel">Table</button>
+      </div>
+      <p class="desc">Ordered stages, so the ramp darkens as the audience narrows.</p>
+      <div class="chart-wrap" id="funnel"></div>
+    </section>
+  </div>
+
+  <!-- ============ CASE STUDY TABLE ============ -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Case study performance</h2>
+    </div>
+    <p class="desc">Median time is measured only while the tab is visible, so a page left open overnight does not count as a long read.</p>
+    <div class="chart-wrap" id="pages"></div>
+  </section>
+
+  <!-- ============ SCROLL DEPTH SMALL MULTIPLES ============ -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Scroll depth</h2>
+      <button class="toggle" type="button" data-view="depth">Table</button>
+    </div>
+    <p class="desc">Share of visitors reaching each point of the page. The 90% bar is the one that means someone actually read it.</p>
+    <div id="depth"></div>
+  </section>
+
+  <div class="grid-2">
+    <!-- ============ EVENTS ============ -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Actions taken</h2>
+      </div>
+      <p class="desc">Direct clicks, so these counts are close to exact.</p>
+      <div class="chart-wrap" id="events"></div>
+    </section>
+
+    <!-- ============ ERRORS ============ -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Errors</h2>
+      </div>
+      <p class="desc">JavaScript errors your visitors hit, which you would otherwise never hear about.</p>
+      <div id="errors"></div>
+    </section>
+  </div>
+
+  <footer>
+    <span>Sample data · no visitors were counted to make this page</span>
+    <a href="index.html">Back to the portfolio</a>
+  </footer>
+
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   SAMPLE DATA
+   The single seam between this page and a real backend. When the
+   collector exists, this whole block becomes:
+       const DATA = await (await fetch('/api/stats?days=90')).json();
+   Nothing below this block needs to change.
+   ============================================================ */
+
+const PAGES = [
+  { path: '/',                                  name: 'Home' },
+  { path: '/ihx-nucleus-mobile-case-study',     name: 'Nucleus Mobile' },
+  { path: '/ihx_tpa_ops_',                      name: 'TPA Ops' },
+  { path: '/ihx-ai-features-case-study',        name: 'AI Features' },
+  { path: '/ihx-user-management-case-study',    name: 'User Management' },
+  { path: '/wisewomen-case-study',              name: 'WiseWoman' },
+  { path: '/about',                             name: 'About' },
+  { path: '/resume',                            name: 'Resume' },
+];
+
+/* deterministic pseudo-random, so the sample looks the same on every reload */
+let _seed = 20260918;
+function rnd() { _seed = (_seed * 1103515245 + 12345) & 0x7fffffff; return _seed / 0x7fffffff; }
+
+function buildDays(n) {
+  const out = [];
+  const today = new Date('2026-09-18T00:00:00');
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    const dow = d.getDay();
+    let base = 11 + rnd() * 9;
+    if (dow === 0 || dow === 6) base *= 0.55;          // quiet weekends
+    if (i === 12) base *= 4.6;                          // the day a post landed
+    if (i === 11) base *= 2.4;
+    if (i === 10) base *= 1.5;
+    if (i < 30) base *= 1.18;                           // recent uplift
+    out.push({ date: d.toISOString().slice(0, 10), visitors: Math.round(base) });
+  }
+  return out;
+}
+
+const DATA = {
+  days: buildDays(90),
+
+  sources: [
+    { name: 'Direct',        v: 386 },
+    { name: 'LinkedIn',      v: 271 },
+    { name: 'Google',        v: 118 },
+    { name: 'Behance',       v: 44 },
+    { name: 'Read.cv',       v: 29 },
+    { name: 'Other',         v: 23 },
+  ],
+
+  funnel: [
+    { name: 'Landed on the site',   v: 871 },
+    { name: 'Opened a case study',  v: 412 },
+    { name: 'Read one to the end',  v: 168 },
+    { name: 'Downloaded the resume', v: 57 },
+  ],
+
+  pages: [
+    { name: 'Nucleus Mobile',  views: 214, median: 254, finished: 47, plays: 61 },
+    { name: 'AI Features',     views: 186, median: 221, finished: 41, plays: 94 },
+    { name: 'TPA Ops',         views: 149, median: 302, finished: 52, plays: 38 },
+    { name: 'User Management', views: 121, median: 176, finished: 33, plays: 22 },
+    { name: 'WiseWoman',       views: 98,  median: 198, finished: 38, plays: 17 },
+  ],
+
+  /* share of visitors reaching each depth, per case study */
+  depth: [
+    { name: 'Nucleus Mobile',  buckets: [100, 78, 61, 47] },
+    { name: 'AI Features',     buckets: [100, 74, 55, 41] },
+    { name: 'TPA Ops',         buckets: [100, 81, 67, 52] },
+    { name: 'User Management', buckets: [100, 69, 48, 33] },
+    { name: 'WiseWoman',       buckets: [100, 72, 53, 38] },
+  ],
+  depthLabels: ['25%', '50%', '75%', '90%'],
+
+  events: [
+    { name: 'Resume downloaded',        v: 57 },
+    { name: 'Walkthrough video played', v: 232 },
+    { name: 'LinkedIn clicked',         v: 88 },
+    { name: 'Email clicked',            v: 31 },
+    { name: 'Case study opened',        v: 412 },
+  ],
+
+  errors: [
+    { msg: "Failed to load resource: ihx-ai-features-cover.mp4", where: '/ihx-ai-features-case-study', n: 14, last: '2 days ago' },
+    { msg: "Uncaught TypeError: Cannot read properties of null (reading 'classList')", where: '/', n: 3, last: '6 days ago' },
+  ],
+
+  /* headline stats, by range. Each tile carries its OWN 12-point series:
+     a sparkline must plot the metric above it, never a shared line. */
+  stats: {
+    7: {
+      visitors: 121, downloads: 9, median: 138, bounce: 44,
+      dVisitors: 12, dDownloads: -1, dMedian: 9, dBounce: -3,
+      sparks: {
+        downloads: [2, 1, 3, 2, 0, 1, 2, 3, 1, 2, 1, 2],
+        median:    [121, 118, 132, 140, 129, 144, 138, 151, 142, 133, 140, 138],
+        bounce:    [49, 47, 48, 45, 46, 44, 45, 43, 44, 46, 45, 44],
+        plays:     [4, 7, 5, 9, 6, 8, 11, 7, 9, 12, 8, 10],
+      },
+    },
+    30: {
+      visitors: 871, downloads: 57, median: 164, bounce: 41,
+      dVisitors: 34, dDownloads: 18, dMedian: 22, dBounce: -6,
+      sparks: {
+        downloads: [2, 3, 1, 4, 3, 6, 9, 7, 5, 6, 4, 7],
+        median:    [131, 128, 139, 145, 152, 171, 186, 174, 166, 159, 168, 164],
+        bounce:    [47, 48, 45, 44, 46, 39, 36, 38, 40, 42, 40, 41],
+        plays:     [9, 12, 8, 14, 17, 31, 42, 28, 21, 19, 16, 15],
+      },
+    },
+    90: {
+      visitors: 2140, downloads: 121, median: 151, bounce: 46,
+      dVisitors: 8, dDownloads: 5, dMedian: -4, dBounce: 2,
+      sparks: {
+        downloads: [11, 14, 9, 12, 8, 13, 10, 15, 9, 11, 7, 12],
+        median:    [158, 162, 149, 155, 147, 141, 166, 152, 148, 143, 157, 151],
+        bounce:    [43, 41, 44, 42, 45, 48, 44, 47, 45, 49, 46, 46],
+        plays:     [18, 24, 19, 27, 22, 35, 29, 33, 26, 24, 21, 23],
+      },
+    },
+  },
+};
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $  = (s, r = document) => r.querySelector(s);
+const NS = 'http://www.w3.org/2000/svg';
+
+function el(name, attrs = {}, parent) {
+  const n = document.createElementNS(NS, name);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+function num(n) { return n.toLocaleString('en-US'); }
+function dur(s) {
+  const m = Math.floor(s / 60), r = s % 60;
+  return m ? `${m}m ${r}s` : `${r}s`;
+}
+function niceDate(iso) {
+  return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+/* round a max up to a clean axis top */
+function axisTop(max) {
+  if (max <= 10) return 10;
+  const mag = Math.pow(10, Math.floor(Math.log10(max)));
+  return Math.ceil(max / (mag / 2)) * (mag / 2);
+}
+
+/* ---- tooltip ---- */
+const tip = $('#tip');
+function showTip(e, label, value) {
+  tip.innerHTML = `<div class="t-label">${label}</div><div class="t-value">${value}</div>`;
+  tip.classList.add('on');
+  const pad = 14;
+  let x = e.clientX + pad, y = e.clientY + pad;
+  const r = tip.getBoundingClientRect();
+  if (x + r.width > window.innerWidth - 8) x = e.clientX - r.width - pad;
+  if (y + r.height > window.innerHeight - 8) y = e.clientY - r.height - pad;
+  tip.style.left = x + 'px';
+  tip.style.top = y + 'px';
+}
+function hideTip() { tip.classList.remove('on'); }
+
+/* a mark gets hover AND keyboard focus showing the same thing */
+function bindTip(node, label, value) {
+  node.addEventListener('mousemove', e => showTip(e, label, value));
+  node.addEventListener('mouseleave', hideTip);
+  node.setAttribute('tabindex', '0');
+  node.setAttribute('role', 'img');
+  node.setAttribute('aria-label', `${label}: ${value}`);
+  node.addEventListener('focus', () => {
+    const b = node.getBoundingClientRect();
+    showTip({ clientX: b.left + b.width / 2, clientY: b.top }, label, value);
+  });
+  node.addEventListener('blur', hideTip);
+}
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let days = 30;
+const views = {};              // panel id -> 'chart' | 'table'
+
+/* ============================================================
+   HERO + KPI TILES
+   ============================================================ */
+function sparkline(series, w = 88, h = 26) {
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('width', w); svg.setAttribute('height', h);
+  svg.setAttribute('aria-hidden', 'true');
+  const max = Math.max(...series), min = Math.min(...series);
+  const span = max - min || 1;
+  const pts = series.map((v, i) => [
+    (i / (series.length - 1)) * (w - 6) + 3,
+    h - 4 - ((v - min) / span) * (h - 8),
+  ]);
+  el('polyline', {
+    points: pts.map(p => p.join(',')).join(' '),
+    fill: 'none', stroke: 'var(--c-mute)', 'stroke-width': 2,
+    'stroke-linejoin': 'round', 'stroke-linecap': 'round',
+  }, svg);
+  const last = pts[pts.length - 1];
+  el('circle', { cx: last[0], cy: last[1], r: 3.5, fill: 'var(--c-accent)' }, svg);
+  return svg;
+}
+
+function renderHead() {
+  const s = DATA.stats[days];
+  $('#hero-value').textContent = num(s.visitors);
+  const sign = s.dVisitors >= 0 ? '+' : '';
+  $('#hero-meta').innerHTML =
+    `<b>${sign}${s.dVisitors}%</b> vs the previous ${days} days · ` +
+    `<b>${num(DATA.funnel[1].v)}</b> case study opens · <b>${num(s.downloads)}</b> resume downloads`;
+
+  const tiles = [
+    { label: 'Resume downloads', value: num(s.downloads), d: s.dDownloads, goodUp: true,  spark: s.sparks.downloads },
+    { label: 'Median time on a case study', value: dur(s.median), d: s.dMedian, goodUp: true,  spark: s.sparks.median },
+    { label: 'Bounce rate', value: s.bounce + '%', d: s.dBounce, goodUp: false, spark: s.sparks.bounce },
+    { label: 'Walkthrough plays', value: num(DATA.events[1].v), d: 27, goodUp: true,  spark: s.sparks.plays },
+  ];
+
+  const wrap = $('#kpis');
+  wrap.innerHTML = '';
+  tiles.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'tile';
+    const good = t.goodUp ? t.d >= 0 : t.d <= 0;
+    const arrow = t.d >= 0 ? '↑' : '↓';
+    div.innerHTML =
+      `<p class="label">${t.label}</p>` +
+      `<p class="value">${t.value}</p>` +
+      `<div class="foot">
+         <span class="delta" style="color:${good ? 'var(--ink)' : 'var(--c-accent)'}">
+           <span class="arrow">${arrow}</span> ${Math.abs(t.d)}%
+         </span>
+       </div>`;
+    div.querySelector('.foot').appendChild(sparkline(t.spark));
+    wrap.appendChild(div);
+  });
+}
+
+/* ============================================================
+   VISITORS OVER TIME  (single series -> no legend; the title names it)
+   ============================================================ */
+function renderVisitors() {
+  const host = $('#visitors');
+  host.innerHTML = '';
+  const data = DATA.days.slice(-days);
+
+  if (views.visitors === 'table') {
+    host.innerHTML =
+      `<table><thead><tr><th>Date</th><th class="num">Visitors</th></tr></thead><tbody>` +
+      data.map(d => `<tr><td>${niceDate(d.date)}</td><td class="num">${num(d.visitors)}</td></tr>`).join('') +
+      `</tbody></table>`;
+    return;
+  }
+
+  const W = Math.max(640, host.clientWidth || 640), H = 240;
+  const m = { t: 12, r: 16, b: 30, l: 42 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const top = axisTop(Math.max(...data.map(d => d.visitors)));
+
+  const svg = el('svg', { class: 'chart', width: W, height: H, viewBox: `0 0 ${W} ${H}` }, host);
+  const x = i => m.l + (i / (data.length - 1)) * iw;
+  const y = v => m.t + ih - (v / top) * ih;
+
+  /* gridlines: solid hairlines, one step off the surface, never dashed */
+  for (let i = 0; i <= 4; i++) {
+    const v = (top / 4) * i, yy = y(v);
+    el('line', { x1: m.l, x2: m.l + iw, y1: yy, y2: yy, stroke: 'var(--c-grid)', 'stroke-width': 1 }, svg);
+    el('text', {
+      x: m.l - 10, y: yy + 4, 'text-anchor': 'end',
+      'font-size': 11, fill: 'var(--ink-soft)', 'font-variant-numeric': 'tabular-nums',
+    }, svg).textContent = num(Math.round(v));
+  }
+
+  /* area wash at ~10%, then the 2px line */
+  const line = data.map((d, i) => `${x(i)},${y(d.visitors)}`).join(' L ');
+  el('path', {
+    d: `M ${m.l},${m.t + ih} L ${line} L ${m.l + iw},${m.t + ih} Z`,
+    fill: 'var(--c-accent-wash)',
+  }, svg);
+  el('path', {
+    d: `M ${line}`, fill: 'none', stroke: 'var(--c-accent)',
+    'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round',
+  }, svg);
+
+  /* x labels: first, middle, last only, so they never collide */
+  [0, Math.floor(data.length / 2), data.length - 1].forEach(i => {
+    el('text', {
+      x: x(i), y: H - 8,
+      'text-anchor': i === 0 ? 'start' : i === data.length - 1 ? 'end' : 'middle',
+      'font-size': 11, fill: 'var(--ink-soft)',
+    }, svg).textContent = niceDate(data[i].date);
+  });
+
+  /* label the peak only, never every point */
+  const peak = data.reduce((a, b, i) => (b.visitors > data[a].visitors ? i : a), 0);
+  el('circle', {
+    cx: x(peak), cy: y(data[peak].visitors), r: 4.5,
+    fill: 'var(--c-accent)', stroke: 'var(--coconut-deep)', 'stroke-width': 2,
+  }, svg);
+  el('text', {
+    x: x(peak), y: y(data[peak].visitors) - 12, 'text-anchor': 'middle',
+    'font-size': 12, 'font-weight': 700, fill: 'var(--ink)',
+  }, svg).textContent = num(data[peak].visitors);
+
+  /* crosshair layer: one wide hit band per day, so hovering is easy */
+  const cross = el('line', {
+    y1: m.t, y2: m.t + ih, stroke: 'var(--c-grid)', 'stroke-width': 1, opacity: 0,
+  }, svg);
+  const dot = el('circle', { r: 4.5, fill: 'var(--c-accent)', stroke: 'var(--coconut-deep)', 'stroke-width': 2, opacity: 0 }, svg);
+  const bandW = iw / data.length;
+  data.forEach((d, i) => {
+    const hit = el('rect', {
+      x: x(i) - bandW / 2, y: m.t, width: bandW, height: ih, fill: 'transparent',
+    }, svg);
+    const label = niceDate(d.date);
+    const value = `${num(d.visitors)} visitor${d.visitors === 1 ? '' : 's'}`;
+    hit.addEventListener('mousemove', e => {
+      cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i)); cross.setAttribute('opacity', 1);
+      dot.setAttribute('cx', x(i)); dot.setAttribute('cy', y(d.visitors)); dot.setAttribute('opacity', 1);
+      showTip(e, label, value);
+    });
+    hit.addEventListener('mouseleave', () => {
+      cross.setAttribute('opacity', 0); dot.setAttribute('opacity', 0); hideTip();
+    });
+  });
+}
+
+/* ============================================================
+   SOURCES  (nominal categories -> ONE colour for every bar)
+   ============================================================ */
+function renderSources() {
+  const host = $('#sources');
+  host.innerHTML = '';
+  const data = DATA.sources;
+
+  if (views.sources === 'table') {
+    const total = data.reduce((a, b) => a + b.v, 0);
+    host.innerHTML =
+      `<table><thead><tr><th>Source</th><th class="num">Visitors</th><th class="num">Share</th></tr></thead><tbody>` +
+      data.map(d => `<tr><td class="name">${d.name}</td><td class="num">${num(d.v)}</td><td class="num">${Math.round(d.v / total * 100)}%</td></tr>`).join('') +
+      `</tbody></table>`;
+    return;
+  }
+
+  const rowH = 34, barH = 18;           // bar capped well under 24px, rest is air
+  const W = Math.max(320, host.clientWidth || 320);
+  const labelW = 96, valueW = 46;
+  const H = data.length * rowH;
+  const iw = W - labelW - valueW;
+  const max = Math.max(...data.map(d => d.v));
+
+  const svg = el('svg', { class: 'chart', width: W, height: H, viewBox: `0 0 ${W} ${H}` }, host);
+  data.forEach((d, i) => {
+    const yy = i * rowH + (rowH - barH) / 2;
+    const w = Math.max(3, (d.v / max) * iw);
+    el('text', {
+      x: 0, y: yy + barH / 2 + 4, 'font-size': 12, fill: 'var(--ink)', 'font-weight': 600,
+    }, svg).textContent = d.name;
+    /* 4px rounded data-end, square at the baseline */
+    const bar = el('path', {
+      d: `M ${labelW},${yy} H ${labelW + w - 4} a 4,4 0 0 1 4,4 V ${yy + barH - 4} a 4,4 0 0 1 -4,4 H ${labelW} Z`,
+      fill: 'var(--c-accent)',
+    }, svg);
+    bindTip(bar, d.name, `${num(d.v)} visitors`);
+    el('text', {
+      x: labelW + w + 10, y: yy + barH / 2 + 4,
+      'font-size': 12, fill: 'var(--ink)', 'font-variant-numeric': 'tabular-nums',
+    }, svg).textContent = num(d.v);
+  });
+}
+
+/* ============================================================
+   FUNNEL  (ordered stages -> the validated ordinal ramp)
+   ============================================================ */
+function renderFunnel() {
+  const host = $('#funnel');
+  host.innerHTML = '';
+  const data = DATA.funnel;
+  const ramp = ['var(--c-ord-1)', 'var(--c-ord-2)', 'var(--c-ord-3)', 'var(--c-ord-4)'];
+
+  if (views.funnel === 'table') {
+    host.innerHTML =
+      `<table><thead><tr><th>Stage</th><th class="num">People</th><th class="num">Of all visitors</th></tr></thead><tbody>` +
+      data.map((d, i) =>
+        `<tr><td class="name"><span class="swatch" style="background:${ramp[i]}"></span>${d.name}</td>` +
+        `<td class="num">${num(d.v)}</td><td class="num">${Math.round(d.v / data[0].v * 100)}%</td></tr>`).join('') +
+      `</tbody></table>`;
+    return;
+  }
+
+  const rowH = 46, barH = 20;
+  const W = Math.max(320, host.clientWidth || 320);
+  const H = data.length * rowH;
+  const max = data[0].v;
+  /* the value rides outside the bar end, so the plot stops short of the panel
+     edge by exactly the room that label needs. Nothing is ever clipped. */
+  const valueW = 104;
+  const iw = W - valueW;
+
+  const svg = el('svg', { class: 'chart', width: W, height: H, viewBox: `0 0 ${W} ${H}` }, host);
+  data.forEach((d, i) => {
+    const yTop = i * rowH;
+    el('text', { x: 0, y: yTop + 13, 'font-size': 12, fill: 'var(--ink)', 'font-weight': 600 }, svg)
+      .textContent = d.name;
+    const w = Math.max(4, (d.v / max) * iw);
+    const yy = yTop + 20;
+    const bar = el('path', {
+      d: `M 0,${yy} H ${w - 4} a 4,4 0 0 1 4,4 V ${yy + barH - 4} a 4,4 0 0 1 -4,4 H 0 Z`,
+      fill: ramp[i],
+    }, svg);
+    const share = Math.round(d.v / max * 100);
+    bindTip(bar, d.name, `${num(d.v)} people · ${share}% of visitors`);
+    /* value outside the bar end, so it is never clipped by a short bar */
+    el('text', {
+      x: w + 10, y: yy + barH / 2 + 4,
+      'font-size': 12, fill: 'var(--ink)', 'font-variant-numeric': 'tabular-nums', 'font-weight': 600,
+    }, svg).textContent = `${num(d.v)}  ·  ${share}%`;
+  });
+}
+
+/* ============================================================
+   CASE STUDY TABLE  (>7 meaningful values -> a table, not more colour)
+   ============================================================ */
+function renderPages() {
+  const host = $('#pages');
+  host.innerHTML =
+    `<table>
+      <thead><tr>
+        <th>Case study</th>
+        <th class="num">Views</th>
+        <th class="num">Median time</th>
+        <th class="num">Video plays</th>
+        <th class="num">Read to the end</th>
+      </tr></thead>
+      <tbody>` +
+    DATA.pages.map(p =>
+      `<tr>
+        <td class="name">${p.name}</td>
+        <td class="num">${num(p.views)}</td>
+        <td class="num">${dur(p.median)}</td>
+        <td class="num">${num(p.plays)}</td>
+        <td class="num">
+          <div class="meter">
+            <span class="track"><span class="fill" style="width:${p.finished}%"></span></span>
+            <span class="n">${p.finished}%</span>
+          </div>
+        </td>
+      </tr>`).join('') +
+    `</tbody></table>`;
+}
+
+/* ============================================================
+   SCROLL DEPTH  (small multiples: comparable, no per-chart filter)
+   ============================================================ */
+function renderDepth() {
+  const host = $('#depth');
+  host.innerHTML = '';
+  const ramp = ['var(--c-ord-1)', 'var(--c-ord-2)', 'var(--c-ord-3)', 'var(--c-ord-4)'];
+
+  if (views.depth === 'table') {
+    host.innerHTML =
+      `<div class="chart-wrap"><table><thead><tr><th>Case study</th>` +
+      DATA.depthLabels.map(l => `<th class="num">${l}</th>`).join('') +
+      `</tr></thead><tbody>` +
+      DATA.depth.map(d =>
+        `<tr><td class="name">${d.name}</td>` +
+        d.buckets.map(b => `<td class="num">${b}%</td>`).join('') + `</tr>`).join('') +
+      `</tbody></table></div>`;
+    return;
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'sm-grid';
+  DATA.depth.forEach(d => {
+    const cell = document.createElement('div');
+    cell.className = 'sm';
+    cell.innerHTML = `<h3>${d.name}</h3><p class="sm-sub">${d.buckets[3]}% reached the end</p>`;
+
+    const W = 190, rowH = 26, barH = 14, labelW = 34, valueW = 40;
+    const H = d.buckets.length * rowH;
+    const iw = W - labelW - valueW;
+    const svg = el('svg', { class: 'chart', width: '100%', height: H, viewBox: `0 0 ${W} ${H}` }, cell);
+
+    d.buckets.forEach((b, i) => {
+      const yy = i * rowH + (rowH - barH) / 2;
+      el('text', {
+        x: 0, y: yy + barH / 2 + 4, 'font-size': 11, fill: 'var(--ink-soft)',
+        'font-variant-numeric': 'tabular-nums',
+      }, svg).textContent = DATA.depthLabels[i];
+      const w = Math.max(3, (b / 100) * iw);
+      const bar = el('path', {
+        d: `M ${labelW},${yy} H ${labelW + w - 4} a 4,4 0 0 1 4,4 V ${yy + barH - 4} a 4,4 0 0 1 -4,4 H ${labelW} Z`,
+        fill: ramp[i],
+      }, svg);
+      bindTip(bar, `${d.name} · reached ${DATA.depthLabels[i]}`, `${b}% of readers`);
+      el('text', {
+        x: labelW + w + 8, y: yy + barH / 2 + 4,
+        'font-size': 11, fill: 'var(--ink)', 'font-variant-numeric': 'tabular-nums',
+      }, svg).textContent = b + '%';
+    });
+    grid.appendChild(cell);
+  });
+  host.appendChild(grid);
+}
+
+/* ============================================================
+   EVENTS + ERRORS
+   ============================================================ */
+function renderEvents() {
+  $('#events').innerHTML =
+    `<table><thead><tr><th>Action</th><th class="num">Times</th></tr></thead><tbody>` +
+    DATA.events.map(e => `<tr><td class="name">${e.name}</td><td class="num">${num(e.v)}</td></tr>`).join('') +
+    `</tbody></table>`;
+}
+
+function renderErrors() {
+  const host = $('#errors');
+  if (!DATA.errors.length) {
+    host.innerHTML = `<p class="empty">No errors in this period. Good.</p>`;
+    return;
+  }
+  /* status reads as icon + label + colour, never colour alone */
+  host.innerHTML = DATA.errors.map(e =>
+    `<div class="err-row">
+       <svg class="err-icon" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+         <path d="M7 1.5 13 12H1L7 1.5Z" fill="none" stroke="var(--c-accent)" stroke-width="1.6" stroke-linejoin="round"/>
+         <path d="M7 5.5v3M7 10.4v.1" stroke="var(--c-accent)" stroke-width="1.6" stroke-linecap="round"/>
+       </svg>
+       <div class="err-body">
+         <p class="err-msg">${e.msg}</p>
+         <p class="err-meta">Error · ${e.where} · last seen ${e.last}</p>
+       </div>
+       <span class="err-count">${num(e.n)}</span>
+     </div>`).join('');
+}
+
+/* ============================================================
+   WIRE-UP
+   ============================================================ */
+function renderAll() {
+  renderHead();
+  renderVisitors();
+  renderSources();
+  renderFunnel();
+  renderPages();
+  renderDepth();
+  renderEvents();
+  renderErrors();
+}
+
+$('#range').addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  days = +b.dataset.days;
+  [...e.currentTarget.querySelectorAll('button')]
+    .forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  renderAll();
+});
+
+document.querySelectorAll('.toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const k = btn.dataset.view;
+    views[k] = views[k] === 'table' ? 'chart' : 'table';
+    btn.textContent = views[k] === 'table' ? 'Chart' : 'Table';
+    ({ visitors: renderVisitors, sources: renderSources, funnel: renderFunnel, depth: renderDepth })[k]();
+  });
+});
+
+let rAF;
+window.addEventListener('resize', () => {
+  cancelAnimationFrame(rAF);
+  rAF = requestAnimationFrame(() => { renderVisitors(); renderSources(); renderFunnel(); });
+});
+
+renderAll();
+</script>
+
+</body>
+</html>
