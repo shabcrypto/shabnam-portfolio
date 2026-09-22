@@ -1012,12 +1012,13 @@
   .peer-track {
     display: flex; gap: clamp(18px, 2.4vw, 30px);
     padding: 54px 2px 30px;
-    width: max-content;
   }
 
   .quote {
     scroll-snap-align: center;
-    flex: 0 0 clamp(272px, 78vw, 366px);
+    /* 100% is the rail's visible width, so on a phone one card fills it exactly and can never
+       be clipped; on desktop the 366px cap takes over and several cards show at once. */
+    flex: 0 0 min(100%, 366px);
     position: relative;
     display: flex; flex-direction: column; gap: var(--space-sm);
     background: var(--card-raised);
@@ -1026,11 +1027,12 @@
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.06), 0 12px 30px -12px oklch(26% 0.021 42 / 0.24);
     /* the fun part: each card is pinned at its own slight angle and height, set per card in the
        markup, so the rail reads as photographs laid on a desk rather than a row of boxes */
-    transform: rotate(var(--tilt, 0deg)) translateY(var(--lift, 0px));
+    transform: rotate(calc(var(--tilt, 0deg) * var(--tilt-on, 1)))
+               translateY(calc(var(--lift, 0px) * var(--tilt-on, 1)));
     transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms ease;
   }
   .quote:hover, .quote:focus-within {
-    transform: rotate(0deg) translateY(calc(var(--lift, 0px) - 5px));
+    transform: rotate(0deg) translateY(calc(var(--lift, 0px) * var(--tilt-on, 1) - 5px));
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.06), 0 18px 38px -14px oklch(26% 0.021 42 / 0.28);
     z-index: 2;
   }
@@ -1070,7 +1072,7 @@
   .quote .mark { font-family: var(--font-display); font-weight: 700; font-size: 2.6rem; line-height: 0.62; color: var(--vermillion); }
   .quote blockquote {
     font-family: var(--font-body); font-weight: 400;
-    font-size: 0.98rem; line-height: 1.7;
+    font-size: clamp(0.9rem, 3.6vw, 0.98rem); line-height: 1.65;
     color: var(--asphalt-soft); border: none; max-width: none;
   }
   .quote blockquote b { color: var(--asphalt); font-weight: 700; }
@@ -1094,8 +1096,8 @@
   }
   .js .peers-card .quote.settled { animation: none; opacity: 1; }
   @keyframes peerIn {
-    from { opacity: 0; transform: rotate(var(--tilt, 0deg)) translateY(calc(var(--lift, 0px) + 38px)) scale(0.94); }
-    to   { opacity: 1; transform: rotate(var(--tilt, 0deg)) translateY(var(--lift, 0px)) scale(1); }
+    from { opacity: 0; transform: rotate(calc(var(--tilt, 0deg) * var(--tilt-on, 1))) translateY(calc(var(--lift, 0px) * var(--tilt-on, 1) + 38px)) scale(0.94); }
+    to   { opacity: 1; transform: rotate(calc(var(--tilt, 0deg) * var(--tilt-on, 1))) translateY(calc(var(--lift, 0px) * var(--tilt-on, 1))) scale(1); }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1339,7 +1341,7 @@
     /* the rail is already one card wide on a phone; drop the tilt so nothing looks skewed
        in a narrow column, and pull the portrait in from the edge */
     .peer-track { padding-top: 48px; }
-    .quote { --tilt: 0deg; --lift: 0px; --photo-x: 22px; }
+    .quote { --tilt-on: 0; --photo-x: 22px; }   /* multiplier, because inline --tilt wins over a plain rule */
     /* the arrows stay on touch: a scroller with no visible control reads as a static row and
        nobody swipes it. Grown to the 44px minimum touch target. */
     .rail-nav button { width: 44px; height: 44px; }
