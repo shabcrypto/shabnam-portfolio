@@ -17,7 +17,12 @@
     --coconut: #fdfdfb;      /* barely off-white, whisper of cream (was #f0ede5) */
     --coconut-deep: #f4f3ef; /* lightened in step so image placeholders don't go muddy (was #e6e2d7) */
     --coconut-soft: #b3ada0;
-    --sand: #eae7dd;         /* the design-process board: a shade under the cream step cards */
+    /* pure white, for a card sitting ON a --coconut-deep section card: process steps, peer
+       quotes, gallery frames. It is the only surface above --coconut-deep, and the shadow does
+       the separating. Never hardcode a card fill; use this. */
+    --card-raised: #ffffff;
+    /* the faint beige hairline that divides the design process rows */
+    --rule: #e6e2d6;
     --asphalt: #302f2c;
     --asphalt-soft: #6b6964;
     --vermillion: oklch(52% 0.185 33);
@@ -155,7 +160,7 @@
   .topbar.solid .wordmark { color: var(--asphalt); }
   .topbar.solid nav a:hover { color: var(--vermillion-deep); }
   .topbar.solid nav a::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23bc2b0b' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
   }
 
   /* ============ CUSTOM CURSOR ============ */
@@ -539,7 +544,7 @@
   .link::after {
     content: "";
     position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23bc2b0b' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
     background-size: 24px 8px;
     transform: scaleX(0);
     transform-origin: left;
@@ -731,68 +736,79 @@
     position: sticky; top: 96px;
     min-height: clamp(280px, 42vh, 400px);
     padding: 32px;
-    background: #FFFFFF;
+    background: var(--card-raised);
     border: 1px solid oklch(26% 0.021 42 / 0.1);
     border-radius: 16px;
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.04), 0 16px 40px oklch(26% 0.021 42 / 0.08);
   }
   /* the five steps: asphalt cards, content-height. The grid equalises them to the tallest so the
      sticky stack still covers cleanly (a shorter card over a taller one would leave it peeking). */
-  .dp-steps { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); }
+  /* DESIGN PROCESS: A STICKY ROW STACK
+     Rebuilt 2026-09-22 to the reference Shabnam sent. No cards, no shadows, no pinned outer
+     card. Five rows on the section surface, divided only by a faint beige rule, each one
+     sticking under the nav until the next row slides up and covers it completely. Row five
+     then scrolls away with the page.
 
-  /* DESIGN PROCESS, PINNED CARD WITH A STACKING DECK (desktop, scripted: see the script at the end).
-     The whole card sticks 10px under the floating nav and fills the screen. Inside it the five steps
-     start spread out; scrolling moves them up until each one lands a sliver below the last. Only
-     once step 5 has landed on step 4 does the card release and scroll on. A sticky card and sticky
-     children would move as one box, so the steps are driven by scroll position instead, and an
-     empty spacer after the card sets how long it stays pinned. Mobile and reduced motion keep the
-     plain list. */
-  .dp-process.is-pin {
+     Pure CSS sticky, which is why the old scroll-driven script is gone. That script existed
+     only because the outer card was ALSO pinned: a sticky parent and sticky children move as
+     one box, so the children had to be driven by scroll position instead. With the card no
+     longer pinning there is nothing to fight, and sticky does it natively.
+
+     Full coverage, not a sliver. The previous build left 52px of each row showing so the deck
+     read as an index of all five. This trades that away for the cleaner wipe, deliberately.
+
+     Two things are load-bearing. Each row must be OPAQUE in the section surface colour or the
+     row beneath shows through as it passes under. And rows must be spaced by their own padding,
+     never by a margin or a gap: a sticky element counts its margin against its container and
+     unsticks early. */
+  /* Every row the same height, via the grid. This is not cosmetic: rows stick at the same
+     line, so a SHORTER row sliding over a TALLER one leaves the taller one peeking out below
+     it, and unequal rows also hit their sticky limits at different moments and release in a
+     jumble. minmax() sets a floor so a one-line row still has presence, and 1fr levels them
+     all to the tallest. No gap: the rows touch and the hairline does the dividing. */
+  .dp-steps {
+    display: grid;
+    grid-auto-rows: minmax(clamp(150px, 19vh, 200px), 1fr);
+  }
+
+  .stack-card.step {
     position: sticky;
     top: var(--pin-top, 88px);
-    height: var(--pin-h, 80vh);
-    overflow: hidden;
-    padding-bottom: 50px;
-  }
-  .dp-process.is-pin .dp-steps { display: block; position: relative; flex: 1 1 auto; }
-  .dp-process.is-pin .stack-card.step {
-    position: absolute; top: 0; left: 0; right: 0;
-    min-height: var(--step-h, 232px);
-    will-change: transform;
-  }
-  .dp-pin-spacer { height: var(--pin-travel, 0px); }
-  .stack-card.step {
     display: flex; gap: var(--space-lg);
-    min-height: 0; padding: 28px 32px;
-    /* Cream cards on the sand board. They used to be a near-black gradient, and once stacked the
-       slivers were dark-on-dark: no seam showed anywhere, so the deck read as one solid slab with
-       the open step's copy stranded in its lower half. Light cards on a deeper board separate. */
-    background: var(--coconut);
+    padding: clamp(24px, 2.6vw, 34px) 0;
+    align-items: flex-start;
+    /* opaque, or the outgoing row bleeds through this one */
+    background: var(--coconut-deep);
     color: var(--asphalt);
     border: 0;
-    /* the shadow points UP on purpose: each card covers the one before it and leaves only that
-       card's top sliver showing, so a downward shadow would fall on pixels nobody can see */
-    box-shadow:
-      0 -1px 0 oklch(26% 0.021 42 / 0.09),
-      0 -5px 12px -8px oklch(26% 0.021 42 / 0.16),
-      0 1px 3px oklch(26% 0.021 42 / 0.05);
+    border-top: 1px solid var(--rule);
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 0;
   }
-  /* the step cards carry no .rv-word spans at all: the reveal made light copy unreadable,
-     so they are plain text and the stacking overlap alone carries the motion */
+  /* no rule under the last row: the card edge closes the stack, and a second line there read
+     as a stray divider under nothing */
+
+  /* the step rows carry no .rv-word spans at all: the reveal made the copy unreadable, so they
+     are plain text and the wipe alone carries the motion */
   .step p { opacity: 1; }
   .step .process-num { color: var(--vermillion-deep); }
 
   /* ===== nested design-philosophy / design-process cards (card-inside-the-card) ===== */
   .dp-card {
+    /* ONE surface for every section card on this page: philosophy, process, peers, history,
+       gallery. Same --coconut-deep as the case study pages. Set here and NOWHERE else; a
+       per-card override is what split these into two different beiges once before. Anything
+       sitting on top of it uses --card-raised and separates by shadow. */
     background: var(--coconut-deep);
     border: 0;
     border-radius: 20px;
     padding: clamp(22px, 3vw, 40px);
     box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.04), 0 14px 36px oklch(26% 0.021 42 / 0.06);
   }
-  /* the process card is a tray: a shade deeper than its siblings so the cream steps read as
-     cards sitting ON it rather than as panels cut out of it */
-  .dp-process { display: flex; flex-direction: column; gap: var(--space-lg); background: var(--sand); }
+  /* The rows carry their own bottom padding, so the card adds none: with both, the last line
+     of copy sat 75px above the card edge and the card looked like it had lost something. */
+  .dp-process { display: flex; flex-direction: column; gap: var(--space-lg); padding-bottom: 0; }
 
   .dp-philosophy {
     display: flex;
@@ -948,105 +964,154 @@
   }
 
   /* ============ PEER REVIEW ============ */
-  /* Redesigned 2026-09-21. The quotes used to sit straight on the card as loose text, so three
-     testimonials of different lengths read as one run-on column. They are cards on a tray now,
-     the same sand-and-cream pairing as the design process deck, which makes the two sections
-     obviously part of one system. Cream on coconut-deep is only a 3% step and disappears, so the
-     tray has to be the deeper sand for the cards to read at all. */
+  /* A horizontal rail of tilted cards, each with a circular portrait breaking out of its top
+     edge. Three testimonials in a two-up grid always left one cell empty and read as a form; a
+     rail reads as a stack of photographs on a desk and has room for a fourth later.
+     The cards are --card-raised on the shared --coconut-deep section surface, like every other
+     inner card on this page. */
   .peers { background: transparent; }
   .peers-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px var(--space-xl); }
   .peers h2, .history h2 {
     font-family: var(--font-display); font-weight: 400;
     font-size: var(--step-3); letter-spacing: 0.03em; margin-bottom: var(--space-lg);
   }
-  .peers-card { background: var(--sand); }
-  .peer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); align-items: stretch; }
+  .peers-card { overflow: hidden; }
+  .peers-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap; }
+  .peers-head h2 { margin-bottom: 0; }
+  .rail-nav { display: flex; gap: 8px; }
+  .rail-nav button {
+    width: 40px; height: 40px; border-radius: 999px; border: 0; cursor: pointer;
+    background: var(--coconut); color: var(--asphalt);
+    display: grid; place-items: center;
+    box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.06), 0 6px 16px -8px oklch(26% 0.021 42 / 0.22);
+    transition: transform 160ms ease, color 160ms ease, opacity 160ms ease;
+  }
+  .rail-nav button:hover { transform: translateY(-1px); color: var(--vermillion-deep); }
+  .rail-nav button[disabled] { opacity: 0.32; cursor: default; transform: none; }
+  .rail-nav svg { display: block; }
+
+  /* The rail. Padding on the track, not the container, so the first and last cards can sit
+     flush with the card's own padding while still scrolling edge to edge. The generous top
+     padding is what the portraits hang in; without it they clip against overflow. */
+  .peer-rail-wrap { position: relative; }
+  /* sits above the rail, never scrolls with it, and must not eat pointer events */
+  .peer-rail-wrap::after {
+    content: ""; position: absolute; top: 0; right: -1px; bottom: 0; width: clamp(28px, 5vw, 64px);
+    background: linear-gradient(to right, transparent, var(--coconut-deep));
+    pointer-events: none; opacity: 1; transition: opacity 200ms ease;
+  }
+  .peer-rail-wrap.at-end::after { opacity: 0; }
+  .peer-rail {
+    margin-top: var(--space-lg);
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .peer-rail::-webkit-scrollbar { display: none; }
+  .peer-track {
+    display: flex; gap: clamp(18px, 2.4vw, 30px);
+    padding: 54px 2px 30px;
+    width: max-content;
+  }
+
   .quote {
+    scroll-snap-align: center;
+    flex: 0 0 clamp(272px, 78vw, 366px);
+    position: relative;
     display: flex; flex-direction: column; gap: var(--space-sm);
-    background: var(--coconut);
-    border-radius: 16px;
-    padding: clamp(22px, 2.3vw, 30px);
-    box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.05), 0 8px 22px -10px oklch(26% 0.021 42 / 0.16);
+    background: var(--card-raised);
+    border-radius: 18px;
+    padding: 52px clamp(22px, 2.2vw, 28px) clamp(20px, 2vw, 26px);
+    box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.06), 0 12px 30px -12px oklch(26% 0.021 42 / 0.24);
+    /* the fun part: each card is pinned at its own slight angle and height, set per card in the
+       markup, so the rail reads as photographs laid on a desk rather than a row of boxes */
+    transform: rotate(var(--tilt, 0deg)) translateY(var(--lift, 0px));
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms ease;
   }
-  /* The first testimonial is the longest and most specific, so it gets the full width. Stacked
-     like the others its line length capped at 64ch and left a third of the card empty, so it
-     runs two columns instead: quote on the left, attribution held at the foot of its own column
-     on the right. Below 900px it falls back to the plain stack. */
-  .quote.lead {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(170px, 218px);
-    grid-template-areas: "mark  meta"
-                         "quote meta";
-    column-gap: clamp(28px, 4.5vw, 64px);
+  .quote:hover, .quote:focus-within {
+    transform: rotate(0deg) translateY(calc(var(--lift, 0px) - 5px));
+    box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.06), 0 18px 38px -14px oklch(26% 0.021 42 / 0.28);
+    z-index: 2;
   }
-  .quote.lead .mark { grid-area: mark; }
-  .quote.lead blockquote { grid-area: quote; }
-  .quote.lead figcaption {
-    grid-area: meta; align-self: end;
-    margin-top: 0; padding-top: 0; border-top: 0;
+
+  /* The portrait, breaking out of the top edge. It is the link to the profile, so the whole
+     84px disc is the target and no separate 44px affordance is needed. */
+  .peer-photo {
+    position: absolute; top: -42px; left: var(--photo-x, 26px);
+    width: 84px; height: 84px; border-radius: 50%;
+    display: grid; place-items: center;
+    text-decoration: none; color: var(--coconut);
+    background: var(--tone, #c34a33);
+    box-shadow: 0 0 0 5px var(--card-raised), 0 6px 18px -6px oklch(26% 0.021 42 / 0.4);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .quote .mark { font-family: var(--font-display); font-weight: 700; font-size: 3.1rem; line-height: 0.62; color: var(--vermillion); }
+  .peer-photo:hover, .peer-photo:focus-visible { transform: scale(1.05) rotate(-3deg); }
+  /* the image is clipped to the disc on its own, so the badge can hang off the edge */
+  .peer-photo img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; grid-area: 1/1; }
+  .peer-photo .initials { grid-area: 1/1; }
+  /* Shown until a real photograph is dropped in. LinkedIn will not serve profile pictures to
+     anything but a signed-in browser, so these initials are the honest default, not a bug. */
+  .peer-photo .initials {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: 1.6rem; letter-spacing: 0.04em; line-height: 1;
+  }
+  /* the LinkedIn mark rides the portrait, in LinkedIn's own blue: a third-party mark should
+     wear that party's colour, and it names what the disc does */
+  .peer-badge {
+    position: absolute; right: -2px; bottom: -2px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #0A66C2; color: #fff;
+    display: grid; place-items: center;
+    box-shadow: 0 0 0 3px var(--card-raised);
+  }
+  .peer-badge svg { display: block; }
+
+  .quote .mark { font-family: var(--font-display); font-weight: 700; font-size: 2.6rem; line-height: 0.62; color: var(--vermillion); }
   .quote blockquote {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 1.02rem;
-    line-height: 1.72;
-    color: var(--asphalt-soft);
-    border: none;
-    max-width: none;
+    font-family: var(--font-body); font-weight: 400;
+    font-size: 0.98rem; line-height: 1.7;
+    color: var(--asphalt-soft); border: none; max-width: none;
   }
   .quote blockquote b { color: var(--asphalt); font-weight: 700; }
-  .quote.lead blockquote { font-size: 1.14rem; line-height: 1.7; max-width: 60ch; }
-  /* margin-top auto pins every attribution to the foot of its card, so the two cards in the
-     bottom row line their names up even when one quote runs a line longer */
+  /* margin-top auto pins every attribution to the foot of its card, so names line up across
+     the rail even when one quote runs a line longer */
   .quote figcaption {
     margin-top: auto; padding-top: var(--space-sm);
     border-top: 1px solid oklch(26% 0.021 42 / 0.08);
-    font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--asphalt-soft);
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--asphalt-soft);
   }
-  .quote figcaption b { display: block; color: var(--asphalt); letter-spacing: 0.06em; margin-bottom: 2px; }
-  /* The peer's name is plain text. Only the LinkedIn mark beside it is a link.
-     The weft thread underline used to run under the whole name and, once the 44px tap-target
-     padding was added below it, the thread landed on the role line underneath and read as a
-     strikethrough. It is gone from here, and the name no longer changes colour on hover either:
-     the icon is the whole affordance and it says what it does in its tooltip. */
-  .peer-li {
-    position: relative;
-    display: inline-flex; align-items: center; justify-content: center;
-    /* LinkedIn's own brand blue, deliberately outside the site palette: it is a third-party
-       mark and reads instantly as one. Hover is LinkedIn's own darker state. */
-    color: #0A66C2; text-decoration: none;
-    /* 14px glyph + 15px of padding each side = a 44px tap target. The negative margin cancels
-       it so the caption line does not move, and leaves an 8px gap after the name. */
-    padding: 15px; margin: -15px -15px -15px -7px;
-    vertical-align: -3px;
-    transition: color 160ms ease, transform 160ms ease;
-  }
-  .peer-li svg { display: block; }
-  .peer-li:hover, .peer-li:focus-visible { color: #004182; transform: translateY(-1px); }
+  .quote figcaption b { display: block; color: var(--asphalt); letter-spacing: 0.06em; margin-bottom: 2px; font-size: 0.85rem; }
 
-  /* borderless filled pill, the same language as the rest of the site's chips */
-  .peer-li::after {
-    content: attr(data-tip);
-    /* beside the icon, not above it: above, the pill landed on the quote's last line, and
-       below it landed on the role line. The name line always has room to its right. */
-    position: absolute; left: calc(100% - 7px); top: 50%;
-    background: var(--asphalt); color: var(--coconut);
-    font-family: var(--font-body); font-size: 0.72rem; font-weight: 500;
-    letter-spacing: 0.02em; text-transform: none; white-space: nowrap;
-    padding: 6px 11px; border-radius: 999px;
-    box-shadow: 0 6px 18px oklch(26% 0.021 42 / 0.18);
-    opacity: 0; transform: translate(-4px, -50%); pointer-events: none;
-    transition: opacity 140ms ease, transform 140ms ease;
+  /* The same spring as the gallery below, so the two sections read as one gesture: the cards
+     drop in and overshoot, 130ms apart, once the section is scrolled to. The animation removes
+     itself on completion (.settled) because a filled animation keeps ownership of transform and
+     would otherwise swallow the hover straighten. Gated on .js so the testimonials are never
+     invisible if the script does not run. */
+  .js .peers-card .quote { opacity: 0; }
+  .js .peers-card.is-live .quote {
+    animation: peerIn 820ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--d, 0ms) both;
   }
-  .peer-li:hover::after, .peer-li:focus-visible::after { opacity: 1; transform: translate(0, -50%); }
+  .js .peers-card .quote.settled { animation: none; opacity: 1; }
+  @keyframes peerIn {
+    from { opacity: 0; transform: rotate(var(--tilt, 0deg)) translateY(calc(var(--lift, 0px) + 38px)) scale(0.94); }
+    to   { opacity: 1; transform: rotate(var(--tilt, 0deg)) translateY(var(--lift, 0px)) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dp-steps .step { position: static; }   /* the wipe is motion; fall back to a ruled list */
+    .js .peers-card .quote, .js .peers-card.is-live .quote { opacity: 1; animation: none; }
+    .quote { transform: none; transition: none; }
+    .quote:hover, .quote:focus-within { transform: none; }
+    .peer-photo { transition: none; }
+    .peer-photo:hover, .peer-photo:focus-visible { transform: none; }
+  }
 
   /* ============ WORK HISTORY ============ */
-  /* A timeline rather than more cards: the roles are one continuous story, and after the peers
-     tray the page needs a change of texture. Sits on the lighter coconut-deep so it alternates
-     against the sand tray above it. Dates run in their own left column on desktop and fold above
-     the role on narrow screens, where a 190px rail would squeeze the copy to nothing. */
+  /* A timeline rather than more cards: the roles are one continuous story, so they sit
+     straight on the section card with a rail and a dot instead of each getting a panel.
+     Dates run in their own left column on desktop and fold above the role on narrow screens,
+     where a 190px rail would squeeze the copy to nothing. */
   .history { background: transparent; }
   .history-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px var(--space-xl); }
   .roles { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-lg); }
@@ -1095,11 +1160,84 @@
   .history-foot p { color: var(--asphalt-soft); font-size: 0.95rem; }
   .history-foot .sep { color: var(--vermillion); padding: 0 2px; }
 
+  /* ============ GALLERY ============ */
+  /* A vanilla port of a React/framer-motion photo gallery (21st.dev). This site has no React,
+     Tailwind or build step and is not getting one, so the behaviour is rebuilt in CSS: five
+     photographs start stacked dead centre and spring out into a fan when the section is
+     scrolled to, staggered 130ms apart.
+
+     The spring is cubic-bezier(0.34, 1.56, 0.64, 1), which overshoots about 10% and settles.
+     framer-motion's spring(stiffness 70, damping 12, mass 1) has a damping ratio of 0.72, so
+     this is the same character of bounce without shipping a physics engine.
+
+     Two nested elements on purpose: the slot owns the fan-out translate, the shot owns its
+     resting tilt and its hover. One element cannot do both, because they would fight over
+     transform and the hover would cancel the entrance mid-flight. */
+  .gallery { background: transparent; }
+  .gallery-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px var(--space-xl); }
+  .gallery-card { text-align: center; overflow: hidden; }
+  .gallery-card .vantage-title { justify-content: center; }
+  .gallery h2 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: var(--step-3); letter-spacing: 0.03em; margin-top: 6px;
+  }
+  .gallery-lede { color: var(--asphalt-soft); max-width: 46ch; margin: 10px auto 0; }
+
+  /* --shot is the photo size, --spread the gap between neighbours. The stage must be tall and
+     wide enough for the fully fanned row plus the tilt, or the outermost photos clip. */
+  .gallery-stage {
+    --shot: clamp(108px, 17vw, 220px);
+    --spread: clamp(38px, 11vw, 160px);
+    position: relative;
+    height: calc(var(--shot) + 92px);
+    margin: var(--space-lg) auto 0;
+    display: flex; align-items: flex-start; justify-content: center;
+  }
+  .shot-slot {
+    position: absolute; top: 0; left: 50%;
+    width: var(--shot); height: var(--shot);
+    margin-left: calc(var(--shot) / -2);
+    transform: translate(0, 0);                       /* stacked, before the reveal */
+    transition: transform 880ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: var(--d, 0ms);
+  }
+  .gallery-stage.is-live .shot-slot { transform: translate(var(--x), var(--y)); }
+
+  .shot {
+    display: block; width: 100%; height: 100%; padding: 0; border: 0; cursor: pointer;
+    background: var(--card-raised);
+    border-radius: clamp(14px, 1.8vw, 24px);
+    overflow: hidden;
+    box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.06), 0 12px 30px -12px oklch(26% 0.021 42 / 0.34);
+    transform: rotate(var(--rot, 0deg));
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease;
+  }
+  .shot:hover, .shot:focus-visible {
+    transform: rotate(calc(var(--rot, 0deg) * 0.25)) scale(1.08);
+    box-shadow: 0 1px 2px oklch(26% 0.021 42 / 0.08), 0 22px 46px -16px oklch(26% 0.021 42 / 0.44);
+    z-index: 60;
+  }
+  .shot-img {
+    display: block; width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+    /* the tint shows through until a photograph is dropped in, so an empty slot reads as a
+       designed frame rather than a broken image */
+    background-color: var(--tint, #e6e1d4);
+  }
+  .gallery-cta { margin-top: var(--space-lg); }
+  /* the CTA measured 116x38, under the 44px touch minimum. Padding grows the hit area and the
+     negative margin absorbs it, so nothing moves on screen. Same trick as the tap-target block. */
+  .gallery-cta .link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shot-slot { transition: none; }
+    .shot { transition: none; }
+    .shot:hover, .shot:focus-visible { transform: rotate(var(--rot, 0deg)); }
+  }
+
   /* ============ FOOTER / CONTACT ============ */
   footer { background: var(--asphalt); color: var(--coconut); }
   .foot-inner { padding: var(--space-xl) 24px var(--space-lg); display: grid; gap: var(--space-lg); }
-  .resume-cta { background: transparent; padding-bottom: var(--space-xl); text-align: center; }
-  .resume-cta .link { display: inline-block; font-size: 1.05rem; }
   .foot-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-lg); flex-wrap: wrap; }
   .foot-quote {
     font-family: var(--font-display);
@@ -1115,7 +1253,7 @@
   }
   .foot-links { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
   /* Manrope, one step down the scale. The loom's weft underlines them on hover, in white. */
-  .foot-links .email, .foot-links .phone {
+  .foot-links .email, .foot-links .phone, .foot-links .resume {
     position: relative;
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-body); /* an address in a caps display face reads wrong */
@@ -1125,7 +1263,7 @@
     color: var(--coconut); text-decoration: none;
     transition: color 160ms ease;
   }
-  .foot-links .email::after, .foot-links .phone::after {
+  .foot-links .email::after, .foot-links .phone::after, .foot-links .resume::after {
     content: "";
     position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23fdfdfb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
@@ -1134,9 +1272,14 @@
     transform-origin: left;
     transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .foot-links .email:hover::after, .foot-links .phone:hover::after { transform: scaleX(1); }
-  .foot-links .email svg, .foot-links .phone svg { flex-shrink: 0; }
-  .foot-links .email:hover, .foot-links .phone:hover { color: var(--coconut); }
+  .foot-links .email:hover::after, .foot-links .phone:hover::after, .foot-links .resume:hover::after { transform: scaleX(1); }
+  .foot-links .email svg, .foot-links .phone svg, .foot-links .resume svg { flex-shrink: 0; }
+  .foot-links .email:hover, .foot-links .phone:hover, .foot-links .resume:hover { color: var(--coconut); }
+
+  /* Download resume sits with the contact details rather than in its own band above the footer.
+     No icon, at Shabnam's request, so an empty 18px box keeps its text on the same left edge as
+     the email and phone; without it the three links have a ragged left margin. */
+  .foot-links .resume::before { content: ""; width: 18px; flex-shrink: 0; }
   .socials { display: flex; gap: var(--space-md); flex-wrap: wrap; }
   .socials a {
     color: var(--coconut-soft); text-decoration: none;
@@ -1181,7 +1324,7 @@
     .opening-inner { grid-template-columns: 1fr; }
     /* one column now, so the metrics go back under the headline and share its left edge */
     .opening-meta { padding-bottom: 0; }
-    .stack-card.step { padding: 24px; }
+    .stack-card.step { padding: 22px 0; }
     .ritual { min-height: 360px; }
     .ritual svg.scene { max-width: 272px; }
     .dp-philosophy { flex-direction: column; gap: var(--space-md); }
@@ -1193,14 +1336,20 @@
     .case-grid, .peer-grid { grid-template-columns: 1fr; }
     /* no hover on touch, so the tooltip would never show anyway, and at phone widths the pill
        is wider than the column and would push out a horizontal scrollbar */
-    .peer-li::after { display: none; }
-    .quote.lead { display: flex; }
-    .quote.lead figcaption { margin-top: auto; padding-top: var(--space-sm); border-top: 1px solid oklch(26% 0.021 42 / 0.08); }
-    .quote.lead blockquote { max-width: none; }
+    /* the rail is already one card wide on a phone; drop the tilt so nothing looks skewed
+       in a narrow column, and pull the portrait in from the edge */
+    .peer-track { padding-top: 48px; }
+    .quote { --tilt: 0deg; --lift: 0px; --photo-x: 22px; }
+    /* the arrows stay on touch: a scroller with no visible control reads as a static row and
+       nobody swipes it. Grown to the 44px minimum touch target. */
+    .rail-nav button { width: 44px; height: 44px; }
     .role { grid-template-columns: 1fr; gap: 10px; }
     .role-when { flex-direction: row; align-items: baseline; gap: 10px; flex-wrap: wrap; }
     .stack-card { position: static; min-height: 0; }
     .stack-card.step { flex-direction: column; gap: var(--space-sm); }
+    /* the wipe runs on a phone too. Rows are taller here, so they get a slightly lower floor
+       and the stack still clears a short viewport. Reduced motion still falls back to a list. */
+    .dp-steps { grid-auto-rows: minmax(clamp(132px, 26vh, 200px), 1fr); }
     .vantage-write { gap: var(--space-md); padding-bottom: 0; }
     .foot-contact-row { flex-direction: column; align-items: flex-start; gap: var(--space-xs); }
   }
@@ -1229,7 +1378,7 @@
   -webkit-tap-highlight-color:transparent;
 }
 .menu-btn i{display:block;width:22px;height:1.5px;background:currentColor;border-radius:2px;}
-.menu-btn i+i{margin-top:6px;}
+.menu-btn i+i{margin-top:5px;}
 
 .menu-scrim{
   position:fixed;inset:0;z-index:900;
@@ -1299,8 +1448,7 @@
    Done this way rather than with min-height so the top bar's height is unchanged. */
 .wordmark{padding:7px 8px;margin:-7px -8px;}
 .socials a{display:inline-block;padding:12px 0;margin:-12px 0;}
-.foot-links .email,.foot-links .phone{display:inline-block;padding:11px 0;margin:-11px 0;}
-.resume-cta .link{display:inline-flex;align-items:center;min-height:44px;}
+.foot-links .email,.foot-links .phone,.foot-links .resume{display:inline-block;padding:11px 0;margin:-11px 0;}
 .menu-foot a{padding:12px 0;}
 </style>
 </head>
@@ -1498,7 +1646,7 @@
     <a href="#contact">Contact me</a>
 </nav>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
-    <i></i><i></i>
+    <i></i><i></i><i></i>
   </button>
 </header>
 <div class="menu-scrim"></div>
@@ -1578,9 +1726,9 @@
 
     <div class="case-grid">
       <a class="case" href="ihx-ai-features-case-study.html">
-        <div class="case-img"><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of human failure case study screen"></video></div>
+        <div class="case-img"><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of friction case study screen"></video></div>
         <div class="case-body">
-          <h3>AI at the Point of Human Failure</h3>
+          <h3>AI at the Point of Friction</h3>
           <span class="case-metrics">Claim submission 5 min to 2 min &middot; agentic</span>
         </div>
       </a>
@@ -2078,27 +2226,61 @@
 <section class="peers" id="peers">
   <div class="peers-inner">
     <div class="dp-card peers-card">
-    <h2>What peers say</h2>
-    <div class="peer-grid">
+    <div class="peers-head">
+      <h2>What peers say</h2>
+      <div class="rail-nav">
+        <button type="button" data-rail="-1" aria-label="Previous testimonial"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" data-rail="1" aria-label="Next testimonial"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
 
-      <figure class="quote lead">
-        <span class="mark">&ldquo;</span>
-        <blockquote>Shabnam consistently brought <b>clarity and simplicity</b> to complex workflows, making our platform much more intuitive for hospitals and payers. Her attention to detail and ability to translate ideas into <b>clean user journeys</b> made a big difference.</blockquote>
-        <figcaption><b>Aditya Pathak<a class="peer-li" href="https://www.linkedin.com/in/adityapathak100/" target="_blank" rel="noopener" aria-label="Aditya Pathak on LinkedIn" data-tip="Click to see the LinkedIn profile"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></b>Founder &amp; CEO, RXpress</figcaption>
-      </figure>
-
-      <figure class="quote">
-        <span class="mark">&ldquo;</span>
-        <blockquote>Shabnam consistently delivered designs that were not just polished but also <b>practical</b>. She has a good eye for detail, keeps usability front and center, and pushes for experiences that feel <b>smooth and intuitive</b>.</blockquote>
-        <figcaption><b>Manas Malik<a class="peer-li" href="https://www.linkedin.com/in/manas-malik/" target="_blank" rel="noopener" aria-label="Manas Malik on LinkedIn" data-tip="Click to see the LinkedIn profile"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></b>Technical Lead, IHX</figcaption>
-      </figure>
-
-      <figure class="quote">
-        <span class="mark">&ldquo;</span>
-        <blockquote>Her approach was highly <b>data-driven</b>, supported by strong market research. The impact was clear: her work drove <b>real user engagement</b>, simplified adoption, and added measurable value to our products.</blockquote>
-        <figcaption><b>Aswini Puppala<a class="peer-li" href="https://www.linkedin.com/in/aswini-puppala-471217160/" target="_blank" rel="noopener" aria-label="Aswini Puppala on LinkedIn" data-tip="Click to see the LinkedIn profile"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></b>Product, Lenskart</figcaption>
-      </figure>
-
+    <div class="peer-rail-wrap" id="peer-rail-wrap">
+    <div class="peer-rail" id="peer-rail" tabindex="0" role="group" aria-label="Testimonials, scrollable">
+      <div class="peer-track">
+        <figure class="quote" style="--d:0ms; --tilt:-1.8deg; --lift:0px; --photo-x:26px; --tone:#b32000">
+          <a class="peer-photo" href="https://www.linkedin.com/in/adityapathak100/" target="_blank" rel="noopener" aria-label="Aditya Pathak on LinkedIn">
+            <!-- Initials first, photograph second: they share one grid cell, so the image has to
+                 come later in the DOM to paint over them. If the file ever fails it removes
+                 itself and the initials show through. alt is empty on purpose, because the link
+                 already carries the name in its aria-label. -->
+            <span class="initials" aria-hidden="true">AP</span>
+            <img src="images/peer-aditya-pathak.webp" width="336" height="336" alt="" loading="lazy" decoding="async" onerror="this.remove()" />
+            <span class="peer-badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></span>
+          </a>
+          <span class="mark">&ldquo;</span>
+          <blockquote>Shabnam consistently brought <b>clarity and simplicity</b> to complex workflows, making our platform much more intuitive for hospitals and payers. Her attention to detail and ability to translate ideas into <b>clean user journeys</b> made a big difference.</blockquote>
+          <figcaption><b>Aditya Pathak</b>Founder &amp; CEO, RXpress</figcaption>
+        </figure>
+        <figure class="quote" style="--d:130ms; --tilt:1.4deg; --lift:24px; --photo-x:calc(100% - 112px); --tone:#c34a33">
+          <a class="peer-photo" href="https://www.linkedin.com/in/manas-malik/" target="_blank" rel="noopener" aria-label="Manas Malik on LinkedIn">
+            <!-- Initials first, photograph second: they share one grid cell, so the image has to
+                 come later in the DOM to paint over them. If the file ever fails it removes
+                 itself and the initials show through. alt is empty on purpose, because the link
+                 already carries the name in its aria-label. -->
+            <span class="initials" aria-hidden="true">MM</span>
+            <img src="images/peer-manas-malik.webp" width="336" height="336" alt="" loading="lazy" decoding="async" onerror="this.remove()" />
+            <span class="peer-badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></span>
+          </a>
+          <span class="mark">&ldquo;</span>
+          <blockquote>Shabnam consistently delivered designs that were not just polished but also <b>practical</b>. She has a good eye for detail, keeps usability front and center, and pushes for experiences that feel <b>smooth and intuitive</b>.</blockquote>
+          <figcaption><b>Manas Malik</b>Technical Lead, IHX</figcaption>
+        </figure>
+        <figure class="quote" style="--d:260ms; --tilt:-0.9deg; --lift:8px; --photo-x:26px; --tone:#d36b56">
+          <a class="peer-photo" href="https://www.linkedin.com/in/aswini-puppala-471217160/" target="_blank" rel="noopener" aria-label="Aswini Puppala on LinkedIn">
+            <!-- Initials first, photograph second: they share one grid cell, so the image has to
+                 come later in the DOM to paint over them. If the file ever fails it removes
+                 itself and the initials show through. alt is empty on purpose, because the link
+                 already carries the name in its aria-label. -->
+            <span class="initials" aria-hidden="true">AP</span>
+            <img src="images/peer-aswini-puppala.webp" width="336" height="336" alt="" loading="lazy" decoding="async" onerror="this.remove()" />
+            <span class="peer-badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></span>
+          </a>
+          <span class="mark">&ldquo;</span>
+          <blockquote>Her approach was highly <b>data-driven</b>, supported by strong market research. The impact was clear: her work drove <b>real user engagement</b>, simplified adoption, and added measurable value to our products.</blockquote>
+          <figcaption><b>Aswini Puppala</b>Product, Lenskart</figcaption>
+        </figure>
+      </div>
+    </div>
     </div>
     </div>
   </div>
@@ -2170,9 +2352,49 @@
   </div>
 </section>
 
-<div class="resume-cta">
-  <a class="link" href="Shabnam_Raghavan_Resume.pdf" download="Shabnam_Raghavan_Resume.pdf" rel="noopener">Download resume &darr;</a>
-</div>
+<!-- ============ GALLERY ============ -->
+<section class="gallery" id="gallery">
+  <div class="gallery-inner">
+    <div class="dp-card gallery-card">
+      <p class="vantage-title">Off the clock</p>
+      <h2>The person behind the work</h2>
+      <p class="gallery-lede">Curiosity about art, culture and people is where the design comes from. The longer story lives on the about page.</p>
+
+      <div class="gallery-stage" id="gallery-stage">
+        <div class="shot-slot" style="--x:calc(var(--spread) * 2); --y:44px; --d:520ms; z-index:10">
+          <a class="shot" href="about.html" style="--rot:-1.9deg" aria-label="More about Shabnam">
+            <span class="shot-img" style="--tint:#ddd8ca; background-image:url('images/gallery-5.webp')"></span>
+          </a>
+        </div>
+        <div class="shot-slot" style="--x:calc(var(--spread) * 1); --y:22px; --d:390ms; z-index:20">
+          <a class="shot" href="about.html" style="--rot:2.8deg" aria-label="More about Shabnam">
+            <span class="shot-img" style="--tint:#eae5da; background-image:url('images/gallery-4.webp')"></span>
+          </a>
+        </div>
+        <div class="shot-slot" style="--x:0px; --y:8px; --d:260ms; z-index:30">
+          <a class="shot" href="about.html" style="--rot:-1.4deg" aria-label="More about Shabnam">
+            <span class="shot-img" style="--tint:#e0dbcd; background-image:url('images/gallery-3.webp')"></span>
+          </a>
+        </div>
+        <div class="shot-slot" style="--x:calc(var(--spread) * -1); --y:32px; --d:130ms; z-index:40">
+          <a class="shot" href="about.html" style="--rot:2.1deg" aria-label="More about Shabnam">
+            <span class="shot-img" style="--tint:#e8e3d7; background-image:url('images/gallery-2.webp')"></span>
+          </a>
+        </div>
+        <div class="shot-slot" style="--x:calc(var(--spread) * -2); --y:15px; --d:0ms; z-index:50">
+          <a class="shot" href="about.html" style="--rot:-2.6deg" aria-label="More about Shabnam">
+            <span class="shot-img" style="--tint:#e3ded1; background-image:url('images/gallery-1.webp')"></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="gallery-cta">
+        <a class="link" href="about.html">Get to know me</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 </div><!-- /.after-hero -->
 </div>
 
@@ -2187,6 +2409,9 @@
         <p class="foot-tagline">Let&rsquo;s talk to build something great.</p>
       </div>
       <div class="foot-links">
+        <a class="resume" href="Shabnam_Raghavan_Resume.pdf" download="Shabnam_Raghavan_Resume.pdf">
+          Download resume
+        </a>
         <a class="email" href="mailto:shabnam.rs.work@gmail.com">
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
           shabnam.rs.work@gmail.com
@@ -2435,118 +2660,125 @@
 </script>
 
 <script>
+// Design process rows stick under the floating nav, which changes height when it collapses into
+// its pill, so the offset cannot be a constant. This is all that is left of the old scroll-driven
+// deck: the stacking itself is now plain CSS `position: sticky`, see the .stack-card.step rule.
 (function () {
-  // Design process: pin the card under the nav while its five steps stack, then release.
   var card = document.querySelector(".dp-process");
-  var deck = card && card.querySelector(".dp-steps");
-  if (!card || !deck) return;
-  var steps = Array.prototype.slice.call(deck.querySelectorAll(".stack-card.step"));
-  if (steps.length < 2) return;
-
-  var GAP_BELOW_NAV = 10;  // card top sits this far under the floating nav
-  var REST_MAX = 52;       // sliver we want: enough to show a buried step's number AND heading
-  var REST_MIN = 18;       // the least that still reads as a separate card edge
-  var REST = REST_MAX;     // recomputed per build(); shrinks when the viewport is short
-  var SPREAD = 24;         // gap between steps before they stack
-  var desktop = window.matchMedia("(min-width: 901px)");
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  var spacer = document.createElement("div");
-  spacer.className = "dp-pin-spacer";
-  spacer.setAttribute("aria-hidden", "true");
-
-  var active = false, stepH = 0, travel = 0, cardH = 0;
+  if (!card) return;
+  var GAP = 10;                      // breathing room between the nav and the row under it
 
   function navBottom() {
     var bar = document.querySelector(".topbar");
     if (!bar) return 64;
-    // once the bar has become the floating pill, its real bottom edge; before that (the card is
-    // built while the bar still sits flat over the hero) the pill's resting top plus its height
+    // once the bar has become the floating pill, its real bottom edge; before that, the pill's
+    // resting top plus its height
     if (bar.classList.contains("solid")) return bar.getBoundingClientRect().bottom;
     var solidTop = Math.min(20, Math.max(10, window.innerWidth * 0.014));
     return solidTop + bar.offsetHeight;
   }
 
-  function teardown() {
-    card.classList.remove("is-pin");
-    steps.forEach(function (st) { st.style.transform = ""; st.style.zIndex = ""; });
-    card.style.removeProperty("--pin-top");
-    card.style.removeProperty("--pin-h");
-    card.style.removeProperty("--step-h");
-    if (spacer.parentNode) spacer.parentNode.removeChild(spacer);
-    active = false;
+  var last = -1;
+  function sync() {
+    var top = Math.round(navBottom() + GAP);
+    if (top !== last) { last = top; card.style.setProperty("--pin-top", top + "px"); }
   }
+  // one rect read per scroll, run straight away rather than in rAF so the rows never lag a frame
+  window.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
+  window.addEventListener("load", sync);
+  sync();
+})();
+</script>
 
-  function build() {
-    teardown();
-    if (!desktop.matches || reduced.matches) return;
+<!-- first-party analytics, see design-context section 13 --><script src="/analytics.js" defer></script>
+<script>
+/* Peer rail: the two arrows scroll by exactly one card, and disable at each end so they never
+   look live when they would do nothing. Touch and trackpad scrolling work without any of this;
+   the buttons exist for mouse and keyboard, and the rail itself is focusable so arrow keys work. */
+(function () {
+  var rail = document.getElementById("peer-rail");
+  if (!rail) return;
+  var track = rail.querySelector(".peer-track");
+  var cards = track ? track.querySelectorAll(".quote") : [];
+  if (cards.length < 2) return;
 
-    // measure the steps in normal flow first
-    stepH = steps.reduce(function (h, st) { return Math.max(h, st.offsetHeight); }, 0);
-    var pinTop = Math.round(navBottom() + GAP_BELOW_NAV);
-
-    card.classList.add("is-pin");
-    card.style.setProperty("--step-h", stepH + "px");
-    card.style.setProperty("--pin-top", pinTop + "px");
-
-    // the card wraps its content: header, the finished (fully stacked) deck, then 50px of padding
-    var header = card.querySelector(".process-group");
-    var cs = getComputedStyle(card);
-    var chrome = parseFloat(cs.paddingTop) + 50 + (header ? header.offsetHeight : 0) + parseFloat(cs.rowGap || cs.gap || 0);
-
-    // A buried step shows only its top sliver, so REST decides how much of it you can read. At 52px
-    // the number and the heading both clear the edge, which turns the finished deck into an index
-    // of all five steps instead of four anonymous ledges. The choice is deliberately either/or:
-    // anything between the two clips the heading through the middle of its capitals, which looks
-    // broken. Short viewports (roughly under 760px of room) fall back to the plain 18px ledge.
-    var room = window.innerHeight - pinTop - 24;
-    var fits = Math.floor((room - chrome - stepH) / (steps.length - 1));
-    REST = fits >= REST_MAX ? REST_MAX : REST_MIN;
-
-    var finished = stepH + (steps.length - 1) * REST;
-    cardH = Math.ceil(chrome + finished);
-    card.style.setProperty("--pin-h", cardH + "px");
-
-    travel = (steps.length - 1) * (stepH + SPREAD - REST);
-    spacer.style.setProperty("--pin-travel", travel + "px");
-    card.parentNode.insertBefore(spacer, card.nextSibling);
-
-    steps.forEach(function (st, i) { st.style.zIndex = String(i + 1); });
-    active = true;
-    update();
+  function step() {
+    var a = cards[0].getBoundingClientRect(), b = cards[1].getBoundingClientRect();
+    return Math.round(b.left - a.left) || Math.round(a.width);
   }
+  var smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function update() {
-    if (!active) return;
-    // where the card's top would be if it were not stuck: the spacer's top minus the card height
-    var natural = spacer.getBoundingClientRect().top - cardH;
-    var pinTop = parseFloat(card.style.getPropertyValue("--pin-top")) || 0;
-    var progress = Math.min(travel, Math.max(0, pinTop - natural));
-    steps.forEach(function (st, i) {
-      var spread = i * (stepH + SPREAD);
-      var y = Math.max(i * REST, spread - progress);
-      st.style.transform = "translateY(" + y + "px)";
+  document.querySelectorAll(".rail-nav button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      rail.scrollBy({ left: step() * Number(btn.dataset.rail), behavior: smooth ? "smooth" : "auto" });
     });
+  });
+
+  function sync() {
+    var max = rail.scrollWidth - rail.clientWidth - 2;
+    document.querySelectorAll(".rail-nav button").forEach(function (btn) {
+      var back = Number(btn.dataset.rail) < 0;
+      btn.disabled = back ? rail.scrollLeft <= 2 : rail.scrollLeft >= max;
+    });
+    var wrap = document.getElementById("peer-rail-wrap");
+    if (wrap) wrap.classList.toggle("at-end", rail.scrollLeft >= max);
   }
+  rail.addEventListener("scroll", function () {
+    if (sync.q) return;
+    sync.q = 1;
+    setTimeout(function () { sync.q = 0; sync(); }, 120);
+  }, { passive: true });
+  window.addEventListener("resize", sync);
+  window.addEventListener("load", sync);
+  sync();
+})();
+</script>
 
-  // one rect read and five transforms per scroll event: cheap enough to run straight away, so the
-  // deck never lags a frame behind the page (same approach as the nav's own scroll check)
-  var lastNav = 0;
-  function onScroll() {
-    if (!active) return;
-    var nb = Math.round(navBottom() + GAP_BELOW_NAV);
-    if (nb !== lastNav) { lastNav = nb; card.style.setProperty("--pin-top", nb + "px"); }
-    update();
+<script>
+/* Gallery: hold the photographs stacked until the section is actually reached, then let the
+   CSS transition fan them out. Same gate as the ritual illustration: a delay counted from page
+   load would have finished before a visitor ever scrolled this far. */
+(function () {
+  // peers: same gate, same spring, so the rail and the gallery share one gesture
+  var peers = document.querySelector(".peers-card");
+  if (peers) {
+    peers.querySelectorAll(".quote").forEach(function (q) {
+      q.addEventListener("animationend", function (e) {
+        // once it has landed, hand transform back to the hover rule
+        if (e.animationName === "peerIn") q.classList.add("settled");
+      });
+    });
+    var live = function () { peers.classList.add("is-live"); };
+    if (!("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) { live(); }
+    else {
+      var pio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { live(); pio.unobserve(e.target); } });
+      }, { threshold: 0.2 });
+      pio.observe(peers);
+      // Safety net. These are testimonials, not decoration: if the observer never fires for any
+      // reason they must not stay invisible. Four seconds is long past any real scroll.
+      setTimeout(live, 4000);
+    }
   }
+})();
 
-  var t;
-  function onResize() { clearTimeout(t); t = setTimeout(build, 150); }
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onResize);
-  desktop.addEventListener("change", build);
-  window.addEventListener("load", build);   // fonts can change step heights
-  build();
+(function () {
+  var stage = document.getElementById("gallery-stage");
+  if (!stage) return;
+  if (!("IntersectionObserver" in window) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    stage.classList.add("is-live");            // no animation, just the final arrangement
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { stage.classList.add("is-live"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.3 });
+  io.observe(stage);
+  setTimeout(function () { stage.classList.add("is-live"); }, 6000);   // same safety net
 })();
 </script>
 

@@ -113,7 +113,7 @@
   .topbar nav a::after {
     content: "";
     position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23bc2b0b' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
     background-size: 24px 8px;
     transform: scaleX(0);
     transform-origin: left;
@@ -174,7 +174,7 @@
     color: var(--coconut-soft);
   }
   .foot-links { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
-  .foot-links .email, .foot-links .phone {
+  .foot-links .email, .foot-links .phone, .foot-links .resume {
     position: relative;
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-body);   /* an address in a caps display face reads wrong */
@@ -185,7 +185,7 @@
     transition: color 160ms ease;
   }
   /* the loom's weft, borrowed as the underline, exactly as on index */
-  .foot-links .email::after, .foot-links .phone::after {
+  .foot-links .email::after, .foot-links .phone::after, .foot-links .resume::after {
     content: "";
     position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23fdfdfb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
@@ -194,9 +194,14 @@
     transform-origin: left;
     transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .foot-links .email:hover::after, .foot-links .phone:hover::after { transform: scaleX(1); }
-  .foot-links .email svg, .foot-links .phone svg { flex-shrink: 0; }
-  .foot-links .email:hover, .foot-links .phone:hover { color: var(--coconut); }
+  .foot-links .email:hover::after, .foot-links .phone:hover::after, .foot-links .resume:hover::after { transform: scaleX(1); }
+  .foot-links .email svg, .foot-links .phone svg, .foot-links .resume svg { flex-shrink: 0; }
+  .foot-links .email:hover, .foot-links .phone:hover, .foot-links .resume:hover { color: var(--coconut); }
+
+  /* Download resume sits with the contact details rather than in its own band above the footer.
+     No icon, at Shabnam's request, so an empty 18px box keeps its text on the same left edge as
+     the email and phone; without it the three links have a ragged left margin. */
+  .foot-links .resume::before { content: ""; width: 18px; flex-shrink: 0; }
   .socials { display: flex; gap: var(--space-md); flex-wrap: wrap; }
   .socials a {
     color: var(--coconut-soft); text-decoration: none;
@@ -244,7 +249,7 @@
   -webkit-tap-highlight-color:transparent;
 }
 .menu-btn i{display:block;width:22px;height:1.5px;background:currentColor;border-radius:2px;}
-.menu-btn i+i{margin-top:6px;}
+.menu-btn i+i{margin-top:5px;}
 
 .menu-scrim{
   position:fixed;inset:0;z-index:900;
@@ -314,9 +319,8 @@
    Done this way rather than with min-height so the top bar's height is unchanged. */
 .wordmark{padding:7px 8px;margin:-7px -8px;}
 .socials a{display:inline-block;padding:12px 0;margin:-12px 0;}
-.foot-links .email,.foot-links .phone{display:inline-block;padding:11px 0;margin:-11px 0;}
+.foot-links .email,.foot-links .phone,.foot-links .resume{display:inline-block;padding:11px 0;margin:-11px 0;}
 .peer-link{display:inline-block;padding:13px 0;margin:-13px 0;}
-.resume-cta .link{display:inline-flex;align-items:center;min-height:44px;}
 .menu-foot a{padding:12px 0;}
 </style>
 </head>
@@ -335,7 +339,7 @@
     <a href="#contact">Contact me</a>
 </nav>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
-    <i></i><i></i>
+    <i></i><i></i><i></i>
   </button>
 </header>
 <div class="menu-scrim"></div>
@@ -390,6 +394,9 @@
         <p class="foot-tagline">Let&rsquo;s talk to build something great.</p>
       </div>
       <div class="foot-links">
+        <a class="resume" href="Shabnam_Raghavan_Resume.pdf" download="Shabnam_Raghavan_Resume.pdf">
+          Download resume
+        </a>
         <a class="email" href="mailto:shabnam.rs.work@gmail.com">
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
           shabnam.rs.work@gmail.com
@@ -428,6 +435,7 @@
   apply();
 })();
 </script>
+<!-- first-party analytics, see design-context section 13 --><script src="/analytics.js" defer></script>
 <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f26ea28c97844cfabcd844e4d335180a"}'></script><!-- End Cloudflare Web Analytics -->
 
 <script>

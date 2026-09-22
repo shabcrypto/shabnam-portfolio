@@ -114,7 +114,7 @@ body{
 .topbar nav a{position:relative;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
 .topbar nav a::after{
   content:'';position:absolute;left:0;right:0;bottom:0;height:8px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23c13d1e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23bc2b0b' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
   background-size:24px 8px;
   transform:scaleX(0);transform-origin:left;
   transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
@@ -231,7 +231,7 @@ body{
 .gap-reality small{display:block;font-size:var(--step--1);font-weight:300;color:var(--w4);margin-top:4px;}
 .gap-bars{display:flex;flex-direction:column;gap:12px;padding-right:190px;}
 .gap-bar{height:9px;border-radius:5px;position:relative;}
-.gap-bar.apps{background:var(--w4);opacity:.45;}
+.gap-bar.apps{background:rgba(95,88,79,.45);}   /* not opacity: it inherits to the label sitting outside the bar */
 .gap-bar.need{background:linear-gradient(90deg,var(--v1),var(--v2));}
 .gap-bar span{position:absolute;left:calc(100% + 12px);top:50%;transform:translateY(-50%);font-size:var(--step--1);font-weight:600;white-space:nowrap;}
 .gap-bar.apps span{color:var(--w4);}
@@ -368,11 +368,13 @@ body{
 .exp-brand{margin-top:40px;display:flex;align-items:flex-start;gap:clamp(32px,8vw,90px);}
 .exp-icon{flex:none;width:clamp(110px,11vw,150px);aspect-ratio:1/1;border-radius:12.6%;}
 .exp-swatches{flex:1;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(10px,1.4vw,18px);}
-.exp-sw{aspect-ratio:11/10;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:6px;}
-.exp-sw span{font-size:var(--step--1);font-weight:600;letter-spacing:.02em;}
-.exp-sw.on-dark span{color:rgba(255,255,255,.9);}
-.exp-sw.on-light{box-shadow:var(--shadow-card);}
-.exp-sw.on-light span{color:#302f2c;}
+/* The hex label sits UNDER its chip, not on it. On #8B5CF6 neither white (4.23) nor the ink
+   (3.16) clears AA, because that purple sits mid-lightness; the only real fix is to get the
+   label off the colour. Below the chip, every label is ink on the card and comfortably legible. */
+.exp-sw{display:flex;flex-direction:column;gap:6px;}
+.exp-sw i{display:block;aspect-ratio:11/10;border-radius:8px;}
+.exp-sw span{font-size:var(--step--1);font-weight:600;letter-spacing:.02em;color:var(--ink);text-align:center;}
+.exp-sw.on-light i{box-shadow:var(--shadow-card);}
 
 .exp-asset{position:relative;margin:0;overflow:hidden;border-radius:20px;background:#141318;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
@@ -487,9 +489,9 @@ body{
 
 /* ── 08 REFLECTIONS ── */
 .refl{margin-top:72px;display:grid;grid-template-columns:1fr 1fr;gap:80px;}
-.refl-col h4{font-size:var(--step--1);font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:28px;}
-.refl-col.good h4{color:var(--w1);}
-.refl-col.hard h4{color:var(--v2);}
+.refl-col h3,.refl-col h4{font-size:var(--step--1);font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:28px;}
+.refl-col.good h3,.refl-col.good h4{color:var(--w1);}
+.refl-col.hard h3,.refl-col.hard h4{color:var(--v2);}
 .refl-item{padding:18px 0;border-top:1px solid var(--line-2);display:flex;gap:16px;align-items:flex-start;}
 .refl-item .m{font-family:"Manrope", sans-serif;font-size:var(--step--1);font-weight:700;min-width:20px;}
 .refl-col.good .m{color:var(--w1);}
@@ -554,13 +556,14 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .foot-quote{font-family:var(--font-display);font-weight:700;font-size:clamp(1.25rem,2.6vw,2.1rem);line-height:1.25;letter-spacing:.02em;}
 .foot-tagline{margin-top:12px;font-size:clamp(1rem,1.6vw,1.15rem);color:var(--coconut-soft);max-width:44ch;}
 .foot-links{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-sm);}
-.foot-links .email,.foot-links .phone{
+.foot-links .email,.foot-links .phone,.foot-links .resume{
   display:inline-flex;align-items:center;gap:8px;
   font-family:"Manrope",sans-serif;font-weight:500;font-size:var(--step-0);
   color:var(--coconut);text-decoration:none;transition:color 160ms ease;
 }
 .foot-links .email svg,.foot-links .phone svg{flex-shrink:0;}
-.foot-links .email:hover,.foot-links .phone:hover{color:var(--vermillion);}
+.foot-links .resume::before{content:"";width:18px;flex-shrink:0;}
+.foot-links .email:hover,.foot-links .phone:hover,.foot-links .resume:hover{color:var(--vermillion);}
 .socials{display:flex;gap:var(--space-md);flex-wrap:wrap;}
 .socials a{
   color:var(--coconut-soft);text-decoration:none;
@@ -623,7 +626,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   -webkit-tap-highlight-color:transparent;
 }
 .menu-btn i{display:block;width:22px;height:1.5px;background:currentColor;border-radius:2px;}
-.menu-btn i+i{margin-top:6px;}
+.menu-btn i+i{margin-top:5px;}
 
 .menu-scrim{
   position:fixed;inset:0;z-index:900;
@@ -693,9 +696,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
    Done this way rather than with min-height so the top bar's height is unchanged. */
 .wordmark{padding:7px 8px;margin:-7px -8px;}
 .socials a{display:inline-block;padding:12px 0;margin:-12px 0;}
-.foot-links .email,.foot-links .phone{display:inline-block;padding:11px 0;margin:-11px 0;}
+.foot-links .email,.foot-links .phone,.foot-links .resume{display:inline-block;padding:11px 0;margin:-11px 0;}
 .peer-link{display:inline-block;padding:13px 0;margin:-13px 0;}
-.resume-cta .link{display:inline-flex;align-items:center;min-height:44px;}
 .menu-foot a{padding:12px 0;}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet" />
@@ -865,16 +867,16 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
 /* ---- FOOTER ---- matches index.html */
 .foot-quote{font-family:var(--font-display)!important;font-weight:400!important;letter-spacing:0.03em!important;}
-.foot-links .email,.foot-links .phone{position:relative;padding-bottom:8px;}
-.foot-links .email::after,.foot-links .phone::after{
+.foot-links .email,.foot-links .phone,.foot-links .resume{position:relative;padding-bottom:8px;}
+.foot-links .email::after,.foot-links .phone::after,.foot-links .resume::after{
   content:"";position:absolute;left:0;right:0;bottom:0;height:8px;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23fdfdfb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
   background-size:24px 8px;
   transform:scaleX(0);transform-origin:left;
   transition:transform 300ms cubic-bezier(0.22,1,0.36,1);
 }
-.foot-links .email:hover::after,.foot-links .phone:hover::after{transform:scaleX(1);}
-.foot-links .email:hover,.foot-links .phone:hover{color:var(--coconut);}
+.foot-links .email:hover::after,.foot-links .phone:hover::after,.foot-links .resume:hover::after{transform:scaleX(1);}
+.foot-links .email:hover,.foot-links .phone:hover,.foot-links .resume:hover{color:var(--coconut);}
 </style>
 </head>
 <body>
@@ -893,7 +895,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <a href="index.html#contact">Contact me</a>
 </nav>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
-    <i></i><i></i>
+    <i></i><i></i><i></i>
   </button>
 </header>
 <div class="menu-scrim"></div>
@@ -1206,18 +1208,18 @@ footer{background:var(--asphalt);color:var(--coconut);}
   </div>
 
   <div class="exp-block">
-    <h4 class="exp-label">Branding and Colours</h4>
+    <h3 class="exp-label">Branding and Colours</h3>
     <p class="exp-note">Two violets carry the moon mark and key actions, a near-white carries text, and four deep indigo neutrals build the dark surfaces.</p>
     <div class="exp-brand">
       <figure class="exp-asset exp-icon"><span class="exp-ph">App icon</span><code>images/wisewoman-app-icon.svg</code><img src="images/wisewoman-app-icon.svg" alt="WiseWoman app icon, a crescent moon on a dark tile" style="object-fit:contain;" onerror="this.remove()"></figure>
       <div class="exp-swatches">
-        <div class="exp-sw on-dark" style="background:#8B5CF6;"><span>#8B5CF6</span></div>
-        <div class="exp-sw on-dark" style="background:#B08CF5;"><span>#B08CF5</span></div>
-        <div class="exp-sw on-light" style="background:#F2F2F2;"><span>#F2F2F2</span></div>
-        <div class="exp-sw on-dark" style="background:#1A1832;"><span>#1A1832</span></div>
-        <div class="exp-sw on-dark" style="background:#181630;"><span>#181630</span></div>
-        <div class="exp-sw on-dark" style="background:#252538;"><span>#252538</span></div>
-        <div class="exp-sw on-dark" style="background:#29293D;"><span>#29293D</span></div>
+        <div class="exp-sw"><i style="background:#8B5CF6;"></i><span>#8B5CF6</span></div>
+        <div class="exp-sw"><i style="background:#B08CF5;"></i><span>#B08CF5</span></div>
+        <div class="exp-sw on-light"><i style="background:#F2F2F2;"></i><span>#F2F2F2</span></div>
+        <div class="exp-sw"><i style="background:#1A1832;"></i><span>#1A1832</span></div>
+        <div class="exp-sw"><i style="background:#181630;"></i><span>#181630</span></div>
+        <div class="exp-sw"><i style="background:#252538;"></i><span>#252538</span></div>
+        <div class="exp-sw"><i style="background:#29293D;"></i><span>#29293D</span></div>
       </div>
     </div>
   </div>
@@ -1283,7 +1285,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 
   <div class="refl">
     <div class="refl-col good">
-      <h4>What Worked</h4>
+      <h3>What Worked</h3>
       <div class="refl-item"><span class="m">+</span><p>The hybrid AI strategy kept the MVP stable and cheap to run.</p></div>
       <div class="refl-item"><span class="m">+</span><p>A rule engine for text capture removed latency and token cost entirely.</p></div>
       <div class="refl-item"><span class="m">+</span><p>The deterministic scheduler made the system predictable, so users trusted it.</p></div>
@@ -1325,9 +1327,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
     <h2>Other Case Studies</h2>
     <div class="other-cs-grid" style="margin-top:36px;">
       <a href="ihx-ai-features-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of human failure case study screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of friction case study screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-card-title">AI at the Point of Human Failure</div>
+          <div class="cs-card-title">AI at the Point of Friction</div>
           <span class="cs-metrics">Claim submission 5 min to 2 min &middot; agentic</span>
         </div>
       </a>
@@ -1367,6 +1369,9 @@ footer{background:var(--asphalt);color:var(--coconut);}
       <p class="foot-tagline">Let&rsquo;s talk to build something great.</p>
     </div>
     <div class="foot-links">
+        <a class="resume" href="Shabnam_Raghavan_Resume.pdf" download="Shabnam_Raghavan_Resume.pdf">
+          Download resume
+        </a>
       <a class="email" href="mailto:shabnam.rs.work@gmail.com">
         <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
         shabnam.rs.work@gmail.com
@@ -1434,6 +1439,7 @@ document.querySelectorAll('video[data-click-play]').forEach(function (v) {
   v.addEventListener('play', function () { if (btn.isConnected) { btn.remove(); v.controls = true; } });
 });
 </script>
+<!-- first-party analytics, see design-context section 13 --><script src="/analytics.js" defer></script>
 <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f26ea28c97844cfabcd844e4d335180a"}'></script><!-- End Cloudflare Web Analytics -->
 
 <script>

@@ -306,7 +306,7 @@
     </nav>
   </header>
 
-  <div class="notice">
+  <div class="notice" id="notice">
     <b>Sample data.</b>
     <span>Nothing here is real yet. These are invented numbers in the right shapes, so the layout can be judged before anything is wired up.</span>
   </div>
@@ -408,7 +408,7 @@
   </div>
 
   <footer>
-    <span>Sample data · no visitors were counted to make this page</span>
+    <span id="foot-note">Sample data · no visitors were counted to make this page</span>
     <a href="index.html">Back to the portfolio</a>
   </footer>
 
@@ -457,7 +457,7 @@ function buildDays(n) {
   return out;
 }
 
-const DATA = {
+const SAMPLE = {
   days: buildDays(90),
 
   sources: [
@@ -999,7 +999,71 @@ window.addEventListener('resize', () => {
   rAF = requestAnimationFrame(() => { renderVisitors(); renderSources(); renderFunnel(); });
 });
 
-renderAll();
+/* ============================================================
+   THE SEAM
+   Try the real collector. If it is not provisioned yet, or it is
+   unreachable, keep the sample data and keep saying so. The page
+   must never break just because the backend is not up.
+   ============================================================ */
+let DATA = SAMPLE;
+
+function markLive(generated) {
+  const n = document.getElementById('notice');
+  if (n) {
+    n.innerHTML = '';
+    const b = document.createElement('b');
+    b.textContent = 'Live data.';
+    const s = document.createElement('span');
+    const when = generated ? new Date(generated) : new Date();
+    s.textContent = 'Counted first-party on this domain. Updated ' +
+      when.toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) +
+      '. Trust the comparisons, not the decimals.';
+    n.append(b, s);
+  }
+  const f = document.getElementById('foot-note');
+  if (f) f.textContent = 'Live data · first-party, cookieless, no personal data stored';
+}
+
+function markSample(reason) {
+  const f = document.getElementById('foot-note');
+  if (f && reason) f.textContent = 'Sample data · ' + reason;
+}
+
+(async function boot() {
+  renderAll();                       // paint the sample immediately, so nothing ever sits blank
+  // The dashboard key. Open this page once as stats.html#k=<value> and it is remembered here,
+  // so the key never has to sit in the URL again. Clear it with stats.html#k=
+  let key = '';
+  try {
+    const m = location.hash.match(/(?:^|[#&])k=([^&]*)/);
+    if (m) { key = decodeURIComponent(m[1]); localStorage.setItem('shab-stats-key', key);
+             history.replaceState(null, '', location.pathname); }
+    else { key = localStorage.getItem('shab-stats-key') || ''; }
+  } catch (e) {}
+
+  let res;
+  try {
+    res = await fetch('/api/stats?days=90' + (key ? '&k=' + encodeURIComponent(key) : ''),
+                      { headers: { Accept: 'application/json' } });
+  } catch (e) {
+    return markSample('the collector could not be reached');
+  }
+  if (res.status === 401) return markSample('this browser does not have the dashboard key');
+  if (!res.ok) {
+    let hint = '';
+    try { hint = (await res.json()).error || ''; } catch (e) {}
+    return markSample(res.status === 503
+      ? (hint || 'the collector is not finished being set up')
+      : 'the collector answered ' + res.status);
+  }
+  let live;
+  try { live = await res.json(); } catch (e) { return markSample('the collector sent something unreadable'); }
+  if (!live || !Array.isArray(live.days)) return markSample('the collector sent an unexpected shape');
+
+  DATA = live;
+  renderAll();
+  markLive(live.generated);
+})();
 </script>
 
 </body>
