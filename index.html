@@ -560,10 +560,13 @@
     color: var(--asphalt-soft);
   }
   .provenance span { white-space: nowrap; }
+  /* Manrope, not Staatliches. Staatliches draws "1" as a bare vertical stroke with no flag,
+     so "1 Million" read as "I Million". This also follows the rule already set for the stats
+     page: a display face on a figure reads as decoration rather than as a number. */
   .provenance span b {
-    display: inline; font-family: var(--font-display); font-weight: 700;
-    font-size: 1.15rem; letter-spacing: 0; text-transform: none;
-    color: var(--asphalt); margin-right: 6px;
+    display: inline; font-family: var(--font-body); font-weight: 800;
+    font-size: 1.12rem; letter-spacing: -0.01em; text-transform: none;
+    color: var(--asphalt); margin-right: 7px;
   }
 
   /* ---------- right: the ritual ---------- */
@@ -1711,9 +1714,9 @@
     </div>
     <div class="opening-meta">
       <div class="provenance">
-        <span><b>3 Yrs</b> in high-stakes UX</span>
+        <span><b>3+ Years</b> in high-stakes UX</span>
         <span><b>3 core</b> products shipped</span>
-        <span><b>1M</b> monthly users impacted</span>
+        <span><b>1 Million</b> monthly users impacted</span>
       </div>
     </div>
   </div>
