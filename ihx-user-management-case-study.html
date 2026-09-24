@@ -12,24 +12,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --coconut:#fdfdfb; --coconut-deep:#f4f3ef; --step--1: clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem); --step-0: clamp(1rem, 0.96rem + 0.25vw, 1.125rem); --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem); --step-2: clamp(1.5rem, 1.2rem + 1.4vw, 2.4rem); --step-3: clamp(2rem, 1.4rem + 2.6vw, 3.6rem); --step-4: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem); --step-5: clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
-  --coconut-soft:#b3ada0;
+  --coconut:#F4F3EF; --coconut-deep:#ECEAE4; --step--1: clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem); --step-0: clamp(1rem, 0.96rem + 0.25vw, 1.125rem); --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem); --step-2: clamp(1.5rem, 1.2rem + 1.4vw, 2.4rem); --step-3: clamp(2rem, 1.4rem + 2.6vw, 3.6rem); --step-4: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem); --step-5: clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
+  --coconut-soft:#F4F3EF;
   --asphalt:#302f2c;
-  --asphalt-soft:#6b6964;
-  --turmeric-deep:oklch(54% 0.125 78);
-  --ground:#f4f3ef;
-  --ground-alt:#eae5d8;
+  --asphalt-soft:#302F2C;
+  --turmeric-deep:#CD9C34;
+  --ground:#ECEAE4;
+  --ground-alt:#F4F3EF;
   --indigo:#3C3ADA;
   --indigo-light:#6E6CF0;
   --teal:#00B894;
   --teal-deep:#046A50;
-  --vermillion:#C13D1E;
-  --ink:#1C1912;
-  --ink-soft:#5B5449;
-  --muted:#5F584F;
+  --vermillion:#C02D0C;
+  --ink:#0E0C0A;
+  --ink-soft:#302F2C;
+  --muted:#302F2C;
   --border:rgba(20,18,14,0.08);
-  --card-bg:#f4f3ef;
-  --row-bg:#f4f3ef;
+  --card-bg:#ECEAE4;
+  --row-bg:#ECEAE4;
   --row-border:rgba(20,18,14,0.06);
   --shadow-card:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 14px 36px oklch(26% 0.021 42 / 0.06);
   --radius-card:16px;
@@ -39,7 +39,7 @@
   --font-display:"Staatliches","Impact","Arial Narrow",sans-serif;
   --font-body:"Manrope",sans-serif;
   --frame:clamp(16px,2vw,28px);   /* gap around the card == its corner radius */
-  --vermillion-deep:oklch(44% 0.17 31);
+  --vermillion-deep:#9B1302;
   --space-xs:8px;
   --space-sm:12px;
   --space-md:24px;
@@ -168,7 +168,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 /* problem split */
 .split-80{display:grid;grid-template-columns:1fr 1.4fr;gap:24px;margin-top:40px;}
 .big-num-card{
-  background:#f0ede5;border:1px solid var(--border);border-radius:16px;padding:32px 28px;
+  background:#ECEAE4;border:1px solid var(--border);border-radius:16px;padding:32px 28px;
   display:flex;flex-direction:column;justify-content:center;position:relative;
 }
 .big-num-card .giant{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-weight:400;font-size:var(--step-4);line-height:1;color:var(--indigo);}
@@ -193,7 +193,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 .num-card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px;}
 .split-80 .num-card-grid{grid-template-columns:1fr 1fr;margin-top:0;}
 .num-card{
-  background:#f0ede5;border:1px solid var(--border);border-radius:16px;
+  background:#ECEAE4;border:1px solid var(--border);border-radius:16px;
   padding:26px 22px;box-shadow:var(--shadow-card);
 }
 .num-card .badge-num{
@@ -208,7 +208,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 .fact-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
 .fact-pill{
   border:1px solid var(--border);border-radius:100px;padding:10px 18px;
-  font-size:var(--step--1);color:var(--ink-soft);background:#f0ede5;box-shadow:var(--shadow-card);
+  font-size:var(--step--1);color:var(--ink-soft);background:#ECEAE4;box-shadow:var(--shadow-card);
 }
 .fact-pill b{color:var(--indigo);font-weight:800;}
 
@@ -240,7 +240,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 .flow-caption b{color:var(--ink-soft);}
 
 .callout{
-  margin-top:28px;background:#f0ede5;border-left:3px solid var(--indigo-light);border-radius:0 14px 14px 0;
+  margin-top:28px;background:#ECEAE4;border-left:3px solid var(--indigo-light);border-radius:0 14px 14px 0;
   padding:22px 26px;
 }
 .callout .t{font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;}
@@ -316,7 +316,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 
 /* user problem */
 .persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px;}
-.persona{background:#f0ede5;border:1px solid var(--border);border-radius:14px;padding:24px 22px;display:flex;flex-direction:column;}
+.persona{background:#ECEAE4;border:1px solid var(--border);border-radius:14px;padding:24px 22px;display:flex;flex-direction:column;}
 .persona .who{
   font-size:var(--step--1);font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;
   display:inline-block;
@@ -655,7 +655,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;
   transition:color 160ms ease;
 }
-.socials a::after{content:"\2197";margin-left:6px;color:var(--vermillion);}
+.socials a::after{content:"\2197";margin-left:6px;color:var(--ink);}
 .socials a:hover{color:var(--coconut);}
 .foot-divider{
   height:10px;
@@ -691,12 +691,12 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .cs-card-title{font-family:var(--font-display);font-weight:700;font-size:clamp(1.15rem,1.8vw,1.4rem);line-height:1.25;}
 .cs-card-desc{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
 .cs-go{
-  margin-top:auto;position:relative;font-weight:700;color:var(--vermillion);
+  margin-top:auto;position:relative;font-weight:700;color:var(--ink);
   display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding-bottom:10px;font-size:.9rem;
 }
 .cs-go::after{
   content:"";position:absolute;left:0;right:0;bottom:0;height:8px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23C13D1E' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23C02D0C' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
   background-size:24px 8px;transform:scaleX(0);transform-origin:left;
   transition:transform 320ms cubic-bezier(0.22,1,0.36,1);
 }
@@ -752,7 +752,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
     border: 0; border-radius: 100px; padding: 7px 14px 6px;
     font-family: "Manrope", sans-serif; font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.5;
-    color: #4A443B; background: rgba(20,18,14,0.055);
+    color: #302F2C; background: rgba(20,18,14,0.055);
   }
   .hero-tags-top + h1 { margin-top: 0 !important; }
   /* Type roles: display is Staatliches, everything else Manrope, every size on index's
@@ -776,13 +776,13 @@ footer{background:var(--asphalt);color:var(--coconut);}
   .hero-stats .tag {
     position: absolute; top: 14px; right: 14px; padding: 0; border: 0; border-radius: 0; background: none;
     font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 800;
-    letter-spacing: .1em; text-transform: uppercase; color: #5F584F;
+    letter-spacing: .1em; text-transform: uppercase; color: #302F2C;
   }
   .hero-stats .num {
     font-family: "Staatliches", "Impact", "Arial Narrow", sans-serif; font-weight: 400;
     font-size: var(--step-2); line-height: 1; letter-spacing: .02em; margin-top: 28px;
   }
-  .hero-stats .lbl { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 600; color: #5F584F; margin-top: 8px; }
+  .hero-stats .lbl { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 600; color: #302F2C; margin-top: 8px; }
   .hero-stats .num.accent, .hero-stats .num.indigo { color: #3C3ADA; }
   .hero-stats .num.teal { color: #046A50; }
   .hero-stats .num.violet { color: #7C3AED; }
@@ -795,8 +795,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
     position: relative; z-index: 2;
   }
   .project-info .pi { display: flex; flex-direction: column; gap: 8px; }
-  .project-info .pi-l { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #5F584F; }
-  .project-info .pi-v { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 600; line-height: 1.5; color: #5B5449; }
+  .project-info .pi-l { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #302F2C; }
+  .project-info .pi-v { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 600; line-height: 1.5; color: #302F2C; }
   .project-info + .hero-stats { margin-top: 32px; }
   /* Hero image: full width, directly below the title and lede and above project info, on every
      case study. Until the real image is added the slot holds its space as a dashed 16:9
@@ -809,8 +809,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
   }
   .hero-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .hero-image:has(img) { border-color: transparent; box-shadow: var(--shadow-card); }
-  .hero-image .hi-ph { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #5F584F; }
-  .hero-image code { font-family: "Manrope", sans-serif; font-size: var(--step--1); color: #5F584F; }
+  .hero-image .hi-ph { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #302F2C; }
+  .hero-image code { font-family: "Manrope", sans-serif; font-size: var(--step--1); color: #302F2C; }
   @media (max-width: 900px) { .project-info { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
@@ -899,7 +899,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .wordmark .mark{display:block;height:30px;}
 .wordmark .mark img{display:block;height:100%;width:auto;}
 .topbar nav{display:flex;align-items:center;gap:var(--space-md);}
-.topbar nav a{position:relative;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
+.topbar nav a{font-family:var(--font-display);position:relative;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
 /* the weft thread from the loom, borrowed as an underline */
 .topbar nav a::after{
   content:"";position:absolute;left:0;right:0;bottom:0;height:8px;
@@ -998,6 +998,10 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .other-cs-grid > *{min-width:0;}
 .cs-card-body{flex-wrap:wrap;row-gap:4px;}
 .cs-metrics{flex-shrink:1;min-width:0;white-space:normal;}
+/* hierarchy: the title leads (Step 1, deep asphalt), the metric line sits under it, smaller */
+.cs-card-body{flex-direction:column;align-items:flex-start;gap:6px;}
+.cs-card-title{font-size:clamp(1.15rem,1.05rem + 0.5vw,1.4rem);letter-spacing:0.03em;line-height:1.15;color:var(--ink);}
+.cs-metrics{font-size:13px;font-weight:600;color:var(--asphalt);}
 
 /* ---- FOOTER ---- matches index.html exactly */
 .foot-quote{font-family:var(--font-display)!important;font-weight:400!important;letter-spacing:0.03em!important;}
@@ -1110,7 +1114,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .menu-panel{
   position:fixed;z-index:901;top:0;right:0;bottom:0;
   width:min(86vw,360px);
-  background:#302f2c;color:#fdfdfb;
+  background:#302f2c;color:#F4F3EF;
   display:flex;flex-direction:column;
   padding:calc(20px + env(safe-area-inset-top,0px)) 28px calc(28px + env(safe-area-inset-bottom,0px));
   transform:translateX(100%);
@@ -1123,35 +1127,35 @@ footer{background:var(--asphalt);color:var(--coconut);}
   align-self:flex-end;
   width:44px;height:44px;margin:0 -12px 8px 0;
   display:flex;align-items:center;justify-content:center;
-  background:none;border:0;padding:0;cursor:pointer;color:#b3ada0;
+  background:none;border:0;padding:0;cursor:pointer;color:#F4F3EF;
   -webkit-tap-highlight-color:transparent;
 }
-.menu-close:hover{color:#fdfdfb;}
+.menu-close:hover{color:#F4F3EF;}
 
 .menu-nav{display:flex;flex-direction:column;margin-top:8px;}
 .menu-nav a{
   font-family:"Staatliches","Impact","Arial Narrow",sans-serif;
   font-size:clamp(1.9rem,8vw,2.4rem);font-weight:400;
   letter-spacing:0.03em;line-height:1.05;text-transform:none;
-  color:#fdfdfb;text-decoration:none;
+  color:#F4F3EF;text-decoration:none;
   padding:14px 0;                    /* the row, not the glyphs, is the tap target */
   border-bottom:1px solid rgba(253,253,251,0.1);
 }
 .menu-nav a:last-child{border-bottom:0;}
-.menu-nav a:active{color:oklch(62% 0.17 33);}
+.menu-nav a:active{color:#C02D0C;}
 
 .menu-foot{margin-top:auto;padding-top:28px;}
 .menu-foot a{
   font-family:"Manrope",sans-serif;font-size:0.95rem;font-weight:600;
   letter-spacing:0;text-transform:none;
-  color:#b3ada0;text-decoration:none;
+  color:#F4F3EF;text-decoration:none;
   display:inline-block;padding:10px 0;
 }
-.menu-foot a:hover{color:#fdfdfb;}
+.menu-foot a:hover{color:#F4F3EF;}
 
 .menu-btn:focus-visible,.menu-close:focus-visible,
 .menu-nav a:focus-visible,.menu-foot a:focus-visible{
-  outline:2px solid oklch(62% 0.17 33);outline-offset:3px;border-radius:2px;
+  outline:2px solid #C02D0C;outline-offset:3px;border-radius:2px;
 }
 
 @media (max-width:900px){ .menu-btn{display:flex;} }
@@ -1544,25 +1548,11 @@ footer{background:var(--asphalt);color:var(--coconut);}
           <span class="cs-metrics">Claim submission 5 min to 2 min &middot; agentic</span>
         </div>
       </a>
-      <a href="ihx-nucleus-mobile-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-nucleus-mobile-cover-v2.mp4" poster="images/ihx-nucleus-mobile-cover-v2-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Mobile app screen"></video></div>
-        <div class="cs-card-body">
-          <div class="cs-card-title">IHX Nucleus Mobile</div>
-          <span class="cs-metrics">9,500+ DAU &middot; 33% more client acquisition</span>
-        </div>
-      </a>
       <a href="ihx_tpa_ops_.html" class="cs-card">
         <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
         <div class="cs-card-body">
-          <div class="cs-card-title">IHX Nucleus Ops Dashboard</div>
+          <div class="cs-card-title">A Four-Bucket Layout Was Hiding a Two-Team Operation</div>
           <span class="cs-metrics">22K+ providers &middot; 33% increase in revenue/claim &middot; 51% reduction in task time</span>
-        </div>
-      </a>
-      <a href="wisewomen-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="wisewoman-cover.mp4" poster="images/wisewoman-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
-        <div class="cs-card-body">
-          <div class="cs-card-title">WiseWoman</div>
-          <span class="cs-metrics">5 days to ship &middot; live</span>
         </div>
       </a>
     </div>

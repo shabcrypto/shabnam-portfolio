@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; padding: 40px 20px 60px; background: #F4F3EF; color: #0E0C0A; font: 16px/1.45 Manrope, system-ui, sans-serif; }
+  h1 { font: 700 1.7rem/1.2 system-ui; margin: 0 0 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; max-width: 1100px; }
+  .sw { background: #F4F3EF; border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px rgba(14,12,10,.12); }
+  .chip { height: 140px; display: flex; align-items: flex-end; padding: 12px 14px; font: 700 1.1rem system-ui; }
+  .meta { padding: 12px 14px 14px; display: flex; justify-content: space-between; gap: 8px; }
+  .meta span { font-family: ui-monospace, Menlo, monospace; }
+  .sec { font: 700 .8rem system-ui; letter-spacing: .12em; text-transform: uppercase; color: #302F2C; margin: 48px 0 16px; }
+  .fam { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; max-width: 1100px; }
+  .fam > div { background: #ECEAE4; border-radius: 12px; padding: 24px; }
+  .fam .big { font-size: 4.2rem; line-height: 1; color: #0E0C0A; }
+  .fam small { display: block; margin-top: 10px; color: #302F2C; font: 600 .85rem Manrope, sans-serif; }
+  .scale { max-width: 1100px; }
+  .row { display: grid; grid-template-columns: 170px 1fr; gap: 20px; align-items: baseline; padding: 22px 0; box-shadow: inset 0 -1px 0 rgba(14,12,10,.1); }
+  .row .lab b { display: block; font: 800 .95rem Manrope, sans-serif; color: #0E0C0A; }
+  .row .lab span { display: block; font: 500 .8rem/1.5 ui-monospace, Menlo, monospace; color: #302F2C; margin-top: 4px; }
+  .row .lab i { display: block; font: 600 .8rem/1.4 Manrope, sans-serif; font-style: normal; color: #9B1302; margin-top: 6px; }
+  .row .smp { color: #0E0C0A; overflow-wrap: anywhere; min-width: 0; }
+  .d { font-family: Staatliches, "Arial Narrow", sans-serif; font-weight: 400; }
+  .t { font-family: Manrope, system-ui, sans-serif; }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr; gap: 8px; } }
+</style></head><body>
+<h1>Style sheet</h1>
+<h2 class="sec">Colours</h2>
+<div class="grid"><div class="sw"><div class="chip" style="background:#0E0C0A;color:#F4F3EF">Deep Asphalt</div><div class="meta"><b>Deep Asphalt</b><span>#0E0C0A</span></div></div><div class="sw"><div class="chip" style="background:#302F2C;color:#F4F3EF">Asphalt</div><div class="meta"><b>Asphalt</b><span>#302F2C</span></div></div><div class="sw"><div class="chip" style="background:#C02D0C;color:#F4F3EF">Vermillion</div><div class="meta"><b>Vermillion</b><span>#C02D0C</span></div></div><div class="sw"><div class="chip" style="background:#9B1302;color:#F4F3EF">Vermillion Deep</div><div class="meta"><b>Vermillion Deep</b><span>#9B1302</span></div></div><div class="sw"><div class="chip" style="background:#CD9C34;color:#0E0C0A">Turmeric</div><div class="meta"><b>Turmeric</b><span>#CD9C34</span></div></div><div class="sw"><div class="chip" style="background:#F4F3EF;color:#0E0C0A">Coconut</div><div class="meta"><b>Coconut</b><span>#F4F3EF</span></div></div><div class="sw"><div class="chip" style="background:#ECEAE4;color:#0E0C0A">Coconut Deep</div><div class="meta"><b>Coconut Deep</b><span>#ECEAE4</span></div></div></div>
+<h2 style="font:700 1.1rem system-ui;margin:48px 0 6px">How they work together</h2>
+<p style="margin:0 0 16px;color:#302F2C">Coconut is the page background. Coconut Deep is a card sitting on it, like inside a case study.</p>
+<div style="background:#F4F3EF;box-shadow:0 0 0 1px rgba(14,12,10,.12);border-radius:14px;padding:32px;max-width:1036px">
+  <div style="font:700 .8rem system-ui;letter-spacing:.08em;text-transform:uppercase;color:#302F2C;margin-bottom:14px">Coconut background</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px">
+    <div style="background:#ECEAE4;border-radius:12px;padding:22px"><b style="font-size:1.6rem;color:#0E0C0A">87.5%</b><div style="color:#302F2C;margin-top:6px">Coconut Deep card</div></div>
+    <div style="background:#ECEAE4;border-radius:12px;padding:22px"><b style="font-size:1.6rem;color:#0E0C0A">3.23 to 1.56 min</b><div style="color:#302F2C;margin-top:6px">Coconut Deep card</div></div>
+    <div style="background:#ECEAE4;border-radius:12px;padding:22px"><b style="font-size:1.6rem;color:#0E0C0A">9,500+</b><div style="color:#302F2C;margin-top:6px">Coconut Deep card</div></div>
+  </div>
+</div>
+
+<h2 class="sec">Typography</h2>
+<div class="fam">
+  <div><div class="big d">Staatliches</div><small>Primary · display · headings and your name · one weight, never bold</small></div>
+  <div><div class="big t" style="font-weight:800;font-size:3.4rem">Manrope</div><small>Secondary · text · body, labels, buttons · weights 400 to 800</small></div>
+</div>
+<h2 class="sec">Type scale</h2>
+<div class="scale"><div class="row"><div class="lab"><b>Giant</b><span>clamp(3.2rem, 15vw, 15rem)<br>line 0.9 · spacing 0.03em · caps</span><i>Your name in the hero</i></div><div class="smp d" style="font-size:clamp(3.2rem,15vw,15rem);line-height:.9;letter-spacing:.03em;text-transform:uppercase">Shabnam</div></div><div class="row"><div class="lab"><b>Step 5</b><span>clamp(2.7rem, 6.4rem)</span><i>Defined, not used yet</i></div><div class="smp d" style="font-size:clamp(2.7rem,1.6rem + 5.4vw,6.4rem);line-height:.96;letter-spacing:.02em">Selected work</div></div><div class="row"><div class="lab"><b>Step 4</b><span>clamp(2.3rem, 4.8rem)<br>line 0.96 · spacing 0.02em</span><i>Intro headline</i></div><div class="smp d" style="font-size:clamp(2.3rem,1.5rem + 3.8vw,4.8rem);line-height:.96;letter-spacing:.02em">I design for how people actually behave</div></div><div class="row"><div class="lab"><b>Step 3</b><span>clamp(2rem, 3.6rem)<br>spacing 0.03em</span><i>Section titles: Peer review, Work history, Off the clock</i></div><div class="smp d" style="font-size:clamp(2rem,1.4rem + 2.6vw,3.6rem);letter-spacing:.03em">What peers say</div></div><div class="row"><div class="lab"><b>Step 2</b><span>clamp(1.5rem, 2.4rem)<br>spacing 0.015em</span><i>Defined, not used yet</i></div><div class="smp d" style="font-size:clamp(1.5rem,1.2rem + 1.4vw,2.4rem);letter-spacing:.015em">Design philosophy</div></div><div class="row"><div class="lab"><b>Step 1</b><span>clamp(1.15rem, 1.4rem)<br>spacing 0.03em</span><i>Card titles: process steps, job titles</i></div><div class="smp d" style="font-size:clamp(1.15rem,1.05rem + .5vw,1.4rem);letter-spacing:.03em">Understand the problem</div></div><div class="row"><div class="lab"><b>Step 0</b><span>clamp(1rem, 1.125rem)<br>line 1.6</span><i>Body text, footer links</i></div><div class="smp t" style="font-size:clamp(1rem,.96rem + .25vw,1.125rem);line-height:1.6;font-weight:400">Hospitals, insurers and TPAs all use the same product. They want different things. My job is to make it work for all of them without making any of them think harder.</div></div><div class="row"><div class="lab"><b>Label</b><span>0.85rem · weight 700<br>spacing 0.18em · caps</span><i>Small labels above sections and on cards</i></div><div class="smp t" style="font-size:.85rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Selected work</div></div><div class="row"><div class="lab"><b>Step -1</b><span>clamp(0.78rem, 0.88rem)</span><i>Small print, captions</i></div><div class="smp t" style="font-size:clamp(.78rem,.74rem + .2vw,.88rem);line-height:1.5">Bangalore, India</div></div></div>
+</body></html>
