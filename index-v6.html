@@ -65,6 +65,7 @@
 
   *, *::before, *::after { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
+  html, body { overscroll-behavior-x: none; }   /* no swipe-to-go-back from anywhere on the page */
   body {
     margin: 0;
     background: var(--asphalt);   /* the last layer, as on the live site: the page sits on it as a card */
@@ -1228,7 +1229,7 @@
     .trail {
       position: static; display: flex; gap: 12px; margin-top: var(--s-5);
       padding: 0 var(--gut); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: var(--gut);
-      scrollbar-width: none; pointer-events: auto;
+      scrollbar-width: none; pointer-events: auto; overscroll-behavior-x: contain;
     }
     .trail::-webkit-scrollbar { display: none; }
     .trail-img, .trail-img.placed { position: static; flex: none; width: min(56vw, 240px); height: auto; aspect-ratio: 4 / 5; opacity: 1; transform: none; border-radius: 10px; scroll-snap-align: start; }
@@ -1739,6 +1740,9 @@
       padding: 0 var(--gut) var(--s-6);
       overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: var(--gut);
       scrollbar-width: none; -webkit-overflow-scrolling: touch;
+      /* a hard swipe past either end stays in the row: it must never become the browser's
+         back/forward swipe, which was taking visitors to the last page they read */
+      overscroll-behavior-x: contain;
     }
     .shelf::-webkit-scrollbar { display: none; }
     /* each cover is ~60% of the screen, so the next one is cut in half by the right edge:
