@@ -1279,9 +1279,10 @@
      as JSON. Then the footer: page links, social links, built by. Staatliches
      for headings and links, Manrope for text, palette colours only.
      --------------------------------------------------------------------- */
-  .sheet section.contact-sec { background: #0E0C0A; color: #F4F3EF; padding: clamp(80px, 9vw, 140px) 0; }
+  .sheet section.contact-sec { background: #C02D0C; color: #F4F3EF; padding: clamp(80px, 9vw, 140px) 0; }
   .sheet section.contact-sec::before { display: none; }
-  .sheet section.contact-sec h2.contact-call { color: #F4F3EF; font-size: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem); }
+  .sheet section.contact-sec h2.contact-call { color: #F4F3EF; font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1.02; max-width: 17ch; }
+  .contact-talk { display: block; margin-top: 0.55em; }
   .sheet section.contact-sec h2.contact-call::after { display: none; }
   .board-foot { background: #0E0C0A; color: #F4F3EF; padding: var(--s-5) 0 var(--s-4); }
   .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--s-6); align-items: center; }
@@ -1290,15 +1291,20 @@
     font-size: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem);   /* Step 4 */
     line-height: 0.98; letter-spacing: 0.02em; color: #F4F3EF; max-width: 12ch;
   }
-  .contact-note { margin: var(--s-3) 0 0; max-width: 40ch; font-size: clamp(1rem, 0.96rem + 0.25vw, 1.125rem); line-height: 1.6; color: #F4F3EF; opacity: 0.8; }
+  .contact-note { margin: var(--s-4) 0 0; max-width: 40ch; font-size: clamp(1rem, 0.96rem + 0.25vw, 1.125rem); line-height: 1.6; color: #F4F3EF; opacity: 0.8; }
+  /* the same text link as "Read case study" and "Get to know me", with a download mark */
   .contact-resume {
-    display: inline-flex; align-items: center; gap: 10px; margin-top: var(--s-4);
-    padding: 14px 22px; min-height: 48px; border-radius: 999px;
-    background: #F4F3EF; color: #0E0C0A; text-decoration: none;
-    font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.08em;
-    transition: transform 260ms var(--paint), background-color 200ms ease;
+    position: relative; display: inline-flex; align-items: center; gap: 10px;
+    margin-top: var(--s-4); padding: 10px 0; min-height: 44px;
+    color: #F4F3EF; text-decoration: none;
+    font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.08em;
   }
-  .contact-resume:hover { transform: translateY(-2px); background: #ECEAE4; }
+  .contact-resume::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23F4F3EF' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 24px 8px;
+    transform: scaleX(0); transform-origin: left; transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .contact-resume:hover::after, .contact-resume:focus-visible::after { transform: scaleX(1); }
   .contact-resume:focus-visible { outline: 3px solid #F4F3EF; outline-offset: 3px; }
   .bcard {
     position: relative; isolation: isolate; overflow: hidden;
@@ -1307,6 +1313,7 @@
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
     transform: rotate(-2deg);
     transition: transform 520ms var(--paint);
+    container-type: inline-size;
   }
   .bcard:hover { transform: rotate(0deg) translateY(-4px); }
   .bcard-bar {
@@ -1322,7 +1329,8 @@
   .bcard-code {
     margin: 0; padding: 18px 22px 24px 0; list-style: none; counter-reset: ln;
     font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    font-size: clamp(0.8rem, 0.7rem + 0.5vw, 1.05rem); line-height: 1.9;
+    /* sized from the card's own width, so the longest line always fits inside it */
+    font-size: min(3.05cqw, 1.05rem); line-height: 1.9;
   }
   .bcard-code li { counter-increment: ln; position: relative; padding-left: 3.4em; white-space: nowrap; }
   .bcard-code li::before { content: counter(ln); position: absolute; left: 0; width: 2.2em; text-align: right; color: rgba(14, 12, 10, 0.4); }
@@ -1364,7 +1372,7 @@
     .bcard { transform: none; }
     .foot2 { grid-template-columns: 1fr 1fr; }
   }
-  @media (max-width: 420px) { .bcard-code { font-size: 0.72rem; } }
+
   @media (prefers-reduced-motion: reduce) { .bc-caret { animation: none; } .bcard, .contact-resume { transition: none; } }
 
   /* ---- the billing block ---- */
@@ -3120,8 +3128,8 @@
 <section class="contact-sec" id="contact" aria-label="Contact">
   <div class="wrap contact">
     <div class="contact-copy">
-      <h2 class="contact-call">Building something complicated? Talk to me.</h2>
-      <p class="contact-note">Still exploring. Still building. Open to product design roles and contract work.</p>
+      <h2 class="contact-call">Need a designer to bring clarity to your workflows?<span class="contact-talk">Talk to me.</span></h2>
+      <p class="contact-note">Open to product design roles and contract work.</p>
       <a class="contact-resume" href="Shabnam_Raghavan_Resume.pdf" download>Download resume
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2.5v8M4.5 7.5 8 11l3.5-3.5M3 13.5h10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
