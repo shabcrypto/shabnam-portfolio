@@ -1412,23 +1412,19 @@
     .ways-halo { justify-content: center; }
     .ways-halo .ritual { width: min(360px, 100%); }
   }
+  /* the design philosophy rows: plain text on the black, a stroke between them, no card and
+     no rounded box, open or closed */
   .wcard {
-    position: relative; isolation: isolate; margin-top: 0; border-radius: 24px; color: var(--bone);
-    box-shadow: inset 0 -1px 0 rgba(240, 230, 210, 0.14);   /* the stroke between rows */
+    position: relative; margin-top: 0; color: var(--bone);
+    box-shadow: inset 0 -1px 0 rgba(240, 230, 210, 0.14);
   }
-  .wcard::before {
-    content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 24px;
-    background: #302F2C; opacity: 0; transition: opacity 300ms ease;
-  }
-  .wcard.is-open::before { opacity: 1; }
-  .wcard.is-open, .wcard:has(+ .wcard.is-open) { box-shadow: none; }
 
   .wc-head {
     display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
     width: 100%; margin: 0; border: 0; background: none; cursor: pointer; text-align: left;
     padding: clamp(24px, 2.6vw, 38px) clamp(22px, 2.8vw, 44px); font: inherit; color: inherit;
   }
-  .wc-head:focus-visible { outline: 3px solid #F0E6D2; outline-offset: 3px; border-radius: 24px; }
+  .wc-head:focus-visible { outline: 3px solid #F0E6D2; outline-offset: 3px; }
   .sheet section.ways h2.wc-title {
     margin: 0; font-family: var(--font-display); font-weight: 400;
     font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1; letter-spacing: 0.02em; color: var(--bone);
