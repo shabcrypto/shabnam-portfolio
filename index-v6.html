@@ -2142,7 +2142,15 @@
 </style>
 </head>
 <body>
-<script>document.documentElement.classList.add("js");</script>
+<script>document.documentElement.classList.add("js");
+  // the last time the page scrolled or the visitor reached for the wheel / screen: hover never
+  // opens a card mid-scroll, and the "hold in place" nudge never fights a scroll
+  window.__scrolledAt = 0;
+  ["scroll", "wheel", "touchmove"].forEach(function (t) {
+    window.addEventListener(t, function () { window.__scrolledAt = performance.now(); }, { passive: true });
+  });
+  window.__scrolling = function () { return performance.now() - window.__scrolledAt < 220; };
+</script>
 <script>
   // Always open at the very top, so the asphalt frame shows above the hero card: the browser's
   // scroll restoration (and smooth scrolling picking it up) could leave the page a few pixels
@@ -3551,30 +3559,35 @@
   // which would slide it up under the finger; this holds its header at the same screen
   // position until the motion ends, so it only ever opens downward
   function hold(el) {
-    var y0 = el.getBoundingClientRect().top, end = performance.now() + 700;
+    var y0 = el.getBoundingClientRect().top, start = performance.now(), end = start + 700;
     (function step(now) {
+      if (window.__scrolledAt > start + 16) return;   // the visitor is scrolling: let go
       var d = el.getBoundingClientRect().top - y0;
       if (Math.abs(d) > 0.5) {
+        var t = window.__scrolledAt;
         if (window.__lenis) window.__lenis.scrollTo(window.scrollY + d, { immediate: true });
         else window.scrollBy(0, d);
+        window.__scrolledAt = t;
       }
       if (now < end) requestAnimationFrame(step);
     })(performance.now());
   }
-  function set(it) {
+  function set(it, byHover) {
     var anchor = it || list.querySelector(".hist-item.is-open");
     items.forEach(function (o) {
       var on = o === it;
       o.classList.toggle("is-open", on);
       o.querySelector(".hist-head").setAttribute("aria-expanded", on ? "true" : "false");
     });
-    if (anchor) hold(anchor.querySelector(".hist-head"));
+    if (anchor && !byHover) hold(anchor.querySelector(".hist-head"));
   }
   items.forEach(function (it) {
     var head = it.querySelector(".hist-head");
     head.addEventListener("click", function () { set(it.classList.contains("is-open") ? null : it); });
     // on a mouse, pointing at a closed role still opens it; the x always closes
-    if (fine) it.addEventListener("pointerenter", function () { if (!list.dataset.closed) set(it); });
+    if (fine) ["pointerenter", "pointermove"].forEach(function (t) {
+      it.addEventListener(t, function () { if (!it.classList.contains("is-open") && !list.dataset.closed && !window.__scrolling()) set(it, true); });
+    });
   });
   // after the x is used, hovering does not reopen anything until the pointer leaves the list
   list.addEventListener("click", function (e) { if (e.target.closest(".hist-item:not(.is-open)") && !list.querySelector(".is-open")) list.dataset.closed = "1"; });
@@ -3607,31 +3620,36 @@
   var group = cards[0].parentElement;
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   function hold(el) {   // same as Work history: the tapped header stays put on screen
-    var y0 = el.getBoundingClientRect().top, end = performance.now() + 700;
+    var y0 = el.getBoundingClientRect().top, start = performance.now(), end = start + 700;
     (function step(now) {
+      if (window.__scrolledAt > start + 16) return;   // the visitor is scrolling: let go
       var d = el.getBoundingClientRect().top - y0;
       if (Math.abs(d) > 0.5) {
+        var t = window.__scrolledAt;
         if (window.__lenis) window.__lenis.scrollTo(window.scrollY + d, { immediate: true });
         else window.scrollBy(0, d);
+        window.__scrolledAt = t;
       }
       if (now < end) requestAnimationFrame(step);
     })(performance.now());
   }
-  function set(card) {
+  function set(card, byHover) {
     var anchor = card || group.querySelector(".wcard.is-open");
     cards.forEach(function (c) {
       var on = c === card;
       c.classList.toggle("is-open", on);
       c.querySelector(".wc-head").setAttribute("aria-expanded", on ? "true" : "false");
     });
-    if (anchor) hold(anchor.querySelector(".wc-head"));
+    if (anchor && !byHover) hold(anchor.querySelector(".wc-head"));
   }
   cards.forEach(function (card) {
     card.querySelector(".wc-head").addEventListener("click", function () {
       if (card.classList.contains("is-open")) { set(null); group.dataset.closed = "1"; }
       else set(card);
     });
-    if (fine) card.addEventListener("pointerenter", function () { if (!group.dataset.closed) set(card); });
+    if (fine) ["pointerenter", "pointermove"].forEach(function (t) {
+      card.addEventListener(t, function () { if (!card.classList.contains("is-open") && !group.dataset.closed && !window.__scrolling()) set(card, true); });
+    });
   });
   group.addEventListener("pointerleave", function () { delete group.dataset.closed; });
 })();
