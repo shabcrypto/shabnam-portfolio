@@ -1219,6 +1219,24 @@
     .ways .ritual { transform: none; }
   }
 
+  /* ---- page frame + the flat hero (restored 2026-09-25 after the hero clean-up took them) ---- */
+  [hidden] { display: none !important; }
+  /* trying the hero without her illustration: a flat deep asphalt ground, a different black
+     from the asphalt the page sits on, with the name centred in the space (2026-09-24) */
+  .hero.hero-flat { background: #0E0C0A; }
+  .hero.hero-flat .hero-title { justify-content: center; padding-top: 0; }
+  /* nav links over the hero in coconut, the palette's lightest colour */
+  .topbar:not(.solid) nav a { color: #F0E6D2; }
+  /* the page card, as on the live site: every section sits on one card inset by the
+     frame, with rounded corners, over the asphalt ground */
+  .page-card {
+    position: relative;
+    margin: var(--frame);
+    border-radius: var(--frame);
+    overflow: clip;
+  }
+  .hero.hero-flat img.hero-layer { display: none; }
+
   /* ---- the billing block ---- */
   .billing {
     position: relative; z-index: 6;
