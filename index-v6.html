@@ -1060,7 +1060,16 @@
     content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2400px; z-index: -1;
     background: url("images/paper-sheet.webp") center top / cover; pointer-events: none;
   }
-  .hist-item { position: relative; z-index: 1; box-shadow: inset 0 -1px 0 rgba(244, 243, 239, 0.14); }
+  .hist-glow { display: none; }
+  .hist-item { position: relative; z-index: 1; isolation: isolate; box-shadow: inset 0 -1px 0 rgba(244, 243, 239, 0.14); }
+  /* the open role IS the paper card: it grows from the role's top edge downward as the
+     details open, and shrinks back up as they close */
+  .hist-item::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 24px;
+    background: url("images/paper-sheet.webp") center top / cover, #E4E0D6;
+    opacity: 0; transition: opacity 300ms ease;
+  }
+  .hist-item.is-open::before { opacity: 1; }
   .hist-item.is-open, .hist-item:has(+ .is-open) { box-shadow: none; }
   .hist-head {
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr) minmax(0, 1fr) 40px;
@@ -3416,49 +3425,28 @@
 })();
 
 (function () {
-  // WORK HISTORY: one role open at a time; the dark panel follows the open role frame by
-  // frame while the rows resize, so it glides rather than jumps.
+  // WORK HISTORY: one role open at a time. Its row is the paper card, so it opens top to
+  // bottom. The + opens a role; the x on an open role closes it.
   var list = document.querySelector(".hist");
   if (!list) return;
-  var glow = list.querySelector(".hist-glow");
   var items = [].slice.call(list.querySelectorAll(".hist-item"));
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var cur = { y: 0, h: 0 }, until = 0, raf = 0;
-  function target() {
-    var it = list.querySelector(".hist-item.is-open");
-    return it ? { y: it.offsetTop, h: it.offsetHeight } : { y: 0, h: 0 };
-  }
-  function tick(now) {
-    var t = target();
-    if (reduce) { cur = t; } else {
-      cur.y += (t.y - cur.y) * 0.2; cur.h += (t.h - cur.h) * 0.2;
-    }
-    glow.style.transform = "translateY(" + cur.y.toFixed(1) + "px)";
-    glow.style.height = cur.h.toFixed(1) + "px";
-    if (now < until || Math.abs(t.y - cur.y) > 0.5 || Math.abs(t.h - cur.h) > 0.5) raf = requestAnimationFrame(tick);
-    else raf = 0;
-  }
-  function follow() { until = performance.now() + 800; if (!raf) raf = requestAnimationFrame(tick); }
-  function open(it) {
-    if (it.classList.contains("is-open")) return;
+  function set(it) {
     items.forEach(function (o) {
       var on = o === it;
       o.classList.toggle("is-open", on);
       o.querySelector(".hist-head").setAttribute("aria-expanded", on ? "true" : "false");
     });
-    follow();
   }
   items.forEach(function (it) {
     var head = it.querySelector(".hist-head");
-    head.addEventListener("click", function () { open(it); });
-    head.addEventListener("focus", function () { open(it); });
-    if (fine) it.addEventListener("pointerenter", function () { open(it); });
+    head.addEventListener("click", function () { set(it.classList.contains("is-open") ? null : it); });
+    // on a mouse, pointing at a closed role still opens it; the x always closes
+    if (fine) it.addEventListener("pointerenter", function () { if (!list.dataset.closed) set(it); });
   });
-  cur = target();
-  glow.style.transform = "translateY(" + cur.y + "px)"; glow.style.height = cur.h + "px";
-  window.addEventListener("resize", follow);
-  window.addEventListener("load", follow);
+  // after the x is used, hovering does not reopen anything until the pointer leaves the list
+  list.addEventListener("click", function (e) { if (e.target.closest(".hist-item:not(.is-open)") && !list.querySelector(".is-open")) list.dataset.closed = "1"; });
+  list.addEventListener("pointerleave", function () { delete list.dataset.closed; });
 })();
 
 (function () {
