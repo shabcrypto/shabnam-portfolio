@@ -1159,6 +1159,9 @@
     padding: 0 clamp(22px, 2.8vw, 44px);
   }
   .er-col { padding-bottom: clamp(26px, 2.8vw, 40px); }
+  .er-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5); color: #0E0C0A; }
+  .hist-inner > .er-cols { grid-column: 2 / 5; }
+  @media (max-width: 900px) { .er-cols { grid-template-columns: 1fr; gap: 0; } .hist-inner > .er-cols { grid-column: 1; } }
   .er-col h3 { margin: 0 0 var(--s-2); font-family: var(--font-display); font-weight: 400; font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem); letter-spacing: 0.04em; }
   .er-col ul { list-style: none; margin: 0; padding: 0; }
   .er-col li { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); column-gap: 14px; padding: 14px 0; box-shadow: inset 0 1px 0 rgba(14, 12, 10, 0.12); }
@@ -1409,8 +1412,17 @@
     .ways-halo { justify-content: center; }
     .ways-halo .ritual { width: min(360px, 100%); }
   }
-  .wcard { margin-top: var(--s-4); border-radius: 24px; background: #302F2C; color: var(--bone); }
-  .ways-row + .wcard { margin-top: var(--s-4); }
+  .wcard {
+    position: relative; isolation: isolate; margin-top: 0; border-radius: 24px; color: var(--bone);
+    box-shadow: inset 0 -1px 0 rgba(240, 230, 210, 0.14);   /* the stroke between rows */
+  }
+  .wcard::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 24px;
+    background: #302F2C; opacity: 0; transition: opacity 300ms ease;
+  }
+  .wcard.is-open::before { opacity: 1; }
+  .wcard.is-open, .wcard:has(+ .wcard.is-open) { box-shadow: none; }
+
   .wc-head {
     display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
     width: 100%; margin: 0; border: 0; background: none; cursor: pointer; text-align: left;
@@ -1438,15 +1450,15 @@
   @media (prefers-reduced-motion: reduce) { .wc-body, .wc-plus { transition: none; } }
 
   /* ONE COLLAPSIBLE MOTION, shared by every expanding card on the page */
-  .hist-inner > *, .wc-inner > *, .er-col {
+  .hist-inner > *, .wc-inner > * {
     opacity: 0; transform: translateY(10px);
     transition: opacity 240ms ease, transform 420ms var(--paint);
   }
-  .hist-item.is-open .hist-inner > *, .wcard.is-open .wc-inner > *, .er.is-open .er-col {
+  .hist-item.is-open .hist-inner > *, .wcard.is-open .wc-inner > * {
     opacity: 1; transform: none; transition-delay: 180ms;
   }
   @media (prefers-reduced-motion: reduce) {
-    .hist-inner > *, .wc-inner > *, .er-col { transition: none; }
+    .hist-inner > *, .wc-inner > * { transition: none; }
   }
 
   /* ---- the billing block ---- */
@@ -3183,14 +3195,16 @@
           </ul>
         </div></div>
       </li>
-    </ol>
-    <div class="er">
-      <button class="er-head" type="button" aria-expanded="false" aria-controls="er-body">
-        <span class="er-title">Education &amp; Recognitions</span>
-        <span class="er-plus" aria-hidden="true"></span>
-      </button>
-      <div class="er-body" id="er-body"><div class="er-inner">
-        <div class="er-col">
+      <li class="hist-item hist-edu">
+        <button class="hist-head" type="button" aria-expanded="false">
+          <span class="hist-when"></span>
+          <span class="hist-role"><b>Education &amp; Recognitions</b></span>
+          <span class="hist-place"></span>
+          <span class="hist-plus" aria-hidden="true"></span>
+        </button>
+        <div class="hist-body"><div class="hist-inner">
+          <div class="er-cols">
+            <div class="er-col">
           <h3>Education</h3>
           <ul>
             <li><span class="er-year">2013 to 2015</span><b>MSc Microbiology</b><span class="er-org">Vellore Institute of Technology</span><span class="er-note">Elective coursework in Psychology and Cognitive Behavioural Genetics</span></li>
@@ -3198,7 +3212,7 @@
             <li><span class="er-year">September 2026</span><b>HFI Certified Usability Architect (CUA)</b><span class="er-org">Human Factors International</span><span class="er-note">Coursework in accessibility and WCAG standards, usability heuristics, and research methods</span></li>
           </ul>
         </div>
-        <div class="er-col">
+            <div class="er-col">
           <h3>Recognitions</h3>
           <ul>
             <li><span class="er-year">Sep 2025</span><b>IHX Hackathon, 1st Place</b><span class="er-org">IHX</span></li>
@@ -3206,8 +3220,10 @@
             <li><span class="er-year">2025</span><b>IHX Acquisition Recognition</b><span class="er-org">IHX</span><span class="er-note">Multiple product improvements acknowledged during the IHX acquisition by Perfios for adoption and operational value</span></li>
           </ul>
         </div>
-      </div></div>
-    </div>
+          </div>
+        </div></div>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -3567,24 +3583,6 @@
   // after the x is used, hovering does not reopen anything until the pointer leaves the list
   list.addEventListener("click", function (e) { if (e.target.closest(".hist-item:not(.is-open)") && !list.querySelector(".is-open")) list.dataset.closed = "1"; });
   list.addEventListener("pointerleave", function () { delete list.dataset.closed; });
-})();
-
-(function () {
-  // EDUCATION & RECOGNITIONS: the same behaviour as every other collapsible. On a mouse,
-  // pointing at it opens it; + / x toggles; after an x, hover does not reopen it until the
-  // pointer has left.
-  var er = document.querySelector(".er");
-  if (!er) return;
-  var head = er.querySelector(".er-head");
-  function set(on) { er.classList.toggle("is-open", on); head.setAttribute("aria-expanded", on ? "true" : "false"); }
-  head.addEventListener("click", function () {
-    var on = !er.classList.contains("is-open"); set(on);
-    if (!on) er.dataset.closed = "1";
-  });
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    er.addEventListener("pointerenter", function () { if (!er.dataset.closed) set(true); });
-    er.addEventListener("pointerleave", function () { delete er.dataset.closed; });
-  }
 })();
 
 (function () {
