@@ -1094,7 +1094,8 @@
   .hist-plus { position: relative; width: 40px; height: 40px; border-radius: 50%; background: rgba(240, 230, 210, 0.12); transition: background-color 420ms ease, transform 560ms var(--paint); }
   .hist-plus::before, .hist-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; margin: -1px 0 0 -7px; background: currentColor; border-radius: 2px; }
   .hist-plus::after { transform: rotate(90deg); }
-  .hist-item.is-open .hist-plus { background: rgba(14, 12, 10, 0.08); transform: rotate(135deg); }
+  .hist-item.is-open .hist-plus { background: rgba(14, 12, 10, 0.08); transform: rotate(135deg); align-self: start; }
+  .hist-item.is-open .hist-head { align-items: start; }
   .hist-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 620ms var(--paint); }
   .hist-item.is-open .hist-body { grid-template-rows: 1fr; }
   /* the details sit on the same columns as the row above, so they line up under the role */
@@ -3522,12 +3523,28 @@
   if (!list) return;
   var items = [].slice.call(list.querySelectorAll(".hist-item"));
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  // while one role closes and another opens, the page above the tapped role can shrink,
+  // which would slide it up under the finger; this holds its header at the same screen
+  // position until the motion ends, so it only ever opens downward
+  function hold(el) {
+    var y0 = el.getBoundingClientRect().top, end = performance.now() + 700;
+    (function step(now) {
+      var d = el.getBoundingClientRect().top - y0;
+      if (Math.abs(d) > 0.5) {
+        if (window.__lenis) window.__lenis.scrollTo(window.scrollY + d, { immediate: true });
+        else window.scrollBy(0, d);
+      }
+      if (now < end) requestAnimationFrame(step);
+    })(performance.now());
+  }
   function set(it) {
+    var anchor = it || list.querySelector(".hist-item.is-open");
     items.forEach(function (o) {
       var on = o === it;
       o.classList.toggle("is-open", on);
       o.querySelector(".hist-head").setAttribute("aria-expanded", on ? "true" : "false");
     });
+    if (anchor) hold(anchor.querySelector(".hist-head"));
   }
   items.forEach(function (it) {
     var head = it.querySelector(".hist-head");
@@ -3578,12 +3595,25 @@
   if (!cards.length) return;
   var group = cards[0].parentElement;
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  function hold(el) {   // same as Work history: the tapped header stays put on screen
+    var y0 = el.getBoundingClientRect().top, end = performance.now() + 700;
+    (function step(now) {
+      var d = el.getBoundingClientRect().top - y0;
+      if (Math.abs(d) > 0.5) {
+        if (window.__lenis) window.__lenis.scrollTo(window.scrollY + d, { immediate: true });
+        else window.scrollBy(0, d);
+      }
+      if (now < end) requestAnimationFrame(step);
+    })(performance.now());
+  }
   function set(card) {
+    var anchor = card || group.querySelector(".wcard.is-open");
     cards.forEach(function (c) {
       var on = c === card;
       c.classList.toggle("is-open", on);
       c.querySelector(".wc-head").setAttribute("aria-expanded", on ? "true" : "false");
     });
+    if (anchor) hold(anchor.querySelector(".wc-head"));
   }
   cards.forEach(function (card) {
     card.querySelector(".wc-head").addEventListener("click", function () {
