@@ -472,11 +472,11 @@ footer{background:var(--asphalt);color:var(--coconut);}
   right:clamp(16px,6vw,104px);
   border-radius:999px;
   padding:12px clamp(20px,2.2vw,32px);
-  background-color:rgba(253,253,251,0.94);
+  background-color:rgba(244, 243, 239, 0.97);
   box-shadow:0 2px 6px oklch(26% 0.021 42 / 0.08), 0 14px 38px oklch(26% 0.021 42 / 0.14);
 }
 @supports (backdrop-filter: blur(10px)){
-  .topbar.solid{background-color:rgba(253,253,251,0.82);backdrop-filter:blur(14px);}
+  .topbar.solid{background-color:rgba(244, 243, 239, 0.94);backdrop-filter:blur(14px);}
 }
 .resume-group{display:inline-flex;align-items:baseline;gap:6px;}
 .resume-dl{color:var(--asphalt-soft);text-decoration:none;font-size:0.85em;transition:color 160ms ease;}
@@ -569,6 +569,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .cs-card-body{flex-direction:column;align-items:flex-start;gap:6px;}
 .cs-card-title{font-size:clamp(1.15rem,1.05rem + 0.5vw,1.4rem);letter-spacing:0.03em;line-height:1.15;color:var(--ink);}
 .cs-metrics{font-size:13px;font-weight:600;color:var(--asphalt);}
+@media (max-width:600px){ .cs-card-title{font-size:1.5rem;line-height:1.1;} .cs-metrics{font-size:12.5px;font-weight:500;} }
 
 /* ---- FOOTER ---- matches index.html exactly */
 .foot-quote{font-family:var(--font-display)!important;font-weight:400!important;letter-spacing:0.03em!important;}
@@ -1359,7 +1360,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
         <div class="cs-thumb"><video src="wisewoman-cover.mp4" poster="images/wisewoman-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
         <div class="cs-card-body">
           <div class="cs-card-title">Idea to Shipped in Five Days</div>
-          <span class="cs-metrics">5 days to ship &middot; live</span>
+          <span class="cs-metrics">5 days to ship &middot; AI harness eval</span>
         </div>
       </a>
     </div>

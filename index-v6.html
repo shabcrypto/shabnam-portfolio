@@ -330,7 +330,7 @@
   align-self:flex-end;
   width:44px;height:44px;margin:0 -12px 8px 0;
   display:flex;align-items:center;justify-content:center;
-  background:none;border:0;padding:0;cursor:pointer;color:#b3ada0;
+  background:none;border:0;padding:0;cursor:pointer;color:#F0E6D2;
   -webkit-tap-highlight-color:transparent;
 }
 .menu-close:hover{color:#F0E6D2;}
@@ -351,7 +351,7 @@
 .menu-foot a{
   font-family:"Manrope",sans-serif;font-size:0.95rem;font-weight:600;
   letter-spacing:0;text-transform:none;
-  color:#b3ada0;text-decoration:none;
+  color:#F0E6D2;text-decoration:none;
   display:inline-block;padding:10px 0;
 }
 .menu-foot a:hover{color:#F0E6D2;}
@@ -1032,9 +1032,10 @@
   /* current role, a thin divider, then the earlier role at IHX */
   .pr-sep { display: inline-block; width: 1px; height: 0.95em; margin: 0 8px; vertical-align: -0.12em; background: rgba(14, 12, 10, 0.3); }
   .pr-was { white-space: nowrap; }
+  @media (max-width: 400px) { .pr-was { white-space: normal; } }
   .pr-card .li .tip { background: #0E0C0A; color: #F0E6D2; }
   @media (max-width: 900px) {
-    .pr-grid { grid-template-columns: 1fr; }
+    .pr-grid { grid-template-columns: minmax(0, 1fr); }
     .pr-deck { padding: 0 22px 26px 0; }
     .pr-card[data-pos="1"] { transform: translate(11px, 12px) rotate(2deg) scale(0.97); }
     .pr-card[data-pos="2"] { transform: translate(22px, 24px) rotate(-1.5deg) scale(0.94); }
