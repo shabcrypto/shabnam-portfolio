@@ -1391,10 +1391,18 @@
      asphalt ground. "How I design" starts open. Same fluid height motion as
      Work history and Education & Recognitions.
      --------------------------------------------------------------------- */
-  .ways-halo { display: flex; justify-content: center; }
-  .ways-halo .ritual { width: min(440px, 100%); }
+  /* the halo card on the left, "How I look at design" beside it, both from the same top line */
+  .ways-row { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: var(--s-4); align-items: start; }
+  .ways-halo { display: flex; }
+  .ways-halo .ritual { width: 100%; }
+  .ways-row > .wcard { margin-top: 0; }
+  @media (max-width: 900px) {
+    .ways-row { grid-template-columns: 1fr; }
+    .ways-halo { justify-content: center; }
+    .ways-halo .ritual { width: min(360px, 100%); }
+  }
   .wcard { margin-top: var(--s-4); border-radius: 24px; background: #302F2C; color: var(--bone); }
-  .ways-halo + .wcard { margin-top: var(--s-6); }
+  .ways-row + .wcard { margin-top: var(--s-4); }
   .wc-head {
     display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
     width: 100%; margin: 0; border: 0; background: none; cursor: pointer; text-align: left;
@@ -2607,6 +2615,7 @@
 
 <section id="approach" class="ways" aria-label="How I look at design and how I design">
   <div class="wrap">
+    <div class="ways-row">
     <div class="ways-halo">
       <div class="ritual">
     <svg class="scene" viewBox="0 0 520 660" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2995,6 +3004,8 @@
         </div>
         <p class="ways-body">I hold my work to <b>evidence over applause</b>. I like talking to users. That is where the real problems are, not in the brief. My design inspiration comes from the world around me and what I observe, the patterns I notice in people. I am curious about art, culture, and people.</p>
       </div></div>
+    </div>
+
     </div>
 
     <div class="wcard is-open" id="wc-how">
