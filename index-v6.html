@@ -1375,6 +1375,42 @@
 
   @media (prefers-reduced-motion: reduce) { .bc-caret { animation: none; } .bcard, .contact-resume { transition: none; } }
 
+  /* ---------------------------------------------------------------------
+     HOW I LOOK AT DESIGN / HOW I DESIGN  (2026-09-25)
+     The Theyyam halo first, then two collapsible asphalt cards on the deep
+     asphalt ground. "How I design" starts open. Same fluid height motion as
+     Work history and Education & Recognitions.
+     --------------------------------------------------------------------- */
+  .ways-halo { display: flex; justify-content: center; }
+  .ways-halo .ritual { width: min(440px, 100%); }
+  .wcard { margin-top: var(--s-4); border-radius: 24px; background: #302F2C; color: var(--bone); }
+  .ways-halo + .wcard { margin-top: var(--s-6); }
+  .wc-head {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
+    width: 100%; margin: 0; border: 0; background: none; cursor: pointer; text-align: left;
+    padding: clamp(24px, 2.6vw, 38px) clamp(22px, 2.8vw, 44px); font: inherit; color: inherit;
+  }
+  .wc-head:focus-visible { outline: 3px solid #F4F3EF; outline-offset: 3px; border-radius: 24px; }
+  .sheet section.ways h2.wc-title {
+    margin: 0; font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1; letter-spacing: 0.02em; color: var(--bone);
+  }
+  .sheet section.ways h2.wc-title::after { display: none; }
+  .wc-plus { position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%; background: rgba(244, 243, 239, 0.1); transition: transform 560ms var(--paint); }
+  .wc-plus::before, .wc-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; margin: -1px 0 0 -7px; background: currentColor; border-radius: 2px; }
+  .wc-plus::after { transform: rotate(90deg); }
+  .wcard.is-open .wc-plus { transform: rotate(135deg); }
+  .wc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 620ms var(--paint); }
+  .wcard.is-open .wc-body { grid-template-rows: 1fr; }
+  .wc-inner { overflow: hidden; min-height: 0; padding: 0 clamp(22px, 2.8vw, 44px); }
+  .wc-inner > :last-child { margin-bottom: clamp(26px, 2.8vw, 44px); }
+  .wcard:not(.is-open) .wc-inner { visibility: hidden; transition: visibility 0s linear 620ms; }
+  .wcard .lens { margin-top: 0; }
+  .wcard .lens p { font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.4rem); line-height: 1.05; }   /* Step 2, under the card title */
+  .wcard .ways-body { margin-top: var(--s-3); }
+  .wcard .proc { margin-top: var(--s-4); }
+  @media (prefers-reduced-motion: reduce) { .wc-body, .wc-plus { transition: none; } }
+
   /* ---- the billing block ---- */
   .billing {
     position: relative; z-index: 6;
@@ -2559,19 +2595,9 @@
   </div>
 </section>
 
-<section id="approach" class="ways" aria-labelledby="approach-h">
+<section id="approach" class="ways" aria-label="How I look at design and how I design">
   <div class="wrap">
-    <h2 id="approach-h" class="pass">How I work</h2>
-
-    <div class="ways-top">
-      <div class="ways-phil">
-        <p class="ways-kicker">Design philosophy</p>
-        <div class="lens">
-          <p class="lens-dim">I notice what others walk past: the small friction, the unspoken pattern, the system behind the screen.</p>
-          <p class="lens-lit" aria-hidden="true">I notice what others walk past: the small friction, the unspoken pattern, the system behind the screen.</p>
-        </div>
-        <p class="ways-body">I hold my work to <b>evidence over applause</b>. I like talking to users. That is where the real problems are, not in the brief. My design inspiration comes from the world around me and what I observe, the patterns I notice in people. I am curious about art, culture, and people.</p>
-      </div>
+    <div class="ways-halo">
       <div class="ritual">
     <svg class="scene" viewBox="0 0 520 660" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
@@ -2948,9 +2974,25 @@
       </div>
     </div>
 
-    <div class="ways-process">
-      <p class="ways-kicker">Design process</p>
-      <p class="ways-body">There is no one size fits all process. Every problem carries its own context, its own constraints, and its own definition of done. These five steps are the order I usually find them in.</p>
+    <div class="wcard" id="wc-look">
+      <button class="wc-head" type="button" aria-expanded="false" aria-controls="wc-look-body">
+        <h2 class="wc-title">How I look at design</h2><span class="wc-plus" aria-hidden="true"></span>
+      </button>
+      <div class="wc-body" id="wc-look-body"><div class="wc-inner">
+        <div class="lens">
+          <p class="lens-dim">I look at the friction other people walk past. I understand the unspoken patterns, the interactions and the friction between the system and the people.</p>
+          <p class="lens-lit" aria-hidden="true">I look at the friction other people walk past. I understand the unspoken patterns, the interactions and the friction between the system and the people.</p>
+        </div>
+        <p class="ways-body">I hold my work to <b>evidence over applause</b>. I like talking to users. That is where the real problems are, not in the brief. My design inspiration comes from the world around me and what I observe, the patterns I notice in people. I am curious about art, culture, and people.</p>
+      </div></div>
+    </div>
+
+    <div class="wcard is-open" id="wc-how">
+      <button class="wc-head" type="button" aria-expanded="true" aria-controls="wc-how-body">
+        <h2 class="wc-title">How I design</h2><span class="wc-plus" aria-hidden="true"></span>
+      </button>
+      <div class="wc-body" id="wc-how-body"><div class="wc-inner">
+        <p class="ways-body">There is no one size fits all process. Every problem carries its own context, its own constraints, and its own definition of done. These five steps are the order I usually find them in.</p>
       <div class="proc">
         <button class="proc-item is-open" type="button" aria-expanded="true">
           <span class="proc-no">01</span>
@@ -2983,6 +3025,7 @@
           <span class="proc-body">AI speeds up research and lets me try more directions before committing to one. It also makes prototyping fast enough to do live with stakeholders and users, helping them shape the product the way they envision it.</span></span>
         </button>
       </div>
+      </div></div>
     </div>
   </div>
 </section>
@@ -3491,6 +3534,17 @@
     }
     row.addEventListener("scroll", sync, { passive: true });
     window.addEventListener("resize", sync); sync();
+  });
+})();
+
+(function () {
+  // HOW I LOOK AT DESIGN / HOW I DESIGN: each card opens and closes on its own header.
+  document.querySelectorAll(".wcard").forEach(function (card) {
+    var head = card.querySelector(".wc-head");
+    head.addEventListener("click", function () {
+      var on = card.classList.toggle("is-open");
+      head.setAttribute("aria-expanded", on ? "true" : "false");
+    });
   });
 })();
 
