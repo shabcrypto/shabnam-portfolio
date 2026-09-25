@@ -11,8 +11,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="images/hero-sky.webp" />
-<link rel="preload" as="image" href="images/hero-front.webp" />
 <style>
   /* =========================================================================
      THE HOARDING
@@ -475,276 +473,6 @@
   @media (max-width: 900px) {
     img.hero-layer { object-position: 50% 45%; }
     .hero-title { padding-top: 84px; }
-  }
-
-  /* ---------------------------------------------------------------------
-     THE SHEET HERO  (2026-09-24, from her reference)
-     Her image full bleed behind; a deep asphalt strip; a coconut sheet with her
-     name. The three slide in from the right one after another, gently.
-     The Figma card hero (.hero-new) and the illustrated hero stay hidden.
-     --------------------------------------------------------------------- */
-  .hero-sheet {
-    --deep-asphalt: #0E0C0A; --coconut: #F4F3EF; --turmeric: #CD9C34;
-    --sheet-left: 27.6%;
-    --sheet-top: max(7.8%, 104px);
-    --strip-w: clamp(12px, 2.4vw, 30px);
-    position: relative; overflow: hidden;
-    min-height: max(100svh, 620px);
-    background: var(--deep-asphalt);
-  }
-  .hs-image {
-    position: absolute; inset: 0;
-    background: var(--turmeric);   /* stands in until her image arrives */
-  }
-  .hs-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .hs-image .hs-ph {
-    position: absolute; left: 1.4vw; bottom: 1.4vw;
-    font: 700 0.75rem/1 var(--font-body); letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--deep-asphalt);
-  }
-  .hs-strip {
-    position: absolute; top: 22%; bottom: 0;
-    left: calc(var(--sheet-left) - var(--strip-w)); width: var(--strip-w);
-    background: var(--deep-asphalt);
-  }
-  .hs-sheet {
-    position: absolute; top: var(--sheet-top); right: 0; bottom: 0; left: var(--sheet-left);
-    background: var(--coconut);
-  }
-  /* the punched holes down the sheet's left edge, in the strip's colour */
-  .hs-sheet::before {
-    content: ""; position: absolute; left: clamp(6px, 0.7vw, 10px); top: clamp(20px, 3.4vw, 32px); bottom: clamp(20px, 3vw, 32px);
-    width: 10px;
-    background: radial-gradient(circle, var(--deep-asphalt) 4px, transparent 4.5px) 50% 0 / 10px clamp(36px, 7.8svh, 76px) repeat-y;
-  }
-  /* the sheet's margin rule */
-  .hs-sheet::after {
-    content: ""; position: absolute; top: 0; bottom: 0; left: 19.5%; width: 1px;
-    background: rgba(14, 12, 10, 0.14);
-  }
-  .hs-copy {
-    position: absolute; left: 26%; right: 8%; top: 50%;
-    transform: translateY(-50%);
-  }
-  .hs-name {
-    margin: 0;
-    font-family: var(--font-display); font-weight: 400;
-    font-size: clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);   /* Step 5 */
-    line-height: 0.96; letter-spacing: 0.02em;
-    color: var(--deep-asphalt);
-  }
-  .hs-role {
-    margin: clamp(10px, 1.2vw, 18px) 0 0;
-    font-family: var(--font-body); font-weight: 600;
-    font-size: clamp(1rem, 0.96rem + 0.25vw, 1.125rem);   /* Step 0 */
-    color: var(--deep-asphalt);
-  }
-  /* the slide in: image, then strip, then sheet, each from the right */
-  .js .hs-image, .js .hs-strip, .js .hs-sheet {
-    transform: translateX(100vw);
-    animation: hsSlide 1400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-  .js .hs-image { animation-delay: calc(var(--intro-offset) + 100ms); }
-  .js .hs-strip { animation-delay: calc(var(--intro-offset) + 420ms); }
-  .js .hs-sheet { animation-delay: calc(var(--intro-offset) + 700ms); }
-  @keyframes hsSlide { to { transform: none; } }
-  @media (max-width: 760px) {
-    .hero-sheet { --sheet-left: 14%; --sheet-top: 96px; }
-    .hs-sheet::after { left: 12%; }
-    .hs-copy { left: 18%; right: 6%; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .js .hs-image, .js .hs-strip, .js .hs-sheet { animation: none; transform: none; }
-  }
-
-  /* ---------------------------------------------------------------------
-     THE NEW HERO  (Figma 1756:36429, built 2026-09-24)
-     A coconut deep card on deep asphalt, bleeding off the left edge. Inside,
-     a tab shaped frame holds her photo, name, role, and a live "Currently with IHX" status. An eye in the
-     card's title bar watches the pointer and blinks. A dock of AI tools sits
-     over the card's bottom right corner and magnifies like a macOS dock.
-     The previous illustrated hero is kept in the markup, hidden.
-     --------------------------------------------------------------------- */
-  [hidden] { display: none !important; }
-  /* trying the hero without her illustration: a flat deep asphalt ground, a different black
-     from the asphalt the page sits on, with the name centred in the space (2026-09-24) */
-  .hero.hero-flat { background: #0E0C0A; }
-  .hero.hero-flat .hero-title { justify-content: center; padding-top: 0; }
-  /* nav links over the hero in coconut, the palette's lightest colour */
-  .topbar:not(.solid) nav a { color: #F0E6D2; }
-  /* the page card, as on the live site: every section sits on one card inset by the
-     frame, with rounded corners, over the asphalt ground */
-  .page-card {
-    position: relative;
-    margin: var(--frame);
-    border-radius: var(--frame);
-    overflow: clip;
-  }
-  .hero.hero-flat img.hero-layer { display: none; }
-  .hero-new {
-    --deep-asphalt: #0E0C0A;
-    --coconut-deep: #F4F3EF;
-    --turmeric: #CD9C34;
-    --live: #2BD46B;               /* the one green, for the IHX status only */
-    --hn-right: clamp(14px, 10vw, 180px);
-    position: relative;
-    display: flex;
-    min-height: max(100svh, 620px);
-    padding: clamp(92px, 11vw, 150px) var(--hn-right) 0 0;
-    background: var(--deep-asphalt);
-    color: var(--asphalt);
-  }
-  .hn-card {
-    position: relative; flex: 1;
-    display: flex; flex-direction: column;
-    background: var(--coconut-deep);
-    border-radius: 0 28px 0 0;
-    padding-bottom: clamp(120px, 14vw, 180px);
-  }
-  /* the card's title bar, like a window, with the eye at its right end */
-  .hn-chrome {
-    position: relative;
-    height: clamp(52px, 5.2vw, 80px);
-    box-shadow: inset 0 -1px 0 rgba(48, 47, 44, 0.45);
-  }
-  .hn-eye {
-    position: absolute; right: clamp(12px, 1.4vw, 22px); top: 50%;
-    width: clamp(34px, 3.2vw, 48px); aspect-ratio: 1;
-    margin-top: calc(clamp(34px, 3.2vw, 48px) / -2);
-    border: 0; padding: 0; border-radius: 50%;
-    background: var(--deep-asphalt); cursor: pointer;
-  }
-  .hn-eye i {
-    position: absolute; left: 50%; top: 50%;
-    width: 36%; aspect-ratio: 1; border-radius: 50%;
-    background: var(--coconut);
-    transform: translate(calc(-50% + var(--px, 0px)), calc(-50% + var(--py, 0px)));
-    transition: transform 140ms ease-out;
-  }
-  .hn-eye.blink { animation: hnBlink 240ms ease-in-out; }
-  @keyframes hnBlink { 50% { transform: scaleY(0.08); } }
-  .hn-eye::after {
-    content: attr(data-say);
-    position: absolute; right: calc(100% + 12px); top: 50%;
-    transform: translateY(-50%) translateX(6px);
-    white-space: nowrap;
-    font: 600 0.8rem/1 var(--font-body);
-    color: var(--asphalt-soft);
-    opacity: 0; transition: opacity 200ms ease, transform 260ms var(--paint);
-    pointer-events: none;
-  }
-  .hn-eye:hover::after, .hn-eye:focus-visible::after { opacity: 1; transform: translateY(-50%); }
-
-  /* the tab shaped frame */
-  .hn-capsule {
-    position: relative;
-    display: flex; align-items: center; gap: clamp(14px, 1.4vw, 22px);
-    margin: clamp(12px, 1.4vw, 22px) clamp(12px, 1.4vw, 24px) 0 clamp(16px, 17vw, 320px);
-    padding: clamp(30px, 4vw, 64px) clamp(24px, 5.4vw, 100px);
-    min-height: clamp(190px, 16vw, 290px);
-    box-shadow: inset 0 0 0 1px rgba(48, 47, 44, 0.7);
-    border-radius: clamp(44px, 5vw, 92px) 12px clamp(64px, 9vw, 170px) 12px;
-  }
-  .hn-photo {
-    flex: none; margin: 0;
-    width: clamp(66px, 5.8vw, 104px); aspect-ratio: 1; border-radius: 50%;
-    overflow: hidden; background: var(--deep-asphalt);
-    transition: transform 420ms var(--paint);
-  }
-  .hn-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
-  .hn-photo:hover { animation: hnWave 700ms ease-in-out; }
-  @keyframes hnWave { 20% { transform: rotate(-9deg) scale(1.06); } 45% { transform: rotate(8deg) scale(1.06); } 70% { transform: rotate(-4deg) scale(1.04); } }
-  .hn-name {
-    margin: 0;
-    font-family: var(--font-display); font-weight: 400;   /* Staatliches: the site's display face, fixed */
-    font-size: clamp(1.9rem, 3vw, 3.3rem); line-height: 1.05; letter-spacing: 0.02em;
-    color: var(--deep-asphalt);
-  }
-  .hn-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 8px; }
-  .hn-role {
-    margin: 0;
-    font: 500 clamp(1rem, 1.3vw, 1.2rem)/1.4 var(--font-body);
-    color: var(--asphalt);
-  }
-  /* the status: a soft filled pill with a live dot; it opens to say more */
-  .hn-status {
-    display: inline-flex; align-items: center; gap: 8px;
-    border: 0; border-radius: 999px; cursor: pointer;
-    background: rgba(48, 47, 44, 0.08);
-    padding: 6px 12px 6px 10px; min-height: 32px;
-    font: 600 0.86rem/1 var(--font-body); color: var(--asphalt-soft);
-    white-space: nowrap; max-width: 100%;
-  }
-  .hn-dot {
-    position: relative; width: 9px; height: 9px; border-radius: 50%;
-    background: var(--live); flex: none;
-  }
-  .hn-dot::after {
-    content: ""; position: absolute; inset: 0; border-radius: 50%;
-    background: var(--live);
-    animation: hnPulse 1.8s ease-out infinite;
-  }
-  @keyframes hnPulse { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(3.2); opacity: 0; } }
-  .hn-more {
-    max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0;
-    transition: max-width 480ms var(--paint), opacity 300ms ease;
-  }
-  .hn-status.open .hn-more { max-width: 26em; opacity: 1; }
-  @media (hover: hover) { .hn-status:hover .hn-more { max-width: 26em; opacity: 1; } }
-
-  /* the dock of AI tools, over the card's bottom right corner */
-  .hn-dock {
-    position: absolute; right: calc(var(--hn-right) * -1 + clamp(10px, 2.4vw, 44px)); bottom: clamp(22px, 3.4vw, 48px);
-    display: flex; align-items: flex-end; gap: clamp(6px, 0.6vw, 10px);
-    margin: 0; padding: clamp(6px, 0.6vw, 9px); list-style: none;
-    background: var(--coconut-deep);
-    box-shadow: inset 0 0 0 1px rgba(48, 47, 44, 0.7);
-    border-radius: clamp(14px, 1.4vw, 20px);
-  }
-  .hn-dock li { position: relative; }
-  .hn-tool {
-    display: flex; align-items: center; justify-content: center;
-    width: clamp(40px, 3.8vw, 58px); aspect-ratio: 1;
-    border-radius: clamp(10px, 1vw, 14px);
-    background: var(--asphalt); color: var(--coconut-soft);
-    font: 700 0.7rem/1 var(--font-body);
-    transform: scale(var(--m, 1)); transform-origin: 50% 100%;
-    transition: transform 160ms ease-out;
-  }
-  .hn-tool img { width: 62%; height: 62%; object-fit: contain; }
-  .hn-dock li::after {
-    content: attr(data-name);
-    position: absolute; left: 50%; bottom: calc(100% + 18px);
-    transform: translateX(-50%) translateY(4px);
-    white-space: nowrap; padding: 5px 9px; border-radius: 8px;
-    background: var(--deep-asphalt); color: var(--coconut);
-    font: 600 0.75rem/1 var(--font-body);
-    opacity: 0; pointer-events: none;
-    transition: opacity 160ms ease, transform 220ms var(--paint);
-  }
-  .hn-dock li:hover::after { opacity: 1; transform: translateX(-50%); }
-
-  /* entrance, after the curtain: the frame draws in, then the words, then the dock */
-  .js .hn-capsule { clip-path: inset(0 100% 0 0 round 12px); animation: hnDraw 1000ms var(--paint) calc(var(--intro-offset) + 150ms) forwards; }
-  @keyframes hnDraw { to { clip-path: inset(0 0 0 0 round 0); } }
-  .js .hn-photo, .js .hn-name, .js .hn-line { opacity: 0; animation: hnUp 700ms var(--paint) forwards; }
-  .js .hn-photo { animation-delay: calc(var(--intro-offset) + 500ms); }
-  .js .hn-name  { animation-delay: calc(var(--intro-offset) + 620ms); }
-  .js .hn-line  { animation-delay: calc(var(--intro-offset) + 760ms); }
-  @keyframes hnUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  .js .hn-dock li { opacity: 0; animation: hnPop 520ms var(--paint) forwards; animation-delay: calc(var(--intro-offset) + 900ms + var(--i) * 60ms); }
-  @keyframes hnPop { from { opacity: 0; transform: translateY(12px) scale(0.8); } to { opacity: 1; transform: none; } }
-
-  @media (max-width: 760px) {
-    .hero-new { --hn-right: 12px; padding-top: 84px; }
-    .hn-card { padding-bottom: 28px; }
-    .hn-capsule { flex-direction: column; align-items: flex-start; margin: 16px 12px 0 16px; padding: 28px 22px 32px; border-radius: 40px 10px 56px 10px; }
-    .hn-dock { position: static; margin: 22px 12px 0 16px; align-self: flex-start; flex-wrap: wrap; }
-    .hn-eye::after { display: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hn-dot::after { animation: none; }
-    .js .hn-capsule { clip-path: none; }
   }
 
   /* ---------------------------------------------------------------------
@@ -2450,58 +2178,14 @@
 <!-- ============================================================
      THE HOARDING
      ============================================================ -->
-<!-- the sheet hero, kept but hidden (2026-09-24) -->
-<section class="hero-sheet" aria-label="Introduction" hidden>
-  <div class="hs-image"><span class="hs-ph">Your image here</span></div>
-  <div class="hs-strip" aria-hidden="true"></div>
-  <div class="hs-sheet">
-    <div class="hs-copy">
-      <p class="hs-name">Shabnam Raghavan</p>
-      <p class="hs-role">Product Designer</p>
-    </div>
-  </div>
-</section>
-
-<!-- the Figma card hero, kept but hidden (2026-09-24) -->
-<section class="hero-new" aria-label="Introduction" hidden>
-  <div class="hn-card">
-    <div class="hn-chrome">
-      <button class="hn-eye" type="button" aria-label="Blink" data-say="I notice how you behave"><i></i></button>
-    </div>
-    <div class="hn-capsule">
-      <figure class="hn-photo"><img src="about_me_image.webp" width="720" height="1280" alt="Shabnam Raghavan" /></figure>
-      <div class="hn-id">
-        <p class="hn-name">Shabnam Raghavan</p>
-        <div class="hn-line">
-          <p class="hn-role">Product Designer</p>
-          <button class="hn-status" type="button" aria-expanded="false"><i class="hn-dot" aria-hidden="true"></i><span>Currently with IHX</span><span class="hn-more">&middot; Sole product designer, 1 Million monthly users</span></button>
-        </div>
-      </div>
-    </div>
-    <ul class="hn-dock" aria-label="AI tools I design with">
-      <li style="--i:0" data-name="AI tool 1"><span class="hn-tool">1</span></li>
-      <li style="--i:1" data-name="AI tool 2"><span class="hn-tool">2</span></li>
-      <li style="--i:2" data-name="AI tool 3"><span class="hn-tool">3</span></li>
-      <li style="--i:3" data-name="AI tool 4"><span class="hn-tool">4</span></li>
-      <li style="--i:4" data-name="AI tool 5"><span class="hn-tool">5</span></li>
-      <li style="--i:5" data-name="AI tool 6"><span class="hn-tool">6</span></li>
-      <li style="--i:6" data-name="AI tool 7"><span class="hn-tool">7</span></li>
-      <li style="--i:7" data-name="AI tool 8"><span class="hn-tool">8</span></li>
-    </ul>
-  </div>
-</section>
-
 <div class="page-card">
 <!-- the production hero: her illustration, name and chevron -->
 <section class="hero hero-flat" aria-label="Introduction">
   <div class="hero-layers" data-parallax-layers>
-    <img class="hero-layer" data-parallax-layer="1" src="images/hero-sky.webp" width="1376" height="768" loading="eager" fetchpriority="high"
-         alt="Illustration of a cloaked figure on a mountain peak among painted clouds, under a red aurora with constellations, golden-ratio spirals and an open eye drawn across the sky" />
     <div class="hero-layer hero-title" data-parallax-layer="2">
       <p class="hero-role" aria-label="Product Designer, Product Builder, Product Thinker"><span class="hr-text" aria-hidden="true">Product Designer</span></p>
       <h1 class="giant"><span class="g1">Shabnam</span><span class="g2">Raghavan</span></h1>
     </div>
-    <img class="hero-layer" data-parallax-layer="3" src="images/hero-front.webp" width="1376" height="768" loading="eager" alt="" aria-hidden="true" />
   </div>
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-grain" aria-hidden="true"></div>
@@ -2615,7 +2299,7 @@
             <span class="file-no">02</span>
             <h3><span class="sel">AI Agents at Points of Human Friction</span></h3>
             <p class="file-org">IHX · Agentic workflow design</p>
-            <p class="file-metrics">Claim submission 5 min to 2 min · 7 AI product lines</p>
+            <p class="file-metrics">Claim submission 5 min to 2 min · 7 AI agentic product lines</p>
             <span class="file-go">Read case study</span>
           </div>
         </div>
@@ -3184,7 +2868,7 @@
         <div class="hist-body"><div class="hist-inner">
           <p class="hist-lede">Sole product designer for IHX Nucleus, serving 22,000+ healthcare providers and 35+ payers and TPAs.</p>
           <ul class="hist-list">
-            <li>Led the UX for <mark>7 AI product lines</mark> across the claims journey, from submission through to settlement.</li>
+            <li>Led the UX for <mark>7 AI agentic product lines</mark> across the claims journey, from submission through to settlement.</li>
             <li>Designed premium operations features on a per-claim subscription. Average time to initiate settlement fell from <mark>3.23 to 1.56 minutes</mark>, and per-claim monetization rose <mark>33%</mark> on one enterprise hospital contract.</li>
             <li>Grew claim reconciliation into the Recon Hub, now covering <mark>every cashless credit line</mark> and recovering 25 to 30% of receivables that used to be reconciled by hand or skipped.</li>
             <li>Built an AI-assisted prototyping chain from Figma through to Claude, cutting concept to prototype from 10 to 15 working days down to <mark>2 to 3</mark>.</li>
@@ -3369,46 +3053,6 @@
   document.addEventListener("mouseleave", function () { cur.style.opacity = "0"; });
   document.addEventListener("mouseenter", function () { cur.style.opacity = "1"; });
   frame();
-})();
-
-(function () {
-  // THE NEW HERO: the eye follows the pointer and blinks, the status
-  // opens on tap, and the dock magnifies under the pointer.
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  var eye = document.querySelector(".hn-eye");
-  if (eye) {
-    var pupil = eye.querySelector("i");
-    window.addEventListener("pointermove", function (e) {
-      var r = eye.getBoundingClientRect();
-      var dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
-      var d = Math.hypot(dx, dy) || 1, max = r.width * 0.22, k = Math.min(1, d / 240);
-      pupil.style.setProperty("--px", (dx / d) * max * k + "px");
-      pupil.style.setProperty("--py", (dy / d) * max * k + "px");
-    }, { passive: true });
-    function blink() { eye.classList.remove("blink"); void eye.offsetWidth; eye.classList.add("blink"); }
-    eye.addEventListener("click", blink);
-    eye.addEventListener("animationend", function () { eye.classList.remove("blink"); });
-    if (!reduce) (function loop() { setTimeout(function () { blink(); loop(); }, 3500 + Math.random() * 4000); })();
-  }
-
-  var status = document.querySelector(".hn-status");
-  if (status) status.addEventListener("click", function () {
-    var open = status.classList.toggle("open");
-    status.setAttribute("aria-expanded", open ? "true" : "false");
-  });
-
-  var dock = document.querySelector(".hn-dock");
-  if (dock && !reduce && window.matchMedia("(hover: hover)").matches) {
-    var tools = dock.querySelectorAll(".hn-tool");
-    dock.addEventListener("pointermove", function (e) {
-      tools.forEach(function (t) {
-        var r = t.getBoundingClientRect(), d = Math.abs(e.clientX - (r.left + r.width / 2));
-        t.style.setProperty("--m", (1 + 0.45 * Math.max(0, 1 - d / 150)).toFixed(3));
-      });
-    });
-    dock.addEventListener("pointerleave", function () { tools.forEach(function (t) { t.style.setProperty("--m", 1); }); });
-  }
 })();
 
 (function () {
@@ -3812,8 +3456,7 @@
   var sheet = document.querySelector(".hero-metrics");
   if (!trigger || !sheet) return;
   var tl = gsap.timeline({ scrollTrigger: { trigger: sheet, start: "top bottom", end: "top top", scrub: 0 } });
-  tl.to(trigger.querySelectorAll('[data-parallax-layer="1"], [data-parallax-layer="3"]'),
-        { scale: 1.06, ease: "none" }, 0);
+  // (the illustration plates were removed; only the name layer moves now)
   tl.to(trigger.querySelectorAll('[data-parallax-layer="2"]'), { yPercent: 32, ease: "none" }, 0);
   if (window.Lenis) {
     var lenis = new Lenis();
