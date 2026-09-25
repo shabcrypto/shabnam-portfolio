@@ -1684,16 +1684,23 @@
   }
   .computer img { display: block; width: 100%; height: auto; }
   /* the screen glass sits at 27.7 to 79.8% across and 10.5 to 50.5% down the photo */
+  /* the words are drawn in the screen's own plane: a 240x180 box mapped exactly onto the
+     four corners of the glass (measured on the 499x551 photo), then the whole photo-sized
+     layer is scaled to the computer's width */
+  .screen-map {
+    position: absolute; left: 0; top: 0; width: 499px; height: 551px;
+    transform-origin: 0 0; transform: scale(var(--s, 0.4));
+    pointer-events: none;
+  }
   .computer-screen {
-    position: absolute; left: 27.7%; width: 52.1%; top: 10.5%; height: 40%;
-    margin: 0; padding: 0 6%;
+    position: absolute; left: 0; top: 0; width: 240px; height: 180px; margin: 0;
     display: flex; align-items: center; justify-content: center; text-align: center;
+    transform-origin: 0 0;
+    transform: matrix3d(0.575045,-0.136025,0.000000,-0.000852,0.002495,0.895256,0.000000,-0.000163,0.000000,0.000000,1.000000,0.000000,157.737500,91.967500,0.000000,1.000000);
     font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    font-size: 7cqw; line-height: 1.25;
+    font-size: 44px; line-height: 1.2;
     color: #9BE58A;
-    /* follows the screen's angle: the right side sits further away, so it is shorter */
-    transform: perspective(40cqw) rotateY(-18deg) rotateZ(-4deg);
-    transform-origin: 50% 50%;
+    text-shadow: 0 0 6px rgba(155, 229, 138, 0.45);
   }
   .clip { position: absolute; z-index: 4; pointer-events: none; }
   .clip.paperclip { left: 26%; top: -30px; width: 34px; transform: rotate(-6deg); }
@@ -2534,7 +2541,7 @@
     <img class="brain" src="images/intro-brain.webp" width="333" height="261" alt="" aria-hidden="true" />
     <div class="computer" aria-hidden="true">
       <img src="images/intro-computer.webp" width="499" height="551" alt="" />
-      <p class="computer-screen">Mental Model</p>
+      <div class="screen-map" aria-hidden="true"><p class="computer-screen">Mental Model</p></div>
     </div>
     <div class="paper">
       <h2 class="lead" id="intro-h">I design for how people <span class="nw"><span class="mark">actually behave</span>,</span> even inside the most <span class="nw"><span class="mark alt">complex systems</span>.</span></h2>
@@ -3652,6 +3659,15 @@
     });
   });
   group.addEventListener("pointerleave", function () { delete group.dataset.closed; });
+})();
+
+(function () {
+  // the screen layer is drawn at the photo's own 499px width; scale it to the computer
+  var pc = document.querySelector(".computer"), map = pc && pc.querySelector(".screen-map");
+  if (!map) return;
+  function fit() { map.style.setProperty("--s", (pc.offsetWidth / 499).toFixed(4)); }
+  if ("ResizeObserver" in window) new ResizeObserver(fit).observe(pc);
+  window.addEventListener("resize", fit); fit();
 })();
 
 (function () {
