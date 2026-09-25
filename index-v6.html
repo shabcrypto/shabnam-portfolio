@@ -41,7 +41,7 @@
     --red-lit:    #E14A20;   /* the only red that goes on the board AS TEXT: 4.7:1 there */
 
     /* ---- the handbill ---- */
-    --paper:      #F4F3EF;   /* the surface the five case studies read on */
+    --paper:      #F0E6D2;   /* the surface the five case studies read on */
     --paper-deep: #E9E6DD;   /* second impression, for a panel that must sit back */
     --ink:        #16130F;
     --ink-soft:   #5D584E;
@@ -985,7 +985,7 @@
   .pr-ctrl { display: flex; align-items: center; gap: 18px; margin-top: var(--s-4); }
   .pr-btn {
     display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
-    border: 0; cursor: pointer; background: #F4F3EF; color: #0E0C0A;
+    border: 0; cursor: pointer; background: #F0E6D2; color: #0E0C0A;
     transition: transform 260ms var(--paint), background-color 200ms ease;
   }
   .pr-btn:hover { transform: scale(1.08); }
@@ -1179,7 +1179,7 @@
      photographs along its path, each popping in and fading away. The words
      sit still in the middle. On touch, the photos are a row to swipe.
      --------------------------------------------------------------------- */
-  .sheet section.person { padding: 0; overflow: hidden; }
+  .sheet section.person { padding: 0; overflow: hidden; background: #F4F3EF; }   /* Coconut */
   .sheet section.hist-sec + section.person::before, .sheet section.contact-sec + section.person::before { display: none; }
   /* the intro's big grid, here with a photo landing in whichever cell the pointer enters */
   .person-field {
@@ -1355,12 +1355,13 @@
     display: flex; gap: 10px; margin-top: var(--s-3);
   }
   /* each icon in its own brand colour, on a coconut chip so it reads on the red */
-  .contact-social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #F4F3EF; transition: transform 260ms var(--paint), box-shadow 260ms var(--paint); }
+  .contact-social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #F0E6D2; transition: transform 260ms var(--paint), box-shadow 260ms var(--paint); }
   .contact-social a:hover, .contact-social a:focus-visible { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(40, 8, 0, 0.3); outline: none; }
   .contact-social svg { width: 22px; height: 22px; }
   /* footer page links in one row, on every screen */
   .board-foot .foot2 { grid-template-columns: 1fr; }
-  .foot2-pages { flex-direction: row; flex-wrap: wrap; gap: 4px clamp(20px, 3vw, 40px); }
+  .foot2-pages { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 4px clamp(20px, 3vw, 40px); }
+  .foot2-pages a { align-self: auto; }
 
   .foot2-col a {
     position: relative; align-self: flex-start;
@@ -1380,7 +1381,7 @@
     opacity: 0.35;
   }
   .foot2-base {
-    grid-column: 1 / -1; margin: 0;
+    grid-column: 1 / -1; margin: 0; text-align: right;
     font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.08em;   /* same size as the links */
     color: #F0E6D2; opacity: 0.7;
   }
@@ -1766,7 +1767,7 @@
   .row-nav { display: none; gap: 10px; justify-content: flex-end; padding: 0 var(--gut) var(--s-6); }
   .row-nav button {
     display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
-    border: 0; cursor: pointer; background: #F4F3EF; color: #0E0C0A;
+    border: 0; cursor: pointer; background: #F0E6D2; color: #0E0C0A;
   }
   .row-nav button:disabled { opacity: 0.35; cursor: default; }
 
