@@ -841,6 +841,12 @@
   .file.is-soon h3 { color: rgba(14, 12, 10, 0.38); }
   @media (max-width: 760px) {
     .file-desk { grid-template-columns: 1fr; gap: 56px; }
+    /* phone hierarchy, same as desktop: the headline leads by a clear step, the number and
+       the small lines sit well below it */
+    .file h3 { font-size: clamp(1.75rem, 7.6vw, 2.2rem); line-height: 1.05; }
+    .file-no { font-size: 0.95rem; }
+    .file-org { font-size: 0.85rem; }
+    .file-metrics { font-size: 0.88rem; font-weight: 500; }
     .file:nth-child(n) { margin-top: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
