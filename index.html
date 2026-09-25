@@ -2321,7 +2321,7 @@
     <div class="file-desk">
       <a class="file" href="ihx-user-management-case-study.html">
         <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-user-mgmt-cover.mp4" poster="images/ihx-user-mgmt-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX user management case study screen"></video></div>
+          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-user-mgmt-cover.mp4" poster="images/ihx-user-mgmt-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX user management case study screen"></video></div>
           <div class="file-body">
             <span class="file-no">01</span>
             <h3><span class="sel">87% of Support Tickets Were for a Page Users Never Found</span></h3>
@@ -2334,7 +2334,7 @@
 
       <a class="file" href="ihx-ai-features-case-study.html">
         <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of friction case study screen"></video></div>
+          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" muted loop playsinline preload="none" aria-label="AI at the point of friction case study screen"></video></div>
           <div class="file-body">
             <span class="file-no">02</span>
             <h3><span class="sel">AI Agents at Points of Human Friction</span></h3>
@@ -2347,7 +2347,7 @@
 
       <a class="file" href="ihx_tpa_ops_.html">
         <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Ops dashboard claims listing screen"></video></div>
+          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Ops dashboard claims listing screen"></video></div>
           <div class="file-body">
             <span class="file-no">03</span>
             <h3><span class="sel">A Four-Bucket Layout Was Hiding a Two-Team Operation</span></h3>
@@ -2360,7 +2360,7 @@
 
       <a class="file" href="ihx-nucleus-mobile-case-study.html">
         <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-nucleus-mobile-cover-v2.mp4" poster="images/ihx-nucleus-mobile-cover-v2-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Mobile app screen"></video></div>
+          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-nucleus-mobile-cover-v2.mp4" poster="images/ihx-nucleus-mobile-cover-v2-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Mobile app screen"></video></div>
           <div class="file-body">
             <span class="file-no">04</span>
             <h3><span class="sel">A Hospital App, Shipped in Three Weeks</span></h3>
@@ -2373,7 +2373,7 @@
 
       <a class="file" href="wisewomen-case-study.html">
         <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="wisewoman-cover.mp4" poster="images/wisewoman-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
+          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="wisewoman-cover.mp4" poster="images/wisewoman-cover-poster.webp" muted loop playsinline preload="none" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
           <div class="file-body">
             <span class="file-no">05</span>
             <h3><span class="sel">Idea to Shipped in Five Days</span></h3>
@@ -2386,7 +2386,7 @@
 
       <div class="file is-soon" data-cursor="Case study in progress">
         <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-onehealth-phr-cover.mp4" poster="images/ihx-onehealth-phr-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX OneHealth patient health record app screen"></video></div>
+          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-onehealth-phr-cover.mp4" poster="images/ihx-onehealth-phr-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX OneHealth patient health record app screen"></video></div>
           <div class="file-body">
             <span class="file-no">06</span>
             <h3><span class="sel">A Secure Way for Patients to Share Health Records</span></h3>
@@ -3526,13 +3526,23 @@
   });
 })();
 
-// The reduced-motion stylesheet kills animation and transition, but a looping <video> is
-// neither, so the case covers would keep playing. Freeze them on their first frame.
+// The case cover videos (12.5MB between them) download only when their card is about to
+// scroll into view, and pause when it leaves. Until then each shows its tiny poster, so the
+// first load carries none of them. Reduced motion: posters only, the videos never play.
 (function () {
-  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  Array.prototype.forEach.call(document.querySelectorAll(".att-art video"), function (v) {
-    v.loop = false; v.autoplay = false; v.pause();
-  });
+  var vids = document.querySelectorAll(".file-photo video");
+  if (!vids.length) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+  if (!("IntersectionObserver" in window)) { Array.prototype.forEach.call(vids, play); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) { v.preload = "auto"; play(v); }
+      else if (!v.paused) v.pause();
+    });
+  }, { rootMargin: "200px 0px" });
+  Array.prototype.forEach.call(vids, function (v) { io.observe(v); });
 })();
 
 (function () {
