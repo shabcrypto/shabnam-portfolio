@@ -41,7 +41,7 @@
     --red-lit:    #E14A20;   /* the only red that goes on the board AS TEXT: 4.7:1 there */
 
     /* ---- the handbill ---- */
-    --paper:      #F0E6D2;   /* the surface the five case studies read on */
+    --paper:      #F4F3EF;   /* the surface the five case studies read on */
     --paper-deep: #E9E6DD;   /* second impression, for a panel that must sit back */
     --ink:        #16130F;
     --ink-soft:   #5D584E;
@@ -985,7 +985,7 @@
   .pr-ctrl { display: flex; align-items: center; gap: 18px; margin-top: var(--s-4); }
   .pr-btn {
     display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
-    border: 0; cursor: pointer; background: #F0E6D2; color: #0E0C0A;
+    border: 0; cursor: pointer; background: #F4F3EF; color: #0E0C0A;
     transition: transform 260ms var(--paint), background-color 200ms ease;
   }
   .pr-btn:hover { transform: scale(1.08); }
@@ -1158,8 +1158,7 @@
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5);
     padding: 0 clamp(22px, 2.8vw, 44px);
   }
-  .er-col { padding-bottom: clamp(26px, 2.8vw, 40px); opacity: 0; transform: translateY(10px); transition: opacity 260ms ease, transform 420ms var(--paint); }
-  .er.is-open .er-col { opacity: 1; transform: none; transition-delay: 200ms; }
+  .er-col { padding-bottom: clamp(26px, 2.8vw, 40px); }
   .er-col h3 { margin: 0 0 var(--s-2); font-family: var(--font-display); font-weight: 400; font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem); letter-spacing: 0.04em; }
   .er-col ul { list-style: none; margin: 0; padding: 0; }
   .er-col li { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); column-gap: 14px; padding: 14px 0; box-shadow: inset 0 1px 0 rgba(14, 12, 10, 0.12); }
@@ -1356,7 +1355,7 @@
     display: flex; gap: 10px; margin-top: var(--s-3);
   }
   /* each icon in its own brand colour, on a coconut chip so it reads on the red */
-  .contact-social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #F0E6D2; transition: transform 260ms var(--paint), box-shadow 260ms var(--paint); }
+  .contact-social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #F4F3EF; transition: transform 260ms var(--paint), box-shadow 260ms var(--paint); }
   .contact-social a:hover, .contact-social a:focus-visible { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(40, 8, 0, 0.3); outline: none; }
   .contact-social svg { width: 22px; height: 22px; }
   /* footer page links in one row, on every screen */
@@ -1436,6 +1435,18 @@
   .wcard .ways-body { margin-top: var(--s-3); }
   .wcard .proc { margin-top: var(--s-4); }
   @media (prefers-reduced-motion: reduce) { .wc-body, .wc-plus { transition: none; } }
+
+  /* ONE COLLAPSIBLE MOTION, shared by every expanding card on the page */
+  .hist-inner > *, .wc-inner > *, .er-col {
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 240ms ease, transform 420ms var(--paint);
+  }
+  .hist-item.is-open .hist-inner > *, .wcard.is-open .wc-inner > *, .er.is-open .er-col {
+    opacity: 1; transform: none; transition-delay: 180ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hist-inner > *, .wc-inner > *, .er-col { transition: none; }
+  }
 
   /* ---- the billing block ---- */
   .billing {
@@ -1755,7 +1766,7 @@
   .row-nav { display: none; gap: 10px; justify-content: flex-end; padding: 0 var(--gut) var(--s-6); }
   .row-nav button {
     display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
-    border: 0; cursor: pointer; background: #F0E6D2; color: #0E0C0A;
+    border: 0; cursor: pointer; background: #F4F3EF; color: #0E0C0A;
   }
   .row-nav button:disabled { opacity: 0.35; cursor: default; }
 
@@ -3558,15 +3569,20 @@
 })();
 
 (function () {
-  // EDUCATION & RECOGNITIONS: opens while the pointer is on it, or on tap / keyboard.
+  // EDUCATION & RECOGNITIONS: the same behaviour as every other collapsible. On a mouse,
+  // pointing at it opens it; + / x toggles; after an x, hover does not reopen it until the
+  // pointer has left.
   var er = document.querySelector(".er");
   if (!er) return;
   var head = er.querySelector(".er-head");
   function set(on) { er.classList.toggle("is-open", on); head.setAttribute("aria-expanded", on ? "true" : "false"); }
-  head.addEventListener("click", function () { set(!er.classList.contains("is-open")); });
+  head.addEventListener("click", function () {
+    var on = !er.classList.contains("is-open"); set(on);
+    if (!on) er.dataset.closed = "1";
+  });
   if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    er.addEventListener("pointerenter", function () { set(true); });
-    er.addEventListener("pointerleave", function () { set(false); });
+    er.addEventListener("pointerenter", function () { if (!er.dataset.closed) set(true); });
+    er.addEventListener("pointerleave", function () { delete er.dataset.closed; });
   }
 })();
 
