@@ -1281,29 +1281,29 @@
      as JSON. Then the footer: page links, social links, built by. Staatliches
      for headings and links, Manrope for text, palette colours only.
      --------------------------------------------------------------------- */
-  .sheet section.contact-sec { background: #C02D0C; color: #F4F3EF; padding: clamp(80px, 9vw, 140px) 0; }
+  .sheet section.contact-sec { background: #C02D0C; color: var(--bone); padding: clamp(80px, 9vw, 140px) 0; }
   .sheet section.contact-sec::before { display: none; }
-  .sheet section.contact-sec h2.contact-call { color: #F4F3EF; font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1.02; max-width: 17ch; }
+  .sheet section.contact-sec h2.contact-call { color: var(--bone); font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1.02; max-width: 17ch; }
   .contact-talk { display: block; margin-top: 0.55em; }
   .sheet section.contact-sec h2.contact-call::after { display: none; }
-  .board-foot { background: #0E0C0A; color: #F4F3EF; padding: var(--s-5) 0 var(--s-4); }
+  .board-foot { background: transparent; color: #F4F3EF; padding: var(--s-5) 0 var(--s-4); }   /* on the asphalt ground */
   .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--s-6); align-items: center; }
   .contact-call {
     margin: 0; font-family: var(--font-display); font-weight: 400;
     font-size: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem);   /* Step 4 */
     line-height: 0.98; letter-spacing: 0.02em; color: #F4F3EF; max-width: 12ch;
   }
-  .contact-note { margin: var(--s-4) 0 0; max-width: 40ch; font-size: clamp(1rem, 0.96rem + 0.25vw, 1.125rem); line-height: 1.6; color: #F4F3EF; opacity: 0.8; }
+  .contact-note { margin: var(--s-4) 0 0; max-width: 40ch; font-size: clamp(1rem, 0.96rem + 0.25vw, 1.125rem); line-height: 1.6; color: var(--bone); opacity: 0.9; }
   /* the same text link as "Read case study" and "Get to know me", with a download mark */
   .contact-resume {
     position: relative; display: inline-flex; align-items: center; gap: 10px;
     margin-top: var(--s-4); padding: 10px 0; min-height: 44px;
-    color: #F4F3EF; text-decoration: none;
+    color: var(--bone); text-decoration: none;
     font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.08em;
   }
   .contact-resume::after {
     content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23F4F3EF' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 24px 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23F0E6D2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 24px 8px;
     transform: scaleX(0); transform-origin: left; transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .contact-resume:hover::after, .contact-resume:focus-visible::after { transform: scaleX(1); }
@@ -2041,7 +2041,7 @@
      The handbill ends and the board comes back, so the page closes on the
      same material it opened on.
      --------------------------------------------------------------------- */
-  .board-foot { position: relative; background: var(--board); color: var(--bone); padding: var(--s-7) 0 var(--s-4); overflow: hidden; }
+  .board-foot { position: relative; overflow: hidden; }   /* colour and spacing: see CONTACT + FOOTER */
   .foot-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--s-6) var(--s-5); align-items: start; }
   @media (max-width: 900px) { .foot-grid { grid-template-columns: 1fr; } }
   .foot-call {
