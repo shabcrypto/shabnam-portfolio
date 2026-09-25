@@ -1541,8 +1541,12 @@
     .clip.binder { --bw: 56px; }
     .paper { padding-bottom: 84px; }
     .paper h2.lead { font-size: clamp(2rem, 9vw, 3.8rem); }
-    .computer { right: 0; width: clamp(140px, 38vw, 190px); top: min(calc(88.6vw + 84px), calc(25vw + 478px), 100%); }
-    .brain { top: 84px; }   /* below the paper clip, never under it */
+    /* pinned to the paper's bottom-right corner rather than placed from the screen width, so
+       it always sits under the caption and beside the arrow; the keyboard hangs off the edge */
+    .computer { right: -4%; width: clamp(118px, 31vw, 160px); top: auto; bottom: calc(clamp(118px, 31vw, 160px) * -0.3); }
+    /* top-left corner of the paper, left of the paper clip and above where the centred
+       headline can ever start (the paper's top padding), so no phone width puts it on the words */
+    .brain { left: 4%; translate: none; top: 16px; }
     .shelf {
       display: flex; gap: 12px; justify-self: stretch; margin: 0; scroll-behavior: smooth;
       grid-template-columns: none; grid-template-rows: none;
