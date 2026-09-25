@@ -1397,14 +1397,14 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <h2>Other Case Studies</h2>
     <div class="other-cs-grid" style="margin-top:36px;">
       <a href="ihx-user-management-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-user-mgmt-cover.mp4" poster="images/ihx-user-mgmt-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX User Management case study hero screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-user-mgmt-cover.mp4" poster="images/ihx-user-mgmt-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX User Management case study hero screen"></video></div>
         <div class="cs-card-body">
           <div class="cs-card-title">87% of Support Tickets Were for a Page Users Never Found</div>
           <span class="cs-metrics">87.5% reduction in user ops tickets &middot; 30 min to 5 min self-serve</span>
         </div>
       </a>
       <a href="ihx-ai-features-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="AI at the point of friction case study screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" muted loop playsinline preload="none" aria-label="AI at the point of friction case study screen"></video></div>
         <div class="cs-card-body">
           <div class="cs-card-title">AI Agents at Points of Human Friction</div>
           <span class="cs-metrics">Claim submission 5 min to 2 min &middot; 7 AI agentic product lines</span>
@@ -1477,13 +1477,23 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   apply();
 })();
 
-// A looping <video> is neither a CSS animation nor a transition, so the reduced-motion
-// stylesheet cannot reach it. Freeze the cover on its first frame.
+// The "other case studies" cover videos download only when their card is about to scroll
+// into view, and pause when it leaves; until then each shows its poster, so opening this page
+// carries none of them. Reduced motion: posters only, the covers never play.
 (function () {
-  if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  Array.prototype.forEach.call(document.querySelectorAll(".cs-thumb video"), function (v) {
-    v.loop = false; v.autoplay = false; v.pause();
-  });
+  var vids = document.querySelectorAll(".cs-thumb video");
+  if (!vids.length) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+  if (!("IntersectionObserver" in window)) { Array.prototype.forEach.call(vids, play); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) { v.preload = "auto"; play(v); }
+      else if (!v.paused) v.pause();
+    });
+  }, { rootMargin: "200px 0px" });
+  Array.prototype.forEach.call(vids, function (v) { io.observe(v); });
 })();
 // Click to play. Each walkthrough <video> has a poster and preload="none", so nothing loads
 // until the visitor asks. This only swaps the native controls for one large play button;

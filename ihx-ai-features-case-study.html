@@ -1632,14 +1632,14 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <h2>Other Case Studies</h2>
     <div class="other-cs-grid" style="margin-top:36px;">
       <a href="ihx_tpa_ops_.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX Ops Dashboard claims listing screen"></video></div>
         <div class="cs-card-body">
           <div class="cs-card-title">A Four-Bucket Layout Was Hiding a Two-Team Operation</div>
           <span class="cs-metrics">22K+ providers &middot; 33% increase in revenue/claim &middot; 51% reduction in task time</span>
         </div>
       </a>
       <a href="ihx-nucleus-mobile-case-study.html" class="cs-card">
-        <div class="cs-thumb"><video src="ihx-nucleus-mobile-cover-v2.mp4" poster="images/ihx-nucleus-mobile-cover-v2-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="IHX Nucleus Mobile app screen"></video></div>
+        <div class="cs-thumb"><video src="ihx-nucleus-mobile-cover-v2.mp4" poster="images/ihx-nucleus-mobile-cover-v2-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Mobile app screen"></video></div>
         <div class="cs-card-body">
           <div class="cs-card-title">A Hospital App, Shipped in Three Weeks</div>
           <span class="cs-metrics">9,500+ DAU &middot; 33% more client acquisition</span>
@@ -1754,13 +1754,23 @@ document.querySelectorAll('.img-slot img').forEach(img => {
   apply();
 })();
 
-// A looping <video> is neither a CSS animation nor a transition, so the reduced-motion
-// stylesheet cannot reach it. Freeze the cover on its first frame.
+// The "other case studies" cover videos download only when their card is about to scroll
+// into view, and pause when it leaves; until then each shows its poster, so opening this page
+// carries none of them. Reduced motion: posters only, the covers never play.
 (function () {
-  if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  Array.prototype.forEach.call(document.querySelectorAll(".cs-thumb video"), function (v) {
-    v.loop = false; v.autoplay = false; v.pause();
-  });
+  var vids = document.querySelectorAll(".cs-thumb video");
+  if (!vids.length) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+  if (!("IntersectionObserver" in window)) { Array.prototype.forEach.call(vids, play); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) { v.preload = "auto"; play(v); }
+      else if (!v.paused) v.pause();
+    });
+  }, { rootMargin: "200px 0px" });
+  Array.prototype.forEach.call(vids, function (v) { io.observe(v); });
 })();
 </script>
 
