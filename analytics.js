@@ -10,6 +10,9 @@
   // Only report from the live site. On localhost this is a no-op, which is expected, not a bug.
   if (!/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) return;
   if (navigator.doNotTrack === "1" || window.doNotTrack === "1") return;
+  // Shabnam's own devices: any browser that has opened the stats dashboard with her key
+  // carries this flag and is never counted (stats.html sets it; stats.html#k= clears it).
+  try { if (localStorage.getItem("shab-ignore") === "1") return; } catch (e) {}
 
   var ENDPOINT = "/api/collect";
 

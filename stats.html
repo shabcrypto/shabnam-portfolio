@@ -511,8 +511,8 @@ const SAMPLE = {
      a sparkline must plot the metric above it, never a shared line. */
   stats: {
     7: {
-      visitors: 121, downloads: 9, median: 138, bounce: 44,
-      dVisitors: 12, dDownloads: -1, dMedian: 9, dBounce: -3,
+      visitors: 121, downloads: 9, median: 138, bounce: 44, plays: 96,
+      dVisitors: 12, dDownloads: -1, dMedian: 9, dBounce: -3, dPlays: 27,
       sparks: {
         downloads: [2, 1, 3, 2, 0, 1, 2, 3, 1, 2, 1, 2],
         median:    [121, 118, 132, 140, 129, 144, 138, 151, 142, 133, 140, 138],
@@ -521,8 +521,8 @@ const SAMPLE = {
       },
     },
     30: {
-      visitors: 871, downloads: 57, median: 164, bounce: 41,
-      dVisitors: 34, dDownloads: 18, dMedian: 22, dBounce: -6,
+      visitors: 871, downloads: 57, median: 164, bounce: 41, plays: 232,
+      dVisitors: 34, dDownloads: 18, dMedian: 22, dBounce: -6, dPlays: 19,
       sparks: {
         downloads: [2, 3, 1, 4, 3, 6, 9, 7, 5, 6, 4, 7],
         median:    [131, 128, 139, 145, 152, 171, 186, 174, 166, 159, 168, 164],
@@ -531,8 +531,8 @@ const SAMPLE = {
       },
     },
     90: {
-      visitors: 2140, downloads: 121, median: 151, bounce: 46,
-      dVisitors: 8, dDownloads: 5, dMedian: -4, dBounce: 2,
+      visitors: 2140, downloads: 121, median: 151, bounce: 46, plays: 301,
+      dVisitors: 8, dDownloads: 5, dMedian: -4, dBounce: 2, dPlays: 6,
       sparks: {
         downloads: [11, 14, 9, 12, 8, 13, 10, 15, 9, 11, 7, 12],
         median:    [158, 162, 149, 155, 147, 141, 166, 152, 148, 143, 157, 151],
@@ -640,7 +640,7 @@ function renderHead() {
     { label: 'Resume downloads', value: num(s.downloads), d: s.dDownloads, goodUp: true,  spark: s.sparks.downloads },
     { label: 'Median time on a case study', value: dur(s.median), d: s.dMedian, goodUp: true,  spark: s.sparks.median },
     { label: 'Bounce rate', value: s.bounce + '%', d: s.dBounce, goodUp: false, spark: s.sparks.bounce },
-    { label: 'Walkthrough plays', value: num(DATA.events[1].v), d: 27, goodUp: true,  spark: s.sparks.plays },
+    { label: 'Walkthrough plays', value: num(s.plays), d: s.dPlays, goodUp: true,  spark: s.sparks.plays },
   ];
 
   const wrap = $('#kpis');
@@ -1039,6 +1039,8 @@ function markSample(reason) {
     if (m) { key = decodeURIComponent(m[1]); localStorage.setItem('shab-stats-key', key);
              history.replaceState(null, '', location.pathname); }
     else { key = localStorage.getItem('shab-stats-key') || ''; }
+    // a browser holding the key is hers, so analytics.js stops counting it
+    if (key) localStorage.setItem('shab-ignore', '1'); else localStorage.removeItem('shab-ignore');
   } catch (e) {}
 
   let res;

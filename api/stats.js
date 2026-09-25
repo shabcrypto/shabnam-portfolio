@@ -161,6 +161,7 @@ module.exports = async function handler(req, res) {
     const cur = inRange(r), prv = prevRange(r);
     const visitors = sum(cur.map((d) => g(`uniq|${d}`)));
     const downloads = sum(cur.map((d) => g(`ev|${d}|resume_download`)));
+    const plays = sum(cur.map((d) => g(`ev|${d}|video_play`)));
     const sessions = sum(cur.map((d) => g(`sess|${d}`)));
     const bounced = sum(cur.map((d) => g(`bounce|${d}`)));
     const bounce = sessions ? Math.min(100, Math.round((bounced / sessions) * 100)) : 0;
@@ -173,6 +174,7 @@ module.exports = async function handler(req, res) {
 
     const pVisitors = sum(prv.map((d) => g(`uniq|${d}`)));
     const pDownloads = sum(prv.map((d) => g(`ev|${d}|resume_download`)));
+    const pPlays = sum(prv.map((d) => g(`ev|${d}|video_play`)));
     const pSessions = sum(prv.map((d) => g(`sess|${d}`)));
     const pBounced = sum(prv.map((d) => g(`bounce|${d}`)));
     const pBounce = pSessions ? Math.round((pBounced / pSessions) * 100) : 0;
@@ -193,11 +195,12 @@ module.exports = async function handler(req, res) {
     });
 
     return {
-      visitors, downloads, median, bounce,
+      visitors, downloads, median, bounce, plays,
       dVisitors: pct(visitors, pVisitors),
       dDownloads: pct(downloads, pDownloads),
       dMedian: pct(median, medianFromBins(pBins)),
       dBounce: pct(bounce, pBounce),
+      dPlays: pct(plays, pPlays),
       sparks: {
         downloads: spark(cur.map((d) => g(`ev|${d}|resume_download`)), "count"),
         median: spark(dailyMedian, "rate"),
