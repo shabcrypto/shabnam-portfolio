@@ -1174,7 +1174,7 @@
      sit still in the middle. On touch, the photos are a row to swipe.
      --------------------------------------------------------------------- */
   .sheet section.person { padding: 0; overflow: hidden; }
-  .sheet section.hist-sec + section.person::before { display: none; }
+  .sheet section.hist-sec + section.person::before, .sheet section.contact-sec + section.person::before { display: none; }
   /* the intro's big grid, here with a photo landing in whichever cell the pointer enters */
   .person-field {
     --cw: clamp(117px, 11.25vw, 171px); --ch: calc(var(--cw) * 1.3);
@@ -1279,7 +1279,11 @@
      as JSON. Then the footer: page links, social links, built by. Staatliches
      for headings and links, Manrope for text, palette colours only.
      --------------------------------------------------------------------- */
-  .board-foot { background: #0E0C0A; color: #F4F3EF; padding: clamp(72px, 9vw, 130px) 0 var(--s-4); }
+  .sheet section.contact-sec { background: #0E0C0A; color: #F4F3EF; padding: clamp(80px, 9vw, 140px) 0; }
+  .sheet section.contact-sec::before { display: none; }
+  .sheet section.contact-sec h2.contact-call { color: #F4F3EF; font-size: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem); }
+  .sheet section.contact-sec h2.contact-call::after { display: none; }
+  .board-foot { background: #0E0C0A; color: #F4F3EF; padding: var(--s-5) 0 var(--s-4); }
   .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--s-6); align-items: center; }
   .contact-call {
     margin: 0; font-family: var(--font-display); font-weight: 400;
@@ -1331,8 +1335,6 @@
   @keyframes bcBlink { 50% { opacity: 0; } }
   .board-foot .foot2 {
     display: grid; grid-template-columns: repeat(2, max-content) 1fr; gap: var(--s-3) clamp(40px, 6vw, 96px);
-    margin-top: clamp(72px, 9vw, 130px); padding-top: var(--s-4);
-    box-shadow: inset 0 1px 0 rgba(244, 243, 239, 0.14);
   }
   .foot2-col { display: flex; flex-direction: column; gap: 4px; }
   .foot2-col a {
@@ -1346,13 +1348,21 @@
     transform: scaleX(0); transform-origin: left; transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .foot2-col a:hover::after, .foot2-col a:focus-visible::after { transform: scaleX(1); }
-  .foot2-base { justify-self: end; align-self: end; text-align: right; font-size: 0.9rem; color: #F4F3EF; opacity: 0.7; }
-  .foot2-base p { margin: 4px 0 0; }
+  /* the loom's weft line, as on the live footer, under the links */
+  .foot2-line {
+    grid-column: 1 / -1; height: 10px; margin-top: var(--s-4);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'%3E%3Cpath d='M0 5 Q 6 1 12 5 T 24 5' fill='none' stroke='%23F4F3EF' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 24px 10px;
+    opacity: 0.35;
+  }
+  .foot2-base {
+    grid-column: 1 / -1; margin: 0;
+    font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.08em;   /* same size as the links */
+    color: #F4F3EF; opacity: 0.7;
+  }
   @media (max-width: 900px) {
     .contact { grid-template-columns: 1fr; }
     .bcard { transform: none; }
     .foot2 { grid-template-columns: 1fr 1fr; }
-    .foot2-base { grid-column: 1 / -1; justify-self: start; text-align: left; }
   }
   @media (max-width: 420px) { .bcard-code { font-size: 0.72rem; } }
   @media (prefers-reduced-motion: reduce) { .bc-caret { animation: none; } .bcard, .contact-resume { transition: none; } }
@@ -3107,28 +3117,7 @@
 </section>
 
 <!-- ============ STILLS ============ -->
-<section id="gallery" class="person" aria-labelledby="gallery-h">
-  <div class="person-field">
-    <div class="trail" aria-hidden="true">
-        <img class="trail-img" src="images/gallery-1.webp" width="480" height="480" alt="" decoding="async" />
-        <img class="trail-img" src="images/gallery-2.webp" width="480" height="480" alt="" decoding="async" />
-        <img class="trail-img" src="images/gallery-3.webp" width="480" height="480" alt="" decoding="async" />
-        <img class="trail-img" src="images/gallery-4.webp" width="480" height="480" alt="" decoding="async" />
-        <img class="trail-img" src="images/gallery-5.webp" width="480" height="480" alt="" decoding="async" />
-    </div>
-    <div class="wrap person-copy">
-      <h2 id="gallery-h" class="pass">The person behind the work</h2>
-      <p class="person-lede">Curiosity about art, culture and people is where the design comes from. The longer story lives on the about page.</p>
-      <a class="person-link" href="about.html">Get to know me</a>
-    </div>
-  </div>
-</section>
-</div><!-- /.sheet -->
-</div><!-- /.page-card -->
-
-<!-- ============ THE BOTTOM OF THE BOARD ============ -->
-<footer class="board-foot" id="contact">
-  <!-- CONTACT: the business card, a code editor window drawn on her paper -->
+<section class="contact-sec" id="contact" aria-label="Contact">
   <div class="wrap contact">
     <div class="contact-copy">
       <h2 class="contact-call">Building something complicated? Talk to me.</h2>
@@ -3154,7 +3143,29 @@
       </ol>
     </div>
   </div>
+</section>
 
+<section id="gallery" class="person" aria-labelledby="gallery-h">
+  <div class="person-field">
+    <div class="trail" aria-hidden="true">
+        <img class="trail-img" src="images/gallery-1.webp" width="480" height="480" alt="" decoding="async" />
+        <img class="trail-img" src="images/gallery-2.webp" width="480" height="480" alt="" decoding="async" />
+        <img class="trail-img" src="images/gallery-3.webp" width="480" height="480" alt="" decoding="async" />
+        <img class="trail-img" src="images/gallery-4.webp" width="480" height="480" alt="" decoding="async" />
+        <img class="trail-img" src="images/gallery-5.webp" width="480" height="480" alt="" decoding="async" />
+    </div>
+    <div class="wrap person-copy">
+      <h2 id="gallery-h" class="pass">The person behind the work</h2>
+      <p class="person-lede">Curiosity about art, culture and people is where the design comes from. The longer story lives on the about page.</p>
+      <a class="person-link" href="about.html">Get to know me</a>
+    </div>
+  </div>
+</section>
+</div><!-- /.sheet -->
+</div><!-- /.page-card -->
+
+<!-- ============ THE BOTTOM OF THE BOARD ============ -->
+<footer class="board-foot">
   <!-- FOOTER: page links, social links, built by -->
   <div class="wrap foot2">
     <nav class="foot2-col" aria-label="Pages">
@@ -3169,10 +3180,8 @@
       <a href="https://dribbble.com/ShabnamRaghavan" target="_blank" rel="noopener">Dribbble</a>
       <a href="https://medium.com/@shabnamrs6" target="_blank" rel="noopener">Medium</a>
     </div>
-    <div class="foot2-base">
-      <p>Bangalore, India</p>
-      <p>Built by Shabnam Raghavan + Claude Code</p>
-    </div>
+    <div class="foot2-line" aria-hidden="true"></div>
+    <p class="foot2-base">Built by Shabnam Raghavan + Claude Code</p>
   </div>
 </footer>
 
