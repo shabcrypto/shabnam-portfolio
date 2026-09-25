@@ -146,7 +146,8 @@
     position: absolute; inset: 0; z-index: 2;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: var(--s-4);
-    animation: introOut 380ms ease var(--intro-offset) forwards;
+    /* fades as the count reaches 100, then the red holds alone for --intro-hold before it splits */
+    animation: introOut 520ms ease calc(var(--intro-offset) - var(--intro-hold, 1400ms)) forwards;
   }
   @keyframes introOut { to { opacity: 0; visibility: hidden; } }
   .intro-lines { display: flex; flex-direction: column; align-items: center; gap: var(--s-3); }
@@ -2091,7 +2092,11 @@
     });
     var TYPE_END = mark;
     // the curtain's CSS timer and this timeline share one number, written from here
-    document.documentElement.style.setProperty("--intro-offset", (TYPE_END + activationStart()) + "ms");
+    // HOLD: after the count reaches 100 and the words have gone, the screen stays plain red for
+    // this long before the shutters part, so the reveal starts from a still frame
+    var HOLD = 1400;
+    document.documentElement.style.setProperty("--intro-hold", HOLD + "ms");
+    document.documentElement.style.setProperty("--intro-offset", (TYPE_END + HOLD + activationStart()) + "ms");
 
     // a cheap deterministic hash, so a character shows the same glyph for a whole TICK and a
     // frame drawn twice never flickers
@@ -2162,10 +2167,10 @@
       else build(-1);
     })(t0);
 
-    // the panels finish parting 1300ms after TYPE_END; drop the node once it is off screen
+    // the panels finish parting 1300ms after the hold; drop the node once it is off screen
     setTimeout(function () {
       if (intro.parentNode) intro.parentNode.removeChild(intro);
-    }, TYPE_END + 1600);
+    }, TYPE_END + HOLD + 1600);
   }
 })();
 </script>
