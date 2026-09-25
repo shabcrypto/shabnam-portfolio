@@ -1637,9 +1637,8 @@
   .shelf li:hover .book { filter: none; }
   /* books 3 and 5 are zoomed out to show the whole cover; the space around them is the
      cover's own flat yellow, so the cell still reads as one cover */
-  .shelf li:nth-child(3) .book { background: #F8C900; }
-  .shelf li:nth-child(5) .book { background: #FFF129; }
-  .shelf li:nth-child(3) .book img, .shelf li:nth-child(5) .book img { object-fit: contain; object-position: 50% 50%; }
+  .book.book-yellow { background: var(--bg); }
+  .book.book-yellow img { object-fit: contain; object-position: 50% 50%; }
   /* touch screens have no hover, so the covers are simply shown */
   @media (hover: none) { .book { filter: none; } }
 
@@ -1659,14 +1658,15 @@
     .shelf {
       display: flex; gap: 12px; justify-self: stretch; margin: 0; scroll-behavior: smooth;
       grid-template-columns: none; grid-template-rows: none;
-      padding: 0 var(--gut) var(--s-3);
+      padding: 0 var(--gut) var(--s-6);
       overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: var(--gut);
       scrollbar-width: none; -webkit-overflow-scrolling: touch;
     }
     .shelf::-webkit-scrollbar { display: none; }
-    .shelf li:nth-child(n) { grid-area: auto; flex: none; width: min(42vw, 200px); aspect-ratio: 0.65; scroll-snap-align: start; }
+    /* each cover is ~60% of the screen, so the next one is cut in half by the right edge:
+       that half-cover is the cue that the row scrolls */
+    .shelf li:nth-child(n) { grid-area: auto; flex: none; width: calc((100vw - var(--gut)) / 1.62); max-width: 260px; aspect-ratio: 0.65; scroll-snap-align: start; }
     .book { filter: none; border-radius: 6px; box-shadow: 0 10px 22px rgba(40, 8, 0, 0.3); }
-    .row-nav { display: flex; }
   }
   /* left and right buttons for a swipe row (phones only) */
   .row-nav { display: none; gap: 10px; justify-content: flex-end; padding: 0 var(--gut) var(--s-6); }
@@ -1675,7 +1675,6 @@
     border: 0; cursor: pointer; background: #F4F3EF; color: #0E0C0A;
   }
   .row-nav button:disabled { opacity: 0.35; cursor: default; }
-  @media (max-width: 900px) { .row-nav { display: flex; } }
 
   /* the fan: the back sheets start squared under the top one */
   /* the fan: pointing at the stack spreads the two back sheets well apart and lifts the top
@@ -2438,12 +2437,11 @@
   </div>
   <ul class="shelf" id="shelf" aria-label="Books that shaped how I design">
     <li><div class="book"><img src="images/book-people-watching.webp" alt="People Watching by Desmond Morris" loading="lazy" decoding="async" /></div></li>
+    <li><div class="book book-yellow" style="--bg:#FFF129"><img src="images/book-hooked.webp" alt="Hooked by Nir Eyal" loading="lazy" decoding="async" /></div></li>
+    <li><div class="book book-yellow" style="--bg:#F8C900"><img src="images/book-design-of-everyday-things.webp" alt="The Design of Everyday Things by Don Norman" loading="lazy" decoding="async" /></div></li>
     <li><div class="book"><img src="images/book-games-people-play.webp" alt="Games People Play by Eric Berne" loading="lazy" decoding="async" /></div></li>
-    <li><div class="book"><img src="images/book-design-of-everyday-things.webp" alt="The Design of Everyday Things by Don Norman" loading="lazy" decoding="async" /></div></li>
     <li><div class="book"><img src="images/book-naked-ape.webp" alt="The Naked Ape by Desmond Morris" loading="lazy" decoding="async" /></div></li>
-    <li><div class="book"><img src="images/book-hooked.webp" alt="Hooked by Nir Eyal" loading="lazy" decoding="async" /></div></li>
   </ul>
-  <div class="row-nav" data-row="shelf"><button type="button" data-dir="-1" aria-label="Previous book"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" data-dir="1" aria-label="Next book"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
 </section>
 
 <!-- the loom band, between the intro and Selected work -->
