@@ -25,6 +25,11 @@ async function pipeline(commands) {
   });
   if (!res.ok) throw new Error("store " + res.status + " " + (await res.text()).slice(0, 200));
   const out = await res.json();
+  // Upstash answers 200 even when it refuses a command (quota spent, bad arguments) and puts the
+  // reason on each item. Surface it: silently reading those as nulls once showed a live
+  // dashboard full of zeros while every write was being refused.
+  const bad = out.find((r) => r && r.error);
+  if (bad) throw new Error("store refused: " + String(bad.error).slice(0, 200));
   return out.map((r) => (r && "result" in r ? r.result : null));
 }
 

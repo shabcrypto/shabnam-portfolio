@@ -1053,10 +1053,11 @@ function markSample(reason) {
   if (res.status === 401) return markSample('this browser does not have the dashboard key');
   if (!res.ok) {
     let hint = '';
-    try { hint = (await res.json()).error || ''; } catch (e) {}
+    let detail = '';
+    try { const j = await res.json(); hint = j.error || ''; detail = j.detail || ''; } catch (e) {}
     return markSample(res.status === 503
       ? (hint || 'the collector is not finished being set up')
-      : 'the collector answered ' + res.status);
+      : 'the collector answered ' + res.status + (detail ? ' (' + detail + ')' : ''));
   }
   let live;
   try { live = await res.json(); } catch (e) { return markSample('the collector sent something unreadable'); }

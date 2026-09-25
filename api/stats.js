@@ -83,9 +83,16 @@ module.exports = async function handler(req, res) {
   // 180 days so a 90 day range can be compared against the 90 before it
   const days = S.lastDays(180);
 
-  const cmds = [];
+  // Every plain counter is fetched in a few big MGETs rather than one GET each. Upstash bills per
+  // command, and one GET per key was about 46,000 commands a dashboard load, which spent the free
+  // plan's 500,000 a month in about ten loads. Now it is roughly 1,000 (the PFCOUNTs, plus MGETs).
+  const cmds = [];                                // non-GET commands, run one by one
+  const getKeys = [];                             // every GET key, batched into MGETs
   const at = {};                                  // remembers where each answer lands
-  const push = (label, cmd) => { at[label] = cmds.length; cmds.push(cmd); };
+  const push = (label, cmd) => {
+    if (cmd[0] === "GET") { at[label] = { g: getKeys.length }; getKeys.push(cmd[1]); }
+    else { at[label] = { c: cmds.length }; cmds.push(cmd); }
+  };
 
   days.forEach((d) => {
     push(`views|${d}`,  ["GET", `d:${d}:views`]);
@@ -103,10 +110,18 @@ module.exports = async function handler(req, res) {
     ["landed", "case", "finished", "resume"].forEach((f) => push(`fun|${d}|${f}`, ["PFCOUNT", `d:${d}:f:${f}`]));
   });
 
-  let raw;
-  try { raw = await S.pipeline(cmds); }
-  catch (e) { return res.status(502).json({ error: "store unreachable" }); }
-  const g = (label) => n(raw[at[label]]);
+  const CHUNK = 4000;
+  const mgets = [];
+  for (let i = 0; i < getKeys.length; i += CHUNK) mgets.push(["MGET", ...getKeys.slice(i, i + CHUNK)]);
+  let gets, rest;
+  try {
+    const raw = await S.pipeline(mgets.concat(cmds));
+    gets = [].concat(...raw.slice(0, mgets.length).map((r) => r || []));
+    rest = raw.slice(mgets.length);
+  } catch (e) {
+    return res.status(502).json({ error: "store unreachable", detail: String(e.message || e) });
+  }
+  const g = (label) => { const a = at[label]; return n(a.g !== undefined ? gets[a.g] : rest[a.c]); };
 
   const inRange = (r) => days.slice(days.length - r);
   const prevRange = (r) => days.slice(days.length - r * 2, days.length - r);
