@@ -762,6 +762,8 @@
   .pr-was { white-space: nowrap; }
   @media (max-width: 400px) { .pr-was { white-space: normal; } }
   .pr-card .li .tip { background: #0E0C0A; color: #F0E6D2; }
+  .sheet section.peers2 { overflow-x: clip; }   /* a tooltip may never widen the page */
+  @media (hover: none) { .pr-card .li .tip { display: none; } }   /* no hover on phones, so no tooltip */
   @media (max-width: 900px) {
     .pr-grid { grid-template-columns: minmax(0, 1fr); }
     .pr-deck { padding: 0 22px 26px 0; }
