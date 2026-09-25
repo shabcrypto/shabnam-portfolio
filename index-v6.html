@@ -3565,14 +3565,28 @@
 })();
 
 (function () {
-  // HOW I LOOK AT DESIGN / HOW I DESIGN: each card opens and closes on its own header.
-  document.querySelectorAll(".wcard").forEach(function (card) {
-    var head = card.querySelector(".wc-head");
-    head.addEventListener("click", function () {
-      var on = card.classList.toggle("is-open");
-      head.setAttribute("aria-expanded", on ? "true" : "false");
+  // HOW I LOOK AT DESIGN / HOW I DESIGN: the same behaviour as Work history. One card open
+  // at a time; on a mouse, pointing at a card opens it; the header (+ / x) toggles; after an
+  // x, hovering does not reopen anything until the pointer leaves the cards.
+  var cards = [].slice.call(document.querySelectorAll(".wcard"));
+  if (!cards.length) return;
+  var group = cards[0].parentElement;
+  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  function set(card) {
+    cards.forEach(function (c) {
+      var on = c === card;
+      c.classList.toggle("is-open", on);
+      c.querySelector(".wc-head").setAttribute("aria-expanded", on ? "true" : "false");
     });
+  }
+  cards.forEach(function (card) {
+    card.querySelector(".wc-head").addEventListener("click", function () {
+      if (card.classList.contains("is-open")) { set(null); group.dataset.closed = "1"; }
+      else set(card);
+    });
+    if (fine) card.addEventListener("pointerenter", function () { if (!group.dataset.closed) set(card); });
   });
+  group.addEventListener("pointerleave", function () { delete group.dataset.closed; });
 })();
 
 (function () {
