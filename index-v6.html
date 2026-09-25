@@ -135,7 +135,7 @@
   .intro { position: fixed; inset: 0; z-index: 300; pointer-events: auto; }
   .intro-panel {
     position: absolute; left: 0; right: 0; height: 50.2%;
-    background: var(--board);
+    background: #C02D0C;   /* vermillion shutters, so the split opens onto the black hero */
     animation: shutter 1300ms var(--paint) var(--intro-offset) forwards;
   }
   .intro-panel-top { top: 0; transform-origin: top center; }
@@ -153,9 +153,9 @@
   /* the sentence carries the hierarchy; the count is a small quiet figure under it */
   .intro-count {
     font-family: var(--font-display);
-    font-size: clamp(0.95rem, 1.4vw, 1.2rem); line-height: 1; letter-spacing: 0.1em; color: var(--bone-dim);
+    font-size: clamp(0.95rem, 1.4vw, 1.2rem); line-height: 1; letter-spacing: 0.1em; color: #F0E6D2; opacity: 0.8;
   }
-  .intro-count .pc { font-size: 1em; color: var(--bone-dim); margin-left: 2px; vertical-align: 0; }
+  .intro-count .pc { font-size: 1em; color: inherit; margin-left: 2px; vertical-align: 0; }
   .intro-line {
     font-family: var(--font-display);
     font-size: clamp(1.8rem, 4.6vw, 4.2rem); line-height: 1.02;
@@ -170,7 +170,7 @@
   .intro-line .dc[data-s="scr"] { opacity: 0.5; }
   .intro-line .dc[data-s="off"] { opacity: 0; }
   .intro-rule {
-    width: min(460px, 62vw); height: 3px; background: var(--red);
+    width: min(460px, 62vw); height: 3px; background: #F0E6D2;   /* coconut soft on the red */
     transform: scaleX(0); transform-origin: left center;
   }
 
