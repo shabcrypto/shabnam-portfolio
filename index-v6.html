@@ -905,7 +905,7 @@
   }
   .ways .ritual-caption { color: #302F2C; }
   .ways-process { margin-top: clamp(64px, 8vw, 128px); }
-  .proc { display: flex; gap: 10px; height: clamp(340px, 30vw, 440px); margin-top: var(--s-4); }
+  .proc { display: flex; gap: 10px; height: clamp(340px, 30vw, 440px); margin-top: var(--s-4); container-type: inline-size; }
   .proc-item {
     position: relative; flex: 1 1 0; min-width: 0; overflow: hidden;
     display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; text-align: left;
@@ -934,7 +934,9 @@
   .proc-item.is-open .proc-vt { opacity: 0; }
   .proc-open {
     position: absolute; left: clamp(18px, 2vw, 30px); bottom: clamp(18px, 2vw, 30px);
-    width: clamp(240px, 30vw, 440px);
+    /* the open panel's own width (4.4 of 8.4 shares, less the gaps) minus its padding, so the
+       text never runs past it, whatever column the steps sit in */
+    width: calc((100cqw - 40px - 10 * clamp(18px, 2vw, 30px)) * 0.524);   /* flex shares split what is left after every panel's padding */
     opacity: 0; transform: translateY(10px);
     transition: opacity 220ms ease, transform 420ms var(--paint);
     pointer-events: none;
@@ -943,7 +945,7 @@
   .proc-title {
     display: block;
     font-family: var(--font-display); font-weight: 400;
-    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.4rem); letter-spacing: 0.03em; line-height: 1.1;
+    font-size: clamp(1.3rem, 1.1rem + 0.9vw, 2rem); letter-spacing: 0.03em; line-height: 1.1;
   }
   .proc-body {
     display: block; margin-top: 12px;
@@ -1395,7 +1397,8 @@
   .ways-row { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: var(--s-4); align-items: start; }
   .ways-halo { display: flex; }
   .ways-halo .ritual { width: 100%; }
-  .ways-row > .wcard { margin-top: 0; }
+  .ways-col > .wcard:first-child { margin-top: 0; }
+  .ways-col { min-width: 0; }
   @media (max-width: 900px) {
     .ways-row { grid-template-columns: 1fr; }
     .ways-halo { justify-content: center; }
@@ -2993,6 +2996,7 @@
       </div>
     </div>
 
+    <div class="ways-col">
     <div class="wcard" id="wc-look">
       <button class="wc-head" type="button" aria-expanded="false" aria-controls="wc-look-body">
         <h2 class="wc-title">How I look at design</h2><span class="wc-plus" aria-hidden="true"></span>
@@ -3004,8 +3008,6 @@
         </div>
         <p class="ways-body">I hold my work to <b>evidence over applause</b>. I like talking to users. That is where the real problems are, not in the brief. My design inspiration comes from the world around me and what I observe, the patterns I notice in people. I am curious about art, culture, and people.</p>
       </div></div>
-    </div>
-
     </div>
 
     <div class="wcard is-open" id="wc-how">
@@ -3048,6 +3050,8 @@
       </div>
       </div></div>
     </div>
+    </div><!-- /.ways-col -->
+    </div><!-- /.ways-row -->
   </div>
 </section>
 
