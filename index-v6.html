@@ -1270,9 +1270,13 @@
   .stat-fig .dc { display: inline-block; text-align: center; }
   .stat-fig .dc[data-s="scr"] { opacity: 0.55; }
   .stat dd { margin: 0; font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem); color: var(--bone); opacity: 0.8; transition: opacity 320ms ease, transform 420ms var(--paint); }
-  .stats:hover .stat:not(:hover), .stats:focus-within .stat:not(:focus) { opacity: 0.38; }
-  .stat:hover::before, .stat:focus::before, .stat.on::before { transform: none; }
-  .stat:hover dd, .stat:focus dd { opacity: 1; transform: translateY(-4px); }
+  /* the fill, the dimming and the lift are for a mouse only: on a phone a tap left the
+     "hover" stuck on, so the band is simply still there */
+  @media (hover: hover) and (pointer: fine) {
+    .stats:hover .stat:not(:hover), .stats:focus-within .stat:not(:focus) { opacity: 0.38; }
+    .stat:hover::before, .stat:focus::before { transform: none; }
+    .stat:hover dd, .stat:focus dd { opacity: 1; transform: translateY(-4px); }
+  }
   .stat:focus-visible { box-shadow: inset 0 0 0 3px #F0E6D2; }
   @media (max-width: 760px) {
     .stats { grid-template-columns: 1fr; }
@@ -1455,6 +1459,18 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .hist-inner > *, .wc-inner > * { transition: none; }
+  }
+
+  /* PHONES: no hover, so no hover animation. A tap on a touch screen leaves ":hover" stuck on
+     the last thing touched; these reset every hover lift, tilt and highlight to rest. */
+  @media (hover: none) {
+    a.file:hover, a.file:focus-visible { transform: rotate(var(--tilt, 0deg)); }
+    a.file:hover .file-sheet { box-shadow: 0 14px 34px rgba(14, 12, 10, 0.16); }
+    a.file:hover h3 .sel { background-size: 0% 100%; }
+    a.file:hover h3 .sel::before, a.file:hover h3 .sel::after { opacity: 0; }
+    .bcard:hover { transform: none; }
+    .pr-btn:hover, .contact-social a:hover, .contact-resume:hover { transform: none; box-shadow: none; }
+    .ways .ritual { transform: none; }
   }
 
   /* ---- the billing block ---- */
@@ -3731,8 +3747,9 @@
 })();
 
 (function () {
-  // METRICS: pointing at a figure re-scrambles it and locks it, digit by digit.
+  // METRICS: pointing at a figure re-scrambles it and locks it, digit by digit. Mouse only.
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
   var GLYPHS = "0123456789#%&*+=/<>?";
   document.querySelectorAll(".stat").forEach(function (st) {
     var fig = st.querySelector(".stat-fig"), word = fig.textContent, raf = 0;
@@ -3754,7 +3771,6 @@
     }
     st.addEventListener("pointerenter", run);
     st.addEventListener("focus", run);
-    st.addEventListener("click", function () { st.classList.toggle("on"); run(); });
   });
 })();
 
