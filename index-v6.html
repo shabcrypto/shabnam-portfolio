@@ -41,7 +41,7 @@
     --red-lit:    #E14A20;   /* the only red that goes on the board AS TEXT: 4.7:1 there */
 
     /* ---- the handbill ---- */
-    --paper:      #F4F3EF;   /* the surface the five case studies read on */
+    --paper:      #F0E6D2;   /* the surface the five case studies read on */
     --paper-deep: #E9E6DD;   /* second impression, for a panel that must sit back */
     --ink:        #16130F;
     --ink-soft:   #5D584E;
@@ -197,7 +197,7 @@
      The live page's own tokens are declared here so the rules stay verbatim.
      --------------------------------------------------------------------- */
   :root {
-    --coconut: #fdfdfb; --coconut-soft: #b3ada0;
+    --coconut: #F0E6D2; --coconut-soft: #F0E6D2;   /* no white anywhere: light = Coconut Soft */
     --asphalt: #302f2c; --asphalt-soft: #6b6964;
     --vermillion: oklch(52% 0.185 33); --vermillion-deep: oklch(44% 0.17 31);
     --space-md: 24px;
@@ -252,7 +252,7 @@
   .topbar nav a::after {
     content: "";
     position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23fdfdfb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23F0E6D2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center;
     background-size: 24px 8px;
     transform: scaleX(0);
     transform-origin: left;
@@ -268,11 +268,11 @@
     right: clamp(16px, 6vw, 104px);
     border-radius: 999px;
     padding: 12px clamp(20px, 2.2vw, 32px);
-    background-color: rgba(253, 253, 251, 0.94);
+    background-color: rgba(240, 230, 210, 0.94);
     box-shadow: 0 2px 6px oklch(26% 0.021 42 / 0.08), 0 14px 38px oklch(26% 0.021 42 / 0.14);
   }
   @supports (backdrop-filter: blur(10px)) {
-    .topbar.solid { background-color: rgba(253, 253, 251, 0.82); backdrop-filter: blur(14px); }
+    .topbar.solid { background-color: rgba(240, 230, 210, 0.82); backdrop-filter: blur(14px); }
   }
   .topbar.solid,
   .topbar.solid nav a { color: var(--asphalt-soft); }
@@ -316,7 +316,7 @@
 .menu-panel{
   position:fixed;z-index:901;top:0;right:0;bottom:0;
   width:min(86vw,360px);
-  background:#302f2c;color:#fdfdfb;
+  background:#302f2c;color:#F0E6D2;
   display:flex;flex-direction:column;
   padding:calc(20px + env(safe-area-inset-top,0px)) 28px calc(28px + env(safe-area-inset-bottom,0px));
   transform:translateX(100%);
@@ -332,14 +332,14 @@
   background:none;border:0;padding:0;cursor:pointer;color:#b3ada0;
   -webkit-tap-highlight-color:transparent;
 }
-.menu-close:hover{color:#fdfdfb;}
+.menu-close:hover{color:#F0E6D2;}
 
 .menu-nav{display:flex;flex-direction:column;margin-top:8px;}
 .menu-nav a{
   font-family:"Staatliches","Impact","Arial Narrow",sans-serif;
   font-size:clamp(1.9rem,8vw,2.4rem);font-weight:400;
   letter-spacing:0.03em;line-height:1.05;text-transform:none;
-  color:#fdfdfb;text-decoration:none;
+  color:#F0E6D2;text-decoration:none;
   padding:14px 0;                    /* the row, not the glyphs, is the tap target */
   border-bottom:1px solid rgba(253,253,251,0.1);
 }
@@ -353,7 +353,7 @@
   color:#b3ada0;text-decoration:none;
   display:inline-block;padding:10px 0;
 }
-.menu-foot a:hover{color:#fdfdfb;}
+.menu-foot a:hover{color:#F0E6D2;}
 
 .menu-btn:focus-visible,.menu-close:focus-visible,
 .menu-nav a:focus-visible,.menu-foot a:focus-visible{
@@ -570,7 +570,7 @@
   .hero.hero-flat { background: #0E0C0A; }
   .hero.hero-flat .hero-title { justify-content: center; padding-top: 0; }
   /* nav links over the hero in coconut, the palette's lightest colour */
-  .topbar:not(.solid) nav a { color: #F4F3EF; }
+  .topbar:not(.solid) nav a { color: #F0E6D2; }
   /* the page card, as on the live site: every section sits on one card inset by the
      frame, with rounded corners, over the asphalt ground */
   .page-card {
@@ -984,11 +984,11 @@
   .pr-ctrl { display: flex; align-items: center; gap: 18px; margin-top: var(--s-4); }
   .pr-btn {
     display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
-    border: 0; cursor: pointer; background: #F4F3EF; color: #0E0C0A;
+    border: 0; cursor: pointer; background: #F0E6D2; color: #0E0C0A;
     transition: transform 260ms var(--paint), background-color 200ms ease;
   }
   .pr-btn:hover { transform: scale(1.08); }
-  .pr-btn:focus-visible { outline: 3px solid #F4F3EF; outline-offset: 3px; }
+  .pr-btn:focus-visible { outline: 3px solid #F0E6D2; outline-offset: 3px; }
   .pr-count { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 0.08em; color: var(--bone); font-variant-numeric: tabular-nums; }
   .pr-count b { font-weight: 400; font-size: 1.9rem; }
   .pr-deck {
@@ -997,7 +997,7 @@
     touch-action: pan-y; user-select: none; -webkit-user-select: none;
     outline: none;
   }
-  .pr-deck:focus-visible .pr-card[data-pos="0"] { box-shadow: 0 0 0 3px #F4F3EF, 0 24px 60px rgba(14, 12, 10, 0.35); }
+  .pr-deck:focus-visible .pr-card[data-pos="0"] { box-shadow: 0 0 0 3px #F0E6D2, 0 24px 60px rgba(14, 12, 10, 0.35); }
   .pr-card {
     grid-area: 1 / 1; margin: 0;
     display: flex; flex-direction: column;
@@ -1028,7 +1028,7 @@
   .pr-who b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; letter-spacing: 0.03em; }
   .pr-who .li { margin: -12px -12px -12px -6px; }
   .pr-who > span:last-child { display: block; font-size: 0.88rem; color: #302F2C; }
-  .pr-card .li .tip { background: #0E0C0A; color: #F4F3EF; }
+  .pr-card .li .tip { background: #0E0C0A; color: #F0E6D2; }
   @media (max-width: 900px) {
     .pr-grid { grid-template-columns: 1fr; }
     .pr-deck { padding: 0 22px 26px 0; }
@@ -1046,8 +1046,8 @@
      while the others close. Hover opens on a mouse; tap or tab everywhere.
      The numbers each role is proud of carry the intro's yellow highlight.
      --------------------------------------------------------------------- */
-  .sheet section.hist-sec { background: #0E0C0A; color: #F4F3EF; }
-  .sheet section.hist-sec h2 { color: #F4F3EF; }
+  .sheet section.hist-sec { background: #0E0C0A; color: #F0E6D2; }
+  .sheet section.hist-sec h2 { color: #F0E6D2; }
   .sheet section.hist-sec h2::after { display: none; }
   .sheet section.peers2 + section.hist-sec::before { display: none; }
   .hist { position: relative; list-style: none; margin: var(--s-5) 0 0; padding: 0; }
@@ -1063,7 +1063,7 @@
     background: url("images/paper-sheet.webp") center top / cover; pointer-events: none;
   }
   .hist-glow { display: none; }
-  .hist-item { position: relative; z-index: 1; isolation: isolate; box-shadow: inset 0 -1px 0 rgba(244, 243, 239, 0.14); }
+  .hist-item { position: relative; z-index: 1; isolation: isolate; box-shadow: inset 0 -1px 0 rgba(240, 230, 210, 0.14); }
   /* the open role IS the paper card: it grows from the role's top edge downward as the
      details open, and shrinks back up as they close */
   .hist-item::before {
@@ -1078,7 +1078,7 @@
     align-items: center; gap: var(--s-3);
     width: 100%; margin: 0; border: 0; background: none; cursor: pointer; text-align: left;
     padding: clamp(22px, 2.4vw, 34px) clamp(20px, 2.6vw, 40px);
-    font: inherit; color: #F4F3EF;
+    font: inherit; color: #F0E6D2;
     transition: color 420ms ease;
   }
   .hist-item.is-open .hist-head { color: #0E0C0A; }
@@ -1087,7 +1087,7 @@
   .hist-role b { display: block; font-family: var(--font-display); font-weight: 400; font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.4rem); letter-spacing: 0.02em; line-height: 1.05; }
   .hist-role span { display: block; margin-top: 4px; font-size: 0.95rem; opacity: 0.8; }
   .hist-place { font-size: 0.9rem; letter-spacing: 0.04em; opacity: 0.8; }
-  .hist-plus { position: relative; width: 40px; height: 40px; border-radius: 50%; background: rgba(244, 243, 239, 0.12); transition: background-color 420ms ease, transform 560ms var(--paint); }
+  .hist-plus { position: relative; width: 40px; height: 40px; border-radius: 50%; background: rgba(240, 230, 210, 0.12); transition: background-color 420ms ease, transform 560ms var(--paint); }
   .hist-plus::before, .hist-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; margin: -1px 0 0 -7px; background: currentColor; border-radius: 2px; }
   .hist-plus::after { transform: rotate(90deg); }
   .hist-item.is-open .hist-plus { background: rgba(14, 12, 10, 0.08); transform: rotate(135deg); }
@@ -1108,9 +1108,9 @@
   .hist-list mark, .hist-lede mark { background: none; color: inherit; padding: 0; }
   .hist-item:not(.is-open) .hist-inner { visibility: hidden; transition: visibility 0s linear 620ms; }
   .hist-sec .ledger-foot { margin-top: var(--s-5); }
-  .hist-sec .ledger-foot b { color: #F4F3EF; }
-  .hist-sec .ledger-foot p { color: #F4F3EF; opacity: 0.8; }
-  .hist-sec .ledger-foot::before { background: rgba(244, 243, 239, 0.14); }
+  .hist-sec .ledger-foot b { color: #F0E6D2; }
+  .hist-sec .ledger-foot p { color: #F0E6D2; opacity: 0.8; }
+  .hist-sec .ledger-foot::before { background: rgba(240, 230, 210, 0.14); }
   @media (max-width: 760px) {
     .hist-head { grid-template-columns: minmax(0, 1fr) 40px; grid-template-areas: "when plus" "role plus" "place plus"; gap: 4px 12px; }
     .hist-when { grid-area: when; } .hist-role { grid-area: role; } .hist-place { grid-area: place; } .hist-plus { grid-area: plus; align-self: center; }
@@ -1140,7 +1140,7 @@
     padding: clamp(24px, 2.6vw, 38px) clamp(22px, 2.8vw, 44px);
     font: inherit; color: inherit;
   }
-  .er-head:focus-visible { outline: 3px solid #F4F3EF; outline-offset: 3px; border-radius: 24px; }
+  .er-head:focus-visible { outline: 3px solid #F0E6D2; outline-offset: 3px; border-radius: 24px; }
   .er-title { font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.4rem); letter-spacing: 0.02em; line-height: 1.05; }
   .er-plus { position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%; background: rgba(14, 12, 10, 0.08); transition: transform 560ms var(--paint); }
   .er-plus::before, .er-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; margin: -1px 0 0 -7px; background: currentColor; border-radius: 2px; }
@@ -1249,7 +1249,7 @@
     cursor: default;
     transition: opacity 420ms ease;
   }
-  .stat + .stat { box-shadow: inset 1px 0 0 rgba(244, 243, 239, 0.12); }
+  .stat + .stat { box-shadow: inset 1px 0 0 rgba(240, 230, 210, 0.12); }
   .stat::before {
     content: ""; position: absolute; inset: 0; z-index: -1; background: #302F2C;
     transform: translateY(101%); transition: transform 560ms var(--paint);
@@ -1266,11 +1266,11 @@
   .stats:hover .stat:not(:hover), .stats:focus-within .stat:not(:focus) { opacity: 0.38; }
   .stat:hover::before, .stat:focus::before, .stat.on::before { transform: none; }
   .stat:hover dd, .stat:focus dd { opacity: 1; transform: translateY(-4px); }
-  .stat:focus-visible { box-shadow: inset 0 0 0 3px #F4F3EF; }
+  .stat:focus-visible { box-shadow: inset 0 0 0 3px #F0E6D2; }
   @media (max-width: 760px) {
     .stats { grid-template-columns: 1fr; }
     .stat { min-height: 0; padding-block: 26px; }
-    .stat + .stat { box-shadow: inset 0 1px 0 rgba(244, 243, 239, 0.12); }
+    .stat + .stat { box-shadow: inset 0 1px 0 rgba(240, 230, 210, 0.12); }
   }
   @media (prefers-reduced-motion: reduce) { .stat, .stat::before, .stat dd { transition: none; } }
 
@@ -1286,12 +1286,12 @@
   .sheet section.contact-sec h2.contact-call { color: var(--bone); font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1.02; max-width: 17ch; }
   .contact-talk { display: block; margin-top: 0.55em; }
   .sheet section.contact-sec h2.contact-call::after { display: none; }
-  .board-foot { background: transparent; color: #F4F3EF; padding: var(--s-5) 0 var(--s-4); }   /* on the asphalt ground */
+  .board-foot { background: transparent; color: #F0E6D2; padding: var(--s-5) 0 var(--s-4); }   /* on the asphalt ground */
   .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--s-6); align-items: center; }
   .contact-call {
     margin: 0; font-family: var(--font-display); font-weight: 400;
     font-size: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem);   /* Step 4 */
-    line-height: 0.98; letter-spacing: 0.02em; color: #F4F3EF; max-width: 12ch;
+    line-height: 0.98; letter-spacing: 0.02em; color: #F0E6D2; max-width: 12ch;
   }
   .contact-note { margin: var(--s-4) 0 0; max-width: 40ch; font-size: clamp(1rem, 0.96rem + 0.25vw, 1.125rem); line-height: 1.6; color: var(--bone); opacity: 0.9; }
   /* the same text link as "Read case study" and "Get to know me", with a download mark */
@@ -1307,7 +1307,7 @@
     transform: scaleX(0); transform-origin: left; transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .contact-resume:hover::after, .contact-resume:focus-visible::after { transform: scaleX(1); }
-  .contact-resume:focus-visible { outline: 3px solid #F4F3EF; outline-offset: 3px; }
+  .contact-resume:focus-visible { outline: 3px solid #F0E6D2; outline-offset: 3px; }
   .bcard {
     position: relative; isolation: isolate; overflow: hidden;
     border-radius: 20px; color: #0E0C0A;
@@ -1351,7 +1351,7 @@
     display: flex; gap: 10px; margin-top: var(--s-3);
   }
   /* each icon in its own brand colour, on a coconut chip so it reads on the red */
-  .contact-social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #F4F3EF; transition: transform 260ms var(--paint), box-shadow 260ms var(--paint); }
+  .contact-social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #F0E6D2; transition: transform 260ms var(--paint), box-shadow 260ms var(--paint); }
   .contact-social a:hover, .contact-social a:focus-visible { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(40, 8, 0, 0.3); outline: none; }
   .contact-social svg { width: 22px; height: 22px; }
   /* footer page links in one row, on every screen */
@@ -1361,24 +1361,24 @@
   .foot2-col a {
     position: relative; align-self: flex-start;
     font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.08em;
-    color: #F4F3EF; text-decoration: none; padding: 8px 0;
+    color: #F0E6D2; text-decoration: none; padding: 8px 0;
   }
   .foot2-col a::after {
     content: ""; position: absolute; left: 0; right: 0; bottom: 2px; height: 8px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23F4F3EF' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 24px 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%23F0E6D2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 24px 8px;
     transform: scaleX(0); transform-origin: left; transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .foot2-col a:hover::after, .foot2-col a:focus-visible::after { transform: scaleX(1); }
   /* the loom's weft line, as on the live footer, under the links */
   .foot2-line {
     grid-column: 1 / -1; height: 10px; margin-top: var(--s-4);
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'%3E%3Cpath d='M0 5 Q 6 1 12 5 T 24 5' fill='none' stroke='%23F4F3EF' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 24px 10px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'%3E%3Cpath d='M0 5 Q 6 1 12 5 T 24 5' fill='none' stroke='%23F0E6D2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 24px 10px;
     opacity: 0.35;
   }
   .foot2-base {
     grid-column: 1 / -1; margin: 0;
     font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.08em;   /* same size as the links */
-    color: #F4F3EF; opacity: 0.7;
+    color: #F0E6D2; opacity: 0.7;
   }
   @media (max-width: 900px) {
     .contact { grid-template-columns: 1fr; }
@@ -1411,13 +1411,13 @@
     width: 100%; margin: 0; border: 0; background: none; cursor: pointer; text-align: left;
     padding: clamp(24px, 2.6vw, 38px) clamp(22px, 2.8vw, 44px); font: inherit; color: inherit;
   }
-  .wc-head:focus-visible { outline: 3px solid #F4F3EF; outline-offset: 3px; border-radius: 24px; }
+  .wc-head:focus-visible { outline: 3px solid #F0E6D2; outline-offset: 3px; border-radius: 24px; }
   .sheet section.ways h2.wc-title {
     margin: 0; font-family: var(--font-display); font-weight: 400;
     font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1; letter-spacing: 0.02em; color: var(--bone);
   }
   .sheet section.ways h2.wc-title::after { display: none; }
-  .wc-plus { position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%; background: rgba(244, 243, 239, 0.1); transition: transform 560ms var(--paint); }
+  .wc-plus { position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%; background: rgba(240, 230, 210, 0.1); transition: transform 560ms var(--paint); }
   .wc-plus::before, .wc-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; margin: -1px 0 0 -7px; background: currentColor; border-radius: 2px; }
   .wc-plus::after { transform: rotate(90deg); }
   .wcard.is-open .wc-plus { transform: rotate(135deg); }
@@ -1747,7 +1747,7 @@
   .row-nav { display: none; gap: 10px; justify-content: flex-end; padding: 0 var(--gut) var(--s-6); }
   .row-nav button {
     display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
-    border: 0; cursor: pointer; background: #F4F3EF; color: #0E0C0A;
+    border: 0; cursor: pointer; background: #F0E6D2; color: #0E0C0A;
   }
   .row-nav button:disabled { opacity: 0.35; cursor: default; }
 
