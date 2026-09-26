@@ -154,11 +154,17 @@
     position: absolute; inset: 0; z-index: 2;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: var(--s-4);
+    /* room for a two-line sentence above the pinned count, so the whole group still sits
+       centred on the screen (the sentence is out of the flow now) */
+    padding-top: calc(2 * 1.02 * clamp(1.8rem, 4.6vw, 4.2rem) + var(--s-3));
     /* fades as the count reaches 100, then the red holds alone for --intro-hold before it splits */
     animation: introOut 520ms ease calc(var(--intro-offset) - var(--intro-hold, 300ms)) forwards;
   }
   @keyframes introOut { to { opacity: 0; visibility: hidden; } }
-  .intro-lines { display: flex; flex-direction: column; align-items: center; gap: var(--s-3); }
+  /* the count and the progress line are pinned; the sentence sits above them and grows
+     upward, so its changing height (empty, one line, two, wider scramble glyphs) never
+     pushes them up and down */
+  .intro-lines { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--s-3); }
   /* the sentence carries the hierarchy; the count is a small quiet figure under it */
   .intro-count {
     font-family: var(--font-display);
@@ -169,7 +175,8 @@
     font-family: var(--font-display);
     font-size: clamp(1.8rem, 4.6vw, 4.2rem); line-height: 1.02;
     letter-spacing: 0.02em; color: var(--bone);
-    min-height: 1.1em; max-width: 18ch; text-align: center;
+    width: min(18ch, 90vw); text-align: center; text-wrap: balance; margin: 0;
+    position: absolute; left: 50%; bottom: calc(100% + var(--s-3)); transform: translateX(-50%);
   }
   .intro-line .dc { display: inline-block; text-align: center; }
   /* the hero role line scrambles between titles the same way the intro types; the noise
