@@ -23,9 +23,15 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- fonts are served from this site, not Google: two fewer round trips before any text can paint -->
+<link rel="preload" href="fonts/staatliches-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+<style>
+@font-face{font-family:'Manrope';font-style:normal;font-weight:300 800;font-display:swap;src:url(fonts/manrope-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:300 800;font-display:swap;src:url(fonts/manrope-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Staatliches';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/staatliches-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Staatliches';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/staatliches-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+</style>
 <style>
 :root{
   --coconut:#F4F3EF; --coconut-deep:#ECEAE4; --step--1: clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem); --step-0: clamp(1rem, 0.96rem + 0.25vw, 1.125rem); --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem); --step-2: clamp(1.5rem, 1.2rem + 1.4vw, 2.4rem); --step-3: clamp(2rem, 1.4rem + 2.6vw, 3.6rem); --step-4: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem); --step-5: clamp(2.7rem, 1.6rem + 5.4vw, 6.4rem);
@@ -761,7 +767,6 @@ footer{background:var(--asphalt);color:var(--coconut);}
   .trust-grid{grid-template-columns:1fr;}
 }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet" />
 <style>
   /* Case study title, matched to the index. Staatliches is a single-weight caps face, so the
      weight and negative tracking that came with the old Satoshi setting are overridden too.
