@@ -1,0 +1,45 @@
+# Checks the live site every morning (07:00 India time) and after every push to main.
+# A failed run emails the repo owner automatically (GitHub's default for failed workflows).
+name: Site audit
+
+on:
+  schedule:
+    - cron: "30 1 * * *"      # 01:30 UTC = 07:00 IST
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: .github/audit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Wait for Vercel to publish the push
+        if: github.event_name == 'push'
+        run: sleep 120
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Audit every page (desktop + phone)
+        run: node audit.mjs
+      - name: Home page speed (Lighthouse, mobile)
+        if: always()
+        run: |
+          npx -y lighthouse@12 https://www.shabnamraghavan.com/ --quiet --only-categories=performance \
+            --chrome-flags="--headless=new --no-sandbox" \
+            --blocked-url-patterns="*cloudflareinsights*" --blocked-url-patterns="*/api/collect*" \
+            --output=json --output-path=lh.json
+          node lighthouse-check.mjs lh.json
+      - name: Keep the screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-audit-${{ github.run_number }}
+          path: .github/audit/out
+          retention-days: 14

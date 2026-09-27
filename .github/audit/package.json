@@ -1,0 +1,9 @@
+{
+  "name": "site-audit",
+  "private": true,
+  "type": "module",
+  "description": "Daily audit of shabnamraghavan.com. Lives here, not at the repo root, so Vercel still deploys the site as plain static files.",
+  "dependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}

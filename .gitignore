@@ -1,3 +1,8 @@
 # raw design exports; web-optimized copies live in images/
 _originals/
 .DS_Store
+
+# site audit tooling
+.github/audit/node_modules/
+.github/audit/out/
+.github/audit/lh.json
