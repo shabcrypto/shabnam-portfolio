@@ -619,9 +619,8 @@
 
   /* ---------------------------------------------------------------------
      HOW I WORK, REDESIGNED  (2026-09-24)
-     Deep asphalt, no paper. The philosophy line sits dim and a lens that
-     follows the pointer brings it to full light: she notices what others walk
-     past. Her Theyyam illustration sits on a coconut panel that tilts toward
+     Deep asphalt, no paper. The philosophy line is fully lit (the pointer
+     torch that lit it was removed 2026-09-27). Her Theyyam illustration sits on a coconut panel that tilts toward
      the pointer. The five process steps are panels that open wide on hover or
      tap. Pointer interactions only; nothing is driven by scroll.
      --------------------------------------------------------------------- */
@@ -639,25 +638,14 @@
     display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
     gap: var(--s-6); align-items: center; margin-top: var(--s-5);
   }
-  .lens { position: relative; margin-top: var(--s-3); cursor: none; }
+  /* the philosophy line, always lit (the pointer torch was removed 2026-09-27) */
+  .lens { position: relative; margin-top: var(--s-3); }
   .lens p {
     margin: 0;
     font-family: var(--font-display); font-weight: 400;
     font-size: clamp(2.3rem, 1.5rem + 3.8vw, 4.8rem);   /* Step 4 */
     line-height: 0.98; letter-spacing: 0.02em;
-  }
-  .lens-dim { color: rgba(240, 230, 210, 0.16); }
-  .lens-lit {
-    position: absolute; inset: 0; color: var(--bone);
-    -webkit-mask-image: radial-gradient(circle var(--r, 0px) at var(--mx, 50%) var(--my, 50%), #000 55%, transparent 100%);
-            mask-image: radial-gradient(circle var(--r, 0px) at var(--mx, 50%) var(--my, 50%), #000 55%, transparent 100%);
-    transition: --r 0s;
-  }
-  /* no fine pointer, or motion turned off: the line is simply lit */
-  @media (hover: none), (prefers-reduced-motion: reduce) {
-    .lens { cursor: auto; }
-    .lens-dim { color: var(--bone); }
-    .lens-lit { display: none; }
+    color: var(--bone);
   }
   .ways .ritual {
     position: relative; top: auto; min-height: 0;
@@ -2809,8 +2797,7 @@
       </button>
       <div class="wc-body" id="wc-look-body"><div class="wc-inner">
         <div class="lens">
-          <p class="lens-dim">I look at the friction other people walk past. I understand the unspoken patterns, the interactions and the friction between the system and the people.</p>
-          <p class="lens-lit" aria-hidden="true">I look at the friction other people walk past. I understand the unspoken patterns, the interactions and the friction between the system and the people.</p>
+          <p>I look at the friction other people walk past. I understand the unspoken patterns, the interactions and the friction between the system and the people.</p>
         </div>
         <p class="ways-body">I hold my work to <b>evidence over applause</b>. I like talking to users. That is where the real problems are, not in the brief. My design inspiration comes from the world around me and what I observe, the patterns I notice in people. I am curious about art, culture, and people.</p>
       </div></div>
@@ -3119,27 +3106,9 @@
 })();
 
 (function () {
-  // HOW I WORK: the lens, the tilting illustration panel, and the opening process panels.
+  // HOW I WORK: the tilting illustration panel and the opening process panels.
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-  var lens = document.querySelector(".lens"), lit = lens && lens.querySelector(".lens-lit");
-  if (lit && fine && !reduce) {
-    var r = 0, target = 0, raf = 0;
-    function grow() {
-      r += (target - r) * 0.18;
-      lit.style.setProperty("--r", r.toFixed(1) + "px");
-      if (Math.abs(target - r) > 0.5) raf = requestAnimationFrame(grow); else raf = 0;
-    }
-    function aim(t) { target = t; if (!raf) raf = requestAnimationFrame(grow); }
-    lens.addEventListener("pointermove", function (e) {
-      var b = lens.getBoundingClientRect();
-      lit.style.setProperty("--mx", (e.clientX - b.left) + "px");
-      lit.style.setProperty("--my", (e.clientY - b.top) + "px");
-    });
-    lens.addEventListener("pointerenter", function () { aim(Math.max(120, lens.offsetHeight * 0.42)); });
-    lens.addEventListener("pointerleave", function () { aim(0); });
-  }
 
   var panel = document.querySelector(".ways .ritual");
   if (panel && fine && !reduce) {
