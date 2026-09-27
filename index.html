@@ -3714,6 +3714,7 @@
 </script>
 
 <!-- first-party analytics, see design-context section 13 --><script src="/analytics.js" defer></script>
-<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f26ea28c97844cfabcd844e4d335180a"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Cloudflare Web Analytics --><script>/* only the real domain is counted: Vercel's preview robot (it visits every deploy on a *.vercel.app address) and localhost are left out */
+if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.createElement("script"); cfb.type = "module"; cfb.src = "https://static.cloudflareinsights.com/beacon.min.js"; cfb.setAttribute("data-cf-beacon", '{"token": "f26ea28c97844cfabcd844e4d335180a"}'); document.body.appendChild(cfb); }</script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
