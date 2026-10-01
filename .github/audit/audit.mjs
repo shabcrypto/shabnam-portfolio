@@ -112,7 +112,7 @@ for (const vp of VIEWPORTS) {
   }
 }
 
-// the curtain intro must open onto the name within 12 seconds (it takes ~6.4s)
+// the curtain intro must open onto the name within 12 seconds (it takes ~3.9s)
 {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();

@@ -2082,12 +2082,11 @@
     //   OUT_STAG   the exit wave is quicker than the entry, so it reads as a wipe, not a replay
     //   OUT_SCR    how long a character scrambles on its way out before it disappears
     //   TICK       glyphs reshuffle on this clock, not every frame, so the noise is legible
-    var LEAD = 300, STAGGER = 17, HOLD = 800, LAST_HOLD = 850, OUT_STAG = 7, OUT_SCR = 220,
-        GAP = 160, TICK = 55, TYPE_START = 400;   /* trimmed 2026-09-26: name shows ~2.4s sooner */
+    var LEAD = 120, STAGGER = 7, HOLD = 800, LAST_HOLD = 2000, OUT_STAG = 3, OUT_SCR = 140,
+        GAP = 160, TICK = 55, TYPE_START = 100;   /* cut 2026-10-01: one line, the shutters part at 3.0s */
     var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>?";
     var WORDS = [
-      "3+ years in high-stakes UX.",
-      "AI native product, app and web design."
+      "Product designer with 3+ years of experience."
     ];
     var type = document.getElementById("intro-type");
     var segs = [], mark = TYPE_START;
@@ -2105,7 +2104,7 @@
     // the curtain's CSS timer and this timeline share one number, written from here
     // HOLD: after the count reaches 100 and the words have gone, the screen stays plain red for
     // this long before the shutters part, so the reveal starts from a still frame
-    var HOLD = 300;
+    var HOLD = 200;
     document.documentElement.style.setProperty("--intro-hold", HOLD + "ms");
     document.documentElement.style.setProperty("--intro-offset", (TYPE_END + HOLD + activationStart()) + "ms");
 
@@ -2969,7 +2968,7 @@
             <div class="er-col">
           <h3>Education</h3>
           <ul>
-            <li><span class="er-year">May 2015</span><b>MSc Microbiology</b><span class="er-org">Vellore Institute of Technology</span><span class="er-note">Elective coursework in Psychology and Cognitive Behavioural Genetics</span></li>
+            <li><span class="er-year">May 2015</span><b>MSc Microbiology</b><span class="er-org">Vellore Institute of Technology</span><span class="er-note">Core paper in Computer Programming. Elective coursework in Psychology and Cognitive Behavioural Genetics</span></li>
             <li><span class="er-year">May 2017</span><b>Diploma in Fashion Design</b><span class="er-org">JD Institute</span></li>
             <li><span class="er-year">Sep 2026</span><b>HFI Certified Usability Architect (CUA)</b><span class="er-org">Human Factors International</span><span class="er-note">Coursework in accessibility and WCAG standards, usability heuristics, and research methods</span></li>
           </ul>
