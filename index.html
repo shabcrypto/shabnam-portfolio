@@ -179,10 +179,11 @@
     font-family: var(--font-display);
     font-size: clamp(1.8rem, 4.6vw, 4.2rem); line-height: 1.02;
     letter-spacing: 0.02em; color: var(--bone);
-    width: min(18ch, 90vw); text-align: center; text-wrap: balance; margin: 0;
+    width: max-content; max-width: 94vw; text-align: center; text-wrap: balance; margin: 0;
     position: absolute; left: 50%; bottom: calc(100% + var(--s-3)); transform: translateX(-50%);
   }
   .intro-line .dc { display: inline-block; text-align: center; }
+  .intro-line .intro-row { display: block; white-space: nowrap; }
   /* the hero role line scrambles between titles the same way the intro types; the noise
      stays in the line's own beige (no red text on the page) */
   .hero-role .dc { display: inline-block; text-align: center; }
@@ -2082,11 +2083,12 @@
     //   OUT_STAG   the exit wave is quicker than the entry, so it reads as a wipe, not a replay
     //   OUT_SCR    how long a character scrambles on its way out before it disappears
     //   TICK       glyphs reshuffle on this clock, not every frame, so the noise is legible
-    var LEAD = 120, STAGGER = 7, HOLD = 800, LAST_HOLD = 2000, OUT_STAG = 3, OUT_SCR = 140,
-        GAP = 160, TICK = 55, TYPE_START = 100;   /* cut 2026-10-01: one line, the shutters part at 3.0s */
+    var LEAD = 120, STAGGER = 7, HOLD = 800, LAST_HOLD = 2020, OUT_STAG = 3, OUT_SCR = 140,
+        GAP = 160, TICK = 55, TYPE_START = 100;   /* 2026-10-04: two fixed lines, LAST_HOLD retuned so the shutters still part at 3.0s */
     var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>?";
     var WORDS = [
-      "Product designer with 3+ years of experience."
+    // "\n" is a fixed line break: the sentence always sits on exactly these two lines
+      "3+ years in product design.\nHigh-stakes UX."
     ];
     var type = document.getElementById("intro-type");
     var segs = [], mark = TYPE_START;
@@ -2125,14 +2127,16 @@
       cells = [];
       built = k;
       if (k < 0) return;
-      var w = segs[k].w, word = null;
+      var w = segs[k].w, word = null, line = null;
       // letters are grouped into unbreakable words with real spaces between them, so the now
       // large sentence wraps between words, never inside one
       for (var i = 0; i < w.length; i++) {
         var c = document.createElement("span");
         c.className = "dc";
-        if (w[i] === " ") { type.appendChild(document.createTextNode(" ")); word = null; cells.push(c); continue; }
-        if (!word) { word = document.createElement("span"); word.style.whiteSpace = "nowrap"; word.style.display = "inline-block"; type.appendChild(word); }
+        if (!line || w[i] === "\n") { line = document.createElement("span"); line.className = "intro-row"; type.appendChild(line); word = null; }
+        if (w[i] === "\n") { cells.push(c); continue; }
+        if (w[i] === " ") { line.appendChild(document.createTextNode(" ")); word = null; cells.push(c); continue; }
+        if (!word) { word = document.createElement("span"); word.style.whiteSpace = "nowrap"; word.style.display = "inline-block"; line.appendChild(word); }
         c.textContent = w[i];
         word.appendChild(c);
         cells.push(c);
@@ -2147,7 +2151,7 @@
       if (k < 0) return;
       var sg = segs[k], w = sg.w;
       for (var i = 0; i < cells.length; i++) {
-        if (w[i] === " ") continue;
+        if (w[i] === " " || w[i] === "\n") continue;
         var state, ch = w[i];
         if (t < sg.outStart) {
           state = t < sg.s + LEAD + i * STAGGER ? "scr" : "on";
