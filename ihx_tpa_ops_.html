@@ -175,6 +175,49 @@ nav.cs-nav{
 .kd-tag{display:inline-block;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 12px;border-radius:3px;}
 .kd-tag.indigo{color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
 .kd-tag.teal{color:var(--teal-deep);border:1px solid rgba(0,184,148,0.3);}
+/* 06 Testing: four round tabs, one panel shown at a time */
+.rt-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:560px;margin-bottom:16px;}
+.rt-tabs button{min-height:44px;padding:0 12px;border:0;border-radius:6px;background:rgba(20,18,14,0.06);color:var(--ink-soft);font:inherit;font-size:var(--step--1);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s;}
+.rt-tabs button:hover{background:rgba(20,18,14,0.12);color:var(--ink);}
+.rt-tabs button[aria-selected="true"]{background:var(--ink);color:var(--ground);}
+.rt-tabs button:focus-visible,.rt-panel:focus-visible{outline:2px solid var(--indigo);outline-offset:2px;}
+.rt-list{margin:0 0 16px;padding-left:1.1em;font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;}
+.rt-list li+li{margin-top:4px;}
+.rt-img{display:block;width:100%;height:auto;margin:0 0 16px;}
+@media (max-width:600px){.rt-tabs{gap:6px;}.rt-tabs button{padding:0 4px;letter-spacing:0.04em;}}
+@media (prefers-reduced-motion:reduce){.rt-tabs button{transition:none;}}
+
+/* 07 Before / After: one card, toggle swaps the screen, numbered points sit on it and below it */
+.ba-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:272px;margin-bottom:16px;}
+.ba-tabs button,.ba-steps button{min-height:44px;padding:0 12px;border:0;border-radius:6px;background:rgba(20,18,14,0.06);color:var(--ink-soft);font:inherit;font-size:var(--step--1);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s;}
+.ba-tabs button:hover,.ba-steps button:hover{background:rgba(20,18,14,0.12);color:var(--ink);}
+.ba-tabs button[aria-selected="true"],.ba-steps button[aria-pressed="true"]{background:var(--ink);color:var(--ground);}
+.ba-tabs button:focus-visible,.ba-steps button:focus-visible{outline:2px solid var(--indigo);outline-offset:2px;}
+.ba-card{--mark:var(--vermillion);--mark-hot:var(--vermillion-deep);background:var(--row-bg);border-radius:8px;overflow:hidden;box-shadow:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);container-type:inline-size;}
+.ba-card[data-mode="after"]{--mark:var(--teal-deep);--mark-hot:var(--ink);}
+.ba-stage{position:relative;width:100%;aspect-ratio:1410/651;}
+.ba-shot{position:absolute;left:12.837%;top:10.753%;width:70.638%;height:86.175%;box-shadow:0 2px 10px rgba(0,0,0,.12);background:#fff;}
+.ba-shot img{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .25s;}
+.ba-shot img.is-on{opacity:1;}
+.ba-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+.ba-lines polyline{fill:none;stroke:var(--mark);stroke-width:1.4;marker-end:url(#ba-ah);transition:stroke-width .15s;}
+.ba-lines polyline.is-hot{stroke:var(--mark-hot);stroke-width:2.6;marker-end:url(#ba-ah-hot);}
+#ba-ah path{fill:var(--mark);}
+#ba-ah-hot path{fill:var(--mark-hot);}
+.ba-badge{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--mark);color:#fff;font-family:var(--font-body);font-size:12px;font-weight:700;line-height:1;flex-shrink:0;transition:background .15s;}
+.ba-badges .ba-badge{position:absolute;transform:translate(-50%,-50%);width:clamp(18px,2.2cqw,30px);height:clamp(18px,2.2cqw,30px);font-size:clamp(10px,1.05cqw,14px);box-shadow:0 0 0 3px var(--row-bg);cursor:default;}
+.ba-badge.is-hot{background:var(--mark-hot);}
+.ba-foot{padding:20px 32px 24px;}
+.ba-head{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;margin-bottom:8px;}
+.ba-list-title{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);}
+.ba-steps{display:flex;gap:6px;flex-wrap:wrap;}
+.ba-steps[hidden]{display:none;}
+.ba-steps button{min-height:36px;font-size:12px;letter-spacing:0.06em;}
+.ba-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));column-gap:40px;}
+.ba-list li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--row-border);font-size:var(--step--1);color:var(--ink-soft);line-height:1.5;cursor:default;transition:color .15s;}
+.ba-list li.is-hot{color:var(--ink);}
+@media (max-width:600px){.ba-foot{padding:16px 20px 20px;}.ba-steps button{min-height:44px;}}
+@media (prefers-reduced-motion:reduce){.ba-tabs button,.ba-steps button,.ba-shot img,.ba-badge,.ba-list li,.ba-lines polyline{transition:none;}}
 
 /* TRADEOFFS */
 .tf-outer{border:none;border-radius:6px;margin-bottom:12px;overflow:hidden;}
@@ -948,7 +991,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <h1 style="font-family:'Staatliches', 'Impact', 'Arial Narrow', sans-serif;font-weight:400;font-size:var(--step-4);line-height:1.02;letter-spacing:0.02em;margin-bottom:20px;">
         <span style="color:var(--ink);">Reimagining</span><br>
         <span style="color:var(--indigo);">IHX Nucleus Ops Dashboard</span><br>
-        <span style="color:var(--ink);">for 22,000+ Healthcare Providers</span>
+        <span style="color:var(--ink);">for 18,000+ Healthcare Providers</span>
       </h1>
       <p style="font-size:var(--step-0);color:var(--ink-soft);line-height:1.75;max-width:460px;">A 4-bucket layout was hiding a multi-stage, two-team operation across 35+ insurance payers. Nobody had fixed it because nobody had asked how hospital teams actually work. We did.</p>
     </div>
@@ -992,7 +1035,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   <p class="cs-sub">The digital backbone for hospital insurance operations across India. Hospitals manage the full claim lifecycle without logging into 35+ different insurer portals.</p>
   <div class="stat-grid">
     <div class="stat-cell"><div class="stat-val">2,00,000+</div><div class="stat-lbl">Claims processed monthly</div></div>
-    <div class="stat-cell"><div class="stat-val">22,000+</div><div class="stat-lbl">Healthcare providers on platform</div></div>
+    <div class="stat-cell"><div class="stat-val">18,000+</div><div class="stat-lbl">Healthcare providers on platform</div></div>
     <div class="stat-cell"><div class="stat-val">40%</div><div class="stat-lbl">India's overall claim volume</div></div>
     <div class="stat-cell"><div class="stat-val">35+ Payers</div><div class="stat-lbl">Insurance payers connected</div></div>
   </div>
@@ -1242,10 +1285,244 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 </div>
 </div>
 
-<!-- ── 06: KEY DECISIONS ── -->
+<!-- ── 06: TESTING ── -->
 <div style="padding:80px 48px;">
 <div class="page-inner">
-  <div class="section-label">06 · Design Decisions</div>
+  <div class="section-label">06 · Testing</div>
+  <h2 class="cs-heading">4 Rounds. Testing as process, not just validation.</h2>
+  <p class="cs-sub">2–3 hospitals per round, covering Pre-Auth staff, Claims staff, and supervisors. Key decisions were made or remade through testing.</p>
+  <div class="rt-tabs" role="tablist" aria-label="Testing rounds">
+    <button type="button" role="tab" id="rt-tab-1" aria-controls="rt-panel-1" aria-selected="true">Round 1</button>
+    <button type="button" role="tab" id="rt-tab-2" aria-controls="rt-panel-2" aria-selected="false" tabindex="-1">Round 2</button>
+    <button type="button" role="tab" id="rt-tab-3" aria-controls="rt-panel-3" aria-selected="false" tabindex="-1">Round 3</button>
+    <button type="button" role="tab" id="rt-tab-4" aria-controls="rt-panel-4" aria-selected="false" tabindex="-1">Round 4</button>
+  </div>
+  <div class="kd-table">
+    <div class="kd-row rt-panel" role="tabpanel" id="rt-panel-1" aria-labelledby="rt-tab-1" tabindex="0">
+      <div class="kd-row-inner">
+        <div class="kd-num">Round 01</div>
+        <div class="kd-title">Both user groups found their own view without guidance.</div>
+        <ul class="rt-list">
+          <li>The PA / Claim split, the core architecture decision, was confirmed</li>
+          <li>The Discharge Tomorrow bucket did not matter to the Pre-Auth team, so it was removed</li>
+          <li>Buckets were recommended per user group</li>
+        </ul>
+        <img class="rt-img" src="images/ops-testing-round-1.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 1 prototype: the Claims Listing split into Pre Auth View and Claim View, with a note on the user need for a dedicated claim screen for each user group." />
+        <span class="kd-tag teal">PA / Claim Split Validated</span>
+      </div>
+    </div>
+    <div class="kd-row rt-panel" role="tabpanel" id="rt-panel-2" aria-labelledby="rt-tab-2" tabindex="0">
+      <div class="kd-row-inner">
+        <div class="kd-num">Round 02</div>
+        <div class="kd-title">The nested structure was understood. Bucket names needed work.</div>
+        <ul class="rt-list">
+          <li>Bucket names changed to match hospital vocabulary</li>
+          <li>Users asked for a date filter</li>
+          <li>Supervisors needed to see several statuses at once, which led to the multi-select filter</li>
+        </ul>
+        <img class="rt-img" src="images/ops-testing-round-2.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 2 prototype: action-focused primary buckets by stage, secondary filters for status, and download for filtered data. User needs: actionable segregation of claims, categorising claim stage level, ability to download data." />
+        <span class="kd-tag teal">Label Refinement Needed</span>
+      </div>
+    </div>
+    <div class="kd-row rt-panel" role="tabpanel" id="rt-panel-3" aria-labelledby="rt-tab-3" tabindex="0">
+      <div class="kd-row-inner">
+        <div class="kd-num">Round 03</div>
+        <div class="kd-title">Bucket names finalised. Multi-select and date filter added.</div>
+        <ul class="rt-list">
+          <li>Bucket names finalised from 5 hospitals</li>
+          <li>Checkbox multi-select built</li>
+          <li>Date filter introduced</li>
+          <li>Global search flagged as an engineering constraint, which started the scoped search decision</li>
+        </ul>
+        <img class="rt-img" src="images/ops-testing-round-3.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 3 prototype: a date filter for a specific time range and multi-select secondary filters. User needs: filtering claims by monthly or yearly range, flexibility in secondary filter selection." />
+        <span class="kd-tag teal">Filters &amp; Search Locked</span>
+      </div>
+    </div>
+    <div class="kd-row rt-panel" role="tabpanel" id="rt-panel-4" aria-labelledby="rt-tab-4" tabindex="0">
+      <div class="kd-row-inner">
+        <div class="kd-num">Round 04</div>
+        <div class="kd-title">Search and the follow-up feature validated.</div>
+        <ul class="rt-list">
+          <li>Partial-match search across Patient Name, Claim Number and UTR accepted</li>
+          <li>Follow-up feature validated</li>
+          <li>Elapsed time set per payer confirmed as necessary</li>
+        </ul>
+        <img class="rt-img" src="images/ops-testing-round-4.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 4 prototype: the date filter covers all three claim dates, global search by the most searched parameters, and click or bar scrolling for columns. User needs: Discharges Today as the bucket name, all date type filtering, a better way to search claims, easier column scrolling." />
+        <span class="kd-tag teal">Scoped Search Accepted</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function () {
+  var tabs = [].slice.call(document.querySelectorAll('.rt-tabs [role="tab"]'));
+  function show(t, focus) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute("aria-selected", String(on));
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
+    });
+    if (focus) t.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { show(t); });
+    t.addEventListener("keydown", function (e) {
+      var j = e.key === "ArrowRight" ? i + 1 : e.key === "ArrowLeft" ? i - 1 : e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : null;
+      if (j === null) return;
+      e.preventDefault();
+      show(tabs[(j + tabs.length) % tabs.length], true);
+    });
+  });
+  show(tabs[0]);
+})();
+</script>
+
+<!-- ── 07: BEFORE / AFTER ── -->
+<div style="padding:80px 48px;">
+<div class="page-inner">
+  <div class="section-label">07 · Before and After</div>
+  <h2 class="cs-heading">Same dashboard. Before and after.</h2>
+  <p class="cs-sub">Point at a number to find it on the screen.</p>
+  <div class="ba-tabs" role="tablist" aria-label="Before or after">
+    <button type="button" role="tab" id="ba-tab-before" aria-controls="ba-card" aria-selected="true">Before</button>
+    <button type="button" role="tab" id="ba-tab-after" aria-controls="ba-card" aria-selected="false" tabindex="-1">After</button>
+  </div>
+  <div class="ba-card" id="ba-card" role="tabpanel" aria-labelledby="ba-tab-before">
+    <div class="ba-stage">
+      <div class="ba-shot">
+        <img src="images/ops-ba-before.webp" data-set="before" width="1366" height="770" loading="lazy" decoding="async" alt="Before: the old Claims Management dashboard, one table for every user group." />
+        <img src="images/ops-ba-after-pa.webp" data-set="pa" width="1600" height="902" loading="lazy" decoding="async" alt="After: the Pre Auth View with colour-coded buckets, a date filter and patient name search." />
+        <img src="images/ops-ba-after-draft.webp" data-set="draft" width="1366" height="770" loading="lazy" decoding="async" alt="After: Draft Pending expanded into secondary buckets by draft type." />
+        <img src="images/ops-ba-after-claim.webp" data-set="claim" width="1600" height="902" loading="lazy" decoding="async" alt="After: the Claim View with claim-stage buckets and the Initiate Settlement button." />
+      </div>
+      <svg class="ba-lines" viewBox="0 55 1410 651" aria-hidden="true"></svg>
+      <div class="ba-badges" aria-hidden="true"></div>
+    </div>
+    <div class="ba-foot">
+      <div class="ba-head">
+        <div class="ba-list-title">Pain points</div>
+        <div class="ba-steps" hidden>
+          <button type="button" data-step="0">Pre Auth View</button>
+          <button type="button" data-step="1">Draft Pending expanded</button>
+          <button type="button" data-step="2">Claim View</button>
+        </div>
+      </div>
+      <ol class="ba-list"></ol>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function () {
+  // Coordinates are in the 1410x772 stage of the original Before/After board; the stage crops to y 55 to 706.
+  var SETS = {
+    before: [
+      [[[578, 88], [578, 238]], "No visual cues for urgency and actions"],
+      [[[1260, 108], [955, 108], [955, 183]], "Post-discharge actions: irrelevant to user group 1"],
+      [[[1260, 196], [1162, 196]], "New Admission CTA: irrelevant to user group 2"],
+      [[[1260, 256], [1082, 256]], "No segregation of pre-auth and claim level cases, which adds cognitive load for both user groups"],
+      [[[1260, 329], [1095, 329]], "Search specific to post settlement: irrelevant to user group 1"],
+      [[[110, 367], [448, 366]], "Only column-level search"],
+      [[[110, 258], [306, 258]], "Buckets are not action-focused"],
+      [[[430, 88], [430, 190]], "No global search"]
+    ],
+    pa: [
+      [[[415, 88], [415, 178]], "Separate Pre Auth and Claim views: each user group sees only its stage"],
+      [[[820, 88], [820, 180]], "Global search by patient name"],
+      [[[110, 219], [470, 219], [470, 232]], "Date range filter with quick presets"],
+      [[[600, 88], [600, 260]], "Action-focused, colour-coded buckets for the full pre-auth journey"],
+      [[[110, 300], [233, 300]], "Click a bucket to break it down into secondary buckets"],
+      [[[1260, 193], [1162, 193]], "New Admission CTA shown only in the Pre Auth view"]
+    ],
+    claim: [
+      [[[415, 88], [415, 178]], "Separate Pre Auth and Claim views: each user group sees only its stage"],
+      [[[755, 88], [755, 180]], "Global search by patient name"],
+      [[[110, 219], [470, 219], [470, 232]], "Date range filter with quick presets"],
+      [[[600, 88], [600, 260]], "Claim-stage buckets: submission, query, in progress, settled, denied"],
+      [[[1260, 268], [1118, 268]], "PA utilisation pending flagged once past DOD + 3"],
+      [[[1260, 193], [1162, 193]], "Initiate Settlement CTA shown only in the Claim view"]
+    ]
+  };
+  SETS.draft = SETS.pa.concat([[[[110, 356], [238, 356]], "Secondary buckets by draft type: Pre Auth, Enhancement, Discharge, Query Reply"]]);
+  var STEPS = ["pa", "draft", "claim"];
+  var card = document.getElementById("ba-card");
+  var tabs = [].slice.call(document.querySelectorAll(".ba-tabs [role=tab]"));
+  var imgs = [].slice.call(card.querySelectorAll(".ba-shot img"));
+  var svg = card.querySelector(".ba-lines"), badges = card.querySelector(".ba-badges");
+  var list = card.querySelector(".ba-list"), title = card.querySelector(".ba-list-title");
+  var steps = card.querySelector(".ba-steps"), stepBtns = [].slice.call(steps.querySelectorAll("button"));
+  var NS = "http://www.w3.org/2000/svg", mode = "before", step = 0, timer = null, paused = false, chosen = false;
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function hot(i) {
+    [svg.querySelectorAll("polyline"), badges.children, list.children].forEach(function (els) {
+      [].forEach.call(els, function (el, j) { el.classList.toggle("is-hot", j === i); });
+    });
+  }
+  function render() {
+    var key = mode === "before" ? "before" : STEPS[step], set = SETS[key];
+    card.dataset.mode = mode;
+    card.setAttribute("aria-labelledby", "ba-tab-" + mode);
+    title.textContent = mode === "before" ? "Pain points" : "Improvements";
+    steps.hidden = mode === "before";
+    stepBtns.forEach(function (b, j) { b.setAttribute("aria-pressed", String(j === step)); });
+    imgs.forEach(function (im) { var on = im.dataset.set === key; im.classList.toggle("is-on", on); im.setAttribute("aria-hidden", String(!on)); });
+    svg.innerHTML = '<defs>' + ["ba-ah", "ba-ah-hot"].map(function (id) { return '<marker id="' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>'; }).join("") + "</defs>";
+    badges.textContent = ""; list.textContent = "";
+    set.forEach(function (n, i) {
+      var pl = document.createElementNS(NS, "polyline");
+      pl.setAttribute("points", n[0].map(function (p) { return p.join(","); }).join(" "));
+      svg.appendChild(pl);
+      var b = document.createElement("span");
+      b.className = "ba-badge"; b.textContent = i + 1;
+      b.style.left = (n[0][0][0] / 14.1) + "%"; b.style.top = ((n[0][0][1] - 55) / 6.51) + "%";
+      b.addEventListener("pointerenter", function () { hot(i); });
+      b.addEventListener("pointerleave", function () { hot(-1); });
+      badges.appendChild(b);
+      var li = document.createElement("li");
+      li.innerHTML = '<span class="ba-badge">' + (i + 1) + "</span><span></span>";
+      li.lastChild.textContent = n[1];
+      li.addEventListener("pointerenter", function () { hot(i); });
+      li.addEventListener("pointerleave", function () { hot(-1); });
+      list.appendChild(li);
+    });
+  }
+  // After view walks its three screens on its own until someone picks one
+  function play() {
+    clearInterval(timer);
+    if (mode !== "after" || chosen || still) return;
+    timer = setInterval(function () { if (!paused) { step = (step + 1) % 3; render(); } }, 4000);
+  }
+  function show(t, focus) {
+    tabs.forEach(function (x) { var on = x === t; x.setAttribute("aria-selected", String(on)); x.tabIndex = on ? 0 : -1; });
+    mode = t.id === "ba-tab-after" ? "after" : "before"; step = 0; chosen = false;
+    render(); play();
+    if (focus) t.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { show(t); });
+    t.addEventListener("keydown", function (e) {
+      var j = e.key === "ArrowRight" ? i + 1 : e.key === "ArrowLeft" ? i - 1 : e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : null;
+      if (j === null) return;
+      e.preventDefault();
+      show(tabs[(j + tabs.length) % tabs.length], true);
+    });
+  });
+  stepBtns.forEach(function (b, j) { b.addEventListener("click", function () { step = j; chosen = true; clearInterval(timer); render(); }); });
+  card.addEventListener("pointerenter", function () { paused = true; });
+  card.addEventListener("pointerleave", function () { paused = false; });
+  card.addEventListener("focusin", function () { paused = true; });
+  card.addEventListener("focusout", function () { paused = false; });
+  render();
+})();
+</script>
+
+<!-- ── 08: KEY DECISIONS ── -->
+<div style="padding:80px 48px;">
+<div class="page-inner">
+  <div class="section-label">08 · Design Decisions</div>
   <h2 class="cs-heading">Key decisions and why.</h2>
   <p class="cs-sub">The problems were not fixable at the surface because the surface was built on the wrong model. I had two options. Improve the existing screen or restructure the underlying information architecture. I chose the harder one.</p>
   <div class="kd-table">
