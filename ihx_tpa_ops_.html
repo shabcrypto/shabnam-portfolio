@@ -297,6 +297,75 @@ footer{background:var(--asphalt);color:var(--coconut);}
   gap:4px;
   font-size:.85rem;letter-spacing:.1em;color:var(--coconut-soft);
 }
+/* IMPACT CHART CARDS (section 10): the three chart images, rebuilt as cards that draw
+   themselves when scrolled into view; click replays. Drawn at 360x320 and scaled to the
+   column, so the layout inside never reflows. Colours are chart content, not site colours.
+   Manrope rather than the mock's DM Sans: the site's text face, no extra font download. */
+.oc-wrap{position:relative;aspect-ratio:360/320;border-radius:10px;overflow:hidden;background:#1e1d1b;}
+.oc-card{position:absolute;left:0;top:0;width:360px;height:320px;transform-origin:0 0;transform:scale(var(--s,1));background:#1e1d1b;box-sizing:border-box;display:flex;flex-direction:column;color:#efeae0;cursor:pointer;font-family:'Manrope',sans-serif;}
+.oc-title{text-align:center;font-size:17px;font-weight:500;color:#cfcac0;letter-spacing:.2px;}
+.oc-stat{text-align:center;opacity:0;transform:translateY(8px);}
+.oc-stat .oc-num{font-weight:500;}
+.oc-stat .oc-lbl{font-size:11.5px;line-height:1.35;color:#d9d4ca;}
+.oc-legend{display:flex;gap:26px;font-size:11.5px;color:#d9d4ca;}
+.oc-legend div{display:flex;align-items:center;gap:9px;}
+.oc-legend span{width:11px;height:11px;border-radius:2px;}
+.oc-card.on .oc-stat{opacity:1;transform:none;}
+/* revenue */
+.oc-rev{padding:34px 24px 26px;}
+.oc-rev .oc-body{flex:1;display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:4px;}
+.oc-rev .oc-chart{position:relative;width:150px;height:130px;display:flex;align-items:flex-end;gap:12px;}
+.oc-rev .oc-chart svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none;}
+.oc-rev .oc-arrow{fill:none;stroke:#efeae0;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:160;stroke-dashoffset:160;}
+.oc-rev .oc-bar{width:9px;border-radius:5px;flex:none;height:4px;opacity:0;background:#6f6c66;}
+.oc-rev .oc-bar:first-of-type{background:#ece6d6;}
+.oc-rev .oc-bar:last-of-type{background:#3a35e0;}
+.oc-rev .oc-stat{width:130px;}
+.oc-rev .oc-num{font-size:26px;}
+.oc-rev .oc-lbl{margin-top:6px;}
+.oc-rev .oc-legend{margin-top:22px;}
+.oc-rev.on .oc-bar{height:var(--h);opacity:1;transition:height .75s cubic-bezier(.2,1.25,.4,1) var(--d),opacity .3s ease var(--d);}
+.oc-rev.on .oc-arrow{stroke-dashoffset:0;transition:stroke-dashoffset .9s cubic-bezier(.6,0,.3,1) .55s;}
+.oc-rev.on .oc-stat{transition:opacity .5s ease .5s,transform .5s ease .5s;}
+/* time on task */
+.oc-time{padding:36px 20px 24px;}
+.oc-time .oc-body{flex:1;display:flex;align-items:flex-end;gap:18px;margin-top:22px;}
+.oc-time .oc-col{display:flex;flex-direction:column;align-items:center;gap:20px;}
+.oc-time .oc-slot{width:88px;height:130px;display:flex;align-items:flex-end;}
+.oc-time .oc-lbl-sm{font-size:11.5px;color:#d9d4ca;}
+.oc-time .oc-before{width:100%;height:4px;opacity:0;background:#e9e3d1;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.oc-time .oc-before span{font-size:12px;font-weight:500;color:#1e1d1b;opacity:0;}
+.oc-time .oc-after-wrap{position:relative;width:100%;height:4px;opacity:0;border-radius:12px;overflow:hidden;}
+.oc-time .oc-hatch{position:absolute;inset:0;background:repeating-linear-gradient(135deg,#5a5853 0 2px,#3a3935 2px 5px);}
+.oc-time .oc-after{position:absolute;left:0;right:0;bottom:0;height:130px;background:#3a35e0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#fff;}
+.oc-time .oc-stat{flex:1;align-self:center;margin-top:10px;}
+.oc-time .oc-num{font-size:21px;}
+.oc-time .oc-lbl{margin-top:8px;}
+.oc-time.on .oc-before{height:130px;opacity:1;transition:height .7s cubic-bezier(.2,1.2,.4,1),opacity .3s ease;}
+.oc-time.on .oc-before span{opacity:1;transition:opacity .4s ease .5s;}
+.oc-time.on .oc-after-wrap{height:130px;opacity:1;transition:height .7s cubic-bezier(.2,1.2,.4,1) .1s,opacity .3s ease .1s;}
+.oc-time.on .oc-after{height:63px;transition:height 1.1s cubic-bezier(.65,0,.35,1) .9s;}
+.oc-time.on .oc-stat{transition:opacity .5s ease .7s,transform .5s ease .7s;}
+/* task efficiency */
+.oc-eff{padding:36px 22px 24px 24px;}
+.oc-eff .oc-body{flex:1;display:flex;align-items:center;justify-content:space-between;margin-top:16px;}
+.oc-eff .oc-chart{position:relative;width:184px;height:110px;display:flex;flex-direction:column;justify-content:center;gap:12px;}
+/* real lines with a 1px stroke at any scale: a 1px gradient stripe vanished once the card was scaled down */
+.oc-eff .oc-grid{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:0;clip-path:inset(100% 0 0 0);}
+.oc-eff .oc-grid path{stroke:#4a4844;stroke-width:1;vector-effect:non-scaling-stroke;fill:none;}
+.oc-eff .oc-bar{position:relative;height:16px;width:0;border-radius:0 8px 8px 0;}
+.oc-eff .oc-b4{background:#ece6d6;}
+.oc-eff .oc-af{background:#3a35e0;}
+.oc-eff .oc-stat{width:120px;}
+.oc-eff .oc-num{font-size:21px;}
+.oc-eff .oc-lbl{margin-top:8px;}
+.oc-eff .oc-legend{margin-top:18px;}
+.oc-eff.on .oc-grid{opacity:1;clip-path:inset(0 0 0 0);transition:opacity .4s ease,clip-path .6s cubic-bezier(.6,0,.3,1);}
+.oc-eff.on .oc-b4{width:126px;transition:width .8s cubic-bezier(.2,1.15,.4,1) .35s;}
+.oc-eff.on .oc-af{width:172px;transition:width 1s cubic-bezier(.2,1.15,.4,1) .55s;}
+.oc-eff.on .oc-stat{transition:opacity .5s ease .6s,transform .5s ease .6s;}
+@media (prefers-reduced-motion:reduce){.oc-card,.oc-card *{transition:none !important;}}
+
 </style>
 <style>
   /* Case study title, matched to the index. Staatliches is a single-weight caps face, so the
@@ -1388,9 +1457,45 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div class="impact-cell" style="border-top:3px solid var(--indigo-light);"><div class="impact-lbl" style="margin-top:16px;">CSAT Score</div><div class="impact-val indigo">4.6</div><p class="impact-desc">Improved customer satisfaction post-launch</p></div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
-    <img src="images/ops-revenue-chart-v2.svg" alt="Revenue per claim up 33%, from INR 90 to 120" style="width:100%;height:auto;display:block;border-radius:6px;">
-    <img src="images/ops-time-on-task.webp" alt="Time on task" style="width:100%;height:auto;display:block;border-radius:6px;">
-    <img src="images/ops-task-efficiency.webp" alt="Task efficiency" style="width:100%;height:auto;display:block;border-radius:6px;">
+    <div class="oc-wrap" role="img" aria-label="Revenue per claim up 33%, before and after">
+      <div class="oc-card oc-rev" data-oc="33" aria-hidden="true" title="Click to replay">
+        <div class="oc-title">Increased Revenue / Claim</div>
+        <div class="oc-body">
+          <div class="oc-chart">
+            <svg width="150" height="130" viewBox="0 0 150 130"><path class="oc-arrow" d="M0 64 L122 6 M110 4 L122 6 L115 16"></path></svg>
+            <div class="oc-bar" style="--h:56px;--d:0s"></div>
+            <div class="oc-bar" style="--h:66px;--d:.08s"></div>
+            <div class="oc-bar" style="--h:74px;--d:.16s"></div>
+            <div class="oc-bar" style="--h:84px;--d:.24s"></div>
+            <div class="oc-bar" style="--h:92px;--d:.32s"></div>
+            <div class="oc-bar" style="--h:102px;--d:.40s"></div>
+            <div class="oc-bar" style="--h:112px;--d:.48s"></div>
+          </div>
+          <div class="oc-stat"><div class="oc-num"><span class="oc-n">33</span>%</div><div class="oc-lbl">Increase In<br>Revenue Per Claim</div></div>
+        </div>
+        <div class="oc-legend"><div><span style="background:#ece6d6"></span>Before</div><div><span style="background:#3a35e0"></span>After</div></div>
+      </div>
+    </div>
+    <div class="oc-wrap" role="img" aria-label="Average time on task down 51%, from 3.23 to 1.56 minutes">
+      <div class="oc-card oc-time" data-oc="51" aria-hidden="true" title="Click to replay">
+        <div class="oc-title">Reduced Average Time On Task</div>
+        <div class="oc-body">
+          <div class="oc-col"><div class="oc-slot"><div class="oc-before"><span>3.23 Min</span></div></div><div class="oc-lbl-sm">Before</div></div>
+          <div class="oc-col"><div class="oc-slot"><div class="oc-after-wrap"><div class="oc-hatch"></div><div class="oc-after"><span class="oc-mins">1.56</span>&nbsp;Min</div></div></div><div class="oc-lbl-sm">After</div></div>
+          <div class="oc-stat"><div class="oc-num"><span class="oc-n">51</span> %</div><div class="oc-lbl">Reduction In<br>Avg Time On Task</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="oc-wrap" role="img" aria-label="Average task efficiency up 34%, before and after">
+      <div class="oc-card oc-eff" data-oc="34" aria-hidden="true" title="Click to replay">
+        <div class="oc-title">Increased Average Task Efficiency</div>
+        <div class="oc-body">
+          <div class="oc-chart"><svg class="oc-grid" viewBox="0 0 184 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0.5 0V110M6.5 0V110M12.5 0V110M18.5 0V110M24.5 0V110M30.5 0V110M36.5 0V110M42.5 0V110M48.5 0V110M54.5 0V110M60.5 0V110M66.5 0V110M72.5 0V110M78.5 0V110M84.5 0V110M90.5 0V110M96.5 0V110M102.5 0V110M108.5 0V110M114.5 0V110M120.5 0V110M126.5 0V110M132.5 0V110M138.5 0V110M144.5 0V110M150.5 0V110M156.5 0V110M162.5 0V110M168.5 0V110M174.5 0V110M180.5 0V110"/></svg><div class="oc-bar oc-b4"></div><div class="oc-bar oc-af"></div></div>
+          <div class="oc-stat"><div class="oc-num"><span class="oc-n">34</span> %</div><div class="oc-lbl">Increased<br>Task Efficiency</div></div>
+        </div>
+        <div class="oc-legend"><div><span style="background:#ece6d6"></span>Before</div><div><span style="background:#3a35e0"></span>After</div></div>
+      </div>
+    </div>
   </div>
   <div class="impact-bottom">
     <div class="impact-bottom-cell"><div class="impact-bottom-val">4000+</div><div class="impact-bottom-lbl">Clicks in 30 days across 10 pilot hospitals</div></div>
@@ -1586,6 +1691,41 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
   });
 
   panel.setAttribute('inert', '');
+})();
+</script>
+<script>
+(function () {
+  // IMPACT CHART CARDS: scale each 360x320 card to its column; draw once on scroll-in; click replays.
+  // Reduced motion, or no observer: the finished chart, at once.
+  var cards = document.querySelectorAll(".oc-card");
+  if (!cards.length) return;
+  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function fit(c) { c.style.setProperty("--s", (c.parentNode.clientWidth / 360).toFixed(4)); }
+  Array.prototype.forEach.call(cards, function (c) {
+    fit(c);
+    if ("ResizeObserver" in window) new ResizeObserver(function () { fit(c); }).observe(c.parentNode);
+  });
+  function play(c) {
+    var n = c.querySelector(".oc-n"), m = c.querySelector(".oc-mins"), to = +c.getAttribute("data-oc");
+    c.classList.remove("on"); void c.offsetWidth; c.classList.add("on");
+    if (still) return;
+    cancelAnimationFrame(c._raf);
+    var delay = c.classList.contains("oc-rev") ? 600 : c.classList.contains("oc-eff") ? 700 : 900;
+    var dur = c.classList.contains("oc-rev") ? 1300 : c.classList.contains("oc-eff") ? 1200 : 1100;
+    var start = performance.now() + delay;
+    (function tick(t) {
+      var p = Math.max(0, Math.min(1, (t - start) / dur)), e = 1 - Math.pow(1 - p, 3);
+      n.textContent = Math.round(to * e);
+      if (m) m.textContent = (3.23 - (3.23 - 1.56) * e).toFixed(2);
+      if (p < 1) c._raf = requestAnimationFrame(tick);
+    })(performance.now());
+  }
+  Array.prototype.forEach.call(cards, function (c) { c.addEventListener("click", function () { play(c); }); });
+  if (still || !("IntersectionObserver" in window)) { Array.prototype.forEach.call(cards, play); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); play(e.target.firstElementChild); } });
+  }, { threshold: 0.5 });
+  Array.prototype.forEach.call(cards, function (c) { io.observe(c.parentNode); });
 })();
 </script>
 </body>
