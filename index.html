@@ -998,8 +998,8 @@
     .trail::-webkit-scrollbar { display: none; }
     /* the row is held to the column's width so it scrolls, rather than spilling off both sides */
     .trail-wrap { display: flow-root; position: relative; align-self: stretch; min-width: 0; }
-    /* same buttons as the books, laid over the photos halfway down the right edge */
-    .row-nav.row-nav-over { display: flex; position: absolute; right: var(--gut); top: calc(var(--s-5) + min(56vw, 240px) * 0.625); transform: translateY(-50%); padding: 0; z-index: 2; }
+    /* same buttons as the books, laid over the photos in the bottom-right corner */
+    .row-nav.row-nav-over { display: flex; position: absolute; right: calc(var(--gut) + 12px); bottom: 12px; padding: 0; z-index: 2; }
     .trail-img, .trail-img.placed { position: static; flex: none; width: min(56vw, 240px); height: auto; aspect-ratio: 4 / 5; opacity: 1; transform: none; border-radius: 10px; scroll-snap-align: start; }
     .person-field .person-copy { order: -1; }
   }
@@ -1577,10 +1577,10 @@
       overscroll-behavior-x: contain;
     }
     .shelf::-webkit-scrollbar { display: none; }
-    /* the arrows sit over the covers, halfway down the right edge, like the photo row; the
-       shelf's own bottom padding is taken off so they centre on the books, not the box */
+    /* the arrows sit over the covers in the bottom-right corner, like the photo row; the
+       shelf's own bottom padding is added so they sit on the books, not below them */
     .shelf-wrap { display: block; position: relative; justify-self: stretch; min-width: 0; }
-    .shelf-wrap .row-nav { position: absolute; right: var(--gut); top: calc(50% - var(--s-6) / 2); transform: translateY(-50%); padding: 0; z-index: 2; }
+    .shelf-wrap .row-nav { position: absolute; right: calc(var(--gut) + 12px); bottom: calc(var(--s-6) + 12px); padding: 0; z-index: 2; }
     /* each cover is ~60% of the screen, so the next one is cut in half by the right edge:
        that half-cover is the cue that the row scrolls */
     .shelf li:nth-child(n) { grid-area: auto; flex: none; width: calc((100vw - var(--gut)) / 1.62); max-width: 260px; aspect-ratio: 0.65; scroll-snap-align: start; }
