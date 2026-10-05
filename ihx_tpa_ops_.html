@@ -210,13 +210,13 @@ nav.cs-nav{
 .ba-foot{padding:20px 32px 24px;}
 .ba-head{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;margin-bottom:8px;}
 .ba-list-title{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);}
-.ba-steps{display:flex;gap:6px;flex-wrap:wrap;}
-.ba-steps[hidden]{display:none;}
+.ba-steps{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:20px 32px 0;}
+.ba-steps.is-off{visibility:hidden;} /* keeps its height on Before so the screen does not jump when switching */
 .ba-steps button{min-height:36px;font-size:12px;letter-spacing:0.06em;}
 .ba-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));column-gap:40px;}
 .ba-list li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--row-border);font-size:var(--step--1);color:var(--ink-soft);line-height:1.5;cursor:default;transition:color .15s;}
 .ba-list li.is-hot{color:var(--ink);}
-@media (max-width:600px){.ba-foot{padding:16px 20px 20px;}.ba-steps button{min-height:44px;}}
+@media (max-width:600px){.ba-foot{padding:16px 20px 20px;}.ba-steps{padding:16px 20px 0;}.ba-steps.is-off{display:none;}.ba-steps button{min-height:44px;}}
 @media (prefers-reduced-motion:reduce){.ba-tabs button,.ba-steps button,.ba-shot img,.ba-badge,.ba-list li,.ba-lines polyline{transition:none;}}
 
 /* TRADEOFFS */
@@ -1390,6 +1390,11 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <button type="button" role="tab" id="ba-tab-after" aria-controls="ba-card" aria-selected="false" tabindex="-1">After</button>
   </div>
   <div class="ba-card" id="ba-card" role="tabpanel" aria-labelledby="ba-tab-before">
+    <div class="ba-steps" aria-label="After screens">
+      <button type="button" data-step="0">Pre Auth View</button>
+      <button type="button" data-step="1">Drill Down · Secondary Filters</button>
+      <button type="button" data-step="2">Claim View</button>
+    </div>
     <div class="ba-stage">
       <div class="ba-shot">
         <img src="images/ops-ba-before.webp" data-set="before" width="1366" height="770" loading="lazy" decoding="async" alt="Before: the old Claims Management dashboard, one table for every user group." />
@@ -1403,11 +1408,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div class="ba-foot">
       <div class="ba-head">
         <div class="ba-list-title">Pain points</div>
-        <div class="ba-steps" hidden>
-          <button type="button" data-step="0">Pre Auth View</button>
-          <button type="button" data-step="1">Draft Pending expanded</button>
-          <button type="button" data-step="2">Claim View</button>
-        </div>
       </div>
       <ol class="ba-list"></ol>
     </div>
@@ -1466,7 +1466,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     card.dataset.mode = mode;
     card.setAttribute("aria-labelledby", "ba-tab-" + mode);
     title.textContent = mode === "before" ? "Pain points" : "Improvements";
-    steps.hidden = mode === "before";
+    steps.classList.toggle("is-off", mode === "before");
+    steps.setAttribute("aria-hidden", String(mode === "before"));
     stepBtns.forEach(function (b, j) { b.setAttribute("aria-pressed", String(j === step)); });
     imgs.forEach(function (im) { var on = im.dataset.set === key; im.classList.toggle("is-on", on); im.setAttribute("aria-hidden", String(!on)); });
     svg.innerHTML = '<defs>' + ["ba-ah", "ba-ah-hot"].map(function (id) { return '<marker id="' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>'; }).join("") + "</defs>";
