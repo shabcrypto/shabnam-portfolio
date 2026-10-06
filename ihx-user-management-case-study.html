@@ -601,12 +601,13 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 .annot.flip{grid-template-columns:1.3fr 1fr;}
 .annot.flip .txt{order:2;}
 .annot .txt h3{font-size:var(--step-0);font-weight:900;letter-spacing:-0.01em;color:var(--ink);}
+/* caption above each old-screen heading: a label, not a chip, so no fill */
 .annot .tagline{
-  display:inline-block;font-size:var(--step--1);font-weight:800;letter-spacing:.1em;text-transform:uppercase;
-  padding:5px 12px;border-radius:6px;margin-bottom:12px;
+  display:block;font-size:var(--step--1);font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  margin-bottom:10px;background:none;padding:0;border-radius:0;
 }
-.tagline.bad{background:rgba(48,47,44,0.08);color:var(--asphalt);}
-.tagline.good{background:rgba(48,47,44,0.08);color:var(--asphalt);}
+.tagline.bad{color:var(--asphalt);}
+.tagline.good{color:var(--asphalt);}
 .annot .txt ul{list-style:none;margin-top:12px;}
 .annot .txt li{
   font-size:var(--step--1);color:var(--ink-soft);padding:9px 0;border-bottom:1px dashed var(--row-border);
@@ -1570,7 +1571,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     </div>
     <p class="flow-caption">Scope expanded mid-project from single-center admins to Group Admins, tracking the group-hospital friction from Section 01.</p>
 
-    <div class="mini-label">The role hierarchy the product had to learn to represent</div>
+    <div class="mini-label">Introduced a role hierarchy · Collaborated with the PM</div>
     <div class="tree reveal">
       <div class="lvl"><div class="tnode ops"><span class="r">IHX Ops</span><p>Creates the first Group Admin, the only Ops-owned step left in v1</p></div></div>
       <div class="vline"></div>
@@ -1688,21 +1689,21 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <h2>What moved, measured against the same baseline used to define the problem.</h2>
     <div class="outcome-grid">
       <div class="outcome reveal">
-        <span class="loop">Closes S01 · Ops load</span>
+        <span class="loop">Closes Ops load</span>
         <div class="t">Daily ticket volume</div>
         <div class="hero-val"><span><span class="d1">1</span>0</span><small>/day, down from 80</small></div>
         <p class="desc">87.5% reduction, roughly 2,100 support tickets eliminated a month.</p>
         <div class="baseline"><span class="bl">Baseline</span><span class="bv">~50 creations + ~30 resets / day</span></div>
       </div>
       <div class="outcome reveal">
-        <span class="loop">Closes S02 · Time to act</span>
+        <span class="loop">Closes Time to act</span>
         <div class="t">Time to create a user</div>
         <div class="hero-val">5 min<small>self-serve, in product</small></div>
         <p class="desc">Down from an average of 30 minutes over email, a process spanning multiple teams.</p>
         <div class="baseline"><span class="bl">Baseline</span><span class="bv">~30 min average, by email, multi-team</span></div>
       </div>
       <div class="outcome reveal" style="grid-column:1/-1;">
-        <span class="loop">Closes S01 · Security</span>
+        <span class="loop">Closes Security</span>
         <div class="t">Deactivating a user</div>
         <div class="hero-val"><span><span class="d1">1</span> step</span><small>down from 4, taken directly by the hospital admin</small></div>
         <p class="desc">A four-step manual process with no time guarantee on any step, now one step inside the product.</p>
