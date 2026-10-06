@@ -8,20 +8,20 @@
 <script>(function(){if(!/(^|\.)shabnamraghavan\.com$/.test(location.hostname))return;if(navigator.doNotTrack==="1"||window.doNotTrack==="1")return;try{if(localStorage.getItem("shab-ignore")==="1")return;}catch(e){}
 (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yt9i1njbpi");})();</script>
 <!-- link previews (LinkedIn, WhatsApp, X) -->
-<meta name="description" content="A claims platform used by thousands of hospitals had no way for them to manage their own staff access, until this project gave it to them. 87.5% fewer user ops tickets." />
+<meta name="description" content="IHX Nucleus serves 18,000+ providers, yet staff access ran on email and manual work. Making the existing module usable cut user ops tickets by 87.5%." />
 <link rel="canonical" href="https://www.shabnamraghavan.com/ihx-user-management-case-study.html" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Shabnam Raghavan" />
-<meta property="og:title" content="87% of Support Tickets Were for a Page Users Never Found · Shabnam Raghavan" />
-<meta property="og:description" content="A claims platform used by thousands of hospitals had no way for them to manage their own staff access, until this project gave it to them. 87.5% fewer user ops tickets." />
+<meta property="og:title" content="87% of Support Tickets Were for a Feature Users Never Found · Shabnam Raghavan" />
+<meta property="og:description" content="IHX Nucleus serves 18,000+ providers, yet staff access ran on email and manual work. Making the existing module usable cut user ops tickets by 87.5%." />
 <meta property="og:url" content="https://www.shabnamraghavan.com/ihx-user-management-case-study.html" />
 <meta property="og:image" content="https://www.shabnamraghavan.com/images/og-share-v4.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Shabnam Raghavan, Product Designer" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="87% of Support Tickets Were for a Page Users Never Found · Shabnam Raghavan" />
-<meta name="twitter:description" content="A claims platform used by thousands of hospitals had no way for them to manage their own staff access, until this project gave it to them. 87.5% fewer user ops tickets." />
+<meta name="twitter:title" content="87% of Support Tickets Were for a Feature Users Never Found · Shabnam Raghavan" />
+<meta name="twitter:description" content="IHX Nucleus serves 18,000+ providers, yet staff access ran on email and manual work. Making the existing module usable cut user ops tickets by 87.5%." />
 <meta name="twitter:image" content="https://www.shabnamraghavan.com/images/og-share-v4.jpg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -112,25 +112,11 @@ a{color:inherit;}
 .resume-dl{color:var(--asphalt-soft);text-decoration:none;font-size:0.85em;transition:color 160ms ease;}
 .resume-dl:hover{color:var(--vermillion);}
 
-/* section subnav */
-.subnav{
-  position:static;z-index:49;
-  background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);overflow-x:auto;
-}
-.subnav .wrap{display:flex;gap:4px;height:46px;align-items:center;}
-.subnav a{
-  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
-  color:var(--muted);text-decoration:none;font-size:var(--step--1);font-weight:700;
-  padding:6px 12px;border-radius:100px;transition:color .2s,background .2s;
-}
-.subnav a b{font-family:"Manrope", sans-serif;font-weight:900;color:var(--indigo);font-size:var(--step--1);}
-.subnav a:hover{color:var(--ink);background:var(--card-bg);}
 
 /* Shared card shadow: every top-level card surface gets the same soft, neutral lift instead
    of leaning on borders alone. Reuse this exact rule (selectors + var(--shadow-card)) on the
    other case studies when they get the same light-theme + polish pass. */
-.hero-stats, .big-num-card, .pain, .gap, .tree, .persona, .dec, .phase, .tldr, .sol,
+.hero-stats, .big-num-card, .pain, .gap, .tree, .persona, .dec, .phase, .sol,
 .outcome, .data-table, .callout {
   box-shadow: var(--shadow-card);
 }
@@ -181,7 +167,7 @@ a{color:inherit;}
 /* ---------- sections ---------- */
 section{padding:64px 0;border-top:1px solid var(--border);}
 .sec-tag{font-size:var(--step--1);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.sec-tag em{color:var(--indigo);font-style:normal;}
+.sec-tag em{color:var(--asphalt);font-style:normal;}
 section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-width:720px;}
 .sec-intro{color:var(--ink-soft);margin-top:12px;max-width:680px;font-size:var(--step-0);}
 .mini-label{
@@ -217,13 +203,16 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 /* numbered problem cards: crisp title + one line, a numbered badge instead of an icon chip */
 .num-card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px;}
 .split-80 .num-card-grid{grid-template-columns:1fr 1fr;margin-top:0;}
+.num-card{display:flex;flex-direction:column;}
+.num-card p{flex:1;}
+.num-card .src-chip{align-self:flex-start;margin-top:14px;} /* where the finding came from, like Ops */
 .num-card{
   background:#ECEAE4;border:1px solid var(--border);border-radius:16px;
   padding:26px 22px;box-shadow:var(--shadow-card);
 }
 .num-card .badge-num{
   display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
-  border-radius:10px;background:rgba(60,58,218,0.1);color:var(--indigo);
+  border-radius:10px;background:rgba(48,47,44,0.08);color:var(--asphalt);
   font-family:"Manrope", sans-serif;font-weight:900;font-size:var(--step-0);margin-bottom:18px;
 }
 .num-card b{font-size:var(--step-0);line-height:1.35;display:block;margin-bottom:8px;}
@@ -232,10 +221,10 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 /* fact pills: the crisp evidence row under the problem cards, replaces a bigger stat block */
 .fact-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
 .fact-pill{
-  border:1px solid var(--border);border-radius:100px;padding:10px 18px;
+  border:0;border-radius:100px;padding:10px 18px;
   font-size:var(--step--1);color:var(--ink-soft);background:#ECEAE4;box-shadow:var(--shadow-card);
 }
-.fact-pill b{color:var(--indigo);font-weight:800;}
+.fact-pill b{color:var(--ink);font-weight:800;}
 
 /* horizontal flow diagram */
 .hflow{
@@ -268,17 +257,19 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
   margin-top:28px;background:#ECEAE4;border-left:3px solid var(--indigo-light);border-radius:0 14px 14px 0;
   padding:22px 26px;
 }
-.callout .t{font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;}
+.callout .t{font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:8px;}
 .callout p{color:var(--ink-soft);font-size:var(--step-0);max-width:760px;}
 .callout .badges{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.src-chip{display:inline-block;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;color:var(--indigo);background:rgba(60,58,218,0.10);} /* source of a finding; same shape as this page's .badge */
 /* shared chip recipe: .badge and .tagpill must always render identically (size, weight, radius,
    case, border) — only the colour variants differ. Reuse this exact block on other case studies. */
 .badge, .tagpill{
   display:inline-block;font-size:var(--step--1);font-weight:800;letter-spacing:.04em;text-transform:uppercase;
   padding:5px 12px;border-radius:6px;
 }
-.badge{background:rgba(110,108,240,0.12);color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
-.badge.teal{background:rgba(0,184,148,0.12);color:var(--teal-deep);border-color:rgba(0,184,148,0.35);}
+.badge{background:rgba(60,58,218,0.10);color:var(--indigo);border:0;}
+.badge.teal{background:rgba(0,184,148,0.12);color:var(--teal-deep);border:0;}
+.badge.risk{background:rgba(192,45,12,0.10);color:var(--vermillion);} /* business risk a finding exposes */
 
 /* gaps grid */
 .gap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px;}
@@ -333,6 +324,28 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 .tree .branch::after{content:"";position:absolute;top:0;left:50%;width:1px;height:0;}
 .tree .branch .d{position:absolute;top:0;width:1px;height:22px;background:rgba(20,18,14,0.25);}
 .tree .branch .d1{left:15%;} .tree .branch .d2{left:50%;} .tree .branch .d3{right:15%;}
+/* lower tree: two columns whose centres sit at 25% and 75%, so every connector is a plain percentage */
+.tree .rt{max-width:640px;margin:0 auto;}
+.tree .rt i{position:absolute;background:rgba(20,18,14,0.25);}
+.tree .rt .v{width:1px;} .tree .rt .v.l{left:25%;} .tree .rt .v.m{left:50%;} .tree .rt .v.r{left:75%;}
+.tree .rt .h{height:1px;}
+.tree .rt-branch{position:relative;height:22px;}
+.tree .rt-branch .h{top:0;left:25%;right:25%;}
+.tree .rt-branch .v{top:0;bottom:0;}
+.tree .rt-row{position:relative;display:grid;grid-template-columns:1fr 1fr;}
+.tree .rt-row > .v.m{top:0;bottom:0;}
+.tree .rt-cell{display:flex;justify-content:center;padding:0 12px;min-width:0;}
+.tree .rt .tnode{min-width:0;max-width:100%;box-sizing:border-box;}
+.tree .rt-join{position:relative;height:30px;}
+.tree .rt-join .up{top:0;height:50%;}
+.tree .rt-join .h{top:50%;left:25%;width:25%;}
+.tree .rt-join .down{top:50%;bottom:0;}
+/* arrowheads where a line meets the role it creates */
+.tree .vline{position:relative;}
+.tree .vline::after,.tree .rt-branch .v.l::after,.tree .rt-branch .v.r::after,.tree .rt-join .down::after{
+  content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);
+  border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid rgba(20,18,14,0.4);}
+@media(max-width:600px){.tree .rt-cell{padding:0 4px;}.tree .rt .tnode{padding:10px 6px;}}
 .tree .note{
   margin-top:22px;font-size:var(--step--1);color:var(--muted);font-weight:600;
   border-top:1px dashed var(--row-border);padding-top:16px;
@@ -346,7 +359,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
   font-size:var(--step--1);font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;
   display:inline-block;
 }
-.persona .who.indigo{color:var(--indigo);} .persona .who.teal{color:var(--teal-deep);}
+.persona .who.indigo,.persona .who.teal{color:var(--asphalt);}
 .persona b{font-size:var(--step-0);line-height:1.45;display:block;}
 .persona p{font-size:var(--step--1);color:var(--muted);margin-top:8px;flex:1;}
 .persona .tagpill{align-self:flex-start;margin-top:16px;}
@@ -354,7 +367,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
   margin-top:16px;padding-top:14px;border-top:1px dashed var(--row-border);
   font-size:var(--step--1);font-weight:700;color:var(--ink-soft);
 }
-.persona .maps span{color:var(--indigo);}
+.persona .maps span{color:var(--asphalt);}
 
 /* decisions */
 .dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:36px;}
@@ -370,9 +383,9 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 .dec b{font-size:var(--step-0);font-family:"Manrope", sans-serif;font-weight:700;display:block;line-height:1.35;}
 .dec p{font-size:var(--step--1);color:var(--muted);margin-top:8px;}
 .dec .closes{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap;}
-.tagpill.ops{background:rgba(110,108,240,0.12);color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
-.tagpill.sec{background:rgba(0,184,148,0.12);color:var(--teal-deep);border:1px solid rgba(0,184,148,0.35);}
-.tagpill.grp{background:rgba(20,18,14,0.08);color:var(--ink-soft);border:1px solid var(--row-border);}
+.tagpill.ops{background:rgba(60,58,218,0.10);color:var(--indigo);border:0;}
+.tagpill.sec{background:rgba(0,184,148,0.12);color:var(--teal-deep);border:0;}
+.tagpill.grp{background:rgba(245,166,35,0.16);color:#8A5A0F;border:0;}
 .tagpill.ship{background:transparent;border:1px solid var(--row-border);color:var(--muted);}
 .dec.wide{grid-column:1 / -1;}
 
@@ -509,7 +522,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 .data-table td.new{color:var(--teal-deep);}
 .closes-tag{
   display:inline-block;font-size:var(--step--1);font-weight:700;color:var(--indigo);
-  background:rgba(110,108,240,0.1);border:1px solid rgba(110,108,240,0.3);border-radius:100px;padding:2px 10px;
+  background:rgba(60,58,218,0.10);border:0;border-radius:6px;padding:3px 10px;
 }
 
 /* flagged / open item — honest "not resolved yet" markers, distinct from the confident callout */
@@ -543,14 +556,42 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
    nested inside a card), so the ramp reads white → F9F9F9 → F6F6F6 → EFEFEF regardless of
    which section a card lands in. */
 #tldr, #s1, #s3, #s5, .more-work{background:var(--ground-alt);}
-.tldr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:36px;}
-.tldr{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px 18px;}
+/* THE INCIDENT: context band above the TL;DR. Locked palette: Deep Asphalt ground, Coconut Soft type, no other colour */
+.incident{background:#0E0C0A;color:#F0E6D2;padding:88px 0 96px;}
+.incident .inc-tag{font-family:"Manrope",sans-serif;font-size:var(--step--1);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#F0E6D2;opacity:0.6;margin-bottom:18px;}
+.incident .inc-head{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:var(--step-3);line-height:1.05;letter-spacing:0.02em;color:#F0E6D2;max-width:820px;}
+.incident .inc-steps{list-style:none;margin:44px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(240,230,210,0.16);}
+.incident .inc-steps li{position:relative;padding:22px 32px 0 0;font-size:var(--step-0);line-height:1.55;color:rgba(240,230,210,0.82);}
+.incident .inc-steps li:not(:last-child)::after{content:"";position:absolute;top:24px;right:8px;width:16px;height:16px;opacity:0.45;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none' stroke='%23F0E6D2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9h12M10 4l5 5-5 5'/%3E%3C/svg%3E") center/16px no-repeat;}
+.incident .inc-n{display:block;font-family:"Manrope",sans-serif;font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#F0E6D2;margin-bottom:8px;}
+.incident .inc-cols{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:56px;}
+.incident .inc-sub{font-family:"Manrope",sans-serif;font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#F0E6D2;opacity:0.6;margin-bottom:14px;}
+.incident .inc-list{list-style:none;margin:0;padding:0;}
+.incident .inc-list li{padding:12px 0;border-top:1px solid rgba(240,230,210,0.12);font-size:var(--step--1);line-height:1.6;color:rgba(240,230,210,0.82);}
+.incident .inc-list b{color:#F0E6D2;font-weight:700;}
+.incident .inc-path{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 6px;}
+.incident .inc-path li{display:flex;align-items:center;font-size:var(--step--1);font-weight:600;color:#F0E6D2;}
+.incident .inc-path li span{background:rgba(240,230,210,0.08);border-radius:6px;padding:6px 12px;}
+.incident .inc-path li:not(:last-child)::after{content:"\2192";margin-left:8px;opacity:0.45;}
+.incident .inc-own{margin-top:48px;padding-top:28px;border-top:1px solid rgba(240,230,210,0.16);}
+.incident .inc-note{margin-top:18px;font-size:var(--step--1);line-height:1.6;color:rgba(240,230,210,0.7);max-width:460px;}
+@media(max-width:860px){.incident{padding:64px 0 72px;}.incident .inc-steps{grid-template-columns:1fr;}.incident .inc-steps li{padding:18px 0 18px;}
+  .incident .inc-steps li:not(:last-child){border-bottom:1px solid rgba(240,230,210,0.12);}.incident .inc-steps li:not(:last-child)::after{display:none;}
+  .incident .inc-cols{grid-template-columns:1fr;gap:40px;}}
+/* TL;DR: one long asphalt card, five steps read left to right with arrows between them (same as Ops) */
+.tldr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:36px;background:var(--asphalt);border-radius:14px;padding:28px 0;box-shadow:var(--shadow-card);}
+.tldr{position:relative;padding:4px 28px;}
+.tldr:not(:last-child)::after{content:"";position:absolute;top:50%;right:-9px;width:18px;height:18px;transform:translateY(-50%);opacity:0.45;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none' stroke='%23F0E6D2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9h12M10 4l5 5-5 5'/%3E%3C/svg%3E") center/18px no-repeat;}
 .tldr .k{
   font-family:"Manrope", sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;
-  color:var(--indigo);margin-bottom:10px;display:block;
+  color:#F0E6D2;opacity:0.7;margin-bottom:10px;display:block;
 }
-.tldr p{font-size:var(--step--1);line-height:1.55;color:var(--ink-soft);}
-.tldr p b{color:var(--ink);}
+.tldr p{font-size:var(--step--1);line-height:1.55;color:rgba(240,230,210,0.82);}
+.tldr p b{color:#F0E6D2;}
+@media(max-width:1000px){.tldr-grid{grid-template-columns:1fr;padding:8px 0;}.tldr{padding:22px 24px;}
+  .tldr:not(:last-child)::after{top:auto;bottom:-9px;right:50%;transform:translateX(50%) rotate(90deg);}}
 /* TL;DR reads centred on every case study: label, heading and each card */
 #tldr .sec-tag,#tldr h2{text-align:center;margin-left:auto;margin-right:auto;}
 .tldr{text-align:center;}
@@ -564,22 +605,37 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
   display:inline-block;font-size:var(--step--1);font-weight:800;letter-spacing:.1em;text-transform:uppercase;
   padding:5px 12px;border-radius:6px;margin-bottom:12px;
 }
-.tagline.bad{background:rgba(110,108,240,0.12);color:var(--indigo);}
-.tagline.good{background:rgba(0,184,148,0.12);color:var(--teal-deep);}
+.tagline.bad{background:rgba(48,47,44,0.08);color:var(--asphalt);}
+.tagline.good{background:rgba(48,47,44,0.08);color:var(--asphalt);}
 .annot .txt ul{list-style:none;margin-top:12px;}
 .annot .txt li{
   font-size:var(--step--1);color:var(--ink-soft);padding:9px 0;border-bottom:1px dashed var(--row-border);
   display:flex;gap:10px;align-items:baseline;
 }
 .annot .txt li:last-child{border-bottom:none;}
-.annot .txt li::before{content:"·";color:var(--indigo);font-weight:800;flex:none;}
+.annot .txt li::before{content:"·";color:var(--asphalt);font-weight:800;flex:none;}
 .annot .shot{margin:0;}
+/* numbered pain points on an old screenshot: markers in a strip above the image, arrows down to
+   what they point at, matching numbers on the list; hovering either highlights the pair (as Ops' Before view) */
+.pin-stage{position:relative;}
+.pin-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2;}
+.pin-lines polyline{fill:none;stroke:var(--vermillion);stroke-width:1.5;vector-effect:non-scaling-stroke;marker-end:url(#pin-ah);}
+.pin-lines polyline.is-hot{stroke:var(--vermillion-deep);stroke-width:2.5;}
+.pin-lines marker path{fill:var(--vermillion);}
+.pin-badges{position:absolute;inset:0;z-index:3;pointer-events:none;}
+.pin{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--vermillion);color:#F0E6D2;font-family:"Manrope",sans-serif;font-size:12px;font-weight:700;line-height:1;flex:none;transition:background .15s;}
+.pin-badges .pin{position:absolute;transform:translate(-50%,-50%);box-shadow:0 0 0 3px var(--ground-alt);pointer-events:auto;cursor:default;}
+.pin.is-hot{background:var(--vermillion-deep);}
+.annot .txt ul.pinned li::before{content:none;}
+.annot .txt ul.pinned li{align-items:center;cursor:default;}
+.annot .txt ul.pinned li.is-hot{color:var(--ink);}
+@media (prefers-reduced-motion:reduce){.pin{transition:none;}}
 .annot .shot figcaption{font-size:var(--step--1);color:var(--muted);margin-top:10px;line-height:1.5;}
 
 /* solution — grouped by screen, narrative + inline shots instead of a flat table */
 .sol{margin-top:48px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:30px 28px;}
 .sol .sol-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
-.sol .n{font-family:"Manrope", sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--teal-deep);}
+.sol .n{font-family:"Manrope", sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);}
 .sol h3{font-size:var(--step-0);font-weight:900;letter-spacing:-0.01em;color:var(--ink);}
 .sol .sol-sub{margin-top:6px;font-size:var(--step--1);color:var(--ink-soft);line-height:1.65;max-width:680px;}
 .sol .closes-tag{margin-top:12px;}
@@ -598,26 +654,24 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 .take{text-align:center;padding:72px 0 64px;border-top:1px solid var(--border);}
 .take .big{
   font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-weight:400;font-size:var(--step-2);
-  color:var(--ink);letter-spacing:0.02em;max-width:720px;margin:0 auto;line-height:1.4;
+  color:var(--indigo);letter-spacing:0.02em;max-width:720px;margin:0 auto;line-height:1.4;
 }
-.take .big em{font-style:normal;color:var(--indigo);}
+.take .big em{font-style:normal;color:var(--ink);}
+/* Staatliches draws 1 as a bare stroke that reads as "I"; in big numbers the 1 comes from Manrope, sized to the cap height */
+.d1{font-family:"Manrope",sans-serif;font-weight:800;font-size:0.86em;letter-spacing:0;}
 .take .fine{margin-top:18px;font-size:var(--step--1);color:var(--muted);letter-spacing:.04em;}
 
 @media(max-width:860px){
-  .tldr-grid{grid-template-columns:1fr 1fr;}
   .annot,.annot.flip{grid-template-columns:1fr;}
   .annot.flip .txt{order:0;}
   .sol-2col{grid-template-columns:1fr;}
-}
-@media(max-width:560px){
-  .tldr-grid{grid-template-columns:1fr;}
 }
 
 /* overview — portfolio-safe narrative, sits between hero and the numbered breakdown */
 .overview{padding:56px 0 64px;border-top:1px solid var(--border);}
 .overview .ov-block{margin-top:32px;max-width:780px;}
 .overview .ov-block:first-of-type{margin-top:0;}
-.overview .ov-label{font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;}
+.overview .ov-label{font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:10px;}
 .overview .ov-block p{font-size:var(--step-0);color:var(--ink-soft);line-height:1.75;}
 .overview .ov-block p + p{margin-top:12px;}
 
@@ -630,9 +684,9 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 .outcome:hover{border-color:rgba(110,108,240,0.4);}
 .outcome .loop{
   position:absolute;top:18px;right:18px;font-size:var(--step--1);font-weight:800;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--muted);border:1px solid var(--row-border);border-radius:100px;padding:3px 10px;
+  color:var(--muted);border:0;background:rgba(48,47,44,0.08);border-radius:6px;padding:3px 10px;
 }
-.outcome .t{font-size:var(--step--1);font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:18px;}
+.outcome .t{font-size:var(--step--1);font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--asphalt);margin-bottom:18px;}
 .outcome .hero-val{
   font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-weight:400;font-size:var(--step-2);line-height:1;color:var(--indigo);
   display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
@@ -1098,8 +1152,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
    index cards, and a clean surface that lifts off the coconut page card rather than the
    tan panels that used to sit flat on it.
    Dividers BETWEEN cells stay (border-right, border-bottom): those are structure, not a
-   stroke around a card. Accent bars stay too, like .callout's left rule. */
-.tldr,
+   stroke around a card. Accent bars stay too, like .callout's left rule.
+   .tldr is not here: the TL;DR is one asphalt card (.tldr-grid), its sections carry no shadow. */
 .persona,
 .num-card,
 .big-num-card,
@@ -1118,7 +1172,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   box-shadow: var(--shadow-card);
 }
 /* .callout keeps its accent rule; it is a marker, not an outline */
-.callout { border-left: 3px solid var(--indigo-light); }
+.callout { border-left: 4px solid var(--indigo-light); }
 .callout.plain { border-left: none; }
 /* these sit ON a card rather than on the page, so they lose the outline but take no
    shadow of their own. The hairline between cells is structure and stays. */
@@ -1139,13 +1193,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   background: var(--card-bg);
 }
 
-/* ---- SUBNAV ----
-   The chapter rail. The top bar is fixed now, so this sticks below it rather than at
-   the very top, and it picks up the card's surface instead of pure white. */
-.subnav {
-  top: clamp(64px, 8vw, 78px);
-  background: rgba(253,253,251,0.92);
-}
 
 /* one continuous card surface: the alternating tan bands belonged to a page that ran
    edge to edge. Inside .page-card the hairline between sections carries the rhythm. */
@@ -1251,8 +1298,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 .foot-links .email,.foot-links .phone,.foot-links .resume{display:inline-block;padding:11px 0;margin:-11px 0;}
 .peer-link{display:inline-block;padding:13px 0;margin:-13px 0;}
 .menu-foot a{padding:12px 0;}
-/* the section menu is real navigation, so its rows clear 44px too */
-.subnav a{padding-top:12px;padding-bottom:12px;}
 </style>
 
 <header class="hero">
@@ -1264,12 +1309,18 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <span class="chip">Health InsurTech</span>
         <span class="chip">User Management</span>
       </div>
-      <h1>87% of Support Tickets Were for <span class="serif">a Page Users Never Found</span></h1>
-      <p class="sub">A healthcare claims platform used by thousands of hospitals had no way for those hospitals to manage their own staff access, until this project gave it to them.</p>
+      <h1>87% of Support Tickets Were for <span class="serif">a Feature Users Never Found</span></h1>
+      <p class="sub">IHX Nucleus serves 18,000+ healthcare providers, yet managing staff access ran on email and manual work. With high staff turnover, every change landed on the IHX customer support team, adding security risk and load that the existing user management module could have removed.</p>
+      <div class="project-info">
+        <div class="pi"><span class="pi-l">Role</span><span class="pi-v">End to End &middot; Discovery &rarr; Design &rarr; PRD</span></div>
+        <div class="pi"><span class="pi-l">Team</span><span class="pi-v">1 PM &middot; 1 PD (me) &middot; 3 Developers</span></div>
+        <div class="pi"><span class="pi-l">Timeframe</span><span class="pi-v">3 weeks &middot; Feb–Mar 2026</span></div>
+        <div class="pi"><span class="pi-l">Also Covered</span><span class="pi-v">Cross-Team Collaboration &middot; Stakeholder Management</span></div>
+      </div>
       <div class="hero-stats reveal">
-        <div class="cell"><span class="tag">Tickets / day</span><div class="num accent">80 &rarr; 10</div><div class="lbl">Support tickets routed to Ops</div></div>
+        <div class="cell"><span class="tag">Tickets / day</span><div class="num accent">80 &rarr; <span class="d1">1</span>0</div><div class="lbl">Support tickets routed to Ops</div></div>
         <div class="cell"><span class="tag">Time to create</span><div class="num teal">30 &rarr; 5 min</div><div class="lbl">A new user, email request to in-product self-serve</div></div>
-        <div class="cell"><span class="tag">Deactivate</span><div class="num indigo">4 &rarr; 1</div><div class="lbl">Manual steps to deactivate or delete a user</div></div>
+        <div class="cell"><span class="tag">Deactivate</span><div class="num indigo">4 &rarr; <span class="d1">1</span></div><div class="lbl">Manual steps to deactivate or delete a user</div></div>
       </div>
     </div>
     <div class="hero-shot reveal">
@@ -1284,27 +1335,64 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   </div>
 </header>
 
-<div class="subnav">
+<!-- The incident: the context a reader needs before the TL;DR. Deep Asphalt band, Coconut Soft type -->
+<section id="incident" class="incident">
   <div class="wrap">
-    <a href="#tldr"><b>00</b> tl;dr</a>
-    <a href="#s1"><b>01</b> problem statement</a>
-    <a href="#s2"><b>02</b> feedback &amp; pain points</a>
-    <a href="#s3"><b>03</b> product gap</a>
-    <a href="#s4"><b>04</b> design decisions</a>
-    <a href="#s5"><b>05</b> outcome</a>
+    <div class="inc-tag">The Incident</div>
+    <h2 class="inc-head">An ex-employee logged in after leaving and cancelled a hospital's high-value claims.</h2>
+    <ol class="inc-steps">
+      <li><span class="inc-n">Before leaving</span>They emailed the IHX customer support team asking for new logins.</li>
+      <li><span class="inc-n">Nobody checked</span>Support created the logins. No one could verify who was asking.</li>
+      <li><span class="inc-n">After leaving</span>They logged in with those logins and cancelled the hospital's high-value claims.</li>
+    </ol>
+    <div class="inc-cols">
+      <div>
+        <div class="inc-sub">What it exposed</div>
+        <ul class="inc-list">
+          <li><b>A security gap:</b> access outlived employment.</li>
+          <li><b>No ownership:</b> support could not tell who was emailing from a hospital.</li>
+          <li><b>Admin out of the loop:</b> the hospital did not know the logins existed.</li>
+          <li><b>Lost trust:</b> friction with an enterprise hospital over a gap IHX did not cause.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="inc-sub">How I found it</div>
+        <ol class="inc-path">
+          <li><span>2FA rollout</span></li>
+          <li><span>Login issues and pushback</span></li>
+          <li><span>Focus group with the AM team</span></li>
+          <li><span>Calls with hospital IT teams</span></li>
+          <li><span>Customer support's inbox</span></li>
+        </ol>
+        <p class="inc-note">This was the loudest of many cases in that inbox. User management work had already started from the smaller ones; this one showed what was at stake.</p>
+      </div>
+    </div>
+    <div class="inc-own">
+      <div class="inc-sub">What I owned</div>
+      <ol class="inc-path">
+        <li><span>Discovery</span></li>
+        <li><span>Problem Statement</span></li>
+        <li><span>Go-ahead from the BU head</span></li>
+        <li><span>PRD</span></li>
+        <li><span>Design</span></li>
+        <li><span>Review</span></li>
+        <li><span>Go-live</span></li>
+      </ol>
+      <p class="inc-note">End to end, from discovery to go-live. The role hierarchy was shaped together with the PM.</p>
+    </div>
   </div>
-</div>
+</section>
 
 <section id="tldr">
   <div class="wrap">
     <div class="sec-tag">TL;DR</div>
     <h2>The whole story, in five cards.</h2>
     <div class="tldr-grid">
-      <div class="tldr reveal"><span class="k">Problem</span><p>No in-product way to manage users. <b>Every action needed a person outside the hospital.</b></p></div>
-      <div class="tldr reveal"><span class="k">Risk</span><p>No quick way to <b>deactivate a user</b>, a real security concern for hospitals of any size, on a platform holding patient and financial data.</p></div>
-      <div class="tldr reveal"><span class="k">Solution</span><p>A <b>discoverable, holistic UI</b> for user management, designed around a real role hierarchy and real user needs.</p></div>
-      <div class="tldr reveal"><span class="k">Numbers</span><p><b>87.5% reduction in user ops tickets.</b> User creation 30 min by email &rarr; 5 min self-serve in product. Deactivating a user: 4 steps &rarr; 1.</p></div>
-      <div class="tldr reveal"><span class="k">Takeaway</span><p>Problems users can solve themselves deserve <b>product-led solutions</b>, not process. Digging into this one surfaced real <b>security lapses</b> too.</p></div>
+      <div class="tldr reveal"><span class="k">Problem</span><p>No in-product way to manage users. <b>Every change needed IHX support.</b></p></div>
+      <div class="tldr reveal"><span class="k">Risk</span><p>No quick way to <b>deactivate a user</b> on a platform holding patient and financial data.</p></div>
+      <div class="tldr reveal"><span class="k">Solution</span><p>A <b>discoverable user management module</b>, built on a real role hierarchy.</p></div>
+      <div class="tldr reveal"><span class="k">Numbers</span><p><b>87.5% fewer user ops tickets.</b> User creation 30&nbsp;&rarr;&nbsp;5&nbsp;min. Deactivation 4&nbsp;steps&nbsp;&rarr;&nbsp;1.</p></div>
+      <div class="tldr reveal"><span class="k">Takeaway</span><p>Problems users can solve themselves need <b>product-led solutions</b>, not process.</p></div>
     </div>
   </div>
 </section>
@@ -1326,24 +1414,24 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       </div>
       <div class="num-card-grid">
         <div class="num-card reveal">
-          <span class="badge-num">1</span>
           <b>The existing module went unused</b>
           <p>Creation, editing, and disabling all existed as features. Hospital staff simply did not know the module was there.</p>
+          <span class="src-chip">Focus Group · AM Team</span>
         </div>
         <div class="num-card reveal">
-          <span class="badge-num">2</span>
           <b>No owner for access revocation</b>
           <p>Deactivating a user meant email, to the account manager, to DB support: no one owned it end to end.</p>
+          <span class="src-chip">Focus Group · AM Team</span>
         </div>
         <div class="num-card reveal">
-          <span class="badge-num">3</span>
           <b>Group hospitals had a view, not control</b>
-          <p>Enterprise chains could see their centers, but could not manage a single user across them.</p>
+          <p>Enterprise chains could see their centers, but could not manage a single user across them. Group users were created over email.</p>
+          <span class="src-chip">1:1 Interview · Backend</span>
         </div>
         <div class="num-card reveal">
-          <span class="badge-num">4</span>
           <b>Feature enablement was an engineering burden</b>
           <p>SSO, 2FA, and new users all routed through support, a project manager, and database engineering.</p>
+          <span class="src-chip">1:1 Interview · Backend</span>
         </div>
       </div>
     </div>
@@ -1357,6 +1445,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div class="callout reveal">
       <div class="t">The misleading detail</div>
       <p>In the Account Details section, hospital staff could update their own bank details, believing insurers were automatically updated with that information. They were not.</p>
+      <div class="badges"><span class="src-chip">From discovery research</span></div>
     </div>
   </div>
 </section>
@@ -1387,9 +1476,9 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       </div>
     </div>
     <div class="callout reveal">
-      <div class="t">Full feedback · Customer Support Team</div>
-      <p>&ldquo;Every time we were enabling 2FA, the hospitals had a problem. Users forgot their emails, had not verified them, or used dummy emails to create a login. It became a painful, lengthy, manual process involving the account manager, the project manager, and the database support team. That broke the platform's stickiness: it pushed users out of the platform entirely, submitting claims by mail instead, because they were not able to log in.&rdquo;</p>
-      <div class="badges"><span class="badge">Platform Stickiness</span></div>
+      <div class="t">Focus Group · AM Team</div>
+      <p>&ldquo;Every time we were enabling 2FA, the hospitals had a problem. Users forgot their emails, had not verified them, or used dummy emails to create a login. It became a painful, lengthy, manual process involving the account manager, the project manager, and the database support team. Users don't want this friction, so they submit claims outside the platform, by email, because they cannot log in.&rdquo;</p>
+      <div class="badges"><span class="badge risk">Revenue Leakage</span><span class="badge risk">Platform Stickiness</span></div>
     </div>
   </div>
 </section>
@@ -1397,23 +1486,27 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <section id="s3">
   <div class="wrap">
     <div class="sec-tag"><em>03</em> · Product Gap</div>
-    <h2>What the old module actually looked like.</h2>
-    <p class="sec-intro">Three screens carried most of the friction: the hospital's own profile, the modal used to create or edit a user, and group login itself.</p>
+    <h2>How the Existing User Management Module Functioned</h2>
+    <p class="sec-intro">The module screens carried most of the friction: the hospital's own profile, the modal used to create or edit a user, and group login itself.</p>
 
     <div class="annot">
       <div class="txt reveal">
         <span class="tagline bad">Old screen · Hospital Profile</span>
         <h3>A user list squeezed into a side panel.</h3>
-        <ul>
-          <li>Account Details tab held one payer's bank information, dead weight once the platform went multi-payer</li>
-          <li>Infrastructure tab sat unused, standalone</li>
-          <li>User list was a side panel: no count, no visible access level, no clear call to action</li>
+        <ul class="pinned">
+          <li><span class="pin">1</span><span>Account Details tab held one payer's bank information, dead weight once the platform went multi-payer</span></li>
+          <li><span class="pin">2</span><span>Infrastructure tab sat unused, standalone</span></li>
+          <li><span class="pin">3</span><span>User list was a side panel: no count, no visible access level, no clear call to action</span></li>
         </ul>
       </div>
       <figure class="shot reveal">
+        <div class="pin-stage" style="padding:9.884% 0.0% 0 0.0%">
+        <svg class="pin-lines" viewBox="0 0 1720 1134" aria-hidden="true"><defs><marker id="pin-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><polyline points="695,72 695,392"/><polyline points="935,72 935,392"/><polyline points="1300,72 1300,392"/></svg>
+        <div class="pin-badges" aria-hidden="true"><span class="pin" style="left:40.407%;top:6.349%">1</span><span class="pin" style="left:54.36%;top:6.349%">2</span><span class="pin" style="left:75.581%;top:6.349%">3</span></div>
         <div class="img-slot">
           <div class="img-slot-fallback"><span class="cam">▣</span><b>Old Hospital Profile</b><code>images/old-hospital-profile-panel.webp</code></div>
           <img src="images/old-hospital-profile-panel.webp" alt="Old Hospital Profile with Account Details, Infrastructure, and cramped User Accounts panel" onerror="this.remove()">
+        </div>
         </div>
         <figcaption>The old Hospital Profile: four tabs, users in a cramped right-hand panel.</figcaption>
       </figure>
@@ -1423,16 +1516,20 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="txt reveal">
         <span class="tagline bad">Old screen · Create / Edit User</span>
         <h3>Permissions that did not match the product.</h3>
-        <ul>
-          <li>Profile picture upload nobody used</li>
-          <li>One Read Only / Edit toggle spanning six flat buckets, no read, write, export, or import split</li>
-          <li>Claims was a single bucket, not separated into PreAuth, Claim, and Reconciliation</li>
+        <ul class="pinned">
+          <li><span class="pin">1</span><span>Profile picture upload nobody used</span></li>
+          <li><span class="pin">2</span><span>One Read Only / Edit toggle spanning six flat buckets, no read, write, export, or import split</span></li>
+          <li><span class="pin">3</span><span>Claims was a single bucket, not separated into PreAuth, Claim, and Reconciliation</span></li>
         </ul>
       </div>
       <figure class="shot reveal">
+        <div class="pin-stage" style="padding:0.0% 7.44% 0 7.44%">
+        <svg class="pin-lines" viewBox="0 0 2016 964" aria-hidden="true"><defs><marker id="pin-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><polyline points="1941,230 1244,230"/><polyline points="1941,500 1230,500"/><polyline points="75,498 750,498"/></svg>
+        <div class="pin-badges" aria-hidden="true"><span class="pin" style="left:96.28%;top:23.859%">1</span><span class="pin" style="left:96.28%;top:51.867%">2</span><span class="pin" style="left:3.72%;top:51.66%">3</span></div>
         <div class="img-slot">
           <div class="img-slot-fallback"><span class="cam">▣</span><b>Old Create/Edit User modal</b><code>images/old-create-user-modal.webp</code></div>
           <img src="images/old-create-user-modal.webp" alt="Old Create/Edit User modal with profile picture upload and flat Read Only/Edit toggles" onerror="this.remove()">
+        </div>
         </div>
         <figcaption>The old modal: flat toggles, a permission list that had drifted from the real product IA.</figcaption>
       </figure>
@@ -1442,17 +1539,21 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="txt reveal">
         <span class="tagline bad">Old screen · Group Login</span>
         <h3>Every module made you pick a center again.</h3>
-        <ul>
-          <li>Center had to be re-selected inside every module, no context carried over</li>
-          <li>A separate UI had to be built and maintained just for center-level login</li>
-          <li>The hierarchy of centers under a group was not retained anywhere</li>
-          <li>User management did not exist at the group level at all</li>
+        <ul class="pinned">
+          <li><span class="pin">1</span><span>Center had to be re-selected inside every module, no context carried over</span></li>
+          <li><span class="pin">2</span><span>A separate UI had to be built and maintained just for center-level login</span></li>
+          <li><span class="pin">3</span><span>The hierarchy of centers under a group was not retained anywhere</span></li>
+          <li><span class="pin">4</span><span>User management did not exist at the group level at all</span></li>
         </ul>
       </div>
       <figure class="shot reveal">
+        <div class="pin-stage" style="padding:9.047% 0.0% 0 7.983%">
+        <svg class="pin-lines" viewBox="0 0 1879 1134" aria-hidden="true"><defs><marker id="pin-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><polyline points="470,72 470,390"/><polyline points="950,72 950,333"/><polyline points="630,72 630,196"/><polyline points="75,432 206,432"/></svg>
+        <div class="pin-badges" aria-hidden="true"><span class="pin" style="left:25.013%;top:6.349%">1</span><span class="pin" style="left:50.559%;top:6.349%">2</span><span class="pin" style="left:33.528%;top:6.349%">3</span><span class="pin" style="left:3.991%;top:38.095%">4</span></div>
         <div class="img-slot">
           <div class="img-slot-fallback"><span class="cam">▣</span><b>Old Group Login UI</b><code>images/old-group-login-ui.webp</code></div>
           <img src="images/old-group-login-ui.webp" alt="Old group login UI requiring the center to be re-selected inside every module" onerror="this.remove()">
+        </div>
         </div>
         <figcaption>The old group login: a center picker re-asked inside every module, no memory of the hierarchy above it.</figcaption>
       </figure>
@@ -1474,11 +1575,20 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="lvl"><div class="tnode ops"><span class="r">IHX Ops</span><p>Creates the first Group Admin, the only Ops-owned step left in v1</p></div></div>
       <div class="vline"></div>
       <div class="lvl"><div class="tnode grp"><span class="r">Group Admin</span><p>One admin, the whole chain, across every mapped center</p></div></div>
-      <div class="branch"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span></div>
-      <div class="lvl">
-        <div class="tnode ctr"><span class="r">Center Admin</span><p>Manages one center's team, scoped at login</p></div>
-        <div class="tnode ctr"><span class="r">Center User</span><p>Scoped to their own center's workflows</p></div>
-        <div class="tnode ctr"><span class="r">Group User</span><p>Cross-center visibility without admin rights</p></div>
+      <!-- Group Admin creates Center Admins and Group Users; Center Users can come from either
+           Group Admin or a Center Admin, so those two lines merge into one above Center User -->
+      <div class="rt">
+        <div class="rt-branch"><i class="h"></i><i class="v l"></i><i class="v m"></i><i class="v r"></i></div>
+        <div class="rt-row">
+          <div class="rt-cell"><div class="tnode ctr"><span class="r">Center Admin</span><p>Manages one center's team, scoped at login</p></div></div>
+          <div class="rt-cell"><div class="tnode ctr"><span class="r">Group User</span><p>Cross-center visibility without admin rights</p></div></div>
+          <i class="v m"></i>
+        </div>
+        <div class="rt-join"><i class="v l up"></i><i class="v m up"></i><i class="h"></i><i class="v l down"></i></div>
+        <div class="rt-row">
+          <div class="rt-cell"><div class="tnode ctr"><span class="r">Center User</span><p>Scoped to their own center's workflows</p></div></div>
+          <div class="rt-cell"></div>
+        </div>
       </div>
       <div class="note">Group Admin, Group User, Center Admin, Center User: four roles where none existed.</div>
     </div>
@@ -1580,7 +1690,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="outcome reveal">
         <span class="loop">Closes S01 · Ops load</span>
         <div class="t">Daily ticket volume</div>
-        <div class="hero-val">10<small>/day, down from 80</small></div>
+        <div class="hero-val"><span><span class="d1">1</span>0</span><small>/day, down from 80</small></div>
         <p class="desc">87.5% reduction, roughly 2,100 support tickets eliminated a month.</p>
         <div class="baseline"><span class="bl">Baseline</span><span class="bv">~50 creations + ~30 resets / day</span></div>
       </div>
@@ -1594,7 +1704,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="outcome reveal" style="grid-column:1/-1;">
         <span class="loop">Closes S01 · Security</span>
         <div class="t">Deactivating a user</div>
-        <div class="hero-val">1 step<small>down from 4, taken directly by the hospital admin</small></div>
+        <div class="hero-val"><span><span class="d1">1</span> step</span><small>down from 4, taken directly by the hospital admin</small></div>
         <p class="desc">A four-step manual process with no time guarantee on any step, now one step inside the product.</p>
         <div class="baseline"><span class="bl">Baseline</span><span class="bv">4-step manual process</span></div>
       </div>
@@ -1809,6 +1919,15 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
 
   panel.setAttribute('inert', '');
 })();
+</script>
+<script>
+// pinned old screens: hovering a number on the list or on the screenshot lights up its pair
+document.querySelectorAll('.annot').forEach(function (block) {
+  var lis = block.querySelectorAll('ul.pinned li'), badges = block.querySelectorAll('.pin-badges .pin'), lines = block.querySelectorAll('.pin-lines polyline');
+  if (!lis.length) return;
+  function hot(i) { [lis, badges, lines].forEach(function (set) { [].forEach.call(set, function (el, j) { el.classList.toggle('is-hot', j === i); }); }); }
+  [lis, badges].forEach(function (set) { [].forEach.call(set, function (el, i) { el.addEventListener('pointerenter', function () { hot(i); }); el.addEventListener('pointerleave', function () { hot(-1); }); }); });
+});
 </script>
 </body>
 </html>
