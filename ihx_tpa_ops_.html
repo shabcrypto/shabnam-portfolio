@@ -86,7 +86,7 @@ nav.cs-nav{
 .wrap{max-width:1200px;margin:0 auto;padding:0 48px;}
 .page-inner{max-width:1200px;margin:0 auto;padding:0 48px;}
 .section{padding:80px 0;border-bottom:1px solid rgba(20,18,14,0.06);}
-.section-label{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:16px;}
+.section-label{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:16px;}
 .cs-heading{font-family:var(--font-display);font-size:var(--step-3);font-weight:400;color:var(--ink);letter-spacing:0.02em;line-height:1.05;margin-bottom:14px;}
 .cs-sub{font-size:var(--step-0);font-weight:400;color:var(--ink-soft);line-height:1.75;max-width:640px;margin-bottom:32px;}
 
@@ -109,8 +109,8 @@ nav.cs-nav{
 .stat-lbl{font-size:var(--step--1);color:var(--muted);}
 
 /* CALLOUT */
-.callout{background:rgba(60,58,218,0.08);border:1px solid rgba(110,108,240,0.25);border-radius:6px;padding:20px 24px;}
-.callout-label{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;}
+.callout{background:var(--card-bg);border:1px solid rgba(48,47,44,0.12);border-left:4px solid var(--indigo-light);border-radius:0 6px 6px 0;padding:20px 24px;}
+.callout-label{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:8px;}
 .callout-text{font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;}
 .callout-text strong{color:var(--ink);font-weight:700;}
 
@@ -128,7 +128,7 @@ nav.cs-nav{
 .card-row-val{font-size:var(--step--1);font-weight:500;color:var(--ink-soft);}
 
 /* QUOTE */
-.quote{background:rgba(232,67,10,0.06);border-left:3px solid var(--red);padding:20px 24px;border-radius:0 6px 6px 0;margin-top:16px;}
+.quote{background:var(--card-bg);border-left:4px solid var(--indigo-light);padding:20px 24px;border-radius:0 6px 6px 0;margin-top:16px;}
 .quote p{font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;font-style:italic;}
 .quote-attr{font-size:var(--step--1);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:8px;}
 
@@ -138,23 +138,23 @@ nav.cs-nav{
 .ev-dot.orange{background:var(--red);} .ev-dot.indigo{background:var(--indigo-light);}
 .ev-lbl{font-size:var(--step--1);font-weight:700;color:var(--ink-soft);}
 .ev-stat{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-2);font-weight:400;color:var(--indigo);letter-spacing:0.02em;line-height:1;}
-.synthesis{background:var(--card-bg);border:1px solid var(--border);border-left:3px solid var(--indigo);border-radius:0 6px 6px 0;padding:20px 24px;margin-top:12px;box-shadow:var(--shadow-card);}
+.synthesis{background:var(--card-bg);border:1px solid var(--border);border-left:4px solid var(--indigo-light);border-radius:0 6px 6px 0;padding:20px 24px;margin-top:12px;box-shadow:var(--shadow-card);}
 
 /* COMMENT */
 .comment{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:18px;margin-bottom:10px;box-shadow:var(--shadow-card);}
 .comment p{font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;font-style:italic;}
-.comment-attr{font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--indigo);margin-top:8px;}
+.comment-attr{font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--asphalt);margin-top:8px;}
 
 /* USER CARDS */
 .user-card{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:24px;box-shadow:var(--shadow-card);}
 .user-name{font-family:"Manrope", sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);}
 .badge{font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border-radius:3px;}
-.badge.teal{color:var(--teal-deep);border:1px solid rgba(0,184,148,0.3);}
-.badge.indigo{color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
+.badge.teal{color:var(--asphalt);border:0;background:rgba(48,47,44,0.08);}
+.badge.indigo{color:var(--asphalt);border:0;background:rgba(48,47,44,0.08);}
 .badge.amber{color:#8A5A0F;border:1px solid rgba(245,166,35,0.3);}
 .bullet{font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;display:flex;gap:8px;margin-bottom:5px;}
 .bullet::before{content:"·";color:var(--muted);flex-shrink:0;}
-.critical{font-size:var(--step--1);font-weight:500;color:var(--indigo);margin-top:14px;line-height:1.55;}
+.critical{font-size:var(--step--1);font-weight:500;color:var(--asphalt);margin-top:14px;line-height:1.55;}
 .critical strong{font-weight:700;}
 
 /* IA */
@@ -162,7 +162,7 @@ nav.cs-nav{
 .ia-dot{width:10px;height:10px;border-radius:50%;background:rgba(20,18,14,0.15);}
 .ia-lbl{font-size:var(--step--1);font-weight:600;color:var(--ink-soft);margin-left:8px;}
 .ia-breadcrumb{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:12px 20px;margin:12px 0;font-size:var(--step--1);color:var(--ink-soft);}
-.ia-breadcrumb strong{color:var(--indigo);}
+.ia-breadcrumb strong{color:var(--asphalt);}
 
 /* KEY DECISIONS TABLE */
 .kd-table{border:none;border-radius:8px;overflow:hidden;box-shadow:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);}
@@ -176,8 +176,9 @@ nav.cs-nav{
 .kd-title{font-size:var(--step-0);font-weight:800;color:var(--ink);margin-bottom:10px;line-height:1.35;}
 .kd-body{font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;margin-bottom:14px;}
 .kd-tag{display:inline-block;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 12px;border-radius:3px;}
-.kd-tag.indigo{color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
-.kd-tag.teal{color:var(--teal-deep);border:1px solid rgba(0,184,148,0.3);}
+.kd-tag.indigo{color:var(--indigo);border:0;background:rgba(60,58,218,0.10);}
+.kd-tag.teal{color:var(--teal-deep);border:0;background:rgba(0,184,148,0.12);}
+.src-chip{display:inline-block;font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 12px;border-radius:3px;color:var(--indigo);background:rgba(60,58,218,0.10);} /* source of a finding, same shape as .kd-tag */
 /* 06 Testing: four round tabs, one panel shown at a time */
 .rt-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:560px;margin-bottom:16px;}
 .rt-tabs button{min-height:44px;padding:0 12px;border:0;border-radius:6px;background:rgba(20,18,14,0.06);color:var(--ink-soft);font:inherit;font-size:var(--step--1);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s;}
@@ -224,21 +225,21 @@ nav.cs-nav{
 
 /* TRADEOFFS */
 .tf-outer{border:none;border-radius:6px;margin-bottom:12px;overflow:hidden;}
-.tf-header{padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
-.tf-cat{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px;}
+.tf-header{padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.tf-cat{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:6px;}
 .tf-title{font-family:"Manrope", sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);line-height:1.3;}
 .tf-badge{font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;}
-.tf-badge.green{color:var(--teal-deep);border:1px solid rgba(0,184,148,0.3);}
-.tf-badge.amber{color:#8A5A0F;border:1px solid rgba(245,166,35,0.3);}
-.tf-badge.indigo{color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
+.tf-badge.green{color:var(--asphalt);border:0;background:rgba(48,47,44,0.08);}
+.tf-badge.amber{color:var(--asphalt);border:0;background:rgba(48,47,44,0.08);}
+.tf-badge.indigo{color:var(--asphalt);border:0;background:rgba(48,47,44,0.08);}
 .tf-body{display:grid;grid-template-columns:1fr 1fr 1fr;}
 .tf-col{padding:20px 24px;border-right:1px solid var(--border);}
 .tf-col:last-child{border-right:none;}
 .tf-col-lbl{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px;}
-.tf-col-lbl.red{color:var(--indigo);} .tf-col-lbl.indigo{color:var(--indigo);} .tf-col-lbl.teal{color:var(--teal-deep);}
+.tf-col-lbl.red,.tf-col-lbl.indigo,.tf-col-lbl.teal{color:var(--asphalt);}
 .tf-col-text{font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;}
-.throughline{background:rgba(60,58,218,0.06);border:1px solid rgba(110,108,240,0.2);border-radius:6px;padding:32px;margin-top:20px;}
-.tl-lbl{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:12px;}
+.throughline{background:var(--card-bg);border:1px solid rgba(48,47,44,0.12);border-radius:6px;padding:32px;margin-top:20px;}
+.tl-lbl{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:12px;}
 .tl-title{font-family:"Manrope", sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);margin-bottom:20px;}
 .tl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
 .tl-item-title{font-size:var(--step--1);font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}
@@ -741,7 +742,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 /* TL;DR: the five-card summary every case study opens with, in IHX indigo */
 .tldr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:36px;}
 .tldr{background:var(--card-bg);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow-card);}
-.tldr .k{font-family:"Manrope",sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;display:block;}
+.tldr .k{font-family:"Manrope",sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;color:var(--asphalt);margin-bottom:10px;display:block;}
 .tldr p{font-size:var(--step--1);line-height:1.55;color:var(--ink-soft);}
 .tldr p b{color:var(--ink);font-weight:700;}
 @media (max-width:1100px){.team-row{grid-template-columns:1fr !important;}}
@@ -796,7 +797,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   box-shadow: var(--shadow-card);
 }
 /* .synthesis keeps its accent rule; it is a marker, not an outline */
-.synthesis { border-left: 3px solid var(--indigo); }
+.synthesis { border-left: 4px solid var(--indigo-light); }
+.callout { border-left: 4px solid var(--indigo-light); border-radius: 0 6px 6px 0; }
 /* the rows inside the 09 card sit on the card, so they carry no shadow of their own */
 .tf-outer { box-shadow: none; }
 
@@ -995,7 +997,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       </div>
       <h1 style="font-family:'Staatliches', 'Impact', 'Arial Narrow', sans-serif;font-weight:400;font-size:var(--step-4);line-height:1.02;letter-spacing:0.02em;margin-bottom:20px;">
         <span style="color:var(--ink);">Reimagining</span><br>
-        <span style="color:var(--indigo);">IHX Nucleus Ops Dashboard</span><br>
+        <span>IHX Nucleus Ops Dashboard</span><br>
         <span style="color:var(--ink);">for 18,000+ Healthcare Providers</span>
       </h1>
       <p style="font-size:var(--step-0);color:var(--ink-soft);line-height:1.75;max-width:460px;">A 4-bucket layout was hiding a multi-stage, two-team operation across 35+ insurance payers. Nobody had fixed it because nobody had asked how hospital teams actually work. We did.</p>
@@ -1094,21 +1096,21 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ground);border:1px solid var(--border);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:var(--step--1);font-weight:700;color:var(--muted);z-index:2;">VS</div>
 
     <!-- THE REAL PROBLEM -->
-    <div style="background:rgba(60,58,218,0.08);border-radius:6px;overflow:hidden;box-shadow:var(--shadow-card);">
+    <div style="background:var(--card-bg);border-radius:6px;overflow:hidden;box-shadow:var(--shadow-card);">
       <div style="padding:24px 24px 16px;">
-        <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:14px;">The Real Problem</div>
-        <div style="font-family:'Staatliches', 'Impact', 'Arial Narrow', sans-serif;font-size:var(--step-1);font-weight:400;color:var(--indigo);margin-bottom:12px;line-height:1.2;">Information Architecture</div>
+        <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:14px;">The Real Problem</div>
+        <div style="font-family:'Staatliches', 'Impact', 'Arial Narrow', sans-serif;font-size:var(--step-1);font-weight:400;color:var(--ink);margin-bottom:12px;line-height:1.2;">Information Architecture</div>
         <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">A multi-stage, two-team operation (pre-auth, enhancement, discharge, settlement, reconciliation across 35+ payers) flattened into 4 buckets and called an Operations Dashboard.</p>
       </div>
       <!-- Row: Root Cause -->
-      <div style="border-top:1px solid rgba(110,108,240,0.2);">
+      <div style="border-top:1px solid rgba(48,47,44,0.12);">
         <div style="padding:14px 24px;display:flex;align-items:baseline;gap:0;">
           <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;min-width:140px;">Root Cause</span>
           <span style="font-size:var(--step--1);font-weight:500;color:var(--ink-soft);">Information architecture problem, not a UI problem.</span>
         </div>
       </div>
       <!-- Row: Why We Should Solve This -->
-      <div style="border-top:1px solid rgba(110,108,240,0.2);">
+      <div style="border-top:1px solid rgba(48,47,44,0.12);">
         <div style="padding:14px 24px;display:flex;align-items:baseline;gap:0;">
           <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;min-width:160px;">Why Solve This</span>
           <span style="font-size:var(--step--1);font-weight:500;color:var(--ink-soft);">When hospital staff cannot find what they need, queries go unanswered, discharges get delayed, and IHX loses the client.</span>
@@ -1118,9 +1120,9 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
   </div>
 
-  <div style="background:rgba(232,67,10,0.06);border-left:3px solid var(--red);padding:20px 24px;border-radius:0 6px 6px 0;margin-top:16px;">
+  <div style="background:var(--card-bg);border-left:4px solid var(--indigo-light);padding:20px 24px;border-radius:0 6px 6px 0;margin-top:16px;">
     <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;font-style:italic;">"The platform had been inherited from a parent insurance company. When IHX became its own entity, nobody had gone back and asked how hospital teams actually work. The screen reflected the logic of the company that built it, not the people using it."</p>
-    <div style="font-size:var(--step--1);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:8px;">From discovery research</div>
+    <div style="margin-top:12px;"><span class="src-chip">From discovery research</span></div>
   </div>
 </div>
 </div>
@@ -1142,11 +1144,11 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <div class="ev-header"><div class="ev-dot indigo"></div><div class="ev-lbl">Google Analytics · Events Data</div></div>
         <div class="ev-stat">80%+</div>
         <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.65;margin-top:8px;">Of all column level searches used just 2 parameters: Patient Name, Claim Number. UTR had low usage but stays essential for Claim team</p>
-        <div style="font-size:var(--step--1);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:10px;">From discovery research</div>
+        <div style="margin-top:14px;"><span class="src-chip">From discovery research</span></div>
       </div>
       <div class="synthesis">
         <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;">Reading across both sources (the cold table in Hotjar and 42% of search events concentrated on just two parameters in GA), the pattern points to one conclusion: users were not finding what they needed through the bucket structure. They were relying on search as a workaround.</p>
-        <div style="font-size:var(--step--1);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:8px;">Synthesis across Hotjar + GA</div>
+        <div style="margin-top:12px;"><span class="src-chip">Synthesis across Hotjar + GA</span></div>
       </div>
     </div>
   </div>
@@ -1181,22 +1183,22 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <!-- PRE-AUTH TEAM -->
     <div style="border:none;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-card);">
       <!-- Header -->
-      <div style="background:rgba(60,58,218,0.19);padding:16px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-bottom:1px solid rgba(60,58,218,0.3);">
+      <div style="background:var(--card-bg);padding:16px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-bottom:1px solid rgba(48,47,44,0.12);">
         <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);">Pre-Auth Team</div>
         <div style="display:flex;gap:6px 10px;flex-wrap:wrap;">
-          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:#3C3ADA;display:flex;align-items:center;gap:4px;">⚡ Time-critical</span>
-          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:#3C3ADA;display:flex;align-items:center;gap:4px;">⚡ Patient facing</span>
+          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);display:flex;align-items:center;gap:4px;">⚡ Time-critical</span>
+          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);display:flex;align-items:center;gap:4px;">⚡ Patient facing</span>
         </div>
       </div>
       <!-- Bullets -->
-      <div style="padding:16px 20px;background:rgba(60,58,218,0.06);flex:1;">
+      <div style="padding:16px 20px;background:var(--card-bg);flex:1;">
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Initiates the claim before the patient is admitted</div>
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Responds to insurer queries on missing documents or procedure clarifications</div>
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Raises enhancement requests</div>
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Initiates discharge when the patient is medically ready to leave</div>
       </div>
       <!-- Critical note -->
-      <div style="padding:14px 20px;background:rgba(60,58,218,0.06);border-top:1px solid rgba(60,58,218,0.15);">
+      <div style="padding:14px 20px;background:var(--card-bg);border-top:1px solid rgba(48,47,44,0.12);">
         <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.6;"><b style="font-weight:700;">Every action is time-critical</b>: an unanswered query increases TAT, a delayed discharge costs the hospital a bed/hour.</p>
       </div>
     </div>
@@ -1204,22 +1206,22 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <!-- CLAIM TEAM -->
     <div style="border:none;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-card);">
       <!-- Header -->
-      <div style="background:rgba(0,184,148,0.19);padding:16px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-bottom:1px solid rgba(0,184,148,0.25);">
+      <div style="background:var(--card-bg);padding:16px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-bottom:1px solid rgba(48,47,44,0.12);">
         <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);">Claim Team</div>
         <div style="display:flex;gap:6px 10px;flex-wrap:wrap;">
-          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:#046A50;display:flex;align-items:center;gap:4px;">💰 Finance-critical</span>
-          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:#046A50;display:flex;align-items:center;gap:4px;">⚡ Settlement focused</span>
+          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);display:flex;align-items:center;gap:4px;">💰 Finance-critical</span>
+          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);display:flex;align-items:center;gap:4px;">⚡ Settlement focused</span>
         </div>
       </div>
       <!-- Bullets -->
-      <div style="padding:16px 20px;background:rgba(0,184,148,0.06);flex:1;">
+      <div style="padding:16px 20px;background:var(--card-bg);flex:1;">
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Submits the formal claim to the insurer after discharge is approved</div>
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Initiates settlement in bulk at end of day across multiple payers</div>
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Resolves finance-level queries that affect the settlement timeline</div>
         <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Reconciles payments against the hospital contracted tariff / MOUs</div>
       </div>
       <!-- Critical note -->
-      <div style="padding:14px 20px;background:rgba(0,184,148,0.06);border-top:1px solid rgba(9,124,101,0.2);">
+      <div style="padding:14px 20px;background:var(--card-bg);border-top:1px solid rgba(48,47,44,0.12);">
         <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.6;"><b style="font-weight:700;">Every delay means money already spent on care sitting</b> unreturned, impacting operational capital.</p>
       </div>
     </div>
@@ -1229,32 +1231,32 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   <!-- SUPERVISORS / TEAM HEADS -->
   <div style="border:none;border-radius:8px;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-card);">
     <!-- Header -->
-    <div style="background:rgba(245,166,35,0.08);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid rgba(245,166,35,0.15);">
+    <div style="background:var(--card-bg);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid rgba(48,47,44,0.12);">
       <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);">Supervisors / Team Heads</div>
       <div style="display:flex;gap:6px 10px;flex-wrap:wrap;">
-        <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:#8A5A0F;">⚡ Time-sensitive</span>
-        <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:#8A5A0F;">⚡ Management critical</span>
-        <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:#8A5A0F;">⚡ CXO facing</span>
+        <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);">⚡ Time-sensitive</span>
+        <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);">⚡ Management critical</span>
+        <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);">⚡ CXO facing</span>
       </div>
     </div>
     <!-- Bullets -->
-    <div style="padding:16px 20px;background:rgba(245,166,35,0.05);">
+    <div style="padding:16px 20px;background:var(--card-bg);">
       <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Opens the dashboard to understand the team's workload at a glance, not to take action directly</div>
       <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>If a query has been sitting unanswered, they will reach out to their staff immediately</div>
       <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Needs to see counts across multiple sub-statuses simultaneously to assess team performance</div>
       <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;"></span>The dashboard is a supervision and oversight tool, not an action tool</div>
     </div>
     <!-- Accountability note -->
-    <div style="padding:14px 20px;background:rgba(245,166,35,0.05);border-top:1px solid rgba(245,166,35,0.12);">
+    <div style="padding:14px 20px;background:var(--card-bg);border-top:1px solid rgba(48,47,44,0.12);">
       <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Every unanswered query and delayed discharge is visible to them first. <b style="font-weight:700;">They are accountable for the team's turnaround time.</b></p>
     </div>
   </div>
 
   <!-- Ecosystem Reality -->
-  <div style="background:rgba(60,58,218,0.06);border-left:4px solid var(--indigo-light);border-radius:0 6px 6px 0;box-shadow:var(--shadow-card);padding:24px;margin-bottom:24px;">
-    <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;">Ecosystem Reality</div>
+  <div style="background:var(--card-bg);border-left:4px solid var(--indigo-light);border-radius:0 6px 6px 0;box-shadow:var(--shadow-card);padding:24px;margin-bottom:24px;">
+    <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:10px;">Ecosystem Reality</div>
     <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;margin-bottom:6px;">The users work in a high pressure, highly sensitive environment. The user faces high cognitive load: talking to multiple patients, submitting cases, and answering queries by coordinating with department heads. They are easily frustrated when the platform adds to that load instead of reducing it.</p>
-    <div style="font-size:var(--step--1);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:8px;">From discovery research</div>
+    <div style="margin-top:12px;"><span class="src-chip">From discovery research</span></div>
   </div>
 
   <!-- Journey map image -->
@@ -1265,10 +1267,10 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   </div>
 
   <!-- User Journey Mapping callout -->
-  <div style="background:rgba(60,58,218,0.06);border-left:4px solid var(--indigo-light);border-radius:0 6px 6px 0;box-shadow:var(--shadow-card);padding:24px;">
-    <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;">User Journey Mapping</div>
+  <div style="background:var(--card-bg);border-left:4px solid var(--indigo-light);border-radius:0 6px 6px 0;box-shadow:var(--shadow-card);padding:24px;">
+    <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:10px;">User Journey Mapping</div>
     <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Two teams. Two urgency profiles. Two completely different reasons to open the platform. The old UI treated them as one user with one need.</p>
-    <div style="font-size:var(--step--1);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:8px;">From discovery research</div>
+    <div style="margin-top:12px;"><span class="src-chip">From discovery research</span></div>
   </div>
 </div>
 </div>
@@ -1388,8 +1390,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div style="padding:80px 48px;">
 <div class="page-inner">
   <div class="section-label">07 · Before and After</div>
-  <h2 class="cs-heading">Same dashboard. Before and after.</h2>
-  <p class="cs-sub">Point at a number to find it on the screen.</p>
+  <h2 class="cs-heading">What Changed on the Ops Dashboard</h2>
+  <p class="cs-sub">User Pain Points and Improvements</p>
   <div class="ba-tabs" role="tablist" aria-label="Before or after">
     <button type="button" role="tab" id="ba-tab-before" aria-controls="ba-card" aria-selected="true">Before</button>
     <button type="button" role="tab" id="ba-tab-after" aria-controls="ba-card" aria-selected="false" tabindex="-1">After</button>
@@ -1614,12 +1616,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
     <!-- Row 01 -->
     <div style="border-bottom:1px solid rgba(20,18,14,0.08);">
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:center;justify-content:space-between;gap:12px;">
         <div>
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px;">Engineering Constraint</div>
+          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:6px;">Engineering Constraint</div>
           <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);line-height:1.3;">Search: global search was infeasible. I used GA data to figure out what to build instead.</div>
         </div>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-deep);border:1px solid rgba(0,184,148,0.3);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Shipped</span>
+        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-deep);border:0;background:rgba(0,184,148,0.12);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Shipped</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
@@ -1639,12 +1641,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
     <!-- Row 02 -->
     <div style="border-bottom:1px solid rgba(20,18,14,0.08);">
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:center;justify-content:space-between;gap:12px;">
         <div>
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px;">Stakeholder Management</div>
+          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:6px;">Stakeholder Management</div>
           <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);line-height:1.3;">One enterprise hospital pushed to remove the Discharge bucket entirely. I held the line. They signed anyway.</div>
         </div>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--indigo);border:1px solid rgba(110,108,240,0.3);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Client Retained</span>
+        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--indigo);border:0;background:rgba(60,58,218,0.10);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Client Retained</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
@@ -1664,12 +1666,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
     <!-- Row 03 -->
     <div style="border-bottom:1px solid rgba(20,18,14,0.08);">
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:center;justify-content:space-between;gap:12px;">
         <div>
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px;">MVP Scope</div>
+          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:6px;">MVP Scope</div>
           <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);line-height:1.3;">Settlement in bulk was painful. We designed it. We did not ship it.</div>
         </div>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;border:1px solid rgba(245,166,35,0.3);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Deliberately Deferred</span>
+        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;border:0;background:rgba(245,166,35,0.16);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Deliberately Deferred</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
@@ -1689,12 +1691,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
     <!-- Row 04 -->
     <div>
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:center;justify-content:space-between;gap:12px;">
         <div>
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px;">Design Thinking &middot; Platform Stickiness</div>
+          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:6px;">Design Thinking &middot; Platform Stickiness</div>
           <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);line-height:1.3;">The Follow-Up Feature: from workflow improvement to contract requirement.</div>
         </div>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-deep);border:1px solid rgba(0,184,148,0.3);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Contract Secured</span>
+        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-deep);border:0;background:rgba(0,184,148,0.12);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Contract Secured</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
