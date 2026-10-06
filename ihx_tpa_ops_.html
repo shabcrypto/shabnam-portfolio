@@ -128,7 +128,7 @@ nav.cs-nav{
 .card-row-val{font-size:var(--step--1);font-weight:500;color:var(--ink-soft);}
 
 /* QUOTE */
-.quote{background:var(--card-bg);border-left:4px solid var(--indigo-light);padding:20px 24px;border-radius:0 6px 6px 0;margin-top:16px;}
+.quote{background:var(--card-bg);border-left:4px solid var(--indigo-light);padding:20px 24px;border-radius:0 6px 6px 0;margin-top:16px;box-shadow:var(--shadow-card);}
 .quote p{font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;font-style:italic;}
 .quote-attr{font-size:var(--step--1);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:8px;}
 
@@ -214,13 +214,13 @@ nav.cs-nav{
 .ba-foot{padding:20px 32px 24px;}
 .ba-head{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;margin-bottom:8px;}
 .ba-list-title{font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);}
-.ba-steps{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:20px 32px 0;}
+.ba-steps{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:20px 32px 28px;}
 .ba-steps.is-off{visibility:hidden;} /* keeps its height on Before so the screen does not jump when switching */
 .ba-steps button{min-height:36px;font-size:12px;letter-spacing:0.06em;}
 .ba-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));column-gap:40px;}
 .ba-list li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--row-border);font-size:var(--step--1);color:var(--ink-soft);line-height:1.5;cursor:default;transition:color .15s;}
 .ba-list li.is-hot{color:var(--ink);}
-@media (max-width:600px){.ba-foot{padding:16px 20px 20px;}.ba-steps{padding:16px 20px 0;}.ba-steps.is-off{display:none;}.ba-steps button{min-height:44px;}}
+@media (max-width:600px){.ba-foot{padding:16px 20px 20px;}.ba-steps{padding:16px 20px 20px;}.ba-steps.is-off{display:none;}.ba-steps button{min-height:44px;}}
 @media (prefers-reduced-motion:reduce){.ba-tabs button,.ba-steps button,.ba-shot img,.ba-badge,.ba-list li,.ba-lines polyline{transition:none;}}
 
 /* TRADEOFFS */
@@ -348,8 +348,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
    themselves when scrolled into view; click replays. Drawn at 360x320 and scaled to the
    column, so the layout inside never reflows. Colours are chart content, not site colours.
    Manrope rather than the mock's DM Sans: the site's text face, no extra font download. */
-.oc-wrap{position:relative;aspect-ratio:360/320;border-radius:10px;overflow:hidden;background:#1e1d1b;}
-.oc-card{position:absolute;left:0;top:0;width:360px;height:320px;transform-origin:0 0;transform:scale(var(--s,1));background:#1e1d1b;box-sizing:border-box;display:flex;flex-direction:column;color:#efeae0;cursor:pointer;font-family:'Manrope',sans-serif;}
+.oc-wrap{position:relative;aspect-ratio:360/320;border-radius:10px;overflow:hidden;background:var(--asphalt);}
+.oc-card{position:absolute;left:0;top:0;width:360px;height:320px;transform-origin:0 0;transform:scale(var(--s,1));background:var(--asphalt);box-sizing:border-box;display:flex;flex-direction:column;color:#efeae0;cursor:pointer;font-family:'Manrope',sans-serif;}
 .oc-title{text-align:center;font-size:17px;font-weight:500;color:#cfcac0;letter-spacing:.2px;}
 .oc-stat{text-align:center;opacity:0;transform:translateY(8px);}
 .oc-stat .oc-num{font-weight:500;}
@@ -739,18 +739,20 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 .cs-thumb.soon ~ .cs-card-body .cs-card-title{color:var(--asphalt-soft);}
 /* a metric line too long to sit beside the title wraps below it, instead of widening the column */
 .other-cs-grid > *{min-width:0;}
-/* TL;DR: the five-card summary every case study opens with, in IHX indigo */
-.tldr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:36px;}
-.tldr{background:var(--card-bg);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow-card);}
-.tldr .k{font-family:"Manrope",sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;color:var(--asphalt);margin-bottom:10px;display:block;}
-.tldr p{font-size:var(--step--1);line-height:1.55;color:var(--ink-soft);}
-.tldr p b{color:var(--ink);font-weight:700;}
+/* TL;DR: one long asphalt card, five steps read left to right with arrows between them */
+.tldr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:36px;background:var(--asphalt);border-radius:14px;padding:28px 0;box-shadow:var(--shadow-card);}
+.tldr{position:relative;padding:4px 28px;}
+.tldr:not(:last-child)::after{content:"";position:absolute;top:50%;right:-9px;width:18px;height:18px;transform:translateY(-50%);opacity:0.45;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none' stroke='%23F0E6D2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9h12M10 4l5 5-5 5'/%3E%3C/svg%3E") center/18px no-repeat;}
+.tldr .k{font-family:"Manrope",sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;color:#F0E6D2;opacity:0.7;margin-bottom:10px;display:block;}
+.tldr p{font-size:var(--step--1);line-height:1.55;color:rgba(240,230,210,0.82);}
+.tldr p b{color:#F0E6D2;font-weight:700;}
 @media (max-width:1100px){.team-row{grid-template-columns:1fr !important;}}
 /* TL;DR reads centred on every case study: label, heading and each card */
 #tldr .section-label,#tldr .cs-heading{text-align:center;margin-left:auto;margin-right:auto;}
 .tldr{text-align:center;}
-@media(max-width:1000px){.tldr-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:600px){.tldr-grid{grid-template-columns:1fr;}}
+@media(max-width:1000px){.tldr-grid{grid-template-columns:1fr;padding:8px 0;}.tldr{padding:22px 24px;}
+  .tldr:not(:last-child)::after{top:auto;bottom:-9px;right:50%;transform:translateX(50%) rotate(90deg);}}
 .cs-card-body{flex-wrap:wrap;row-gap:4px;}
 .cs-metrics{flex-shrink:1;min-width:0;white-space:normal;}
 /* hierarchy: the title leads (Step 1, deep asphalt), the metric line sits under it, smaller */
@@ -1025,11 +1027,11 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   <div class="section-label">TL;DR</div>
   <h2 class="cs-heading">The whole story, in five cards.</h2>
   <div class="tldr-grid">
-    <div class="tldr"><span class="k">Problem</span><p>A 4-bucket layout was hiding a <b>multi-stage, two-team operation</b> across 35+ payers. The brief said redesign the UI. The real problem was information architecture.</p></div>
-    <div class="tldr"><span class="k">Evidence</span><p>Hotjar showed a cold table and heat on search. <b>80%+ of column searches used two parameters</b>: users searched because the buckets did not work.</p></div>
-    <div class="tldr"><span class="k">Solution</span><p>Separate <b>PA View and Claim View</b>, each with its own buckets, secondary filters and scoped search. The same pattern now carries five more modules.</p></div>
-    <div class="tldr"><span class="k">Numbers</span><p><b>&uarr;33% revenue per claim</b>, INR 90 to 120. Time on task 3.23 &rarr; 1.56 min, a 51% reduction. 3 group hospital contracts secured.</p></div>
-    <div class="tldr"><span class="k">Takeaway</span><p>Use data to answer design questions, and make <b>platform decisions that hold for everyone</b>, not just the loudest user.</p></div>
+    <div class="tldr"><span class="k">Problem</span><p>The brief said redesign the UI. The real problem was <b>information architecture</b>.</p></div>
+    <div class="tldr"><span class="k">Evidence</span><p>The old dashboard <b>did not reflect the hospital workflow</b>, so users searched around it.</p></div>
+    <div class="tldr"><span class="k">Solution</span><p>Separate <b>PA View and Claim View</b>, each with its own buckets, filters and scoped search.</p></div>
+    <div class="tldr"><span class="k">Numbers</span><p><b>&uarr;33% revenue per claim.</b> Time on task <b>3.23 &rarr; 1.56 min</b>. 3 group hospital contracts.</p></div>
+    <div class="tldr"><span class="k">Takeaway</span><p>Let data answer design questions. Make <b>platform decisions that hold for everyone</b>.</p></div>
   </div>
 </div>
 </div>
@@ -1120,7 +1122,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
   </div>
 
-  <div style="background:var(--card-bg);border-left:4px solid var(--indigo-light);padding:20px 24px;border-radius:0 6px 6px 0;margin-top:16px;">
+  <div style="background:var(--card-bg);border-left:4px solid var(--indigo-light);padding:20px 24px;border-radius:0 6px 6px 0;margin-top:16px;box-shadow:var(--shadow-card);">
     <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;font-style:italic;">"The platform had been inherited from a parent insurance company. When IHX became its own entity, nobody had gone back and asked how hospital teams actually work. The screen reflected the logic of the company that built it, not the people using it."</p>
     <div style="margin-top:12px;"><span class="src-chip">From discovery research</span></div>
   </div>
