@@ -97,7 +97,7 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
-::selection{background:var(--v1);color:#fff;}
+::selection{background:var(--v1);color:#F0E6D2;}
 
 .display{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-weight:400;}
 
@@ -210,7 +210,7 @@ body{
 .sec{padding:130px 48px;position:relative;max-width:1200px;margin:0 auto;}
 .sec-num{
   font-size:var(--step--1);font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--v2);margin-bottom:22px;
+  color:var(--asphalt);margin-bottom:22px;
 }
 .sec-head{
   font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;
@@ -224,22 +224,28 @@ body{
 }
 .divider{height:1px;background:var(--line-2);max-width:1200px;margin:0 auto;}
 /* TL;DR: the five-card summary every case study opens with, in this page's violet */
-.tldr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:40px;}
-.tldr{background:var(--card-bg);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow-card);}
-.tldr .k{font-family:"Manrope",sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;color:var(--v2);margin-bottom:10px;display:block;}
-.tldr p{font-size:var(--step--1);line-height:1.55;color:var(--w2);}
-.tldr p b{color:var(--w1);font-weight:700;}
+/* TL;DR: one long asphalt card, five steps read left to right with arrows between them (same as Ops and User Management) */
+.tldr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:40px;background:var(--asphalt);border-radius:14px;padding:28px 0;box-shadow:var(--shadow-card);}
+.tldr{position:relative;padding:4px 28px;}
+.tldr:not(:last-child)::after{content:"";position:absolute;top:50%;right:-9px;width:18px;height:18px;transform:translateY(-50%);opacity:0.45;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none' stroke='%23F0E6D2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9h12M10 4l5 5-5 5'/%3E%3C/svg%3E") center/18px no-repeat;}
+.tldr .k{
+  font-family:"Manrope", sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;
+  color:#F0E6D2;opacity:0.7;margin-bottom:10px;display:block;
+}
+.tldr p{font-size:var(--step--1);line-height:1.55;color:rgba(240,230,210,0.82);}
+.tldr p b{color:#F0E6D2;}
+@media(max-width:1000px){.tldr-grid{grid-template-columns:1fr;padding:8px 0;}.tldr{padding:22px 24px;}
+  .tldr:not(:last-child)::after{top:auto;bottom:-9px;right:50%;transform:translateX(50%) rotate(90deg);}}
 /* TL;DR reads centred on every case study: label, heading and each card */
 #tldr .sec-num,#tldr .sec-head{text-align:center;margin-left:auto;margin-right:auto;}
 .tldr{text-align:center;}
-@media(max-width:1000px){.tldr-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:600px){.tldr-grid{grid-template-columns:1fr;}}
 
 /* ── 01 PROBLEM — failure modes (no boxes) ── */
 .fail-grid{margin-top:72px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
 .fail{padding:0 40px;border-left:1px solid var(--line);}
 .fail:first-child{padding-left:0;border-left:none;}
-.fail-i{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-2);font-weight:400;color:var(--v2);letter-spacing:0.02em;}
+.fail-i{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-2);font-weight:400;color:var(--asphalt);letter-spacing:0.02em;}
 .fail-t{margin-top:18px;font-size:var(--step-0);font-weight:700;color:var(--w1);}
 .fail-d{margin-top:12px;font-size:var(--step--1);font-weight:300;line-height:1.72;color:var(--w3);}
 
@@ -262,7 +268,7 @@ body{
 .gap-bar.need span{color:var(--v2);}
 
 .callout{
-  margin-top:80px;padding-left:28px;border-left:3px solid var(--v1);
+  margin-top:80px;padding-left:28px;border-left:4px solid var(--v1);
   max-width:760px;
 }
 .callout b{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-1);font-weight:400;color:var(--w1);letter-spacing:0.02em;display:block;margin-bottom:12px;}
@@ -344,7 +350,7 @@ body{
 
 /* ── 05 AI ARCHITECTURE ── */
 .flows{margin-top:76px;display:grid;grid-template-columns:1fr 1fr;gap:72px;}
-.flow-t{font-size:var(--step--1);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--v2);margin-bottom:28px;text-align:center;}
+.flow-t{font-size:var(--step--1);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:28px;text-align:center;}
 .flow-step{display:flex;gap:12px;padding:10px;align-items:flex-start;position:relative;
   width:260px;margin:0 auto;
   background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.2);border-radius:10px;}
@@ -485,7 +491,7 @@ body{
   border:1px solid rgba(139,92,246,.22);
   display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
   box-shadow:0 16px 40px rgba(20,18,14,.14);position:relative;overflow:hidden;}
-.scr-img .ph{font-size:var(--step--1);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--v2);}
+.scr-img .ph{font-size:var(--step--1);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--asphalt);}
 .scr-img .ph2{font-size:var(--step--1);font-weight:300;color:var(--w4);font-family:"Manrope", sans-serif;}
 .scr-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
 /* demo video slot — same dark app-mockup card treatment as .scr-img, wider aspect for a
@@ -499,7 +505,7 @@ body{
   box-shadow:0 16px 40px rgba(20,18,14,.14);position:relative;overflow:hidden;margin-top:40px;
 }
 .demo-slot video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;}
-.scr-txt .k{font-size:var(--step--1);font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--v2);margin-bottom:18px;}
+.scr-txt .k{font-size:var(--step--1);font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--asphalt);margin-bottom:18px;}
 .scr-txt h3{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-2);font-weight:400;letter-spacing:0.02em;color:var(--w1);margin-bottom:16px;}
 .scr-txt p{font-size:var(--step--1);font-weight:300;line-height:1.78;color:var(--w2);}
 
@@ -507,7 +513,7 @@ body{
 .process{margin-top:72px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
 .ph{padding:0 36px;border-left:1px solid var(--line);position:relative;}
 .ph:first-child{padding-left:0;border-left:none;}
-.ph-i{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-4);font-weight:400;color:rgba(139,92,246,0.35);letter-spacing:0.02em;line-height:1;}
+.ph-i{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-4);font-weight:400;color:rgba(48,47,44,0.35);letter-spacing:0.02em;line-height:1;}
 .ph-t{margin-top:8px;font-size:var(--step-0);font-weight:700;color:var(--w1);}
 .ph-d{margin-top:12px;font-size:var(--step--1);font-weight:300;line-height:1.7;color:var(--w3);}
 
@@ -515,18 +521,18 @@ body{
 .refl{margin-top:72px;display:grid;grid-template-columns:1fr 1fr;gap:80px;}
 .refl-col h3,.refl-col h4{font-size:var(--step--1);font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:28px;}
 .refl-col.good h3,.refl-col.good h4{color:var(--w1);}
-.refl-col.hard h3,.refl-col.hard h4{color:var(--v2);}
+.refl-col.hard h3,.refl-col.hard h4{color:var(--asphalt);}
 .refl-item{padding:18px 0;border-top:1px solid var(--line-2);display:flex;gap:16px;align-items:flex-start;}
 .refl-item .m{font-family:"Manrope", sans-serif;font-size:var(--step--1);font-weight:700;min-width:20px;}
 .refl-col.good .m{color:var(--w1);}
-.refl-col.hard .m{color:var(--v2);}
+.refl-col.hard .m{color:var(--asphalt);}
 .refl-item p{font-size:var(--step--1);font-weight:300;line-height:1.6;color:var(--w2);}
 
 .state{margin-top:88px;padding-left:28px;border-left:3px solid var(--w2);max-width:720px;}
 .state b{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-1);font-weight:400;color:var(--w1);display:block;margin-bottom:12px;}
 .state p{font-size:var(--step--1);font-weight:300;line-height:1.75;color:var(--w2);}
-.future{margin-top:48px;padding-left:28px;border-left:3px solid var(--v1);max-width:720px;}
-.future b{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-1);font-weight:400;color:var(--v2);display:block;margin-bottom:12px;}
+.future{margin-top:48px;padding-left:28px;border-left:4px solid var(--v1);max-width:720px;}
+.future b{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-1);font-weight:400;color:var(--asphalt);display:block;margin-bottom:12px;}
 .future p{font-size:var(--step--1);font-weight:300;line-height:1.75;color:var(--w2);}
 
 .closing{padding:160px 48px 130px;max-width:1200px;margin:0 auto;}
@@ -957,6 +963,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 .sc-foot .foot2-privacy a{color:inherit;text-decoration:underline;text-underline-offset:2px;}
 @media (max-width:900px){.sc .contact{grid-template-columns:1fr;gap:52px;} .sc .bcard{transform:none;}}
 @media (prefers-reduced-motion:reduce){.sc .bc-caret{animation:none;}}
+/* Staatliches draws 1 as a bare stroke that reads as "I"; in big numbers and headings the 1 comes from Manrope */
+.d1{font-family:"Manrope",sans-serif;font-style:normal;font-weight:800;font-size:0.86em;letter-spacing:0;}
 </style>
 </head>
 <body>
@@ -1048,7 +1056,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
   <div class="fail-grid">
     <div class="fail">
-      <div class="fail-i">01</div>
+      <div class="fail-i">0<i class="d1">1</i></div>
       <div class="fail-t">Energy is treated as constant</div>
       <div class="fail-d">A to-do list assumes the same capacity every day. Energy shifts across the cycle, and the plan never accounts for it.</div>
     </div>
@@ -1115,7 +1123,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   <h2 class="sec-head">Five days, four moves.</h2>
 
   <div class="process">
-    <div class="ph"><div class="ph-i">01</div><div class="ph-t">Problem Validation</div><div class="ph-d">Built for personal use first. Secondary research came second, to test the hypothesis rather than invent it.</div></div>
+    <div class="ph"><div class="ph-i">0<i class="d1">1</i></div><div class="ph-t">Problem Validation</div><div class="ph-d">Built for personal use first. Secondary research came second, to test the hypothesis rather than invent it.</div></div>
     <div class="ph"><div class="ph-i">02</div><div class="ph-t">Define Direction</div><div class="ph-d">Set the planning chain and the assist-not-automate principle before any screen existed.</div></div>
     <div class="ph"><div class="ph-i">03</div><div class="ph-t">Build MVP</div><div class="ph-d">Vibe-coded on Lovable. Rules-based scheduling over full LLM to keep the MVP stable in a five-day window.</div></div>
     <div class="ph"><div class="ph-i">04</div><div class="ph-t">Iterate &amp; Refine</div><div class="ph-d">Tightened the AI routing, separated voice and text systems, and fixed tone on energy guidance.</div></div>
@@ -1137,12 +1145,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="stat-src">OECD</div>
     </div>
     <div class="stat">
-      <div class="stat-n">7<span style="font-size:.4em;font-weight:700;"> in 10</span></div>
+      <div class="stat-n">7<span style="font-size:.4em;font-weight:700;"> in <i class="d1">1</i>0</span></div>
       <div class="stat-l">mothers report cognitive overload from juggling roles.</div>
       <div class="stat-src">IJIP</div>
     </div>
     <div class="stat">
-      <div class="stat-n">5–10<span style="font-size:.4em;font-weight:700;">%</span></div>
+      <div class="stat-n">5–<i class="d1">1</i>0<span style="font-size:.4em;font-weight:700;">%</span></div>
       <div class="stat-l">typical long-term retention for productivity apps.</div>
       <div class="stat-src">Industry benchmark</div>
     </div>
@@ -1173,7 +1181,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     </div>
     <div class="mkt-stats">
       <div class="mkt-cell"><div class="n v">$56.5B</div><div class="l">FemTech market, 2024</div></div>
-      <div class="mkt-cell"><div class="n">$18B+</div><div class="l">Productivity software</div></div>
+      <div class="mkt-cell"><div class="n">$<i class="d1">1</i>8B+</div><div class="l">Productivity software</div></div>
       <div class="mkt-cell"><div class="n">$2B+</div><div class="l">FemTech VC, recent cycle</div></div>
       <div class="mkt-cell"><div class="n">~$300M</div><div class="l">Serviceable opportunity</div></div>
     </div>

@@ -124,13 +124,13 @@ a{color:inherit;}
   color:var(--muted);text-decoration:none;font-size:var(--step--1);font-weight:700;
   padding:6px 12px;border-radius:100px;transition:color .2s,background .2s;
 }
-.subnav a b{font-family:"Manrope", sans-serif;font-weight:900;color:var(--indigo);font-size:var(--step--1);}
+.subnav a b{font-family:"Manrope", sans-serif;font-weight:900;color:var(--asphalt);font-size:var(--step--1);}
 .subnav a:hover{color:var(--ink);background:var(--card-bg);}
 
 /* Shared card shadow: every top-level card surface gets the same soft, neutral lift instead
    of leaning on borders alone. Reuse this exact rule (selectors + var(--shadow-card)) on the
    other case studies when they get the same light-theme + polish pass. */
-.hero-stats, .big-num-card, .pain, .gap, .tree, .persona, .dec, .phase, .tldr, .sol,
+.hero-stats, .big-num-card, .pain, .gap, .tree, .persona, .dec, .phase, .sol,
 .outcome, .data-table, .callout {
   box-shadow: var(--shadow-card);
 }
@@ -143,10 +143,10 @@ a{color:inherit;}
 .hero-grid{display:flex;flex-direction:column;gap:40px;}
 .kicker{
   display:inline-flex;align-items:center;gap:10px;
-  font-size:var(--step--1);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo);
+  font-size:var(--step--1);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--asphalt);
   margin-bottom:22px;
 }
-.kicker::before{content:"";width:28px;height:2px;background:var(--indigo-light);display:inline-block;}
+.kicker::before{content:"";width:28px;height:2px;background:var(--asphalt);display:inline-block;}
 .hero h1{font-size:var(--step-3);font-weight:900;line-height:1.08;letter-spacing:-0.02em;max-width:820px;margin-top:18px;}
 .hero h1 .serif{color:var(--indigo);font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-style:normal;font-weight:400;}
 .hero .sub{margin-top:20px;max-width:660px;color:var(--ink-soft);font-size:var(--step-0);}
@@ -181,7 +181,7 @@ a{color:inherit;}
 /* ---------- sections ---------- */
 section{padding:64px 0;border-top:1px solid var(--border);}
 .sec-tag{font-size:var(--step--1);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.sec-tag em{color:var(--indigo);font-style:normal;}
+.sec-tag em{color:var(--asphalt);font-style:normal;}
 section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-width:720px;}
 .sec-intro{color:var(--ink-soft);margin-top:12px;max-width:680px;font-size:var(--step-0);}
 .mini-label{
@@ -223,7 +223,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 }
 .num-card .badge-num{
   display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
-  border-radius:50%;background:rgba(60,58,218,0.1);color:var(--indigo);
+  border-radius:50%;background:rgba(48,47,44,0.08);color:var(--asphalt);
   font-family:"Manrope", sans-serif;font-weight:900;font-size:var(--step-0);margin-bottom:18px;
 }
 .num-card b{font-size:var(--step-0);line-height:1.35;display:block;margin-bottom:8px;}
@@ -235,7 +235,7 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
   border:1px solid var(--border);border-radius:100px;padding:10px 18px;
   font-size:var(--step--1);color:var(--ink-soft);background:#ECEAE4;box-shadow:var(--shadow-card);
 }
-.fact-pill b{color:var(--indigo);font-weight:800;}
+.fact-pill b{color:var(--ink);font-weight:800;}
 
 /* horizontal flow diagram */
 /* single-layer card row, no outer wrapper — a wrapping card behind bordered inner cards
@@ -265,7 +265,7 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
   margin-top:28px;background:#ECEAE4;border-left:3px solid var(--indigo-light);border-radius:0 14px 14px 0;
   padding:22px 26px;
 }
-.callout .t{font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;}
+.callout .t{font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:8px;}
 .callout p{color:var(--ink-soft);font-size:var(--step-0);max-width:760px;}
 .callout .badges{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
 /* neutral variant for "the problem" so it doesn't read identically to the accented
@@ -278,8 +278,8 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
   display:inline-block;font-size:var(--step--1);font-weight:800;letter-spacing:.04em;text-transform:uppercase;
   padding:5px 12px;border-radius:6px;
 }
-.badge{background:rgba(110,108,240,0.12);color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
-.badge.teal{background:rgba(0,184,148,0.12);color:var(--teal-deep);border-color:rgba(0,184,148,0.35);}
+.badge{background:rgba(60,58,218,0.10);color:var(--indigo);border:0;}
+.badge.teal{background:rgba(0,184,148,0.12);color:var(--teal-deep);border:0;}
 
 /* gaps grid */
 .gap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px;}
@@ -287,7 +287,7 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
   background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:22px 20px;position:relative;
 }
 .gap .gnum{
-  font-family:"Manrope", sans-serif;font-weight:900;color:var(--indigo);font-size:var(--step--1);letter-spacing:.1em;
+  font-family:"Manrope", sans-serif;font-weight:900;color:var(--asphalt);font-size:var(--step--1);letter-spacing:.1em;
   display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;
 }
 .gap .gnum::after{content:"";width:20px;height:1px;background:rgba(110,108,240,0.4);}
@@ -347,7 +347,7 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
   font-size:var(--step--1);font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;
   display:inline-block;
 }
-.persona .who.indigo{color:var(--indigo);} .persona .who.teal{color:var(--teal-deep);}
+.persona .who.indigo,.persona .who.teal{color:var(--asphalt);}
 .persona b{font-size:var(--step-0);line-height:1.45;display:block;}
 .persona p{font-size:var(--step--1);color:var(--muted);margin-top:8px;flex:1;}
 .persona .tagpill{align-self:flex-start;margin-top:16px;}
@@ -355,7 +355,7 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
   margin-top:16px;padding-top:14px;border-top:1px dashed var(--row-border);
   font-size:var(--step--1);font-weight:700;color:var(--ink-soft);
 }
-.persona .maps span{color:var(--indigo);}
+.persona .maps span{color:var(--asphalt);}
 
 /* decisions */
 .dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:36px;}
@@ -374,9 +374,9 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 .dec b{font-size:var(--step-0);font-family:"Manrope", sans-serif;font-weight:700;display:block;line-height:1.35;}
 .dec p{font-size:var(--step--1);color:var(--muted);margin-top:8px;}
 .dec .closes{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap;}
-.tagpill.ops{background:rgba(110,108,240,0.12);color:var(--indigo);border:1px solid rgba(110,108,240,0.3);}
-.tagpill.sec{background:rgba(0,184,148,0.12);color:var(--teal-deep);border:1px solid rgba(0,184,148,0.35);}
-.tagpill.grp{background:rgba(20,18,14,0.08);color:var(--ink-soft);border:1px solid var(--row-border);}
+.tagpill.ops{background:rgba(60,58,218,0.10);color:var(--indigo);border:0;}
+.tagpill.sec{background:rgba(0,184,148,0.12);color:var(--teal-deep);border:0;}
+.tagpill.grp{background:rgba(245,166,35,0.16);color:#8A5A0F;border:0;}
 .tagpill.ship{background:transparent;border:1px solid var(--row-border);color:var(--muted);}
 .dec.wide{grid-column:1 / -1;}
 
@@ -415,7 +415,7 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 .compare .col .cl{
   font-size:var(--step--1);font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin-bottom:12px;color:var(--muted);
 }
-.compare .col.after .cl{color:var(--teal-deep);}
+.compare .col.after .cl{color:var(--asphalt);}
 .compare .col ol{list-style:none;}
 .compare .col li{
   font-size:var(--step--1);color:var(--ink-soft);padding:7px 0;border-bottom:1px dashed var(--row-border);
@@ -530,7 +530,7 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 .data-table td.new{color:var(--teal-deep);}
 .closes-tag{
   display:inline-block;font-size:var(--step--1);font-weight:700;color:var(--indigo);
-  background:rgba(110,108,240,0.1);border:1px solid rgba(110,108,240,0.3);border-radius:100px;padding:2px 10px;
+  background:rgba(60,58,218,0.10);border:0;border-radius:6px;padding:3px 10px;
 }
 
 /* flagged / open item — honest "not resolved yet" markers, distinct from the confident callout */
@@ -564,14 +564,19 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
    nested inside a card), so the ramp reads white → F9F9F9 → F6F6F6 → EFEFEF regardless of
    which section a card lands in. */
 #tldr, #s1, #s3, #s5, .more-work{background:var(--ground-alt);}
-.tldr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:36px;}
-.tldr{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px 18px;}
+/* TL;DR: one long asphalt card, five steps read left to right with arrows between them (same as Ops and User Management) */
+.tldr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:36px;background:var(--asphalt);border-radius:14px;padding:28px 0;box-shadow:var(--shadow-card);}
+.tldr{position:relative;padding:4px 28px;}
+.tldr:not(:last-child)::after{content:"";position:absolute;top:50%;right:-9px;width:18px;height:18px;transform:translateY(-50%);opacity:0.45;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none' stroke='%23F0E6D2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9h12M10 4l5 5-5 5'/%3E%3C/svg%3E") center/18px no-repeat;}
 .tldr .k{
   font-family:"Manrope", sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;
-  color:var(--indigo);margin-bottom:10px;display:block;
+  color:#F0E6D2;opacity:0.7;margin-bottom:10px;display:block;
 }
-.tldr p{font-size:var(--step--1);line-height:1.55;color:var(--ink-soft);}
-.tldr p b{color:var(--ink);}
+.tldr p{font-size:var(--step--1);line-height:1.55;color:rgba(240,230,210,0.82);}
+.tldr p b{color:#F0E6D2;}
+@media(max-width:1000px){.tldr-grid{grid-template-columns:1fr;padding:8px 0;}.tldr{padding:22px 24px;}
+  .tldr:not(:last-child)::after{top:auto;bottom:-9px;right:50%;transform:translateX(50%) rotate(90deg);}}
 /* TL;DR reads centred on every case study: label, heading and each card */
 #tldr .sec-tag,#tldr h2{text-align:center;margin-left:auto;margin-right:auto;}
 .tldr{text-align:center;}
@@ -582,25 +587,25 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 .annot.flip .txt{order:2;}
 .annot .txt h3{font-size:var(--step-0);font-weight:900;letter-spacing:-0.01em;color:var(--ink);}
 .annot .tagline{
-  display:inline-block;font-size:var(--step--1);font-weight:800;letter-spacing:.1em;text-transform:uppercase;
-  padding:5px 12px;border-radius:6px;margin-bottom:12px;
+  display:block;font-size:var(--step--1);font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  margin-bottom:10px;
 }
-.tagline.bad{background:rgba(110,108,240,0.12);color:var(--indigo);}
-.tagline.good{background:rgba(0,184,148,0.12);color:var(--teal-deep);}
+.tagline.bad{color:var(--asphalt);}
+.tagline.good{color:var(--asphalt);}
 .annot .txt ul{list-style:none;margin-top:12px;}
 .annot .txt li{
   font-size:var(--step--1);color:var(--ink-soft);padding:9px 0;border-bottom:1px dashed var(--row-border);
   display:flex;gap:10px;align-items:baseline;
 }
 .annot .txt li:last-child{border-bottom:none;}
-.annot .txt li::before{content:"·";color:var(--indigo);font-weight:800;flex:none;}
+.annot .txt li::before{content:"·";color:var(--asphalt);font-weight:800;flex:none;}
 .annot .shot{margin:0;}
 .annot .shot figcaption{font-size:var(--step--1);color:var(--muted);margin-top:10px;line-height:1.5;}
 
 /* solution — grouped by screen, narrative + inline shots instead of a flat table */
 .sol{margin-top:48px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:30px 28px;}
 .sol .sol-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
-.sol .n{font-family:"Manrope", sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--teal-deep);}
+.sol .n{font-family:"Manrope", sans-serif;font-weight:900;font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);}
 .sol h3{font-size:var(--step-0);font-weight:900;letter-spacing:-0.01em;color:var(--ink);}
 .sol .sol-sub{margin-top:6px;font-size:var(--step--1);color:var(--ink-soft);line-height:1.65;max-width:680px;}
 .sol .closes-tag{margin-top:12px;}
@@ -619,26 +624,24 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 .take{text-align:center;padding:72px 0 64px;border-top:1px solid var(--border);}
 .take .big{
   font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-weight:400;font-size:var(--step-2);
-  color:var(--ink);letter-spacing:0.02em;max-width:720px;margin:0 auto;line-height:1.4;
+  color:var(--indigo);letter-spacing:0.02em;max-width:720px;margin:0 auto;line-height:1.4;
 }
-.take .big em{font-style:normal;color:var(--indigo);}
+.take .big em{font-style:normal;color:var(--ink);}
+/* Staatliches draws 1 as a bare stroke that reads as "I"; in big numbers the 1 comes from Manrope, sized to the cap height */
+.d1{font-family:"Manrope",sans-serif;font-style:normal;font-weight:800;font-size:0.86em;letter-spacing:0;}
 .take .fine{margin-top:18px;font-size:var(--step--1);color:var(--muted);letter-spacing:.04em;}
 
 @media(max-width:860px){
-  .tldr-grid{grid-template-columns:1fr 1fr;}
   .annot,.annot.flip{grid-template-columns:1fr;}
   .annot.flip .txt{order:0;}
   .sol-2col{grid-template-columns:1fr;}
-}
-@media(max-width:560px){
-  .tldr-grid{grid-template-columns:1fr;}
 }
 
 /* overview — portfolio-safe narrative, sits between hero and the numbered breakdown */
 .overview{padding:56px 0 64px;border-top:1px solid var(--border);}
 .overview .ov-block{margin-top:32px;max-width:780px;}
 .overview .ov-block:first-of-type{margin-top:0;}
-.overview .ov-label{font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;}
+.overview .ov-label{font-size:var(--step--1);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:10px;}
 .overview .ov-block p{font-size:var(--step-0);color:var(--ink-soft);line-height:1.75;}
 .overview .ov-block p + p{margin-top:12px;}
 
@@ -653,7 +656,7 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
   position:absolute;top:18px;right:18px;font-size:var(--step--1);font-weight:800;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);border:1px solid var(--row-border);border-radius:100px;padding:3px 10px;
 }
-.outcome .t{font-size:var(--step--1);font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:18px;}
+.outcome .t{font-size:var(--step--1);font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--asphalt);margin-bottom:18px;}
 .outcome .hero-val{
   font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-weight:400;font-size:var(--step-2);line-height:1;color:var(--indigo);
   display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
@@ -1121,8 +1124,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
    index cards, and a clean surface that lifts off the coconut page card rather than the
    tan panels that used to sit flat on it.
    Dividers BETWEEN cells stay (border-right, border-bottom): those are structure, not a
-   stroke around a card. Accent bars stay too, like .callout's left rule. */
-.tldr,
+   stroke around a card. Accent bars stay too, like .callout's left rule.
+   .tldr is not here: the TL;DR is one asphalt card (.tldr-grid), its sections carry no shadow. */
 .persona,
 .num-card,
 .big-num-card,
@@ -1141,7 +1144,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   box-shadow: var(--shadow-card);
 }
 /* .callout keeps its accent rule; it is a marker, not an outline */
-.callout { border-left: 3px solid var(--indigo-light); }
+.callout { border-left: 4px solid var(--indigo-light); }
 .callout.plain { border-left: none; }
 /* these sit ON a card rather than on the page, so they lose the outline but take no
    shadow of their own. The hairline between cells is structure and stays. */
@@ -1290,25 +1293,14 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <h1>Designing AI-Enabled Features at the <span class="serif">Point of Friction</span> Inside a Legacy Claims Platform</h1>
       <p class="sub">IHX MIRA lets a hospital submit a claim as a conversation. This case study starts with that conversation, then breaks it into the four AI modules underneath it, each one designed for a point where claim submission used to break.</p>
       <div class="hero-stats reveal">
-        <div class="cell"><span class="tag">Scale</span><div class="num accent">1.8&ndash;2L<small style="font-size:.5em;">/mo</small></div><div class="lbl">Diagnosis entries submitted monthly, 61% uncoded</div></div>
+        <div class="cell"><span class="tag">Scale</span><div class="num accent"><i class="d1">1</i>.8&ndash;2L<small style="font-size:.5em;">/mo</small></div><div class="lbl">Diagnosis entries submitted monthly, 61% uncoded</div></div>
         <div class="cell"><span class="tag">Delay cost</span><div class="num teal">+37%</div><div class="lbl">Longer processing time when beneficiary search fails</div></div>
-        <div class="cell"><span class="tag">Stuck queries</span><div class="num indigo">12&ndash;48h</div><div class="lbl">A payer query sat unresolved, before QueryLens</div></div>
+        <div class="cell"><span class="tag">Stuck queries</span><div class="num indigo"><i class="d1">1</i>2&ndash;48h</div><div class="lbl">A payer query sat unresolved, before QueryLens</div></div>
       </div>
     </div>
   </div>
 </header>
 
-<div class="subnav">
-  <div class="wrap">
-    <a href="#tldr"><b>00</b> tl;dr</a>
-    <a href="#s1"><b>01</b> ihx mira</a>
-    <a href="#s2"><b>02</b> benefsnap.ai</a>
-    <a href="#s3"><b>03</b> coderight.ai</a>
-    <a href="#s4"><b>04</b> docusense.ai</a>
-    <a href="#s5"><b>05</b> querylens.ai</a>
-    <a href="#s6"><b>06</b> scope</a>
-  </div>
-</div>
 
 <section id="tldr">
   <div class="wrap">
@@ -1432,7 +1424,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <section id="s3">
   <div class="wrap">
     <div class="sec-tag"><em>03</em> · CodeRight.AI · Diagnosis &amp; ICD Coding</div>
-    <h2>61% of diagnosis entries carried no ICD-10 code, and the person typing them is not a clinician.</h2>
+    <h2>6<i class="d1">1</i>% of diagnosis entries carried no ICD-<i class="d1">1</i>0 code, and the person typing them is not a clinician.</h2>
     <p class="sec-intro">CodeRight lets hospital staff enter a diagnosis in natural language and maps that language to a ranked set of ICD-10 code suggestions, instead of requiring the user to search a clinical coding system directly.</p>
 
     <div class="mini-label">Module walkthrough</div>
@@ -1442,7 +1434,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
     <div class="split-80">
       <div class="big-num-card reveal">
-        <div class="giant">61<span>%</span></div>
+        <div class="giant">6<i class="d1">1</i><span>%</span></div>
         <div class="cap">Of 1.8&ndash;2 lakh monthly diagnosis entries carry no ICD-10 code</div>
         <div class="bar-split">
           <div class="bar"><div class="b1" style="width:61%;"></div><div class="b2" style="width:39%;"></div></div>
@@ -1557,7 +1549,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div class="outcome-grid">
       <div class="outcome reveal">
         <div class="t">QC load addressed</div>
-        <div class="hero-val">70&ndash;100<small>/day, per flagship hospital chain</small></div>
+        <div class="hero-val"><span>70&ndash;<i class="d1">1</i>00</span><small>/day, per flagship hospital chain</small></div>
         <p class="desc">Manual QC cases tied to missing or mismatched documentation.</p>
       </div>
       <div class="outcome reveal">
