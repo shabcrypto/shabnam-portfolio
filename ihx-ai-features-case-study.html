@@ -8,12 +8,12 @@
 <script>(function(){if(!/(^|\.)shabnamraghavan\.com$/.test(location.hostname))return;if(navigator.doNotTrack==="1"||window.doNotTrack==="1")return;try{if(localStorage.getItem("shab-ignore")==="1")return;}catch(e){}
 (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yt9i1njbpi");})();</script>
 <!-- link previews (LinkedIn, WhatsApp, X) -->
-<meta name="description" content="IHX MIRA lets a hospital submit a claim as a conversation, built on four AI modules, each designed for a point where claim submission used to break." />
+<meta name="description" content="Designing the agentic experience for five AI agents at the points where pre-authorization breaks, now coming together as one pre-auth flow. Pre-auth submission time 5 to 2 minutes." />
 <link rel="canonical" href="https://www.shabnamraghavan.com/ihx-ai-features-case-study.html" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Shabnam Raghavan" />
 <meta property="og:title" content="AI Agents at Points of Human Friction · Shabnam Raghavan" />
-<meta property="og:description" content="IHX MIRA lets a hospital submit a claim as a conversation, built on four AI modules, each designed for a point where claim submission used to break." />
+<meta property="og:description" content="Designing the agentic experience for five AI agents at the points where pre-authorization breaks, now coming together as one pre-auth flow. Pre-auth submission time 5 to 2 minutes." />
 <meta property="og:url" content="https://www.shabnamraghavan.com/ihx-ai-features-case-study.html" />
 <meta property="og:image" content="https://www.shabnamraghavan.com/images/og-share-v4.jpg" />
 <meta property="og:image:width" content="1200" />
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Shabnam Raghavan, Product Designer" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="AI Agents at Points of Human Friction · Shabnam Raghavan" />
-<meta name="twitter:description" content="IHX MIRA lets a hospital submit a claim as a conversation, built on four AI modules, each designed for a point where claim submission used to break." />
+<meta name="twitter:description" content="Designing the agentic experience for five AI agents at the points where pre-authorization breaks, now coming together as one pre-auth flow. Pre-auth submission time 5 to 2 minutes." />
 <meta name="twitter:image" content="https://www.shabnamraghavan.com/images/og-share-v4.jpg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -362,6 +362,7 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 /* three-up variant for the "Building trust" cards on this page — every instance here has
    exactly 3 items, and .dec-grid's default 2-col leaves an orphaned, lopsided third card. */
 .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;}
+.trust-grid.two{grid-template-columns:repeat(2,1fr);}
 .dec{
   background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:24px 24px;position:relative;
   transition:border-color .2s;
@@ -564,6 +565,109 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
    nested inside a card), so the ramp reads white → F9F9F9 → F6F6F6 → EFEFEF regardless of
    which section a card lands in. */
 #tldr, #s1, #s3, #s5, .more-work{background:var(--ground-alt);}
+.nw{white-space:nowrap;} /* keeps "Intelligent Pre-Auth Flow" from breaking at the hyphen */
+/* Step 1 branch styles below */
+/* Step 1 flowchart: user upload branches by input, all paths merge at review */
+.pf{margin-top:20px;background:var(--card-bg);border-radius:16px;padding:28px 24px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;align-items:center;--ln:rgba(48,47,44,0.35);}
+.pf-node{background:var(--ground-alt);border:1px solid rgba(48,47,44,0.14);border-radius:10px;padding:10px 14px;font-size:var(--step--1);color:var(--ink-soft);text-align:center;line-height:1.35;max-width:240px;width:100%;position:relative;z-index:1;}
+.pf-user{width:auto;padding:8px 18px;border-radius:100px;font-weight:800;color:var(--ink);}
+.pf-strong{font-weight:800;color:var(--ink);}
+.pf-agent{background:var(--asphalt);border-color:var(--asphalt);color:#F0E6D2;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.pf-agent span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.65;}
+.pf-agent b{font-weight:800;color:#F0E6D2;}
+.pf-agent .st{color:#F0E6D2;font-size:11px;}
+.pf-agent .st::before{background:rgba(240,230,210,0.4);}
+.pf-agent .st.live::before{background:#00B894;}
+.pf-agent .st.pilot::before{background:#CD9C34;}
+.pf-v{position:relative;width:1.5px;height:22px;background:var(--ln);}
+.pf-v::after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--ln);}
+.pf-grow{flex:1;min-height:22px;}
+.pf-col > .pf-grow::after{display:none;}
+.pf-split,.pf-merge{position:relative;width:100%;height:22px;}
+.pf-split i,.pf-merge i{position:absolute;background:var(--ln);}
+.pf-split{height:40px;}
+.pf-split .stem{left:50%;top:0;height:16px;width:1.5px;}
+.pf-split .h{top:16px;left:25%;right:25%;height:1.5px;}
+.pf-split .v{top:16px;bottom:0;width:1.5px;}
+.pf-split .v::after,.pf-merge .v.m::after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--ln);}
+.pf-split .l,.pf-merge .l{left:25%;} .pf-split .r,.pf-merge .r{left:75%;}
+.pf-merge .v.l,.pf-merge .v.r{top:0;height:50%;width:1.5px;}
+.pf-merge .h{top:50%;left:25%;right:25%;height:1.5px;}
+.pf-merge .v.m{left:50%;top:50%;bottom:0;width:1.5px;}
+.pf-merge.sm .v.m::after{display:none;}
+.pf-split .v,.pf-split .stem,.pf-merge .v{margin-left:-0.75px;} /* centre 1.5px verticals on their column so corners meet cleanly */ /* inner merge flows straight into the main merge, no arrowhead mid-line */
+.pf-cols{display:grid;grid-template-columns:1fr 1fr;width:100%;align-items:stretch;}
+.pf-col{display:flex;flex-direction:column;align-items:center;padding:0 10px;min-width:0;}
+.pf-if{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--asphalt);text-align:center;margin:6px 0 8px;min-height:1.4em;}
+.pf-cols.sm .pf-col{padding:0 4px;}
+.pf-cols.sm .pf-node{max-width:180px;}
+@media(max-width:600px){.pf{padding:22px 10px;}.pf-node{font-size:12px;padding:8px 8px;}.pf-col{padding:0 4px;}.pf-if{font-size:10px;letter-spacing:.06em;}.pf-agent span{font-size:9px;}.pf-cols.sm .pf-node{padding:8px 4px;}.pf-cols.sm .pf-agent b{font-size:11px;}}
+/* agent status, flow diagram and post-submission cards (Intelligent Pre-Auth Flow rework) */
+.agent-status{margin:-4px 0 14px;}
+/* status sits on the same line as the section label */
+.sec-tag:has(+ .agent-status){display:inline-block;margin-right:20px;vertical-align:middle;}
+.sec-tag + .agent-status{display:inline-flex;vertical-align:middle;margin:0 0 10px;}
+.st{font-style:normal;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--asphalt);display:inline-flex;align-items:center;gap:7px;white-space:nowrap;}
+.st::before{content:"";width:8px;height:8px;border-radius:50%;background:rgba(48,47,44,0.35);}
+.st.live::before{background:#00B894;}
+.st.pilot::before{background:#CD9C34;}
+.fl{list-style:none;margin:36px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;}
+.fl-step{position:relative;background:var(--card-bg);border-radius:12px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow-card);}
+.fl-foot{margin-top:auto;padding-top:14px;border-top:1px dashed var(--row-border);display:flex;flex-direction:column;gap:6px;}
+.fl-step b{padding-bottom:6px;}
+.fl-step:not(:last-child)::after{content:"\2192";position:absolute;right:-11px;top:50%;transform:translateY(-50%);font-weight:700;color:rgba(48,47,44,0.45);z-index:1;}
+.fl-n{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);opacity:.6;}
+.fl-step b{font-size:var(--step-0);line-height:1.3;color:var(--ink);}
+.fl-agent{font-size:var(--step--1);font-weight:700;color:var(--ink-soft);}
+.fl-after{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:16px;padding:14px 16px;border-radius:12px;background:var(--card-bg);font-size:var(--step--1);}
+.fl-after-l{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);opacity:.6;margin-right:6px;}
+.fl-pair{display:inline-flex;align-items:baseline;gap:8px;margin-right:16px;}
+.fl-sep{color:var(--muted);}
+.post-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px;}
+.post-card{background:var(--card-bg);border-radius:16px;padding:26px 24px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:14px;}
+.post-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.post-head b{font-size:var(--step-0);color:var(--ink);}
+.post-card p{font-size:var(--step--1);line-height:1.65;color:var(--ink-soft);flex:1;}
+.post-targets{border-top:1px dashed var(--row-border);padding-top:14px;display:flex;flex-direction:column;gap:10px;}
+.post-targets .t{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);}
+.pt{display:flex;align-items:baseline;gap:12px;font-size:var(--step--1);color:var(--ink-soft);}
+.pv{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:var(--step-1);color:var(--indigo);white-space:nowrap;letter-spacing:.02em;}
+@media(max-width:1000px){.fl{grid-template-columns:1fr;}.fl-step:not(:last-child)::after{right:auto;left:50%;top:auto;bottom:-15px;transform:translateX(-50%) rotate(90deg);}.post-grid{grid-template-columns:1fr;}}
+.biz-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:32px;}
+.biz{background:var(--card-bg);border-radius:14px;padding:22px 22px 24px;box-shadow:var(--shadow-card);}
+.biz .t{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:10px;}
+.biz p{font-size:var(--step--1);line-height:1.65;color:var(--ink-soft);}
+.biz p b{color:var(--ink);}
+@media(max-width:860px){.biz-grid{grid-template-columns:1fr;}}
+/* THE LONG-TERM GOAL band: Deep Asphalt ground, Coconut Soft type; status dots are the only colour */
+.goal{background:#0E0C0A;color:#F0E6D2;padding:88px 0 96px;}
+.goal .g-tag,.goal .g-sub{font-family:"Manrope",sans-serif;font-size:var(--step--1);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#F0E6D2;opacity:0.6;}
+.goal .g-tag{margin-bottom:18px;}
+.goal .g-head{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:var(--step-3);line-height:1.05;letter-spacing:0.02em;color:#F0E6D2;max-width:820px;}
+.goal .g-lede{margin-top:22px;max-width:680px;font-size:var(--step-0);line-height:1.6;color:rgba(240,230,210,0.82);}
+.goal .g-lede b,.goal .g-why b,.goal .g-card p b{color:#F0E6D2;font-weight:700;}
+.goal .g-flow{margin-top:36px;}
+.goal .g-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.goal .g-card{background:rgba(240,230,210,0.06);border-radius:10px;padding:18px 18px 20px;display:flex;flex-direction:column;gap:16px;}
+.goal .g-card p{font-size:var(--step--1);line-height:1.6;color:rgba(240,230,210,0.78);}
+.goal .g-agents{display:flex;flex-wrap:wrap;gap:10px 14px;}
+.goal .g-agents span{display:flex;flex-direction:column;gap:6px;}
+.goal .g-agents b{font-size:var(--step--1);font-weight:700;color:#F0E6D2;background:rgba(240,230,210,0.08);border-radius:6px;padding:7px 12px;align-self:flex-start;}
+.goal .st{font-style:normal;font-size:12px;font-weight:600;color:rgba(240,230,210,0.7);white-space:nowrap;display:inline-flex;align-items:center;gap:6px;}
+.goal .st::before{content:"";width:7px;height:7px;border-radius:50%;background:rgba(240,230,210,0.4);}
+.goal .st.live::before{background:#00B894;}
+.goal .st.pilot::before{background:#CD9C34;}
+.goal .g-why{margin-top:22px;font-size:var(--step--1);line-height:1.6;color:rgba(240,230,210,0.78);max-width:640px;}
+.goal .g-post{margin-top:36px;}
+.goal .g-post .g-sub{margin-bottom:12px;}
+.goal .g-part{margin-top:56px;padding-top:32px;border-top:1px solid rgba(240,230,210,0.16);}
+.goal .g-part .g-lede{margin-top:4px;}
+.goal .g-biz{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px;}
+.goal .g-k{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#F0E6D2;}
+.goal .g-head2{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:var(--step-2);line-height:1.1;letter-spacing:0.02em;color:#F0E6D2;margin-top:4px;}
+.goal .g-video{margin-top:26px;border-color:rgba(240,230,210,0.16);}
+.goal .g-cap{margin-top:10px;font-size:var(--step--1);color:rgba(240,230,210,0.6);}
+@media(max-width:860px){.goal{padding:64px 0 72px;}.goal .g-flow,.goal .g-biz{grid-template-columns:1fr;}}
 /* TL;DR: one long asphalt card, five steps read left to right with arrows between them (same as Ops and User Management) */
 .tldr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:36px;background:var(--asphalt);border-radius:14px;padding:28px 0;box-shadow:var(--shadow-card);}
 .tldr{position:relative;padding:4px 28px;}
@@ -771,6 +875,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
 @media(max-width:560px){
   .gap-grid,.persona-grid,.num-card-grid,.split-80 .num-card-grid{grid-template-columns:1fr;}
   .trust-grid{grid-template-columns:1fr;}
+  .trust-grid.two{grid-template-columns:1fr;}
 }
 </style>
 <style>
@@ -1290,72 +1395,147 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <span class="chip">Health InsurTech</span>
         <span class="chip">Applied AI</span>
       </div>
-      <h1>Designing AI-Enabled Features at the <span class="serif">Point of Friction</span> Inside a Legacy Claims Platform</h1>
-      <p class="sub">IHX MIRA lets a hospital submit a claim as a conversation. This case study starts with that conversation, then breaks it into the four AI modules underneath it, each one designed for a point where claim submission used to break.</p>
+      <h1>Designing Agentic AI at the <span class="serif">Point of Friction</span> Inside a Legacy Claims Platform</h1>
+      <p class="sub">I design the agentic experience for five AI agents in pre-authorization. Together they form the <span class="nw">Intelligent Pre-Auth Flow</span>, the step before IHX MIRA.</p>
       <div class="hero-stats reveal">
-        <div class="cell"><span class="tag">Scale</span><div class="num accent"><i class="d1">1</i>.8&ndash;2L<small style="font-size:.5em;">/mo</small></div><div class="lbl">Diagnosis entries submitted monthly, 61% uncoded</div></div>
-        <div class="cell"><span class="tag">Delay cost</span><div class="num teal">+37%</div><div class="lbl">Longer processing time when beneficiary search fails</div></div>
-        <div class="cell"><span class="tag">Stuck queries</span><div class="num indigo"><i class="d1">1</i>2&ndash;48h</div><div class="lbl">A payer query sat unresolved, before QueryLens</div></div>
+        <div class="cell"><span class="tag">Pre-auth time</span><div class="num accent">5 &rarr; 2 min</div><div class="lbl">Pre-auth claim submission time, with BenefSnap automating beneficiary search and PreAuthSnap filling the form</div></div>
+        <div class="cell"><span class="tag">Search failures</span><div class="num teal">&minus;40%</div><div class="lbl">Beneficiary search failures, down from a 63% failure rate</div></div>
+        <div class="cell"><span class="tag">Time lost</span><div class="num indigo">&minus;20%</div><div class="lbl">Extra processing time when beneficiary search fails, down from +37%</div></div>
       </div>
     </div>
   </div>
 </header>
 
 
+<!-- The long-term goal: MIRA as destination, the agents being built toward it. Deep Asphalt band like UM's Incident -->
+<section id="goal" class="goal">
+  <div class="wrap">
+    <div class="g-tag">The <span class="nw">Intelligent Pre-Auth Flow</span></div>
+    <h2 class="g-head">Five agents inside one pre-auth flow, and two after submission.</h2>
+    <div class="g-flow">
+      <div class="g-card">
+        <div class="g-agents"><span><b>PreAuthSnap.AI</b><i class="st pilot">Pilot · 3 hospitals</i></span><span><b>BenefSnap.AI</b><i class="st live">Live</i></span></div>
+        <p>A docket or pre-auth form runs PreAuthSnap: it finds the patient and fills the form. An insurance card alone runs BenefSnap for the beneficiary search. <b>Submission drops from 5 to 2 min.</b></p>
+      </div>
+      <div class="g-card">
+        <div class="g-agents"><span><b>CodeRight.AI</b><i class="st pilot">Pilot · 3 hospitals</i></span><span><b>DocuSense.AI</b><i class="st pilot">Pilot · 3 hospitals</i></span></div>
+        <p>Get the claim right first time: <b>fewer payer queries, faster TAT.</b></p>
+      </div>
+      <div class="g-card">
+        <div class="g-agents"><span><b>SDMS.AI</b><i class="st dev">In development</i></span></div>
+        <p>Upload once, submit faster: <b>no outside PDF tools, patient data stays inside IHX.</b></p>
+      </div>
+    </div>
+    <div class="g-post">
+      <div class="g-sub">After claim submission</div>
+      <div class="g-agents"><span><b>QueryLens.AI</b></span><span><b>SettleSense.AI</b></span></div>
+    </div>
+
+    <div class="g-part">
+      <div class="g-sub">Business outcomes</div>
+      <p class="g-lede">Solving pre-auth for hospitals was integral to <b>retaining enterprise hospitals and renewing payer contracts</b>.</p>
+      <div class="g-biz">
+        <div class="g-card"><div class="g-k">Enterprise hospital retention</div><p>PreAuthSnap fills the form, the biggest share of pre-auth time, and BenefSnap automates the beneficiary search. Together they cut submission from <b>5 to 2 min</b>; CodeRight and DocuSense target fewer payer queries and faster TAT.</p></div>
+        <div class="g-card"><div class="g-k">Payer contract renewal</div><p>Fewer queries and faster pre-auths support payer contract renewal.</p></div>
+        <div class="g-card"><div class="g-k">New revenue</div><p>SettleSense targets revenue per claim from <b>INR 120 to 150</b>, sold as a paid add-on to Auto-Recon.</p></div>
+        <div class="g-card"><div class="g-k">Data protection</div><p>SDMS keeps patient documents inside IHX instead of outside PDF sites, a selling point under India's data protection law (DPDP).</p></div>
+      </div>
+    </div>
+
+    <div class="g-part">
+      <div class="g-sub">The long-term goal</div>
+      <h3 class="g-head2">IHX MIRA: a claim submitted as a conversation.</h3>
+      <p class="g-lede">A concept I pitched. The hospital desk submits a claim by chatting. MIRA asks for the patient, the diagnosis and missing documents, and brings payer questions into the same chat. It needs kiosks and hardware in hospitals, so it is long-term. Every agent above is a part it needs.</p>
+      <figure class="video-slot g-video reveal">
+        <video src="images/ihx-mira-claim-conversation.mp4" poster="images/ihx-mira-claim-conversation-poster.webp" data-click-play controls muted playsinline preload="none" aria-label="IHX MIRA claim conversation"></video>
+      </figure>
+      <p class="g-cap">IHX MIRA prototype: a claim taken from intimation to submission in one conversation.</p>
+    </div>
+  </div>
+</section>
+
 <section id="tldr">
   <div class="wrap">
     <div class="sec-tag">TL;DR</div>
     <h2>The whole story, in five cards.</h2>
     <div class="tldr-grid">
-      <div class="tldr reveal"><span class="k">Problem</span><p>Four manual entry points, each one a free-text field a hospital user fills under time pressure. <b>Every one silently cost the business.</b></p></div>
-      <div class="tldr reveal"><span class="k">Approach</span><p>Reuse data <b>already sitting in the product</b>, like a member card, a diagnosis history, or an ICD mapping, instead of asking hospitals for new input.</p></div>
-      <div class="tldr reveal"><span class="k">Trust</span><p>Multi-select over auto-fill, visible confidence, and <b>one shared disclaimer language</b> across every AI surface on the platform.</p></div>
-      <div class="tldr reveal"><span class="k">Status</span><p><b>4 features shipped</b>, from beneficiary search to query resolution, each one live on the platform.</p></div>
-      <div class="tldr reveal"><span class="k">Where it leads</span><p>The four modules are not four features. They are the capabilities <b>one conversational agent needs</b>. IHX MIRA, prototyped and three to four months out, is where this story starts.</p></div>
+      <div class="tldr reveal"><span class="k">Problem</span><p>Staff <b>retype what is already on their documents</b>: member card, pre-auth form, docket.</p></div>
+      <div class="tldr reveal"><span class="k">Approach</span><p>An agent at each <b>point of friction</b>, using data already in IHX.</p></div>
+      <div class="tldr reveal"><span class="k">Trust</span><p>Show <b>where every value came from</b>, how sure the agent is, and what still needs checking. Staff can edit everything.</p></div>
+      <div class="tldr reveal"><span class="k">Status</span><p><b>BenefSnap is live.</b> PreAuthSnap, CodeRight and DocuSense are in pilot at 3 hospitals; SDMS.AI is in development.</p></div>
+      <div class="tldr reveal"><span class="k">Where it leads</span><p>The five agents become the <b><span class="nw">Intelligent Pre-Auth Flow</span></b>, the predecessor to IHX MIRA.</p></div>
     </div>
   </div>
 </section>
 
 <section id="s1">
   <div class="wrap">
-    <div class="sec-tag"><em>01</em> &middot; IHX MIRA &middot; The Claim Conversation</div>
-    <h2>A claim, submitted as one conversation.</h2>
-    <p class="sec-intro">IHX MIRA lets a hospital desk submit a claim by talking it through instead of working across four separate screens. It asks who the patient is, what the diagnosis is and what is still missing, then brings the payer&rsquo;s questions back into the same thread.</p>
-
-    <figure class="video-slot reveal">
-      <video src="images/ihx-mira-claim-conversation.mp4" poster="images/ihx-mira-claim-conversation-poster.webp" data-click-play controls muted playsinline preload="none" aria-label="IHX MIRA claim conversation"></video>
-    </figure>
-    <p class="img-slot-cap">IHX MIRA prototype: a claim taken from intimation to submission in one conversation.</p>
-
-    <div class="mini-label">Breaking the conversation into modules</div>
-    <p class="sec-intro">Underneath, the conversation is four narrow AI modules. Each one was built for a manual entry point where a hospital user typed into a free-text field under time pressure, and where every entry silently cost the business.</p>
-    <div class="hflow reveal">
-      <a class="node" href="#s2"><span class="step">02 &middot; BenefSnap.AI</span><b>&ldquo;Who is the patient?&rdquo;</b><p>Replaces manual member and policy entry before every claim</p></a>
-      <div class="conn">&rarr;</div>
-      <a class="node" href="#s3"><span class="step">03 &middot; CodeRight.AI</span><b>&ldquo;What is the diagnosis?&rdquo;</b><p>61% of diagnosis entries carried no ICD-10 code</p></a>
-      <div class="conn">&rarr;</div>
-      <a class="node" href="#s4"><span class="step">04 &middot; DocuSense.AI</span><b>&ldquo;What is still missing?&rdquo;</b><p>No way to know what a payer would ask for</p></a>
-      <div class="conn">&rarr;</div>
-      <a class="node" href="#s5"><span class="step">05 &middot; QueryLens.AI</span><b>&ldquo;What did the payer ask?&rdquo;</b><p>Free-text queries, routed and replied to by hand</p></a>
+    <div class="sec-tag"><em>01</em> · The <span class="nw">Intelligent Pre-Auth Flow</span></div>
+    <h2>One pre-auth, five points where staff used to get stuck.</h2>
+    <p class="sec-intro">Each step where staff used to type, search or use outside tools now has an agent. The agent reads and fills; staff check and edit.</p>
+    <ol class="fl">
+        <li class="fl-step reveal"><span class="fl-n">Step 1</span><b>Find the patient</b><span class="fl-foot"><span class="fl-agent">BenefSnap.AI with a card, or PreAuthSnap.AI with a docket or pre-auth form</span><span class="st live">Live</span></span></li>
+        <li class="fl-step reveal"><span class="fl-n">Step 2</span><b>Fill the pre-auth form</b><span class="fl-foot"><span class="fl-agent">PreAuthSnap.AI</span><span class="st pilot">Pilot</span></span></li>
+        <li class="fl-step reveal"><span class="fl-n">Step 3</span><b>Code the diagnosis</b><span class="fl-foot"><span class="fl-agent">CodeRight.AI</span><span class="st pilot">Pilot</span></span></li>
+        <li class="fl-step reveal"><span class="fl-n">Step 4</span><b>Check documents</b><span class="fl-foot"><span class="fl-agent">DocuSense.AI</span><span class="st pilot">Pilot</span></span></li>
+        <li class="fl-step reveal"><span class="fl-n">Step 5</span><b>Package and submit</b><span class="fl-foot"><span class="fl-agent">SDMS.AI</span><span class="st dev">In development</span></span></li>
+    </ol>
+    <div class="fl-after reveal">
+      <span class="fl-after-l">After submission</span>
+      <span class="fl-pair"><span class="fl-agent">QueryLens.AI</span><span class="fl-sep">payer queries</span></span>
+      <span class="fl-pair"><span class="fl-agent">SettleSense.AI</span><span class="fl-sep">settlement shortfalls</span></span>
     </div>
-    <p class="flow-caption">Each module is live on its own screen today. <b>The conversation is what happens when they stop being four separate screens.</b></p>
+
+    <div class="mini-label">User document input: the system decides the path</div>
+    <div class="pf reveal" role="img" aria-label="Flow: the user uploads a document. A docket or pre-auth form runs PreAuthSnap, which does the automated beneficiary search and fills the pre-auth form. An insurance card runs BenefSnap, which does the automated beneficiary search; the user selects the policy, then either uploads the pre-auth form, which runs PreAuthSnap, or fills the form manually. Every path ends with the user reviewing and submitting.">
+      <div class="pf-node pf-user">User</div>
+      <div class="pf-v"></div>
+      <div class="pf-node">Uploads a document</div>
+      <div class="pf-split"><i class="stem"></i><i class="h"></i><i class="v l"></i><i class="v r"></i></div>
+      <div class="pf-cols">
+        <div class="pf-col">
+          <span class="pf-if">Docket or pre-auth form</span>
+          <div class="pf-node pf-agent"><span>System runs</span><b>PreAuth<wbr>Snap.AI</b><i class="st pilot">Pilot</i></div>
+          <div class="pf-v"></div>
+          <div class="pf-node">Automated beneficiary search</div>
+          <div class="pf-v"></div>
+          <div class="pf-node">Pre-auth form filled</div>
+          <div class="pf-v pf-grow"></div>
+        </div>
+        <div class="pf-col">
+          <span class="pf-if">Insurance card</span>
+          <div class="pf-node pf-agent"><span>System runs</span><b>Benef<wbr>Snap.AI</b><i class="st live">Live</i></div>
+          <div class="pf-v"></div>
+          <div class="pf-node">Automated beneficiary search</div>
+          <div class="pf-v"></div>
+          <div class="pf-node">User selects the policy</div>
+          <div class="pf-split sm"><i class="stem"></i><i class="h"></i><i class="v l"></i><i class="v r"></i></div>
+          <div class="pf-cols sm">
+            <div class="pf-col"><span class="pf-if">Uploads pre-auth form</span><div class="pf-node pf-agent"><span>System runs</span><b>PreAuth<wbr>Snap.AI</b><i class="st pilot">Pilot</i></div><div class="pf-v pf-grow"></div></div>
+            <div class="pf-col"><span class="pf-if">Or</span><div class="pf-node">Fills the form manually</div><div class="pf-v pf-grow"></div></div>
+          </div>
+          <div class="pf-merge sm"><i class="v l"></i><i class="v r"></i><i class="h"></i><i class="v m"></i></div>
+        </div>
+      </div>
+      <div class="pf-merge"><i class="v l"></i><i class="v r"></i><i class="h"></i><i class="v m"></i></div>
+      <div class="pf-node pf-strong">User reviews</div>
+      <div class="pf-v"></div>
+      <div class="pf-node pf-strong">Submits</div>
+    </div>
 
     <div class="callout reveal">
-      <div class="t">The actual capability, not the four features</div>
-      <p>What I focus on in this case study is not the four features themselves. It is the underlying design capability: knowing where inside an existing, legacy SaaS product AI genuinely helps, what historical data already sitting in the product can be reused instead of built from scratch, and how to design the human-AI handoff so the person on the other end trusts the output enough to rely on it. Each module section below applies that capability to one real point of failure.</p>
-    </div>
-
-    <div class="callout plain reveal">
-      <div class="t">Status, stated plainly</div>
-      <p>The four modules are live and carry the numbers on this page. MIRA itself is a prototype, roughly three to four months out. It leads this case study because it is the direction the shipped work builds toward, not because it is finished.</p>
+      <div class="t">The actual capability, not the agents</div>
+      <p>Designing for AI starts with how people think and what makes them trust a result. So every agent shows where a value came from, how sure it is, and what is missing, and lets staff edit everything.</p>
+      <div class="badges"><span class="badge">Trust-Sensitive Patterns</span></div>
     </div>
   </div>
 </section>
 <section id="s2">
   <div class="wrap">
     <div class="sec-tag"><em>02</em> · BenefSnap.AI · Beneficiary Search</div>
-    <h2>Manual beneficiary search was 37% slower to fail than to succeed.</h2>
-    <p class="sec-intro">BenefSnap digitizes member card information and performs automated payer search validation before submission, replacing manual parameter entry with document upload and extraction.</p>
+    <div class="agent-status"><span class="st live">Live</span></div>
+    <h2>A failed beneficiary search took 37% longer to resolve than a successful one.</h2>
+    <p class="sec-intro">BenefSnap reads a member or policy card and runs the beneficiary search automatically. It runs when staff upload only a card. A docket or pre-auth form runs PreAuthSnap instead.</p>
 
     <div class="mini-label">Module walkthrough</div>
     <figure class="video-slot reveal">
@@ -1371,37 +1551,37 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <div class="num-card reveal">
           <span class="badge-num">1</span>
           <b>Failed searches route to a manual queue</b>
-          <p>Someone maps the correct beneficiary ID by hand, or the hospital falls back to offline email submission.</p>
+          <p>Someone matches the beneficiary ID by hand, or the hospital submits by email instead.</p>
         </div>
         <div class="num-card reveal">
           <span class="badge-num">2</span>
-          <b>Hospitals were pushing back entirely</b>
-          <p>On doing beneficiary search manually at all: friction severe enough to threaten adoption of the step itself.</p>
+          <b>Hospitals pushed back</b>
+          <p>They did not want to do beneficiary search by hand at all.</p>
         </div>
       </div>
     </div>
 
     <div class="callout reveal">
       <div class="t">The decision</div>
-      <p>There were two ways to solve this: have the patient enter their own policy details, or give the TPA desk a way to stop typing altogether. I designed for the second, because the underlying data already existed on a document the desk already handles: the member card, policy card, or e-card the patient hands over at the counter. Rather than asking the desk to read that card and retype it, the design moves document upload earlier in the flow and lets extraction do the retyping.</p>
+      <p>The data is already on the card the hospital uploads, so upload moved earlier in the flow and extraction replaced retyping.</p>
     </div>
 
     <div class="mini-label">Building trust</div>
     <div class="trust-grid">
       <div class="dec reveal">
         <div class="n">01</div>
-        <b>It degrades gracefully</b>
-        <p>If the hospital has the complete docket at intimation, the system runs a full beneficiary search immediately. If they only have a member or policy card, that is enough to proceed, saved in draft until the rest arrives. Never an all-or-nothing document requirement.</p>
+        <b>Works with what the hospital has</b>
+        <p>A docket or pre-auth form runs PreAuthSnap. A card alone runs BenefSnap; staff then select the policy and either upload the pre-auth form or fill it manually.</p>
       </div>
       <div class="dec reveal">
         <div class="n">02</div>
-        <b>It sits inside the existing step, not a new one</b>
-        <p>Document upload was placed at the point where TPA users already select a payer pair, not bolted on as an additional screen, so adopting the AI-assisted path did not mean learning a new process.</p>
+        <b>Inside the existing step</b>
+        <p>Upload sits where staff already pick the payer, not on a new screen. Nothing new to learn.</p>
       </div>
       <div class="dec reveal">
         <div class="n">03</div>
-        <b>The output is auditable</b>
-        <p>Extracted member name, policy number, insurer, and TPA auto-fill the form, but nothing is submitted invisibly. The desk sees exactly what was extracted before it goes to the payer.</p>
+        <b>The document, shown with the data</b>
+        <p>The member card sits next to the extracted details: name, policy number, insurer and TPA. Staff can edit any field, and the agent learns from each correction.</p>
       </div>
     </div>
 
@@ -1410,12 +1590,22 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="outcome reveal">
         <div class="t">Adoption</div>
         <div class="hero-val">270<small>hospitals live</small></div>
-        <p class="desc">Rolled out platform-wide as a premium AI feature.</p>
+        <p class="desc">Rolled out across the platform as a premium AI feature.</p>
       </div>
       <div class="outcome reveal">
         <div class="t">Automation</div>
         <div class="hero-val">22<small>% automated search adoption</small></div>
-        <p class="desc">Targets the 37% processing-time gap between a failed and a successful beneficiary search.</p>
+        <p class="desc">Share of beneficiary searches now run automatically.</p>
+      </div>
+      <div class="outcome reveal">
+        <div class="t">Success rate</div>
+        <div class="hero-val">60<small>%</small></div>
+        <p class="desc">Beneficiary searches BenefSnap resolves successfully.</p>
+      </div>
+      <div class="outcome reveal">
+        <div class="t">Completion rate</div>
+        <div class="hero-val">76<small>%</small></div>
+        <p class="desc">Users who complete the BenefSnap flow once they start it.</p>
       </div>
     </div>
   </div>
@@ -1423,9 +1613,67 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
 <section id="s3">
   <div class="wrap">
-    <div class="sec-tag"><em>03</em> · CodeRight.AI · Diagnosis &amp; ICD Coding</div>
+    <div class="sec-tag"><em>03</em> · PreAuthSnap.AI · Pre-Auth Form</div>
+    <div class="agent-status"><span class="st pilot">Pilot · 3 hospitals</span></div>
+    <h2>Staff retyped pre-auth details that were already on the form they uploaded.</h2>
+    <p class="sec-intro">The parent agent. A docket or pre-auth form runs PreAuthSnap. It runs the beneficiary search, staff pick the card, then it fills the pre-auth form for staff to review.</p>
+
+    <div class="callout plain reveal">
+      <div class="t">The problem</div>
+      <p>Staff typed pre-auth details by hand, though the signed form they uploaded already had them. Double work, and data-entry errors.</p>
+    </div>
+
+    <div class="callout plain reveal">
+      <div class="t">Why it was hard</div>
+      <p>Uploads vary: a docket of up to about 100 pages, a single pre-auth form, or just an insurance card. The system has to identify the input. In a docket, it also has to find the pre-auth form among the other pages. No existing service could recognise a pre-auth form.</p>
+    </div>
+
+    <div class="callout reveal">
+      <div class="t">The decision</div>
+      <p>Staff upload whatever they have, and the system responds to it. A docket or pre-auth form runs PreAuthSnap: beneficiary search, card selection, then the Member, Treatment and Bill details are filled. The upload carries through to Document Upload, so nothing is uploaded twice.</p>
+    </div>
+
+    <div class="mini-label">Building trust</div>
+    <div class="trust-grid two">
+      <div class="dec reveal">
+        <div class="n">01</div>
+        <b>Every value shows its source</b>
+        <p>Each field shows where it came from: KYC, insurance card, pre-auth form or the hospital's HIS.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">02</div>
+        <b>A priority order for sources</b>
+        <p>Payers read the signed pre-auth form, so when sources disagree, its values take priority.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">03</div>
+        <b>Confidence from two models</b>
+        <p>OCR and Gemini both extract each field. Staff see a confidence score, choose the value, and can edit any field.</p>
+      </div>
+      <div class="dec reveal">
+        <div class="n">04</div>
+        <b>Up front about gaps</b>
+        <p>The form shows how many fields are filled and how many need checking. Skipped or missed steps get an orange alert.</p>
+      </div>
+    </div>
+
+    <div class="mini-label">Impact</div>
+    <div class="outcome-grid">
+      <div class="outcome reveal">
+        <div class="t">Submission time</div>
+        <div class="hero-val">5&rarr;2<small>min per pre-auth</small></div>
+        <p class="desc">PreAuthSnap fills the form, the biggest share of pre-auth time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s4">
+  <div class="wrap">
+    <div class="sec-tag"><em>04</em> · CodeRight.AI · Diagnosis &amp; ICD Coding</div>
+    <div class="agent-status"><span class="st pilot">Pilot · 3 hospitals</span></div>
     <h2>6<i class="d1">1</i>% of diagnosis entries carried no ICD-<i class="d1">1</i>0 code, and the person typing them is not a clinician.</h2>
-    <p class="sec-intro">CodeRight lets hospital staff enter a diagnosis in natural language and maps that language to a ranked set of ICD-10 code suggestions, instead of requiring the user to search a clinical coding system directly.</p>
+    <p class="sec-intro">CodeRight reads the diagnosis from the pre-auth form, or from plain words staff type, and suggests ranked ICD-10 codes and the probable treatment. Staff verify.</p>
 
     <div class="mini-label">Module walkthrough</div>
     <figure class="video-slot reveal">
@@ -1445,12 +1693,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <div class="num-card reveal">
           <span class="badge-num">1</span>
           <b>The user is not a clinician</b>
-          <p>TPA desk staff know a patient's condition in plain words, like "stone in kidney," not ICD terminology. Doctors themselves use shorthand ("TM perf") a literal search would miss entirely.</p>
+          <p>Desk staff describe conditions in plain words: "cancer of bone" for sarcoma, "stone in kidney". Doctors use shorthand, like "TM perf".</p>
         </div>
         <div class="num-card reveal">
           <span class="badge-num">2</span>
           <b>A dropdown assumes what is missing</b>
-          <p>A searchable ICD dropdown assumes the user already knows the clinical term they are searching for, exactly what this user does not have.</p>
+          <p>A searchable ICD dropdown only works if you already know the clinical term.</p>
         </div>
       </div>
     </div>
@@ -1463,7 +1711,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
     <div class="callout reveal">
       <div class="t">The decision</div>
-      <p>I did not build a searchable ICD dropdown. Instead, the diagnosis field stays free text, in the user's own words, and AI maps that language to ICD candidates behind the scenes using lingo and synonym matching, hospital-specific usage patterns, and semantic search. The interface never asks the user to think like a medical coder.</p>
+      <p>No ICD dropdown. Staff can type in plain words, and the selected department helps narrow it down. In the <span class="nw">Intelligent Pre-Auth Flow</span>, CodeRight also reads the pre-auth form, so staff verify instead of typing.</p>
     </div>
 
     <div class="mini-label">Building trust</div>
@@ -1471,21 +1719,21 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="dec reveal">
         <div class="n">01</div>
         <b>Multi-select, not auto-fill</b>
-        <p>The system never picks a code for the user. It surfaces up to five ranked ICD suggestions and requires a deliberate selection, because a wrong auto-selected code on a claims document is worse than a slower but correct one.</p>
+        <p>The system suggests up to five ranked codes, and staff pick one. A wrong auto-picked code costs more than a slower right one.</p>
       </div>
       <div class="dec reveal">
         <div class="n">02</div>
-        <b>Case-volume as a trust signal</b>
-        <p>Each suggestion shows how many times that specific hospital has submitted that diagnosis before, alongside a confidence label (high, medium, low), evidence to weigh against their own institutional memory.</p>
+        <b>Case volume as a trust signal</b>
+        <p>Each suggestion shows how many cases this hospital had with that code in the last three months, and how likely it is to be the right one. The probable treatment is suggested too.</p>
       </div>
       <div class="dec reveal">
         <div class="n">03</div>
-        <b>Naming the failure mode, not hiding it</b>
-        <p>The interface states plainly that AI suggestions may not reflect every insurer's specific requirements and should be verified before submitting, at the exact moment the user is deciding whether to rely on it.</p>
+        <b>Says when to check</b>
+        <p>The screen says suggestions may not match every insurer's rules and should be verified.</p>
       </div>
     </div>
 
-    <div class="mini-label">Impact</div>
+    <div class="mini-label">Targets</div>
     <div class="outcome-grid">
       <div class="outcome reveal">
         <div class="t">Coverage</div>
@@ -1501,11 +1749,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   </div>
 </section>
 
-<section id="s4">
+<section id="s5">
   <div class="wrap">
-    <div class="sec-tag"><em>04</em> · DocuSense.AI · Document Intelligence</div>
-    <h2>Hospitals learned what a payer wanted only when the query arrived, often after discharge.</h2>
-    <p class="sec-intro">DocuSense generates a dynamic, claim-specific document checklist at upload time, based on the diagnosis and procedure already entered, and shows the hospital a live estimate of how likely this claim is to trigger a payer query.</p>
+    <div class="sec-tag"><em>05</em> · DocuSense.AI · Document Intelligence</div>
+    <div class="agent-status"><span class="st pilot">Pilot · 3 hospitals</span></div>
+    <h2>Hospitals found out which documents a payer needed only when the query came, often after discharge.</h2>
+    <p class="sec-intro">DocuSense builds a document checklist for each claim from its diagnosis and procedure, and shows the chance of a payer query.</p>
 
     <div class="mini-label">Module walkthrough</div>
     <figure class="video-slot reveal">
@@ -1514,38 +1763,38 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
     <div class="callout plain reveal">
       <div class="t">The problem</div>
-      <p>Hospitals had no way to know what documents a payer would actually ask for until the query arrived days later, often after the patient had already been discharged and the paperwork was harder to retrieve. The checklist requirement was effectively invisible until it was too late to act on cheaply.</p>
+      <p>Payers asked for documents days later, often after discharge, when they were harder to get.</p>
     </div>
 
     <div class="callout reveal">
       <div class="t">The decision</div>
-      <p>Rather than a static, one-size-fits-all upload checklist, the required-documents list is generated dynamically from the ICD code and procedure already captured for that specific claim, using the same mapping logic underneath CodeRight. The checklist exists without asking the hospital for any new input; it reuses data the claim already has.</p>
+      <p>The checklist is built from the claim's ICD code and procedure, using the same mapping as CodeRight. No new input from the hospital.</p>
     </div>
 
     <div class="mini-label">Building trust</div>
     <div class="trust-grid">
       <div class="dec reveal">
         <div class="n">01</div>
-        <b>Risk made visible before submission, not after</b>
-        <p>A query-probability indicator turns an abstract downstream risk into a concrete, present-moment number the user can act on immediately, instead of finding out days later.</p>
+        <b>Query risk shown before submission</b>
+        <p>Staff see the chance of a payer query while they can still add documents.</p>
         <div class="bar-split" style="margin-top:16px;">
-          <div class="bar"><div class="b1" style="width:35%;"></div><div class="b2" style="width:65%;background:var(--row-bg);"></div></div>
-          <div class="legend"><span>"There is a probability of receiving a query on this claim," shown above the checklist (35% here is an illustrative example, not a reported figure)</span></div>
+          <div class="bar"><div class="b1" style="width:35%;"></div><div class="b2" style="width:65%;background:rgba(48,47,44,0.12);"></div></div>
+          <div class="legend"><span>Example: a 35% chance of a payer query, shown above the checklist. Illustrative, not a reported figure.</span></div>
         </div>
       </div>
       <div class="dec reveal">
         <div class="n">02</div>
-        <b>Documents grouped by why they matter</b>
-        <p>Grouped stage-specific vs. ICD-specific, so the user understands the reasoning behind each requirement instead of facing an undifferentiated list.</p>
+        <b>Documents grouped by reason</b>
+        <p>Stage-specific and ICD-specific documents are listed separately, so staff see why each one is needed.</p>
       </div>
       <div class="dec reveal">
         <div class="n">03</div>
-        <b>The same disclaimer, on purpose</b>
-        <p>The exact "based on historical patterns, please verify" language used in CodeRight appears here too, one consistent mental model for what an AI suggestion means on IHX, not a different trust convention per feature.</p>
+        <b>Same disclaimer as CodeRight</b>
+        <p>The same "based on historical patterns, please verify" line, so AI suggestions read the same way across IHX.</p>
       </div>
     </div>
 
-    <div class="mini-label">Impact</div>
+    <div class="mini-label">Targets</div>
     <div class="outcome-grid">
       <div class="outcome reveal">
         <div class="t">QC load addressed</div>
@@ -1561,69 +1810,72 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   </div>
 </section>
 
-<section id="s5">
+<section id="s6">
   <div class="wrap">
-    <div class="sec-tag"><em>05</em> · QueryLens.AI · Query Categorization &amp; Routing</div>
-    <h2>Categorization was implicit, routing was tribal knowledge, resolution was fragmented across four tools.</h2>
-    <p class="sec-intro">QueryLens reads an incoming payer query, classifies what kind of query it is, suggests who on the hospital's team should own it, and gives the hospital an in-platform chat and structured reply flow, so the whole resolution happens inside IHX instead of across WhatsApp, email, and a payer portal.</p>
+    <div class="sec-tag"><em>06</em> · SDMS.AI · Smart Document Management</div>
+    <div class="agent-status"><span class="st dev">In development</span></div>
+    <h2>Staff compressed patient records on outside PDF sites to meet payer file limits.</h2>
+    <p class="sec-intro">Staff upload documents once. IHX compresses, splits or merges them to fit each payer and channel.</p>
 
-    <div class="mini-label">Module walkthrough</div>
-    <figure class="video-slot reveal">
-      <video src="images/querylens-categorization-chat.mp4" poster="images/querylens-categorization-chat-poster.webp" data-click-play controls muted playsinline preload="none" aria-label="QueryLens categorization, assignment, and in-platform chat"></video>
-    </figure>
-
-    <div class="hflow reveal">
-      <div class="node"><span class="step">Categorize</span><b>Implicit</b><p>Desk reads free text and decides mentally, with no system record of that decision</p></div>
-      <div class="conn">&rarr;</div>
-      <div class="node"><span class="step">Route</span><b>Tribal knowledge</b><p>"Call Priya for billing," a mapping that breaks the moment shifts change</p></div>
-      <div class="conn">&rarr;</div>
-      <div class="node"><span class="step">Resolve</span><b>Fragmented</b><p>Word doc, HIS, payer portal, WhatsApp: none of which talk to each other</p></div>
+    <div class="callout plain reveal">
+      <div class="t">The problem</div>
+      <p>Discharge dockets mix summaries and bills, and scan quality varies. Each payer and channel has its own file size and attachment limits. An API may accept a large file; the fallback email may not. Staff used outside tools like iLovePDF to fit them.</p>
     </div>
-    <p class="flow-caption">Result: queries sat unresolved for <b>12 to 48 hours</b>, not because the answer was hard, but because the coordination was, and an audit trail was nearly impossible to reconstruct after the fact.</p>
 
     <div class="callout reveal">
       <div class="t">The decision</div>
-      <p>Rather than treating categorization, routing, and resolution as three separate problems, I designed them as one continuous workflow: AI categorizes the query, the system suggests the right team members before the desk has to think about it, the conversation happens inside the platform, and the reply, with documents, is submitted from the same screen. The desk never has to leave the workflow to resolve a query.</p>
+      <p>IHX packages documents per payer and channel. If a submission falls back from API to email, IHX repacks it for the smaller limit without asking staff.</p>
     </div>
 
-    <div class="mini-label">Building trust: a different kind, about visible learning over time</div>
+    <div class="mini-label">Why it matters</div>
     <div class="trust-grid">
       <div class="dec reveal">
         <div class="n">01</div>
-        <b>Primary and secondary category, shown together, everywhere</b>
-        <p>Early versions showed only the primary category. Field review found "Medical Necessity" alone too ambiguous to act on; "Medical Necessity: Surgery / Procedure Justification" told hospitals exactly what the payer wanted, a direct hospital-feedback-driven change.</p>
+        <b>Patient data stays inside IHX</b>
+        <p>No patient record goes to an outside compression site. This matters under India's data protection law (DPDP).</p>
       </div>
       <div class="dec reveal">
         <div class="n">02</div>
-        <b>The system shows its own learning, live</b>
-        <p>When a query the AI could not categorize gets manually assigned by the desk, the category visibly upgrades on the row and in the timeline, from a grey "Others" pill to the chosen department's icon and color. Hidden learning is not trustworthy learning.</p>
+        <b>Upload once</b>
+        <p>Staff never build a payer-specific bundle by hand.</p>
       </div>
       <div class="dec reveal">
         <div class="n">03</div>
-        <b>Two distinct correction signals, not one</b>
-        <p>A correction on an already-categorized claim and a first categorization of an "Others" claim answer different questions, so they are logged separately: one training precision, one training recall, rather than averaged into one vague "override."</p>
-      </div>
-    </div>
-
-    <div class="mini-label">Impact</div>
-    <div class="outcome-grid">
-      <div class="outcome reveal">
-        <div class="t">Resolution time</div>
-        <div class="hero-val">40&ndash;60<small>% reduction</small></div>
-        <p class="desc">Cut in median query resolution time.</p>
-      </div>
-      <div class="outcome reveal">
-        <div class="t">AI coverage</div>
-        <div class="hero-val">77&rarr;95<small>%+ categorization coverage</small></div>
-        <p class="desc">Share of incoming payer queries the AI can categorize on its own.</p>
+        <b>No silent failures</b>
+        <p>If the standard path fails, the system handles the fallback.</p>
       </div>
     </div>
   </div>
 </section>
 
-<div class="take" id="s6">
+<section id="s7">
   <div class="wrap">
-    <p class="big reveal">BenefSnap, CodeRight, DocuSense, and QueryLens are all live on the platform. <em>Each one earns its place on its own today, and each one is a capability the agent will need tomorrow. That is the whole bet.</em></p>
+    <div class="sec-tag"><em>07</em> · After Claim Submission</div>
+    <h2>Two agents for after the claim is submitted.</h2>
+    <p class="sec-intro">Outside the pre-auth flow. Both read what the payer sent and turn it into the next step.</p>
+    <div class="post-grid">
+      <div class="post-card reveal" id="querylens">
+        <div class="post-head"><b>QueryLens.AI</b></div>
+        <p>Payer queries sat 12 to 48 hours. No set categories, staff added teammates to each query chat by hand, and replies were spread across four tools. QueryLens categorizes each query, suggests an owner, and keeps the reply in IHX.</p>
+        <div class="post-targets"><div class="t">Targets</div>
+          <div class="pt"><span class="pv">40&ndash;60%</span><span>faster median query resolution</span></div>
+          <div class="pt"><span class="pv">77&rarr;95%+</span><span>queries the AI can categorize on its own</span></div>
+        </div>
+      </div>
+      <div class="post-card reveal" id="settlesense">
+        <div class="post-head"><b>SettleSense.AI</b></div>
+        <p>Auto-Recon showed a short payment but not the reason. Recovery teams read two letters per claim to find it. SettleSense gives the reason with evidence, marks it contestable or not, and sends contestable cases to the dispute workflow.</p>
+        <div class="post-targets"><div class="t">Target</div>
+          <div class="pt"><span class="pv">INR 120&rarr;150</span><span>revenue per claim, as a paid add-on to Auto-Recon</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="take" id="take">
+  <div class="wrap">
+    <p class="big reveal">Each agent fixes one point of friction. <em>Together, they are the road to IHX MIRA.</em></p>
     <p class="fine">IHX &middot; AI Agents at Points of Human Friction, ongoing</p>
   </div>
 </div>
