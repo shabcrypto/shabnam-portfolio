@@ -489,6 +489,10 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 .img-slot.has-image{aspect-ratio:auto;border:1px solid var(--border);border-style:solid;box-shadow:var(--shadow-card);}
 .video-slot:has(video){border:1px solid var(--border);box-shadow:var(--shadow-card);}
 .sec-intro + .video-slot{margin-top:32px;}
+.ai-shot{margin:32px 0 0;}
+.ai-shot img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--border);box-shadow:var(--shadow-card);}
+.ai-shot figcaption{font-size:var(--step--1);color:var(--muted);margin-top:10px;line-height:1.5;}
+.ai-shot + .callout{margin-top:28px;}
 .img-slot-fallback,.video-slot-fallback{
   position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
   padding:20px;text-align:center;color:var(--muted);
@@ -603,10 +607,13 @@ a.node:hover{transform:translateY(-3px);border-color:var(--indigo-light);}
 .pf-cols.sm .pf-node{max-width:180px;}
 @media(max-width:600px){.pf{padding:22px 10px;}.pf-node{font-size:12px;padding:8px 8px;}.pf-col{padding:0 4px;}.pf-if{font-size:10px;letter-spacing:.06em;}.pf-agent span{font-size:9px;}.pf-cols.sm .pf-node{padding:8px 4px;}.pf-cols.sm .pf-agent b{font-size:11px;}}
 /* agent status, flow diagram and post-submission cards (Intelligent Pre-Auth Flow rework) */
-.agent-status{margin:-4px 0 14px;}
+.agent-status{margin:-4px 0 14px;gap:16px;}
+.flow-tag{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;white-space:nowrap;}
+.flow-tag.new{color:var(--indigo);background:rgba(60,58,218,0.10);}
+.flow-tag.ind{color:var(--asphalt);background:rgba(48,47,44,0.08);}
 /* status sits on the same line as the section label */
 .sec-tag:has(+ .agent-status){display:inline-block;margin-right:20px;vertical-align:middle;}
-.sec-tag + .agent-status{display:inline-flex;vertical-align:middle;margin:0 0 10px;}
+.sec-tag + .agent-status{display:inline-flex;align-items:center;flex-wrap:wrap;gap:8px 16px;vertical-align:middle;margin:0 0 10px;}
 .st{font-style:normal;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--asphalt);display:inline-flex;align-items:center;gap:7px;white-space:nowrap;}
 .st::before{content:"";width:8px;height:8px;border-radius:50%;background:rgba(48,47,44,0.35);}
 .st.live::before{background:#00B894;}
@@ -1533,7 +1540,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <section id="s2">
   <div class="wrap">
     <div class="sec-tag"><em>02</em> · BenefSnap.AI · Beneficiary Search</div>
-    <div class="agent-status"><span class="st live">Live</span></div>
+    <div class="agent-status"><span class="st live">Live</span><span class="flow-tag ind">Individual agentic workflow</span></div>
     <h2>A failed beneficiary search took 37% longer to resolve than a successful one.</h2>
     <p class="sec-intro">BenefSnap reads a member or policy card and runs the beneficiary search automatically. It runs when staff upload only a card. A docket or pre-auth form runs PreAuthSnap instead.</p>
 
@@ -1614,9 +1621,14 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <section id="s3">
   <div class="wrap">
     <div class="sec-tag"><em>03</em> · PreAuthSnap.AI · Pre-Auth Form</div>
-    <div class="agent-status"><span class="st pilot">Pilot · 3 hospitals</span></div>
+    <div class="agent-status"><span class="st pilot">Pilot · 3 hospitals</span><span class="flow-tag new">Intelligent Pre-Auth Flow</span></div>
     <h2>Staff retyped pre-auth details that were already on the form they uploaded.</h2>
-    <p class="sec-intro">The parent agent. A docket or pre-auth form runs PreAuthSnap. It runs the beneficiary search, staff pick the card, then it fills the pre-auth form for staff to review.</p>
+    <p class="sec-intro">Part of the new <span class="nw">Intelligent Pre-Auth Flow</span>, the flow that cuts submission from 5 to 2 min. The parent agent: a docket or pre-auth form runs PreAuthSnap. It runs the beneficiary search, staff pick the card, then it fills the pre-auth form for staff to review.</p>
+
+        <figure class="ai-shot reveal">
+      <img src="images/ai-preauthsnap.webp" width="2400" height="1336" loading="lazy" decoding="async" alt="PreAuthSnap on the Pre-Auth Form step: Member Details filled, 8 of 8 mandatory fields, 2 need verification, each field tagged with its source and a confidence score.">
+      <figcaption>Intelligent Pre-Auth Flow, step 4 of 6: each field shows its source (Aadhaar card, insurance card, pre-auth form, HIS) and a confidence score.</figcaption>
+    </figure>
 
     <div class="callout plain reveal">
       <div class="t">The problem</div>
@@ -1671,7 +1683,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <section id="s4">
   <div class="wrap">
     <div class="sec-tag"><em>04</em> · CodeRight.AI · Diagnosis &amp; ICD Coding</div>
-    <div class="agent-status"><span class="st pilot">Pilot · 3 hospitals</span></div>
+    <div class="agent-status"><span class="st pilot">Pilot · 3 hospitals</span><span class="flow-tag ind">Individual agentic workflow</span></div>
     <h2>6<i class="d1">1</i>% of diagnosis entries carried no ICD-<i class="d1">1</i>0 code, and the person typing them is not a clinician.</h2>
     <p class="sec-intro">CodeRight reads the diagnosis from the pre-auth form, or from plain words staff type, and suggests ranked ICD-10 codes and the probable treatment. Staff verify.</p>
 
@@ -1752,13 +1764,13 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <section id="s5">
   <div class="wrap">
     <div class="sec-tag"><em>05</em> · DocuSense.AI · Document Intelligence</div>
-    <div class="agent-status"><span class="st pilot">Pilot · 3 hospitals</span></div>
+    <div class="agent-status"><span class="st pilot">Pilot · 3 hospitals</span><span class="flow-tag ind">Individual agentic workflow</span></div>
     <h2>Hospitals found out which documents a payer needed only when the query came, often after discharge.</h2>
-    <p class="sec-intro">DocuSense builds a document checklist for each claim from its diagnosis and procedure, and shows the chance of a payer query.</p>
+    <p class="sec-intro">DocuSense builds a document checklist for each claim from its diagnosis and procedure, and shows how many mandatory documents are attached.</p>
 
-    <div class="mini-label">Module walkthrough</div>
-    <figure class="video-slot reveal">
-      <video src="images/docusense-checklist.mp4" poster="images/docusense-checklist-poster.webp" data-click-play controls muted playsinline preload="none" aria-label="DocuSense dynamic checklist and query-probability indicator"></video>
+    <figure class="ai-shot reveal">
+      <img src="images/ai-docusense.webp" width="2400" height="1333" loading="lazy" decoding="async" alt="DocuSense on the Documents Attached step: 20% mandatory document completion, and the stage-specific and ICD-specific document checklist with the AI disclaimer.">
+      <figcaption>DocuSense inside the Intelligent Pre-Auth Flow, step 5 of 6: mandatory document completion, and the checklist for this claim.</figcaption>
     </figure>
 
     <div class="callout plain reveal">
@@ -1775,12 +1787,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div class="trust-grid">
       <div class="dec reveal">
         <div class="n">01</div>
-        <b>Query risk shown before submission</b>
-        <p>Staff see the chance of a payer query while they can still add documents.</p>
-        <div class="bar-split" style="margin-top:16px;">
-          <div class="bar"><div class="b1" style="width:35%;"></div><div class="b2" style="width:65%;background:rgba(48,47,44,0.12);"></div></div>
-          <div class="legend"><span>Example: a 35% chance of a payer query, shown above the checklist. Illustrative, not a reported figure.</span></div>
-        </div>
+        <b>Document completion shown before submission</b>
+        <p>A bar shows how many mandatory documents are attached, while staff can still add the rest.</p>
       </div>
       <div class="dec reveal">
         <div class="n">02</div>
@@ -1813,9 +1821,14 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <section id="s6">
   <div class="wrap">
     <div class="sec-tag"><em>06</em> · SDMS.AI · Smart Document Management</div>
-    <div class="agent-status"><span class="st dev">In development</span></div>
+    <div class="agent-status"><span class="st dev">In development</span><span class="flow-tag ind">Individual agentic workflow</span></div>
     <h2>Staff compressed patient records on outside PDF sites to meet payer file limits.</h2>
     <p class="sec-intro">Staff upload documents once. IHX compresses, splits or merges them to fit each payer and channel.</p>
+
+        <figure class="ai-shot reveal">
+      <img src="images/ai-sdms.webp" width="2400" height="1340" loading="lazy" decoding="async" alt="SDMS.ai on the Review and Submit step: 6.4 MB uploaded, 2.2 MB prepared, 2 of 8 attachments, within the 15 MB limit, readability excellent, aligned with payer rules.">
+      <figcaption>SDMS inside the Intelligent Pre-Auth Flow, step 6 of 6: 6.4 MB compressed to 2.2 MB, within the payer limit, every page readable.</figcaption>
+    </figure>
 
     <div class="callout plain reveal">
       <div class="t">The problem</div>
