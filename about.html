@@ -142,113 +142,190 @@
   .topbar nav a:hover { color: var(--vermillion-deep); }
   .topbar nav a:hover::after { transform: scaleX(1); }
 
-  /* ============ ABOUT ============ */
-  .about {
-    max-width: 1200px; margin: 0 auto;
-    /* the top bar is fixed, so this clears it rather than sitting under it */
-    padding: clamp(112px, 12vw, 152px) clamp(24px, 5vw, 60px) var(--space-xl);
-  }
+  /* ============ THE STORY (2026-10-21) ============
+     Her storyline, told as dots that connect: each chapter is a numbered dot on one
+     vermillion thread, the loom's weft line from index, drawn in as you scroll.
+     Every piece is borrowed from index: the bands (Deep Asphalt, Vermillion, Coconut),
+     the scanned paper cards, the tape, the selected-text mark, the bookshelf, the
+     marquee with its woven edges. Nothing here is new to the system. */
+  :root { --paper-tex: url("images/paper-sheet.webp"); --bone: #F0E6D2; }
+  @media (max-width: 900px) { :root { --paper-tex: url("images/paper-sheet-sm.webp"); } }
+
   .eyebrow {
     display: inline-flex; align-items: center; gap: var(--space-sm);
     font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink);
+    color: inherit;
     margin-bottom: var(--space-md);
   }
+  .st-wrap { max-width: 1200px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 60px); }
 
-  .about h1 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    line-height: 1.02;
-    max-width: 16ch;
-    margin-bottom: var(--space-lg);
+  /* hero: the title, set big, and her portrait taped to a paper sheet */
+  .st-hero { padding: clamp(112px, 12vw, 152px) 0 clamp(64px, 8vw, 104px); }
+  .st-hero-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(40px, 6vw, 96px); align-items: center; }
+  .st-giant { font-family: var(--font-display); font-weight: 400; font-size: clamp(3.2rem, 9vw, 8rem); line-height: 0.92; letter-spacing: 0.02em; color: var(--ink); }
+  .st-place { margin-top: var(--space-lg); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+  .st-place::before { content: "\25CF"; color: var(--vermillion); font-size: 0.6rem; margin-right: 10px; vertical-align: 2px; }
+  .st-traits { margin-top: var(--space-md); font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.6rem); letter-spacing: 0.02em; color: var(--ink); }
+  .st-portrait { position: relative; margin: 0; padding: 14px 14px 52px; transform: rotate(2deg);
+    background-color: #CDC9B6; background-image: var(--paper-tex); background-position: center; background-size: cover; background-repeat: no-repeat;
+    border-radius: 6px; box-shadow: 0 18px 40px rgba(14, 12, 10, 0.22); }
+  .st-portrait img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 3px; }
+  .st-portrait figcaption { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.08em; color: var(--ink-soft); }
+  .st-tape { position: absolute; z-index: 2; left: 50%; top: -12px; width: 86px; height: 24px; margin-left: -43px; background: rgba(236, 234, 228, 0.78); transform: rotate(-3deg); }
+
+  /* the marquee from index: woven edges, places rolling past */
+  .marquee { position: relative; background: var(--ink); color: var(--bone); overflow: hidden; }
+  .weave {
+    height: 22px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='22'%3E%3Cg stroke-width='1.4'%3E%3Cpath stroke='%23F0E6D2' stroke-opacity='.55' d='M3 0v22M9 0v22M21 0v22M27 0v22M39 0v22M45 0v22'/%3E%3Cpath stroke='%23C02D0C' stroke-width='2' d='M15 0v22M33 0v22'/%3E%3C/g%3E%3Cpath fill='none' stroke='%23E8C24A' stroke-width='2.6' stroke-linecap='round' d='M0 11C6 5 18 17 24 11S42 5 48 11'/%3E%3C/svg%3E") 0 0 / 48px 22px repeat-x;
+    animation: weaveRun 3.2s linear infinite;
   }
-  .about h1 em { color: inherit; font-style: normal; }   /* the title stays one colour */
+  .weave.back { animation-direction: reverse; }
+  @keyframes weaveRun { to { background-position: 48px 0; } }
+  .marquee-track { display: flex; width: max-content; padding: 8px 0; animation: roll 34s linear infinite; }
+  .marquee-track span { font-family: var(--font-display); font-size: 0.98rem; letter-spacing: 0.15em; padding-right: 34px; white-space: nowrap; }
+  @keyframes roll { to { transform: translateX(-50%); } }
 
-  .about-place {
-    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: var(--space-lg);
-  }
-  .about-place::before { content: "\25CF"; color: var(--ink); font-size: 0.6rem; margin-right: 10px; vertical-align: 2px; }
+  /* chapters: a rail (dot + thread) beside the story */
+  .st-ch { --thread: var(--vermillion); --dot-bg: var(--vermillion); --dot-fg: var(--bone); color: var(--ink); }
+  .st-dark { background: var(--ink); color: var(--bone); }
+  .st-red { --thread: var(--bone); --dot-bg: var(--bone); --dot-fg: var(--vermillion);
+    background:
+      repeating-linear-gradient(to right, rgba(240, 230, 210, 0.14) 0 1px, transparent 1px 56px),
+      repeating-linear-gradient(to bottom, rgba(240, 230, 210, 0.1) 0 1px, transparent 1px 56px),
+      var(--vermillion);
+    color: var(--bone); }
+  .st-ch-grid { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); }
+  .st-rail { display: flex; flex-direction: column; align-items: center; padding-top: clamp(72px, 9vw, 120px); }
+  .st-dot { flex: none; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--dot-bg); color: var(--dot-fg); font-family: var(--font-display); font-size: 1.35rem; letter-spacing: 0.04em; }
+  .st-thread { flex: 1; width: 14px; margin-top: 10px; background: var(--thread);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='28' viewBox='0 0 14 28'%3E%3Cpath d='M7 0 Q 1 7 7 14 T 7 28' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-y center top / 14px 28px;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='28' viewBox='0 0 14 28'%3E%3Cpath d='M7 0 Q 1 7 7 14 T 7 28' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-y center top / 14px 28px;
+    transform-origin: top; }
+  .js .st-thread { transform: scaleY(0); transition: transform 1600ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .js .st-ch.is-on .st-thread { transform: scaleY(1); }
+  .js .st-dot { transform: scale(0.4); opacity: 0; transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 300ms ease; }
+  .js .st-ch.is-on .st-dot { transform: none; opacity: 1; }
 
-  .about-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: var(--space-xl);
-    align-items: start;
-  }
+  .st-body { padding: clamp(72px, 9vw, 120px) 0; min-width: 0; }
+  .st-split { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+  .st-kicker { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; opacity: 0.85; }
+  .st-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.2rem, 5.4vw, 4.4rem); line-height: 0.98; letter-spacing: 0.01em; max-width: 14ch; }
+  .st-text p, .st-points li { margin-top: 18px; font-size: clamp(1.05rem, 1.6vw, 1.22rem); line-height: 1.75; max-width: 46ch; }
+  .st-text p { opacity: 0.9; }
+  .st-points { list-style: none; margin: 8px 0 0; padding: 0; }
+  .st-points li { position: relative; padding-left: 26px; }
+  .st-points li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 10px; height: 10px; border-radius: 50%; background: var(--thread); }
 
-  .about-portrait {
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    border: 1px solid oklch(26% 0.021 42 / 0.14);
-  }
-  .about-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* the scanned paper card, as on index */
+  .st-paper { position: relative; color: var(--ink);
+    background-color: #CDC9B6; background-image: var(--paper-tex); background-position: center; background-size: cover; background-repeat: no-repeat;
+    border-radius: 10px; padding: clamp(28px, 3.4vw, 48px); box-shadow: 0 18px 44px rgba(14, 12, 10, 0.28); }
+  .st-halo { max-width: 360px; margin: 0 auto; padding: 0; overflow: hidden; transform: rotate(-2.5deg); }
+  .st-halo img { display: block; width: 100%; height: auto; }
 
-  .about-copy p {
-    font-size: clamp(1.05rem, 1.6vw, 1.22rem);
-    line-height: 1.75;
-    color: var(--ink-soft);
-    max-width: 62ch;
-    margin-bottom: var(--space-md);
-  }
-  .about-copy p strong { color: var(--ink); font-weight: 700; }
-  .about-copy p em { color: var(--ink); font-style: italic; font-weight: 500; }
+  /* the superpower card: the selected-text mark from index's intro */
+  .st-power { transform: rotate(1.8deg); text-align: center; }
+  .st-power p.big { font-family: var(--font-display); font-size: clamp(1.9rem, 3.6vw, 3rem); line-height: 1.05; letter-spacing: 0.01em; }
+  .st-power p.small { margin-top: 18px; font-size: 1rem; line-height: 1.6; color: var(--ink-soft); }
+  .st-sel { position: relative; display: inline-block; padding: 0 0.1em; background: #C9C2DC; box-shadow: inset 2px 0 #7461C1, inset -2px 0 #7461C1; }
+  .st-sel::before, .st-sel::after { content: ""; position: absolute; width: 0.16em; height: 0.16em; min-width: 8px; min-height: 8px; border-radius: 50%; background: #7461C1; }
+  .st-sel::before { left: 0; top: 0; transform: translate(-40%, -60%); }
+  .st-sel::after { right: 0; bottom: 0; transform: translate(40%, 60%); }
 
-  .about-traits {
-    margin-top: var(--space-lg);
-    font-family: var(--font-display);
-    font-size: clamp(1.2rem, 2vw, 1.6rem);
-    color: var(--ink);
-  }
+  /* the shelf from index: covers dulled until they are looked at */
+  .st-shelf { list-style: none; margin: clamp(40px, 5vw, 64px) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px; }
+  .st-shelf li { width: clamp(84px, 9vw, 120px); aspect-ratio: 1 / 1.3; overflow: hidden; background: #ECEAE4; box-shadow: 0 8px 18px rgba(14, 12, 10, 0.25);
+    filter: grayscale(0.85) brightness(0.7); transition: filter 320ms ease, transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .st-shelf li:nth-child(odd) { transform: rotate(-2deg); } .st-shelf li:nth-child(even) { transform: rotate(2deg); }
+  .st-shelf li.yellow { background: var(--bg); }
+  .st-shelf img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .st-shelf-cap { margin-top: 14px; font-size: 0.9rem; opacity: 0.85; }
 
-  .about-tags { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-md); }
-  .about-tags span {
-    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft);
-    background: rgba(48, 47, 44, 0.08); border-radius: 999px; padding: 7px 16px;
-  }
+  /* lab notebook */
+  .st-lab { transform: rotate(-1.6deg); }
+  .st-lab-head { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 8px; }
+  .st-lab dl { margin: 0; }
+  .st-lab dt { margin-top: 18px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+  .st-lab dd { margin: 4px 0 0; padding-bottom: 12px; border-bottom: 1px solid rgba(14, 12, 10, 0.16); font-family: var(--font-display); font-size: clamp(1.35rem, 2.2vw, 1.8rem); line-height: 1.1; letter-spacing: 0.01em; }
+  .st-lab dd s { text-decoration-color: var(--vermillion); text-decoration-thickness: 3px; }
 
-  /* ============ OFF THE PAGE (2026-10-21): little text, photos as tilted snapshots ============ */
-  .me { max-width: 1200px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 60px) var(--space-xl); display: grid; gap: clamp(72px, 9vw, 120px); }
-  .me-row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
-  .me-flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-  .me-flip .me-text { order: 2; }
-  .me-kicker { display: inline-flex; align-items: center; gap: var(--space-sm); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-bottom: 14px; }
-  .me-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.02; letter-spacing: 0.02em; color: var(--ink); }
-  .me-line { margin-top: 16px; font-size: clamp(1.05rem, 1.6vw, 1.22rem); line-height: 1.75; color: var(--ink-soft); max-width: 36ch; }
+  /* the jump: the peer-review quote card, on Deep Asphalt */
+  .st-quote { max-width: 860px; transform: rotate(-1deg); border-radius: 22px; }
+  .st-qm { font-family: var(--font-display); font-size: 4.4rem; line-height: 0.6; height: 0.5em; }
+  .st-quote blockquote { margin: 22px 0 0; font-size: clamp(1.2rem, 1rem + 1vw, 1.75rem); line-height: 1.5; }
+  .st-quote mark { background: #F2D987; color: var(--ink); padding: 0 0.12em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .st-quote figcaption { margin-top: 26px; font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 0.06em; }
+  .st-after { margin-top: clamp(40px, 5vw, 64px); font-family: var(--font-display); font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.05; letter-spacing: 0.01em; max-width: 22ch; }
 
-  .me-solo { grid-template-columns: 1fr; text-align: center; }
-  .me-solo .me-line { margin-left: auto; margin-right: auto; max-width: 44ch; }
+  /* snapshots, taped */
+  .st-snaps { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 18px 0; }
+  .snap { position: relative; box-sizing: border-box; width: clamp(170px, 20vw, 260px); margin: 0 -10px; padding: 10px 10px 40px;
+    background-color: #CDC9B6; background-image: var(--paper-tex); background-position: center; background-size: cover; background-repeat: no-repeat;
+    border-radius: 4px; box-shadow: 0 14px 30px -12px rgba(14, 12, 10, 0.45); transform: rotate(var(--t)); transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .snap img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 2px; }
+  .snap figcaption { position: absolute; left: 8px; right: 8px; bottom: 11px; text-align: center; font-family: var(--font-display); font-size: 0.98rem; letter-spacing: 0.06em; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .snap .st-tape { width: 64px; height: 20px; margin-left: -32px; top: -10px; }
+  .st-split .st-snaps { flex-wrap: nowrap; }
+  .st-split .snap { width: clamp(150px, 16vw, 220px); }
+  .st-snaps-6 { display: grid; grid-template-columns: repeat(3, auto); justify-content: center; gap: 22px 0; }
+  .st-snaps-6 .snap { width: clamp(170px, 18vw, 240px); }
+  .st-transit { margin: clamp(36px, 4vw, 52px) auto 0; text-align: center; font-family: var(--font-display); font-size: clamp(1.4rem, 2.6vw, 2.2rem); line-height: 1.08; letter-spacing: 0.01em; max-width: 28ch; }
+  .st-observe { margin-top: 28px; transform: rotate(1.2deg); max-width: 520px; }
+  .st-observe p { font-size: 1.05rem; line-height: 1.7; }
+  .st-observe b { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; letter-spacing: 0.02em; }
 
-  .me-stickers { list-style: none; margin: calc(clamp(72px, 9vw, 120px) * -0.5) 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 18px; }
-  .me-stickers li { font-family: var(--font-display); font-size: clamp(1.15rem, 2vw, 1.6rem); letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 22px; border-radius: 999px; transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1); }
-  .me-stickers .s1 { background: var(--vermillion); color: var(--coconut); transform: rotate(-4deg); }
-  .me-stickers .s2 { background: var(--turmeric); color: var(--ink); transform: rotate(3deg); }
-  .me-stickers .s3 { background: var(--asphalt); color: var(--coconut); transform: rotate(-2deg); }
-  .me-stickers .s4 { background: var(--coconut-deep); color: var(--ink); transform: rotate(4deg); }
+  /* the dots connect: three paper cards strung on one horizontal thread */
+  .st-connect { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 32px); margin-top: clamp(40px, 5vw, 64px); }
+  .st-connect::before { content: ""; position: absolute; left: 6%; right: 6%; top: 50%; height: 14px; margin-top: -7px; background: var(--vermillion);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 7 Q 7 1 14 7 T 28 7' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 28px 14px;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 7 Q 7 1 14 7 T 28 7' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 28px 14px; }
+  .st-connect .st-paper { padding: clamp(22px, 2.6vw, 34px); text-align: center; }
+  .st-connect .st-paper:nth-child(1) { transform: rotate(-2deg); } .st-connect .st-paper:nth-child(2) { transform: rotate(1.5deg); } .st-connect .st-paper:nth-child(3) { transform: rotate(-1deg); }
+  .st-connect .from { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+  .st-connect .to { margin-top: 8px; font-family: var(--font-display); font-size: clamp(1.5rem, 2.6vw, 2.2rem); line-height: 1.02; }
+  .st-connect .pin { display: block; width: 14px; height: 14px; border-radius: 50%; background: var(--vermillion); margin: 0 auto 14px; }
+  .st-close { margin-top: clamp(48px, 6vw, 80px); font-size: clamp(1.05rem, 1.6vw, 1.22rem); line-height: 1.75; max-width: 54ch; opacity: 0.9; }
 
-  .me-snaps { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 0; }
-  .snap { box-sizing: border-box; width: clamp(180px, 22vw, 280px); margin: 0 -14px; background: var(--coconut-deep); padding: 10px 10px 36px; border-radius: 4px;
-          box-shadow: 0 14px 30px -12px rgba(14, 12, 10, 0.35); transform: rotate(var(--t)); transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; }
-  .snap img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
-  .snap-empty span { display: flex; align-items: center; justify-content: center; aspect-ratio: 1; background: rgba(48, 47, 44, 0.08); text-align: center;
-                     font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); line-height: 1.6; }
-  .me-snaps-4 { display: grid; grid-template-columns: repeat(2, auto); justify-content: center; }
-  .me-snaps-4 .snap { width: clamp(160px, 17vw, 230px); margin: -6px -10px; }
+  /* beyond work */
+  .st-beyond { padding: clamp(72px, 9vw, 120px) 0 0; text-align: center; }
+  .st-stickers { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 18px; }
+  .st-stickers li { font-family: var(--font-display); font-size: clamp(1.15rem, 2vw, 1.6rem); letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 22px; border-radius: 999px; transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .st-stickers li:nth-child(4n+1) { background: var(--vermillion); color: var(--coconut); transform: rotate(-4deg); }
+  .st-stickers li:nth-child(4n+2) { background: var(--turmeric); color: var(--ink); transform: rotate(3deg); }
+  .st-stickers li:nth-child(4n+3) { background: var(--asphalt); color: var(--coconut); transform: rotate(-2deg); }
+  .st-stickers li:nth-child(4n+4) { background: var(--coconut-deep); color: var(--ink); transform: rotate(4deg); }
+
+  /* the last word, set like index's "The person behind the work" */
+  .st-end { padding: clamp(80px, 10vw, 140px) 0 clamp(96px, 12vw, 160px); text-align: center; }
+  .st-end p { font-size: clamp(1.05rem, 1.6vw, 1.22rem); color: var(--ink-soft); }
+  .st-end h2 { margin-top: 10px; font-family: var(--font-display); font-weight: 400; font-size: clamp(3rem, 1.6rem + 6vw, 7rem); line-height: 0.92; letter-spacing: 0.02em; color: var(--ink); }
+
   @media (hover: hover) and (pointer: fine) {
     .snap:hover { transform: rotate(0deg) scale(1.06); z-index: 2; }
-    .me-stickers li:hover { transform: rotate(0deg) scale(1.08); }
+    .st-stickers li:hover { transform: rotate(0deg) scale(1.08); }
+    .st-shelf li:hover { filter: none; transform: rotate(0deg) translateY(-4px); }
   }
   @media (max-width: 900px) {
-    .me-row, .me-flip { grid-template-columns: 1fr; }
-    .me-flip .me-text { order: 0; }
-    .me-stickers { margin-top: 0; }
+    .st-hero-grid, .st-split { grid-template-columns: 1fr; }
+    .st-portrait { max-width: 360px; }
+    .st-ch-grid { grid-template-columns: 36px minmax(0, 1fr); gap: 16px; }
+    .st-dot { width: 36px; height: 36px; font-size: 1rem; }
+    .st-connect { grid-template-columns: 1fr; gap: 26px; }
+    .st-connect::before { left: 50%; right: auto; top: 4%; bottom: 4%; width: 14px; height: auto; margin: 0 0 0 -7px;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='28' viewBox='0 0 14 28'%3E%3Cpath d='M7 0 Q 1 7 7 14 T 7 28' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-y center top / 14px 28px;
+              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='28' viewBox='0 0 14 28'%3E%3Cpath d='M7 0 Q 1 7 7 14 T 7 28' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-y center top / 14px 28px; }
     .snap { width: min(40vw, 220px); margin: 0 -6px; }
-    .me-snaps-4 .snap { width: min(40vw, 180px); margin: 6px -6px; }
+    .st-split .snap { width: min(36vw, 170px); }
+    .st-snaps-6 { grid-template-columns: repeat(2, auto); }
+    .st-snaps-6 .snap { width: min(40vw, 190px); }
   }
-  @media (prefers-reduced-motion: reduce) { .snap, .me-stickers li { transition: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .weave, .marquee-track { animation: none; }
+    .js .st-thread, .js .st-dot { transform: none; opacity: 1; transition: none; }
+    .snap, .st-stickers li, .st-shelf li { transition: none; }
+  }
 
   .ribbon {
     height: 14px;
@@ -325,8 +402,6 @@
   }
 
   @media (max-width: 900px) {
-    .about-grid { grid-template-columns: 1fr; }
-    .about-portrait { max-width: 420px; }
     .topbar nav { display: none; }
     .foot-inner { padding-left: 24px; padding-right: 24px; }
     .foot-contact-row { flex-direction: column; align-items: flex-start; gap: var(--space-xs); }
@@ -517,103 +592,206 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 </aside>
 
 
-<section class="about">
-  <p class="eyebrow">The longer story</p>
-  <h1>A <em>seeker</em>.</h1>
-  <p class="about-place">Bangalore, via the Malabar Coast</p>
-
-  <div class="about-grid">
-    <div class="about-portrait">
-      <img src="about_me_image.webp" alt="Shabnam Raghavan" fetchpriority="high" />
+<!-- ============ THE STORY: dots that connect (2026-10-21) ============ -->
+<header class="st-hero">
+  <div class="st-wrap st-hero-grid">
+    <div>
+      <p class="eyebrow">The longer story</p>
+      <h1 class="st-giant">A seeker,<br>by nature.</h1>
+      <p class="st-place">Bangalore, via the Malabar Coast</p>
+      <p class="st-traits">Ambivert. Objective. Inquisitive. Allergic to generic.</p>
     </div>
+    <figure class="st-portrait">
+      <span class="st-tape" aria-hidden="true"></span>
+      <img src="about_me_image.webp" alt="Shabnam Raghavan" fetchpriority="high" />
+    </figure>
+  </div>
+</header>
 
-    <div class="about-copy">
-      <p>I grew up on the Malabar Coast of Kerala, around a lot of art and craft. That is where my interest in design started.</p>
+<div class="marquee" aria-hidden="true">
+  <div class="weave"></div>
+  <div class="marquee-track">
+    <span>Malabar Coast &middot; Lores and looms &middot; Science &middot; IISc &middot; Azim Premji Foundation &middot; Pithoragarh &middot; Design &middot; Bangalore &middot;&nbsp;</span>
+    <span>Malabar Coast &middot; Lores and looms &middot; Science &middot; IISc &middot; Azim Premji Foundation &middot; Pithoragarh &middot; Design &middot; Bangalore &middot;&nbsp;</span>
+  </div>
+  <div class="weave back"></div>
+</div>
 
-      <p>I call myself a seeker. I collect memories, conversations and experiences, and I find purpose in whatever I do. For me, learning never stops.</p>
+<!-- 01 · Roots -->
+<section class="st-ch" aria-labelledby="ch1">
+  <div class="st-wrap st-ch-grid">
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">01</span><span class="st-thread"></span></div>
+    <div class="st-body st-split">
+      <div class="st-text">
+        <p class="st-kicker">Roots</p>
+        <h2 class="st-title" id="ch1">The land of lores and looms.</h2>
+        <p>I come from the Malabar coast, where art, culture and gods are woven into everyday life.</p>
+        <p>Growing up around that is what first drew me to art and design: work that carries its roots with it.</p>
+      </div>
+      <figure class="st-paper st-halo"><img src="images/about-halo.webp" width="548" height="696" alt="The Theyyam halo: flame petals around an open eye, with loom threads below" loading="lazy" decoding="async" /></figure>
+    </div>
+  </div>
+</section>
 
-      <p class="about-traits">Ambivert. Objective. Inquisitive. Allergic to generic.</p>
+<!-- 02 · Other minds -->
+<section class="st-ch st-red" aria-labelledby="ch2">
+  <div class="st-wrap st-ch-grid">
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">02</span><span class="st-thread"></span></div>
+    <div class="st-body">
+      <div class="st-split">
+        <div class="st-text">
+          <p class="st-kicker">Other minds</p>
+          <h2 class="st-title" id="ch2">A citizen of the world.</h2>
+          <p>I'm drawn to other cultures, other minds and other ways of seeing the things around me.</p>
+        </div>
+        <div class="st-paper st-power">
+          <p class="big">If I had one superpower, I'd <span class="st-sel">read minds</span>.</p>
+          <p class="small">Since I can't, I settled for the next best thing: a deep fascination with psychology and human behaviour.</p>
+        </div>
+      </div>
+      <ul class="st-shelf" aria-label="Books that shaped how I see people">
+        <li><img src="images/book-people-watching.webp" alt="People Watching by Desmond Morris" loading="lazy" decoding="async" /></li>
+        <li class="yellow" style="--bg:#FFF129"><img src="images/book-hooked.webp" alt="Hooked by Nir Eyal" loading="lazy" decoding="async" /></li>
+        <li class="yellow" style="--bg:#F8C900"><img src="images/book-design-of-everyday-things.webp" alt="The Design of Everyday Things by Don Norman" loading="lazy" decoding="async" /></li>
+        <li><img src="images/book-games-people-play.webp" alt="Games People Play by Eric Berne" loading="lazy" decoding="async" /></li>
+        <li><img src="images/book-naked-ape.webp" alt="The Naked Ape by Desmond Morris" loading="lazy" decoding="async" /></li>
+      </ul>
+      <p class="st-shelf-cap">Some of the books on how people think.</p>
+    </div>
+  </div>
+</section>
 
-      <div class="about-tags">
-        <span>Reading</span>
-        <span>Travel</span>
-        <span>Art &amp; Culture</span>
-        <span>Human Behaviour</span>
-        <span>Techno &amp; Afro House</span>
-        <span>Socialising</span>
+<!-- 03 · The lab -->
+<section class="st-ch" aria-labelledby="ch3">
+  <div class="st-wrap st-ch-grid">
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">03</span><span class="st-thread"></span></div>
+    <div class="st-body st-split">
+      <div class="st-text">
+        <p class="st-kicker">The lab</p>
+        <h2 class="st-title" id="ch3">It started in science.</h2>
+        <ul class="st-points">
+          <li>Science taught me rigour, structure and how to think seriously about a problem.</li>
+          <li>I was a research intern at the Indian Institute of Science. Research at its strictest.</li>
+          <li>It sharpened me. But the lab never made me happy.</li>
+        </ul>
+      </div>
+      <div class="st-paper st-lab">
+        <span class="st-tape" aria-hidden="true"></span>
+        <p class="st-lab-head">Lab notebook &middot; IISc</p>
+        <dl>
+          <dt>Hypothesis</dt><dd>Science is my path.</dd>
+          <dt>Observation</dt><dd>The lab never made me happy.</dd>
+          <dt>Conclusion</dt><dd><s>Stay</s> Try UX design.</dd>
+        </dl>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ OFF THE PAGE: short, fun, mostly photos (2026-10-21) ============ -->
-<section class="me" aria-label="More about me">
-
-  <div class="me-row me-solo">
-    <div class="me-text">
-      <p class="me-kicker">The design in me</p>
-      <h2 class="me-title">Why design.</h2>
-      <p class="me-line">I like to look at a career as a journey built from experience. Design is the destination I found: the amalgamation of science, art and psychology.</p>
+<!-- 04 · The jump -->
+<section class="st-ch st-dark" aria-labelledby="ch4">
+  <div class="st-wrap st-ch-grid">
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">04</span><span class="st-thread"></span></div>
+    <div class="st-body">
+      <p class="st-kicker">The jump</p>
+      <h2 class="st-title" id="ch4">So I trusted the dots.</h2>
+      <figure class="st-paper st-quote" style="margin-top:clamp(36px,4vw,56px)">
+        <div class="st-qm" aria-hidden="true">&ldquo;</div>
+        <blockquote>You can't connect the dots looking forward; you can only connect them <mark>looking backwards</mark>. So you have to trust that the dots will somehow connect in your future.</blockquote>
+        <figcaption>Steve Jobs</figcaption>
+      </figure>
+      <p class="st-after">Leaving science for design was exactly that kind of trust.</p>
     </div>
   </div>
+</section>
 
-  <ul class="me-stickers" aria-label="Traits">
-    <li class="s1">Meticulous</li>
-    <li class="s2">I own it</li>
-    <li class="s3">Resilient</li>
-    <li class="s4">Always learning</li>
-  </ul>
-
-  <div class="me-row">
-    <div class="me-text">
-      <p class="me-kicker">Field research</p>
-      <h2 class="me-title">The general compartment.</h2>
-      <p class="me-line">A public bus, the busy streets of India. That is where I go to understand real people.</p>
-    </div>
-    <div class="me-snaps">
-      <figure class="snap" style="--t:-4deg"><img src="images/gallery-1.webp" width="480" height="480" alt="A red public bus at a stop" loading="lazy" decoding="async"></figure>
-      <figure class="snap" style="--t:3deg"><img src="images/about-general-compartment.webp" width="555" height="720" alt="Shabnam sitting on the floor of a crowded train compartment" loading="lazy" decoding="async" style="object-position:50% 15%"></figure>
+<!-- 05 · Pithoragarh -->
+<section class="st-ch" aria-labelledby="ch5">
+  <div class="st-wrap st-ch-grid">
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">05</span><span class="st-thread"></span></div>
+    <div class="st-body st-split">
+      <div class="st-text">
+        <p class="st-kicker">Azim Premji Foundation</p>
+        <h2 class="st-title" id="ch5">A classroom in the Himalayas.</h2>
+        <ul class="st-points">
+          <li>I taught children in government schools in Pithoragarh, a remote corner of the Himalayas.</li>
+          <li>I saw rural education up close. Things I had only read about in textbooks became real.</li>
+          <li>Institutions work best when they support the ecosystem that already exists, not replace it.</li>
+          <li>It taught me about children, psychology and people. It opened my eyes to the world.</li>
+        </ul>
+      </div>
+      <div class="st-snaps">
+        <figure class="snap" style="--t:-4deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-4.webp" width="480" height="480" alt="Shabnam pulling faces with two government school kids" loading="lazy" decoding="async" /><figcaption>The kids</figcaption></figure>
+        <figure class="snap" style="--t:3deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-art-session.webp" width="720" height="540" alt="Government school children drawing on a blackboard during an art session" loading="lazy" decoding="async" /><figcaption>An art session</figcaption></figure>
+      </div>
     </div>
   </div>
+</section>
 
-  <div class="me-row me-flip">
-    <div class="me-text">
-      <p class="me-kicker">The NGO</p>
-      <h2 class="me-title">Where people got interesting.</h2>
-      <p class="me-line">NGO work opened me up to human psychology and behaviour. It is why I care about design.</p>
-    </div>
-    <div class="me-snaps">
-      <figure class="snap" style="--t:3deg"><img src="images/gallery-4.webp" width="480" height="480" alt="Shabnam pulling faces with two kids" loading="lazy" decoding="async"></figure>
-      <figure class="snap" style="--t:-3deg"><img src="images/about-art-session.webp" width="720" height="540" alt="Children drawing on a classroom blackboard during an art session" loading="lazy" decoding="async"></figure>
+<!-- 06 · Travel -->
+<section class="st-ch st-red" aria-labelledby="ch6">
+  <div class="st-wrap st-ch-grid">
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">06</span><span class="st-thread"></span></div>
+    <div class="st-body">
+      <div class="st-split">
+        <div class="st-text">
+          <p class="st-kicker">Travel</p>
+          <h2 class="st-title" id="ch6">I travel to understand.</h2>
+          <p>To absorb what's around me, and to collect memories, conversations and experiences that keep widening my horizon.</p>
+        </div>
+        <div class="st-paper st-observe">
+          <p>The two things a designer needs most: <b>the ability to observe</b>, and <b>the ability to see another perspective without bias</b>. Travel keeps those muscles strong.</p>
+        </div>
+      </div>
+      <div class="st-snaps st-snaps-6" style="margin-top:clamp(48px,6vw,80px)">
+        <figure class="snap" style="--t:-3deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-1.webp" width="480" height="480" alt="A red public bus at a stop" loading="lazy" decoding="async" /><figcaption>A public bus</figcaption></figure>
+        <figure class="snap" style="--t:2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-general-compartment.webp" width="555" height="720" alt="Shabnam sitting on the floor of a crowded train compartment" loading="lazy" decoding="async" style="object-position:50% 15%" /><figcaption>Being in the crowd</figcaption></figure>
+        <figure class="snap" style="--t:-2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-2.webp" width="480" height="480" alt="A brick lighthouse at the end of a sea wall" loading="lazy" decoding="async" /><figcaption>By the sea</figcaption></figure>
+        <figure class="snap" style="--t:3deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-himachal-goats.webp" width="480" height="640" alt="Mountain goats resting on a rock in a Himachal pine forest" loading="lazy" decoding="async" /><figcaption>Goats at Himachal</figcaption></figure>
+        <figure class="snap" style="--t:-2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-5.webp" width="480" height="480" alt="An old woman resting on a doorstep beside a dog" loading="lazy" decoding="async" /><figcaption>On a doorstep</figcaption></figure>
+        <figure class="snap" style="--t:2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-hill-garden.webp" width="720" height="405" alt="Pale green spiky seed pods in a hill garden" loading="lazy" decoding="async" /><figcaption>At the hill garden</figcaption></figure>
+      </div>
+      <p class="st-transit">The general compartment, a public bus, the busy streets of India. That is where I go to understand real people.</p>
     </div>
   </div>
+</section>
 
-  <div class="me-row">
-    <div class="me-text">
-      <p class="me-kicker">Travel &amp; culture</p>
-      <h2 class="me-title">I travel to look closely.</h2>
-      <p class="me-line">Local art, food and people. Every place shows me something new about how people live.</p>
-    </div>
-    <div class="me-snaps me-snaps-4">
-      <figure class="snap" style="--t:4deg"><img src="images/gallery-2.webp" width="480" height="480" alt="A brick lighthouse at the end of a sea wall" loading="lazy" decoding="async"></figure>
-      <figure class="snap" style="--t:-2deg"><img src="images/gallery-5.webp" width="480" height="480" alt="An old woman resting on a doorstep beside a dog" loading="lazy" decoding="async"></figure>
-      <figure class="snap" style="--t:-3deg"><img src="images/about-himachal-goats.webp" width="480" height="640" alt="Mountain goats resting on a rock in a Himachal pine forest" loading="lazy" decoding="async"></figure>
-      <figure class="snap" style="--t:2deg"><img src="images/about-hill-garden.webp" width="720" height="405" alt="Pale green spiky seed pods in a hill garden" loading="lazy" decoding="async"></figure>
+<!-- 07 · The dots connect -->
+<section class="st-ch st-dark" aria-labelledby="ch7">
+  <div class="st-wrap st-ch-grid">
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">07</span></div>
+    <div class="st-body">
+      <p class="st-kicker">Looking back</p>
+      <h2 class="st-title" id="ch7">The dots connect.</h2>
+      <div class="st-connect">
+        <div class="st-paper"><span class="pin" aria-hidden="true"></span><p class="from">Science gave me</p><p class="to">Structure</p></div>
+        <div class="st-paper"><span class="pin" aria-hidden="true"></span><p class="from">My roots gave me</p><p class="to">An eye for art and culture</p></div>
+        <div class="st-paper"><span class="pin" aria-hidden="true"></span><p class="from">People gave me</p><p class="to">Empathy</p></div>
+      </div>
+      <p class="st-close">In a world overflowing with products, some quietly stand out because of the thought and care behind them. That's the kind of work I want to make, and every detour I've taken is part of how I'll make it.</p>
     </div>
   </div>
+</section>
 
-  <div class="me-row me-flip">
-    <div class="me-text">
-      <p class="me-kicker">Also</p>
-      <h2 class="me-title">Cats.</h2>
-      <p class="me-line">Obviously.</p>
-    </div>
-    <div class="me-snaps">
-      <figure class="snap" style="--t:-3deg"><img src="images/gallery-3.webp" width="480" height="480" alt="A yellow cat sculpture on a gallery wall" loading="lazy" decoding="async"></figure>
-      <figure class="snap snap-empty" style="--t:4deg"><span>Photo<br>My cat</span></figure>
-    </div>
+<!-- Beyond work -->
+<section class="st-beyond" aria-labelledby="beyond">
+  <div class="st-wrap">
+    <p class="eyebrow" id="beyond">Beyond work</p>
+    <ul class="st-stickers">
+      <li>Art</li>
+      <li>Culture</li>
+      <li>Travel</li>
+      <li>Books</li>
+      <li>Cats</li>
+    </ul>
   </div>
+</section>
 
+<section class="st-end" aria-label="Sign-off">
+  <div class="st-wrap">
+    <p>That's my story so far.</p>
+    <h2>Still seeking.</h2>
+  </div>
 </section>
 
 <div class="ribbon"></div>
@@ -679,6 +857,18 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   function apply() { bar.classList.toggle("solid", window.scrollY > 24); }
   window.addEventListener("scroll", apply, { passive: true });
   apply();
+})();
+</script>
+<script>
+// The story's dots pop in and their threads draw down as each chapter is reached.
+(function () {
+  var chs = document.querySelectorAll(".st-ch");
+  if (!chs.length || !("IntersectionObserver" in window)) return;
+  document.documentElement.classList.add("js");
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-on"); io.unobserve(e.target); } });
+  }, { rootMargin: "0px 0px -20% 0px" });
+  chs.forEach(function (c) { io.observe(c); });
 })();
 </script>
 <!-- first-party analytics, see design-context section 13 --><script src="/analytics.js" defer></script>
