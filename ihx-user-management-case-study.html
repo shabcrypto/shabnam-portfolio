@@ -666,6 +666,14 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 /* Staatliches draws 1 as a bare stroke that reads as "I"; in big numbers the 1 comes from Manrope, sized to the cap height */
 .d1{font-family:"Manrope",sans-serif;font-weight:800;font-size:0.86em;letter-spacing:0;}
 .take .fine{margin-top:18px;font-size:var(--step--1);color:var(--muted);letter-spacing:.04em;}
+/* "Read the detailed case study": filled asphalt button, centred */
+.full-cs{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:14px 28px;border-radius:999px;background:var(--asphalt);color:var(--coconut);text-decoration:none;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:1.1rem;letter-spacing:0.08em;text-transform:uppercase;transition:background 160ms ease;}
+.full-cs svg{transition:transform 200ms cubic-bezier(0.22,1,0.36,1);}
+.full-cs:hover,.full-cs:focus-visible{background:var(--ink);}
+.full-cs:hover svg,.full-cs:focus-visible svg{transform:translateX(3px);}
+.full-cs-row{display:flex;justify-content:center;padding:16px 0 8px;}
+.hero-grid > .hero-stats{margin-top:0;}
+.take .full-cs{margin-top:32px;}
 
 @media(max-width:860px){
   .annot,.annot.flip{grid-template-columns:1fr;}
@@ -1323,11 +1331,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <div class="pi"><span class="pi-l">Timeframe</span><span class="pi-v">3 weeks &middot; Feb–Mar 2026</span></div>
         <div class="pi"><span class="pi-l">Also Covered</span><span class="pi-v">Product Strategy &middot; Cross-Team Collaboration &middot; Stakeholder Management</span></div>
       </div>
-      <div class="hero-stats reveal">
-        <div class="cell"><span class="tag">Tickets / day</span><div class="num accent">80 &rarr; <span class="d1">1</span>0</div><div class="lbl">Support tickets routed to Ops</div></div>
-        <div class="cell"><span class="tag">Time to create</span><div class="num teal">30 &rarr; 5 min</div><div class="lbl">A new user, email request to in-product self-serve</div></div>
-        <div class="cell"><span class="tag">Deactivate</span><div class="num indigo">4 &rarr; <span class="d1">1</span></div><div class="lbl">Manual steps to deactivate or delete a user</div></div>
-      </div>
     </div>
     <div class="hero-shot reveal">
       <div class="frame">
@@ -1338,6 +1341,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         </figure>
       </div>
     </div>
+    <div class="hero-stats reveal">
+        <div class="cell"><span class="tag">Tickets / day</span><div class="num accent">80 &rarr; <span class="d1">1</span>0</div><div class="lbl">Support tickets routed to Ops</div></div>
+        <div class="cell"><span class="tag">Time to create</span><div class="num teal">30 &rarr; 5 min</div><div class="lbl">A new user, email request to in-product self-serve</div></div>
+        <div class="cell"><span class="tag">Deactivate</span><div class="num indigo">4 &rarr; <span class="d1">1</span></div><div class="lbl">Manual steps to deactivate or delete a user</div></div>
+      </div>
+    <div class="full-cs-row"><a class="full-cs" href="ihx-user-management-case-study-full.html">Read the detailed case study<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
   </div>
 </header>
 
@@ -1351,41 +1360,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <li><span class="inc-n">Nobody checked</span>Support created the logins. No one could verify who was asking.</li>
       <li><span class="inc-n">After leaving</span>They logged in with those logins and cancelled the hospital's high-value claims.</li>
     </ol>
-    <div class="inc-cols">
-      <div>
-        <div class="inc-sub">What it exposed</div>
-        <ul class="inc-list">
-          <li><b>A security gap:</b> access outlived employment.</li>
-          <li><b>No ownership:</b> support could not tell who was emailing from a hospital.</li>
-          <li><b>Admin out of the loop:</b> the hospital did not know the logins existed.</li>
-          <li><b>Lost trust:</b> friction with an enterprise hospital over a gap IHX did not cause.</li>
-        </ul>
-      </div>
-      <div>
-        <div class="inc-sub">How I found it</div>
-        <ol class="inc-path">
-          <li><span>2FA rollout</span></li>
-          <li><span>Login issues and pushback</span></li>
-          <li><span>Focus group with the AM team</span></li>
-          <li><span>Calls with hospital IT teams</span></li>
-          <li><span>Customer support's inbox</span></li>
-        </ol>
-        <p class="inc-note">This was the loudest of many cases in that inbox. User management work had already started from the smaller ones; this one showed what was at stake.</p>
-      </div>
-    </div>
-    <div class="inc-own">
-      <div class="inc-sub">What I owned</div>
-      <ol class="inc-path">
-        <li><span>Discovery</span></li>
-        <li><span>Problem Statement</span></li>
-        <li><span>Go-ahead from the BU head</span></li>
-        <li><span>PRD</span></li>
-        <li><span>Design</span></li>
-        <li><span>Review</span></li>
-        <li><span>Go-live</span></li>
-      </ol>
-      <p class="inc-note">End to end, from discovery to go-live. The role hierarchy was shaped together with the PM.</p>
-    </div>
   </div>
 </section>
 
@@ -1442,141 +1416,13 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       </div>
     </div>
 
-    <div class="fact-row reveal">
-      <span class="fact-pill">SSO, 2FA, and user role specific features needed <b>an engineer</b> to flip a DB flag</span>
-      <span class="fact-pill">User deactivation <b>&rarr;</b> a manual email chain: account manager, DB support, no time limit</span>
-      <span class="fact-pill">Tagged <b>Revenue Innovation</b></span>
-    </div>
-
-    <div class="callout reveal">
-      <div class="t">The misleading detail</div>
-      <p>In the Account Details section, hospital staff could update their own bank details, believing insurers were automatically updated with that information. They were not.</p>
-      <div class="badges"><span class="src-chip">From discovery research</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="s2">
-  <div class="wrap">
-    <div class="sec-tag"><em>02</em> · User Feedback &amp; Pain Points</div>
-    <h2>Support and account management pointed to the same root problem.</h2>
-    <p class="sec-intro">Not a summary. What the people closest to it actually said: hospital admins, the customer support team, and account management.</p>
-    <div class="persona-grid">
-      <div class="persona reveal">
-        <span class="who indigo">Account admin</span>
-        <b>&ldquo;I did not know user management was even a page in this product.&rdquo;</b>
-        <p>The module existed. The people meant to use it never found it.</p>
-        <span class="tagpill grp">Visibility</span>
-      </div>
-      <div class="persona reveal">
-        <span class="who teal">Group hospital admin</span>
-        <b>&ldquo;I can see every center in my group. I cannot manage a single user in any of them.&rdquo;</b>
-        <p>A centralized view with no centralized control: visibility without a single action to take.</p>
-        <span class="tagpill ops">Group Control</span>
-      </div>
-      <div class="persona reveal">
-        <span class="who indigo">Account management</span>
-        <b>&ldquo;One deactivation meant an email, then a wait for DB support, then another wait.&rdquo;</b>
-        <p>Most hospitals gave up partway. The account stayed active because revoking it took too long.</p>
-        <span class="tagpill sec">Access Revocation</span>
-      </div>
-    </div>
-    <div class="callout reveal">
-      <div class="t">Focus Group · AM Team</div>
-      <p>&ldquo;Every time we were enabling 2FA, the hospitals had a problem. Users forgot their emails, had not verified them, or used dummy emails to create a login. It became a painful, lengthy, manual process involving the account manager, the project manager, and the database support team. Users don't want this friction, so they submit claims outside the platform, by email, because they cannot log in.&rdquo;</p>
-      <div class="badges"><span class="badge risk">Revenue Leakage</span><span class="badge risk">Platform Stickiness</span></div>
-    </div>
   </div>
 </section>
 
 <section id="s3">
   <div class="wrap">
-    <div class="sec-tag"><em>03</em> · Product Gap</div>
-    <h2>How the Existing User Management Module Functioned</h2>
-    <p class="sec-intro">The module screens carried most of the friction: the hospital's own profile, the modal used to create or edit a user, and group login itself.</p>
-
-    <div class="annot">
-      <div class="txt reveal">
-        <span class="tagline bad">Old screen · Hospital Profile</span>
-        <h3>A user list squeezed into a side panel.</h3>
-        <ul class="pinned">
-          <li><span class="pin">1</span><span>Account Details tab held one payer's bank information, dead weight once the platform went multi-payer</span></li>
-          <li><span class="pin">2</span><span>Infrastructure tab sat unused, standalone</span></li>
-          <li><span class="pin">3</span><span>User list was a side panel: no count, no visible access level, no clear call to action</span></li>
-        </ul>
-      </div>
-      <figure class="shot reveal">
-        <div class="pin-stage" style="padding:9.884% 0.0% 0 0.0%">
-        <svg class="pin-lines" viewBox="0 0 1720 1134" aria-hidden="true"><defs><marker id="pin-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><polyline points="695,72 695,392"/><polyline points="935,72 935,392"/><polyline points="1300,72 1300,392"/></svg>
-        <div class="pin-badges" aria-hidden="true"><span class="pin" style="left:40.407%;top:6.349%">1</span><span class="pin" style="left:54.36%;top:6.349%">2</span><span class="pin" style="left:75.581%;top:6.349%">3</span></div>
-        <div class="img-slot">
-          <div class="img-slot-fallback"><span class="cam">▣</span><b>Old Hospital Profile</b><code>images/old-hospital-profile-panel.webp</code></div>
-          <img src="images/old-hospital-profile-panel.webp" alt="Old Hospital Profile with Account Details, Infrastructure, and cramped User Accounts panel" onerror="this.remove()">
-        </div>
-        </div>
-        <figcaption>The old Hospital Profile: four tabs, users in a cramped right-hand panel.</figcaption>
-      </figure>
-    </div>
-
-    <div class="annot flip">
-      <div class="txt reveal">
-        <span class="tagline bad">Old screen · Create / Edit User</span>
-        <h3>Permissions that did not match the product.</h3>
-        <ul class="pinned">
-          <li><span class="pin">1</span><span>Profile picture upload nobody used</span></li>
-          <li><span class="pin">2</span><span>One Read Only / Edit toggle spanning six flat buckets, no read, write, export, or import split</span></li>
-          <li><span class="pin">3</span><span>Claims was a single bucket, not separated into PreAuth, Claim, and Reconciliation</span></li>
-        </ul>
-      </div>
-      <figure class="shot reveal">
-        <div class="pin-stage" style="padding:0.0% 7.44% 0 7.44%">
-        <svg class="pin-lines" viewBox="0 0 2016 964" aria-hidden="true"><defs><marker id="pin-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><polyline points="1941,230 1244,230"/><polyline points="1941,500 1230,500"/><polyline points="75,498 750,498"/></svg>
-        <div class="pin-badges" aria-hidden="true"><span class="pin" style="left:96.28%;top:23.859%">1</span><span class="pin" style="left:96.28%;top:51.867%">2</span><span class="pin" style="left:3.72%;top:51.66%">3</span></div>
-        <div class="img-slot">
-          <div class="img-slot-fallback"><span class="cam">▣</span><b>Old Create/Edit User modal</b><code>images/old-create-user-modal.webp</code></div>
-          <img src="images/old-create-user-modal.webp" alt="Old Create/Edit User modal with profile picture upload and flat Read Only/Edit toggles" onerror="this.remove()">
-        </div>
-        </div>
-        <figcaption>The old modal: flat toggles, a permission list that had drifted from the real product IA.</figcaption>
-      </figure>
-    </div>
-
-    <div class="annot">
-      <div class="txt reveal">
-        <span class="tagline bad">Old screen · Group Login</span>
-        <h3>Every module made you pick a center again.</h3>
-        <ul class="pinned">
-          <li><span class="pin">1</span><span>Center had to be re-selected inside every module, no context carried over</span></li>
-          <li><span class="pin">2</span><span>A separate UI had to be built and maintained just for center-level login</span></li>
-          <li><span class="pin">3</span><span>The hierarchy of centers under a group was not retained anywhere</span></li>
-          <li><span class="pin">4</span><span>User management did not exist at the group level at all</span></li>
-        </ul>
-      </div>
-      <figure class="shot reveal">
-        <div class="pin-stage" style="padding:9.047% 0.0% 0 7.983%">
-        <svg class="pin-lines" viewBox="0 0 1879 1134" aria-hidden="true"><defs><marker id="pin-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><polyline points="470,72 470,390"/><polyline points="950,72 950,333"/><polyline points="630,72 630,196"/><polyline points="75,432 206,432"/></svg>
-        <div class="pin-badges" aria-hidden="true"><span class="pin" style="left:25.013%;top:6.349%">1</span><span class="pin" style="left:50.559%;top:6.349%">2</span><span class="pin" style="left:33.528%;top:6.349%">3</span><span class="pin" style="left:3.991%;top:38.095%">4</span></div>
-        <div class="img-slot">
-          <div class="img-slot-fallback"><span class="cam">▣</span><b>Old Group Login UI</b><code>images/old-group-login-ui.webp</code></div>
-          <img src="images/old-group-login-ui.webp" alt="Old group login UI requiring the center to be re-selected inside every module" onerror="this.remove()">
-        </div>
-        </div>
-        <figcaption>The old group login: a center picker re-asked inside every module, no memory of the hierarchy above it.</figcaption>
-      </figure>
-    </div>
-
-    <div class="mini-label">Old vs. new</div>
-    <div class="data-table reveal">
-      <table>
-        <tr><th></th><th>Old</th><th>New</th></tr>
-        <tr><td>Permission granularity</td><td>Read Only / Edit, one toggle</td><td class="new">Read, Write, Export, Import per module</td></tr>
-        <tr><td>Module structure</td><td>Six flat buckets</td><td class="new">Grouped: Claims Module, Auto Reconciliation Module</td></tr>
-        <tr><td>Hierarchy</td><td>None</td><td class="new">Group Admin → Group User / Center Admin → Center User</td></tr>
-      </table>
-    </div>
-    <p class="flow-caption">Scope expanded mid-project from single-center admins to Group Admins, tracking the group-hospital friction from Section 01.</p>
-
-    <div class="mini-label">Introduced a role hierarchy · Collaborated with the PM</div>
+    <div class="sec-tag"><em>02</em> · Product Gap</div>
+    <h2>The module had no roles, so I introduced a hierarchy with the PM.</h2>
     <div class="tree reveal">
       <div class="lvl"><div class="tnode ops"><span class="r">IHX Ops</span><p>Creates the first Group Admin, the only Ops-owned step left in v1</p></div></div>
       <div class="vline"></div>
@@ -1603,23 +1449,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
 <section id="s4">
   <div class="wrap">
-    <div class="sec-tag"><em>04</em> · Design Decisions</div>
+    <div class="sec-tag"><em>03</em> · Design Decisions</div>
     <h2>Each screen, what changed, what it closes.</h2>
-    <div class="data-table reveal">
-      <table>
-        <tr><th>Screen</th><th>Decision</th><th>Closes</th></tr>
-        <tr><td>Reset Password modal</td><td>Admin-triggered reset, live strength / requirement checklist</td><td><span class="closes-tag">No reset path</span></td></tr>
-        <tr><td>User Management table</td><td>Full table: Name, Email, Role, Last Login, SSO, Devices, one "Create New User" CTA</td><td><span class="closes-tag">No visibility</span></td></tr>
-        <tr><td>Create New User modal</td><td>OTP channel (email / mobile), no password field</td><td><span class="closes-tag">Password custody risk</span></td></tr>
-        <tr><td>Create New User modal</td><td>Read / Write / Export / Import per module, grouped by real product IA</td><td><span class="closes-tag">Flat permissions</span></td></tr>
-        <tr><td>Locked modules (Govt Schemes, Nucleus App)</td><td>Lock icon instead of hiding the feature</td><td><span class="closes-tag">Discoverability</span></td></tr>
-        <tr><td>Group Hospital view</td><td>"All Centers" switcher, centers list with count</td><td><span class="closes-tag">Group hospitals, zero control</span></td></tr>
-        <tr><td>Create User (group level)</td><td>Branches into Group Admin / User vs Center Admin / User</td><td><span class="closes-tag">No hierarchy</span></td></tr>
-        <tr><td>Hospital Details</td><td>Tabs cut four to two, Infrastructure folded in</td><td><span class="closes-tag">Dead tabs</span></td></tr>
-        <tr><td>User table row</td><td>Inactive alert at four weeks</td><td><span class="closes-tag">Deactivation lag</span></td></tr>
-      </table>
-    </div>
-
     <div class="callout strategy reveal">
       <div class="t">Product Strategy</div>
       <ul>
@@ -1639,22 +1470,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <div class="img-slot">
           <div class="img-slot-fallback"><span class="cam">▣</span><b>User Management table, single center</b><code>images/user-management-table-single-center.webp</code></div>
           <img src="images/user-management-table-single-center.webp" alt="User Management table, single center, with Create New User CTA" onerror="this.remove()">
-        </div>
-      </div>
-      <div class="sol-2col">
-        <div>
-          <div class="img-slot">
-            <div class="img-slot-fallback"><span class="cam">▣</span><b>Inactive user flag, in the table</b><code>images/figma-inactive-user-alert.webp</code></div>
-            <img src="images/figma-inactive-user-alert.webp" alt="User Management table with a warning flag next to an inactive user's name" onerror="this.remove()">
-          </div>
-          <p class="img-slot-cap">The row itself flags it, a warning icon next to the name.</p>
-        </div>
-        <div>
-          <div class="img-slot">
-            <div class="img-slot-fallback"><span class="cam">▣</span><b>Inactive user alert popup</b><code>images/inactive-user-alert-popup.webp</code></div>
-            <img src="images/inactive-user-alert-popup.webp" alt="Inactive user popup prompting Keep and disable or Delete Account after four weeks with no login" onerror="this.remove()">
-          </div>
-          <p class="img-slot-cap">The system flags this proactively: at four weeks with no login, the hospital gets this prompt directly, before anyone has to ask Ops to check.</p>
         </div>
       </div>
     </div>
@@ -1683,23 +1498,13 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
           <img src="images/group-hospital-user-table.webp" alt="Group Hospital view with All Centers switcher and Centers under this Group panel" onerror="this.remove()">
         </div>
       </div>
-      <div class="sol-2col">
-        <div class="img-slot">
-          <div class="img-slot-fallback"><span class="cam">▣</span><b>Create User · role branch</b><code>images/create-user-role-branch.webp</code></div>
-          <img src="images/create-user-role-branch.webp" alt="Create User role branch: Group Admin/User vs Center Admin/User" onerror="this.remove()">
-        </div>
-        <div class="img-slot">
-          <div class="img-slot-fallback"><span class="cam">▣</span><b>Group login, new center change</b><code>images/group-center-switcher.webp</code></div>
-          <img src="images/group-center-switcher.webp" alt="Center switcher dropdown open, listing every center under the group with an All Centres option" onerror="this.remove()">
-        </div>
-      </div>
     </div>
   </div>
 </section>
 
 <section id="s5">
   <div class="wrap">
-    <div class="sec-tag"><em>05</em> · Outcome</div>
+    <div class="sec-tag"><em>04</em> · Outcome</div>
     <h2>What moved, measured against the same baseline used to define the problem.</h2>
     <div class="outcome-grid">
       <div class="outcome reveal">
@@ -1731,6 +1536,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   <div class="wrap">
     <p class="big reveal">A support ticket volume problem is rarely a support problem. <em>Most of the time, it is a discoverability and trust problem with the solution that already exists.</em></p>
     <p class="fine">IHX &middot; In-Product User Management Module Redesign, designed end to end</p>
+    <a class="full-cs" href="ihx-user-management-case-study-full.html">Read the detailed case study<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   </div>
 </div>
 
