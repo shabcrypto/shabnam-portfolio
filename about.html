@@ -171,6 +171,11 @@
     border-radius: 6px; box-shadow: 0 18px 40px rgba(14, 12, 10, 0.22); }
   .st-portrait img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 3px; }
   .st-portrait figcaption { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.08em; color: var(--ink-soft); }
+  .st-hero-text p { margin-top: 18px; font-size: clamp(1.05rem, 1.6vw, 1.22rem); line-height: 1.75; color: var(--ink-soft); max-width: 46ch; }
+  .st-hero-text { margin-top: var(--space-sm); }
+  /* the Theyyam halo, a small paper card tucked over the portrait's corner */
+  .st-portrait .st-hero-halo { position: absolute; left: -16%; bottom: -10%; width: 42%; aspect-ratio: auto; height: auto; border-radius: 6px;
+    transform: rotate(-8deg); box-shadow: 0 14px 30px rgba(14, 12, 10, 0.3); }
   .st-tape { position: absolute; z-index: 2; left: 50%; top: -12px; width: 86px; height: 24px; margin-left: -43px; background: rgba(236, 234, 228, 0.78); transform: rotate(-3deg); }
 
   /* the marquee from index: woven edges, places rolling past */
@@ -199,7 +204,7 @@
   .st-rail { display: flex; flex-direction: column; align-items: center; padding-top: clamp(72px, 9vw, 120px); }
   .st-dot { flex: none; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
     background: var(--dot-bg); color: var(--dot-fg); font-family: var(--font-display); font-size: 1.35rem; letter-spacing: 0.04em; }
-  .st-thread { flex: 1; width: 14px; margin-top: 10px; background: var(--thread);
+  .st-thread { flex: none; height: clamp(120px, 14vw, 180px); width: 14px; margin-top: 10px; background: var(--thread);
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='28' viewBox='0 0 14 28'%3E%3Cpath d='M7 0 Q 1 7 7 14 T 7 28' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-y center top / 14px 28px;
             mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='28' viewBox='0 0 14 28'%3E%3Cpath d='M7 0 Q 1 7 7 14 T 7 28' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-y center top / 14px 28px;
     transform-origin: top; }
@@ -212,11 +217,8 @@
   .st-split { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
   .st-kicker { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; opacity: 0.85; }
   .st-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.2rem, 5.4vw, 4.4rem); line-height: 0.98; letter-spacing: 0.01em; max-width: 14ch; }
-  .st-text p, .st-points li { margin-top: 18px; font-size: clamp(1.05rem, 1.6vw, 1.22rem); line-height: 1.75; max-width: 46ch; }
+  .st-text p { margin-top: 18px; font-size: clamp(1.05rem, 1.6vw, 1.22rem); line-height: 1.75; max-width: 46ch; }
   .st-text p { opacity: 0.9; }
-  .st-points { list-style: none; margin: 8px 0 0; padding: 0; }
-  .st-points li { position: relative; padding-left: 26px; }
-  .st-points li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 10px; height: 10px; border-radius: 50%; background: var(--thread); }
 
   /* the scanned paper card, as on index */
   .st-paper { position: relative; color: var(--ink);
@@ -242,14 +244,6 @@
   .st-shelf li.yellow { background: var(--bg); }
   .st-shelf img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
   .st-shelf-cap { margin-top: 14px; font-size: 0.9rem; opacity: 0.85; }
-
-  /* lab notebook */
-  .st-lab { transform: rotate(-1.6deg); }
-  .st-lab-head { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 8px; }
-  .st-lab dl { margin: 0; }
-  .st-lab dt { margin-top: 18px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
-  .st-lab dd { margin: 4px 0 0; padding-bottom: 12px; border-bottom: 1px solid rgba(14, 12, 10, 0.16); font-family: var(--font-display); font-size: clamp(1.35rem, 2.2vw, 1.8rem); line-height: 1.1; letter-spacing: 0.01em; }
-  .st-lab dd s { text-decoration-color: var(--vermillion); text-decoration-thickness: 3px; }
 
   /* the jump: the peer-review quote card, on Deep Asphalt */
   .st-quote { max-width: 860px; transform: rotate(-1deg); border-radius: 22px; }
@@ -309,7 +303,8 @@
   }
   @media (max-width: 900px) {
     .st-hero-grid, .st-split { grid-template-columns: 1fr; }
-    .st-portrait { max-width: 360px; }
+    .st-portrait { max-width: 360px; margin: 24px 0 40px 40px; }
+    .st-portrait .st-hero-halo { left: -12%; width: 38%; }
     .st-ch-grid { grid-template-columns: 36px minmax(0, 1fr); gap: 16px; }
     .st-dot { width: 36px; height: 36px; font-size: 1rem; }
     .st-connect { grid-template-columns: 1fr; gap: 26px; }
@@ -599,11 +594,16 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <p class="eyebrow">The longer story</p>
       <h1 class="st-giant">A seeker,<br>by nature.</h1>
       <p class="st-place">Bangalore, via the Malabar Coast</p>
-      <p class="st-traits">Ambivert. Objective. Inquisitive. Allergic to generic.</p>
+      <div class="st-hero-text">
+        <p>I come from the Malabar coast, the land of lores and looms, where art, culture and gods are woven into everyday life.</p>
+        <p>Growing up around that is what first drew me to art and design: work that carries its roots with it.</p>
+      </div>
+      <p class="st-traits">Ambivert. Objective. Inquisitive. Resilient.</p>
     </div>
     <figure class="st-portrait">
       <span class="st-tape" aria-hidden="true"></span>
       <img src="about_me_image.webp" alt="Shabnam Raghavan" fetchpriority="high" />
+      <img class="st-hero-halo" src="images/about-halo.webp" width="548" height="696" alt="The Theyyam halo: flame petals around an open eye, with loom threads below" decoding="async" />
     </figure>
   </div>
 </header>
@@ -617,26 +617,10 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   <div class="weave back"></div>
 </div>
 
-<!-- 01 · Roots -->
-<section class="st-ch" aria-labelledby="ch1">
-  <div class="st-wrap st-ch-grid">
-    <div class="st-rail" aria-hidden="true"><span class="st-dot">01</span><span class="st-thread"></span></div>
-    <div class="st-body st-split">
-      <div class="st-text">
-        <p class="st-kicker">Roots</p>
-        <h2 class="st-title" id="ch1">The land of lores and looms.</h2>
-        <p>I come from the Malabar coast, where art, culture and gods are woven into everyday life.</p>
-        <p>Growing up around that is what first drew me to art and design: work that carries its roots with it.</p>
-      </div>
-      <figure class="st-paper st-halo"><img src="images/about-halo.webp" width="548" height="696" alt="The Theyyam halo: flame petals around an open eye, with loom threads below" loading="lazy" decoding="async" /></figure>
-    </div>
-  </div>
-</section>
-
 <!-- 02 · Other minds -->
 <section class="st-ch st-red" aria-labelledby="ch2">
   <div class="st-wrap st-ch-grid">
-    <div class="st-rail" aria-hidden="true"><span class="st-dot">02</span><span class="st-thread"></span></div>
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">01</span><span class="st-thread"></span></div>
     <div class="st-body">
       <div class="st-split">
         <div class="st-text">
@@ -664,25 +648,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <!-- 03 · The lab -->
 <section class="st-ch" aria-labelledby="ch3">
   <div class="st-wrap st-ch-grid">
-    <div class="st-rail" aria-hidden="true"><span class="st-dot">03</span><span class="st-thread"></span></div>
-    <div class="st-body st-split">
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">02</span><span class="st-thread"></span></div>
+    <div class="st-body">
       <div class="st-text">
         <p class="st-kicker">The lab</p>
         <h2 class="st-title" id="ch3">It started in science.</h2>
-        <ul class="st-points">
-          <li>Science taught me rigour, structure and how to think seriously about a problem.</li>
-          <li>I was a research intern at the Indian Institute of Science. Research at its strictest.</li>
-          <li>It sharpened me. But the lab never made me happy.</li>
-        </ul>
-      </div>
-      <div class="st-paper st-lab">
-        <span class="st-tape" aria-hidden="true"></span>
-        <p class="st-lab-head">Lab notebook &middot; IISc</p>
-        <dl>
-          <dt>Hypothesis</dt><dd>Science is my path.</dd>
-          <dt>Observation</dt><dd>The lab never made me happy.</dd>
-          <dt>Conclusion</dt><dd><s>Stay</s> Try UX design.</dd>
-        </dl>
+        <p>Science taught me rigour, structure and how to think seriously about a problem. I was a research intern at the Indian Institute of Science, research at its strictest. It sharpened me, but the lab never made me happy.</p>
       </div>
     </div>
   </div>
@@ -691,7 +662,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <!-- 04 · The jump -->
 <section class="st-ch st-dark" aria-labelledby="ch4">
   <div class="st-wrap st-ch-grid">
-    <div class="st-rail" aria-hidden="true"><span class="st-dot">04</span><span class="st-thread"></span></div>
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">03</span><span class="st-thread"></span></div>
     <div class="st-body">
       <p class="st-kicker">The jump</p>
       <h2 class="st-title" id="ch4">So I trusted the dots.</h2>
@@ -708,17 +679,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <!-- 05 · Pithoragarh -->
 <section class="st-ch" aria-labelledby="ch5">
   <div class="st-wrap st-ch-grid">
-    <div class="st-rail" aria-hidden="true"><span class="st-dot">05</span><span class="st-thread"></span></div>
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">04</span><span class="st-thread"></span></div>
     <div class="st-body st-split">
       <div class="st-text">
         <p class="st-kicker">Azim Premji Foundation</p>
         <h2 class="st-title" id="ch5">A classroom in the Himalayas.</h2>
-        <ul class="st-points">
-          <li>I taught children in government schools in Pithoragarh, a remote corner of the Himalayas.</li>
-          <li>I saw rural education up close. Things I had only read about in textbooks became real.</li>
-          <li>Institutions work best when they support the ecosystem that already exists, not replace it.</li>
-          <li>It taught me about children, psychology and people. It opened my eyes to the world.</li>
-        </ul>
+        <p>I taught children in government schools in Pithoragarh, a remote corner of the Himalayas, and saw rural education up close. I learned that institutions work best when they support the ecosystem that already exists. It opened my eyes to the world.</p>
       </div>
       <div class="st-snaps">
         <figure class="snap" style="--t:-4deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-4.webp" width="480" height="480" alt="Shabnam pulling faces with two government school kids" loading="lazy" decoding="async" /><figcaption>The kids</figcaption></figure>
@@ -731,7 +697,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <!-- 06 · Travel -->
 <section class="st-ch st-red" aria-labelledby="ch6">
   <div class="st-wrap st-ch-grid">
-    <div class="st-rail" aria-hidden="true"><span class="st-dot">06</span><span class="st-thread"></span></div>
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">05</span><span class="st-thread"></span></div>
     <div class="st-body">
       <div class="st-split">
         <div class="st-text">
@@ -751,7 +717,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <figure class="snap" style="--t:-2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-5.webp" width="480" height="480" alt="An old woman resting on a doorstep beside a dog" loading="lazy" decoding="async" /><figcaption>On a doorstep</figcaption></figure>
         <figure class="snap" style="--t:2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-hill-garden.webp" width="720" height="405" alt="Pale green spiky seed pods in a hill garden" loading="lazy" decoding="async" /><figcaption>At the hill garden</figcaption></figure>
       </div>
-      <p class="st-transit">The general compartment, a public bus, the busy streets of India. That is where I go to understand real people.</p>
+      <p class="st-transit">The general compartment, a public bus, the busy streets of India. That is where I go to understand people deeply.</p>
     </div>
   </div>
 </section>
@@ -759,7 +725,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <!-- 07 · The dots connect -->
 <section class="st-ch st-dark" aria-labelledby="ch7">
   <div class="st-wrap st-ch-grid">
-    <div class="st-rail" aria-hidden="true"><span class="st-dot">07</span></div>
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">06</span></div>
     <div class="st-body">
       <p class="st-kicker">Looking back</p>
       <h2 class="st-title" id="ch7">The dots connect.</h2>
