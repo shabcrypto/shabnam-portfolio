@@ -208,8 +208,8 @@
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='28' viewBox='0 0 14 28'%3E%3Cpath d='M7 0 Q 1 7 7 14 T 7 28' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-y center top / 14px 28px;
             mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='28' viewBox='0 0 14 28'%3E%3Cpath d='M7 0 Q 1 7 7 14 T 7 28' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-y center top / 14px 28px;
     transform-origin: top; }
-  .js .st-thread { transform: scaleY(0); transition: transform 1600ms cubic-bezier(0.22, 1, 0.36, 1); }
-  .js .st-ch.is-on .st-thread { transform: scaleY(1); }
+  /* the thread grows with the scroll, eased so it trails the page a little */
+  .js .st-thread { transform: scaleY(var(--grow, 0)); transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1); }
   .js .st-dot { transform: scale(0.4); opacity: 0; transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 300ms ease; }
   .js .st-ch.is-on .st-dot { transform: none; opacity: 1; }
 
@@ -263,6 +263,8 @@
   .snap .st-tape { width: 64px; height: 20px; margin-left: -32px; top: -10px; }
   .st-split .st-snaps { flex-wrap: nowrap; }
   .st-split .snap { width: clamp(150px, 16vw, 220px); }
+  .st-split .st-snaps-3 { flex-wrap: wrap; }
+  .st-split .st-snaps-3 .snap { width: clamp(150px, 15vw, 200px); }
   .st-snaps-6 { display: grid; grid-template-columns: repeat(3, auto); justify-content: center; gap: 22px 0; }
   .st-snaps-6 .snap { width: clamp(170px, 18vw, 240px); }
   .st-transit { margin: clamp(36px, 4vw, 52px) auto 0; text-align: center; font-family: var(--font-display); font-size: clamp(1.4rem, 2.6vw, 2.2rem); line-height: 1.08; letter-spacing: 0.01em; max-width: 28ch; }
@@ -282,8 +284,9 @@
   .st-connect .pin { display: block; width: 14px; height: 14px; border-radius: 50%; background: var(--vermillion); margin: 0 auto 14px; }
   .st-close { margin-top: clamp(48px, 6vw, 80px); font-size: clamp(1.05rem, 1.6vw, 1.22rem); line-height: 1.75; max-width: 54ch; opacity: 0.9; }
 
-  /* beyond work */
-  .st-beyond { padding: clamp(72px, 9vw, 120px) 0 0; text-align: center; }
+  /* stickers: what she loves, in the hero */
+  .st-hero .st-stickers { justify-content: flex-start; margin-top: var(--space-md); gap: 12px 14px; }
+  .st-hero .st-stickers li { font-size: clamp(1rem, 1.5vw, 1.25rem); padding: 8px 18px; }
   .st-stickers { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 18px; }
   .st-stickers li { font-family: var(--font-display); font-size: clamp(1.15rem, 2vw, 1.6rem); letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 22px; border-radius: 999px; transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1); }
   .st-stickers li:nth-child(4n+1) { background: var(--vermillion); color: var(--coconut); transform: rotate(-4deg); }
@@ -292,9 +295,9 @@
   .st-stickers li:nth-child(4n+4) { background: var(--coconut-deep); color: var(--ink); transform: rotate(4deg); }
 
   /* the last word, set like index's "The person behind the work" */
-  .st-end { padding: clamp(80px, 10vw, 140px) 0 clamp(96px, 12vw, 160px); text-align: center; }
-  .st-end p { font-size: clamp(1.05rem, 1.6vw, 1.22rem); color: var(--ink-soft); }
-  .st-end h2 { margin-top: 10px; font-family: var(--font-display); font-weight: 400; font-size: clamp(3rem, 1.6rem + 6vw, 7rem); line-height: 0.92; letter-spacing: 0.02em; color: var(--ink); }
+  .st-end { padding-top: clamp(24px, 4vw, 48px); padding-bottom: clamp(96px, 12vw, 160px); text-align: center; }
+  .st-end p { font-size: clamp(1.05rem, 1.6vw, 1.22rem); opacity: 0.8; }
+  .st-end h2 { margin-top: 10px; font-family: var(--font-display); font-weight: 400; font-size: clamp(3rem, 1.6rem + 6vw, 7rem); line-height: 0.92; letter-spacing: 0.02em; color: inherit; max-width: 16ch; margin-left: auto; margin-right: auto; }
 
   @media (hover: hover) and (pointer: fine) {
     .snap:hover { transform: rotate(0deg) scale(1.06); z-index: 2; }
@@ -314,6 +317,7 @@
     .snap { width: min(40vw, 220px); margin: 0 -6px; }
     .st-split .snap { width: min(36vw, 170px); }
     .st-snaps-6 { grid-template-columns: repeat(2, auto); }
+    .st-split .st-snaps-3 .snap { width: min(36vw, 170px); }
     .st-snaps-6 .snap { width: min(40vw, 190px); }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -593,12 +597,20 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div>
       <p class="eyebrow">The longer story</p>
       <h1 class="st-giant">A seeker,<br>by nature.</h1>
+      <ul class="st-stickers" aria-label="What I love">
+        <li>Art</li>
+        <li>Culture</li>
+        <li>Travel</li>
+        <li>Books</li>
+        <li>Cats</li>
+      </ul>
       <p class="st-place">Bangalore, via the Malabar Coast</p>
       <div class="st-hero-text">
         <p>I come from the Malabar coast, the land of lores and looms, where art, culture and gods are woven into everyday life.</p>
         <p>Growing up around that is what first drew me to art and design: work that carries its roots with it.</p>
       </div>
       <p class="st-traits">Ambivert. Objective. Inquisitive. Resilient.</p>
+
     </div>
     <figure class="st-portrait">
       <span class="st-tape" aria-hidden="true"></span>
@@ -633,14 +645,14 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
           <p class="small">Since I can't, I settled for the next best thing: a deep fascination with psychology and human behaviour.</p>
         </div>
       </div>
-      <ul class="st-shelf" aria-label="Books that shaped how I see people">
+      <ul class="st-shelf" aria-label="Books that help me think">
         <li><img src="images/book-people-watching.webp" alt="People Watching by Desmond Morris" loading="lazy" decoding="async" /></li>
         <li class="yellow" style="--bg:#FFF129"><img src="images/book-hooked.webp" alt="Hooked by Nir Eyal" loading="lazy" decoding="async" /></li>
         <li class="yellow" style="--bg:#F8C900"><img src="images/book-design-of-everyday-things.webp" alt="The Design of Everyday Things by Don Norman" loading="lazy" decoding="async" /></li>
         <li><img src="images/book-games-people-play.webp" alt="Games People Play by Eric Berne" loading="lazy" decoding="async" /></li>
         <li><img src="images/book-naked-ape.webp" alt="The Naked Ape by Desmond Morris" loading="lazy" decoding="async" /></li>
       </ul>
-      <p class="st-shelf-cap">Some of the books on how people think.</p>
+      <p class="st-shelf-cap">Books that help me think, and see the world around me better.</p>
     </div>
   </div>
 </section>
@@ -659,10 +671,29 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   </div>
 </section>
 
-<!-- 04 · The jump -->
-<section class="st-ch st-dark" aria-labelledby="ch4">
+<!-- 03 · Pithoragarh -->
+<section class="st-ch st-dark" aria-labelledby="ch5">
   <div class="st-wrap st-ch-grid">
     <div class="st-rail" aria-hidden="true"><span class="st-dot">03</span><span class="st-thread"></span></div>
+    <div class="st-body st-split">
+      <div class="st-text">
+        <p class="st-kicker">Azim Premji Foundation</p>
+        <h2 class="st-title" id="ch5">A classroom in the Himalayas.</h2>
+        <p>I taught children in government schools in Pithoragarh, a remote corner of the Himalayas, and saw rural education up close. I learned that institutions work best when they support the ecosystem that already exists. It opened my eyes to the world.</p>
+      </div>
+      <div class="st-snaps st-snaps-3">
+        <figure class="snap" style="--t:-4deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-4.webp" width="480" height="480" alt="Shabnam pulling faces with two government school kids" loading="lazy" decoding="async" /><figcaption>The kids</figcaption></figure>
+        <figure class="snap" style="--t:3deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-art-session.webp" width="720" height="540" alt="Government school children drawing on a blackboard during an art session" loading="lazy" decoding="async" /><figcaption>An art session</figcaption></figure>
+        <figure class="snap" style="--t:-2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-5.webp" width="480" height="480" alt="An old woman resting on a doorstep beside a dog" loading="lazy" decoding="async" /><figcaption>On a doorstep</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 · The jump -->
+<section class="st-ch" aria-labelledby="ch4">
+  <div class="st-wrap st-ch-grid">
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">04</span><span class="st-thread"></span></div>
     <div class="st-body">
       <p class="st-kicker">The jump</p>
       <h2 class="st-title" id="ch4">So I trusted the dots.</h2>
@@ -672,24 +703,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <figcaption>Steve Jobs</figcaption>
       </figure>
       <p class="st-after">Leaving science for design was exactly that kind of trust.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 05 · Pithoragarh -->
-<section class="st-ch" aria-labelledby="ch5">
-  <div class="st-wrap st-ch-grid">
-    <div class="st-rail" aria-hidden="true"><span class="st-dot">04</span><span class="st-thread"></span></div>
-    <div class="st-body st-split">
-      <div class="st-text">
-        <p class="st-kicker">Azim Premji Foundation</p>
-        <h2 class="st-title" id="ch5">A classroom in the Himalayas.</h2>
-        <p>I taught children in government schools in Pithoragarh, a remote corner of the Himalayas, and saw rural education up close. I learned that institutions work best when they support the ecosystem that already exists. It opened my eyes to the world.</p>
-      </div>
-      <div class="st-snaps">
-        <figure class="snap" style="--t:-4deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-4.webp" width="480" height="480" alt="Shabnam pulling faces with two government school kids" loading="lazy" decoding="async" /><figcaption>The kids</figcaption></figure>
-        <figure class="snap" style="--t:3deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-art-session.webp" width="720" height="540" alt="Government school children drawing on a blackboard during an art session" loading="lazy" decoding="async" /><figcaption>An art session</figcaption></figure>
-      </div>
     </div>
   </div>
 </section>
@@ -714,7 +727,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <figure class="snap" style="--t:2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-general-compartment.webp" width="555" height="720" alt="Shabnam sitting on the floor of a crowded train compartment" loading="lazy" decoding="async" style="object-position:50% 15%" /><figcaption>Being in the crowd</figcaption></figure>
         <figure class="snap" style="--t:-2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-2.webp" width="480" height="480" alt="A brick lighthouse at the end of a sea wall" loading="lazy" decoding="async" /><figcaption>By the sea</figcaption></figure>
         <figure class="snap" style="--t:3deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-himachal-goats.webp" width="480" height="640" alt="Mountain goats resting on a rock in a Himachal pine forest" loading="lazy" decoding="async" /><figcaption>Goats at Himachal</figcaption></figure>
-        <figure class="snap" style="--t:-2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/gallery-5.webp" width="480" height="480" alt="An old woman resting on a doorstep beside a dog" loading="lazy" decoding="async" /><figcaption>On a doorstep</figcaption></figure>
         <figure class="snap" style="--t:2deg"><span class="st-tape" aria-hidden="true"></span><img src="images/about-hill-garden.webp" width="720" height="405" alt="Pale green spiky seed pods in a hill garden" loading="lazy" decoding="async" /><figcaption>At the hill garden</figcaption></figure>
       </div>
       <p class="st-transit">The general compartment, a public bus, the busy streets of India. That is where I go to understand people deeply.</p>
@@ -725,7 +737,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <!-- 07 · The dots connect -->
 <section class="st-ch st-dark" aria-labelledby="ch7">
   <div class="st-wrap st-ch-grid">
-    <div class="st-rail" aria-hidden="true"><span class="st-dot">06</span></div>
+    <div class="st-rail" aria-hidden="true"><span class="st-dot">06</span><span class="st-thread"></span></div>
     <div class="st-body">
       <p class="st-kicker">Looking back</p>
       <h2 class="st-title" id="ch7">The dots connect.</h2>
@@ -737,28 +749,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <p class="st-close">In a world overflowing with products, some quietly stand out because of the thought and care behind them. That's the kind of work I want to make, and every detour I've taken is part of how I'll make it.</p>
     </div>
   </div>
-</section>
-
-<!-- Beyond work -->
-<section class="st-beyond" aria-labelledby="beyond">
-  <div class="st-wrap">
-    <p class="eyebrow" id="beyond">Beyond work</p>
-    <ul class="st-stickers">
-      <li>Art</li>
-      <li>Culture</li>
-      <li>Travel</li>
-      <li>Books</li>
-      <li>Cats</li>
-    </ul>
-  </div>
-</section>
-
-<section class="st-end" aria-label="Sign-off">
-  <div class="st-wrap">
+  <div class="st-wrap st-end">
     <p>That's my story so far.</p>
-    <h2>Still seeking.</h2>
+    <h2>Still exploring, still learning.</h2>
   </div>
 </section>
+
 
 <div class="ribbon"></div>
 
@@ -835,6 +831,22 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-on"); io.unobserve(e.target); } });
   }, { rootMargin: "0px 0px -20% 0px" });
   chs.forEach(function (c) { io.observe(c); });
+
+  // each thread grows as you scroll past its dot, and shrinks back if you scroll up
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var threads = [].slice.call(document.querySelectorAll(".st-thread")), ticking = false;
+  function grow() {
+    ticking = false;
+    var vh = window.innerHeight;
+    threads.forEach(function (t) {
+      var r = t.getBoundingClientRect();
+      var p = (vh * 0.9 - r.top) / (r.height + vh * 0.6);
+      t.style.setProperty("--grow", Math.max(0, Math.min(1, p)).toFixed(3));
+    });
+  }
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(grow); } }, { passive: true });
+  window.addEventListener("resize", grow);
+  grow();
 })();
 </script>
 <!-- first-party analytics, see design-context section 13 --><script src="/analytics.js" defer></script>
