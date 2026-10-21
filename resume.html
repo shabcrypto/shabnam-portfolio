@@ -164,16 +164,11 @@
     color: var(--asphalt);
   }
   .resume-head p { margin-top: 10px; font-size: clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem); color: var(--asphalt-soft); }
-  .dl-btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 14px 24px; border-radius: 999px;
-    background: var(--asphalt); color: var(--coconut);
-    font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
-    text-decoration: none;
-    transition: background-color 160ms ease, transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .dl-btn:hover { background: var(--vermillion-deep); transform: translateY(-2px); }
-  .dl-btn svg { flex-shrink: 0; }
+  /* the site's one filled button: same as "Read the detailed case study" on the case studies */
+.dl-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:14px 28px;border-radius:999px;background:#302F2C;color:#F4F3EF;line-height:1.2;text-decoration:none;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:1.1rem;letter-spacing:0.08em;text-transform:uppercase;transition:background-color 160ms ease,transform 240ms cubic-bezier(0.22,1,0.36,1);}
+.dl-btn svg{flex-shrink:0;transition:transform 200ms cubic-bezier(0.22,1,0.36,1);}
+.dl-btn:hover,.dl-btn:focus-visible{background:#9B1302;transform:translateY(-2px);}
+.dl-btn:hover svg,.dl-btn:focus-visible svg{transform:translateY(2px);}
   .resume-pages { max-width: 880px; margin: 0 auto; display: grid; gap: var(--space-md); }
   .resume-pages a { display: block; border-radius: 8px; cursor: zoom-in; }
   .resume-pages img {
@@ -449,10 +444,10 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
   <div class="resume-pages">
     <a href="Shabnam_Raghavan_Resume.pdf" target="_blank" rel="noopener" aria-label="Open page 1 as a PDF to zoom">
-      <img src="images/resume-page-1.webp" width="1600" height="2265" alt="Shabnam Raghavan resume, page 1 of 2: summary, and experience as Product Designer and Associate Product Designer at IHX" />
+      <img src="images/resume-page-1.webp" width="1600" height="2104" alt="Shabnam Raghavan resume, page 1 of 2: summary, and experience from Product Designer at IHX back to earlier graphic and apparel design" />
     </a>
     <a href="Shabnam_Raghavan_Resume.pdf" target="_blank" rel="noopener" aria-label="Open page 2 as a PDF to zoom">
-      <img src="images/resume-page-2.webp" width="1600" height="1754" alt="Shabnam Raghavan resume, page 2 of 2: earlier roles, projects, skills and tools, education, and recognition and certifications" loading="lazy" />
+      <img src="images/resume-page-2.webp" width="1600" height="1109" alt="Shabnam Raghavan resume, page 2 of 2: selected work, skills and tools, and education, certifications and awards" loading="lazy" />
     </a>
   </div>
 
