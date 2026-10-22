@@ -3779,7 +3779,7 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
   // ENTRANCE: ?intro=focuspaint (default) | focus | flicker | paint
   var intro = new URLSearchParams(location.search).get("intro") || "focuspaint";
   var base = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--intro-offset")) || 0) + 300;
-  var depthK = still ? 1 : 0, depthFrom = 0, depthAt = 0, depthDur = 1400;
+  var depthK = still ? 1 : 0, depthFrom = 0, depthAt = 0, depthDur = 2400;
   var mid = (L.length - 1) / 2;
   L.forEach(function (l, i) {
     if (still) return;
@@ -3787,7 +3787,7 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
     if (intro === "focus" || intro === "focuspaint") {
       // a projector pulling into focus: blurred, oversized and faint, settling sharp from the centre of each word outward
       l.animate([{ opacity: 0, filter: "blur(18px)", transform: "scale(1.35)" }, { opacity: 0.6, filter: "blur(6px)", offset: 0.5 }, { opacity: 1, filter: "blur(0)", transform: "none" }],
-        { duration: 1500, delay: base + d * 90 + (i > 6 ? 160 : 0), easing: "cubic-bezier(0.16,1,0.3,1)", fill: "backwards" });
+        { duration: 2800, delay: base + d * 150 + (i > 6 ? 300 : 0), easing: "cubic-bezier(0.25,0.1,0.25,1)", fill: "backwards" });
     } else if (intro === "flicker") {
       // film flicker: each letter stutters on at its own moment, like a bulb warming up
       var st = base + ((i * 7) % 15) * 70;
@@ -3800,8 +3800,8 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
     }
   });
   // the red depth grows after the letters land, in every version
-  if (!still) { depthAt = performance.now() + base + (intro === "paint" ? 1100 : intro === "flicker" ? 1300 : intro === "focuspaint" ? 1250 : 900); }
-  var perLetter = intro === "focuspaint" || intro === "paint", letterGap = 70;
+  if (!still) { depthAt = performance.now() + base + (intro === "paint" ? 1100 : intro === "flicker" ? 1300 : intro === "focuspaint" ? 2600 : 900); }
+  var perLetter = intro === "focuspaint" || intro === "paint", letterGap = 110;
   // TEXTURE: ?tex=twigs (default) | dots | both | none
   var tex = (new URLSearchParams(location.search).get("tex") || "twigs");
   if (tex === "both") hero.classList.add("tex-on-dots", "tex-on-twigs");
@@ -3840,8 +3840,8 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
       svg.width = W * dpr; svg.height = H * dpr;
       var ctx = svg.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.drawImage(img, 0, 0, W, H);
       URL.revokeObjectURL(url); window.__twigMs = Math.round(performance.now() - _t0);
-      // only after the name has landed and its red depth is painted: then fade in from behind
-      var landed = still ? 0 : depthAt + (L.length - 1) * letterGap + depthDur - performance.now();
+      // fade in from behind as the name appears
+      var landed = still ? 0 : depthAt - 2100 - performance.now();   // as the letters start coming into focus
       setTimeout(function () { svg.classList.add("ready"); }, Math.max(0, landed));
     };
     img.src = url;
