@@ -532,7 +532,7 @@
                    -webkit-mask-image: radial-gradient(circle at var(--gx, 50%) var(--gy, 40%), #000 0, rgba(0,0,0,0.55) 12vmax, transparent 26vmax);
                            mask-image: radial-gradient(circle at var(--gx, 50%) var(--gy, 40%), #000 0, rgba(0,0,0,0.55) 12vmax, transparent 26vmax);
                    animation: redIn 2000ms ease calc(var(--intro-offset) + 1400ms) forwards; }
-  .hero-red .tex-twigs { opacity: 0 !important; transition: opacity 1400ms ease; }
+  .hero-red .tex-twigs { opacity: 0 !important; transition: opacity 2400ms ease; }
   .hero-red .tex-twigs.ready { opacity: 1 !important; }
   .hero-red .tex-dots { background-image: radial-gradient(rgba(240, 230, 210, 0.32) 1.1px, transparent 1.7px); background-size: 13px 13px; }
   .tex-on-dots .tex-dots, .tex-on-twigs .tex-twigs { display: block; }
@@ -2134,8 +2134,8 @@
     //   OUT_STAG   the exit wave is quicker than the entry, so it reads as a wipe, not a replay
     //   OUT_SCR    how long a character scrambles on its way out before it disappears
     //   TICK       glyphs reshuffle on this clock, not every frame, so the noise is legible
-    var LEAD = 120, STAGGER = 7, HOLD = 800, LAST_HOLD = 2020, OUT_STAG = 3, OUT_SCR = 140,
-        GAP = 160, TICK = 55, TYPE_START = 100;   /* 2026-10-04: two fixed lines, LAST_HOLD retuned so the shutters still part at 3.0s */
+    var LEAD = 120, STAGGER = 7, HOLD = 800, LAST_HOLD = 1820, OUT_STAG = 3, OUT_SCR = 140,
+        GAP = 160, TICK = 55, TYPE_START = 300;   /* 2026-10-22: scramble starts 0.2s later (300ms, was 100); LAST_HOLD cut by the same 200ms so the shutters still part at 3.0s */
     var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>?";
     // "\n" is a fixed line break: the sentence always sits on exactly these two lines
     var WORDS = [
@@ -3839,12 +3839,17 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       svg.width = W * dpr; svg.height = H * dpr;
       var ctx = svg.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.drawImage(img, 0, 0, W, H);
-      URL.revokeObjectURL(url); svg.classList.add("ready"); window.__twigMs = Math.round(performance.now() - _t0);
+      URL.revokeObjectURL(url); window.__twigMs = Math.round(performance.now() - _t0);
+      // only after the name has landed and its red depth is painted: then fade in from behind
+      var landed = still ? 0 : depthAt + (L.length - 1) * letterGap + depthDur - performance.now();
+      setTimeout(function () { svg.classList.add("ready"); }, Math.max(0, landed));
     };
     img.src = url;
   }
-  // twigs come last, and only where the connection and device can take it
-  var c = navigator.connection || {}, slow = c.saveData || /(^|-)2g|3g/.test(c.effectiveType || "") || (navigator.deviceMemory && navigator.deviceMemory < 4);
+  // twigs come last
+  // the twigs download nothing (they are drawn on the device), so the connection speed does not matter:
+  // skip them only when the visitor asked to save data, or on a very low-memory device
+  var c = navigator.connection || {}, slow = c.saveData || (navigator.deviceMemory && navigator.deviceMemory < 2);
   if (!slow) {
     var go = function () { (window.requestIdleCallback || function (f) { setTimeout(f, 300); })(drawTwigs, { timeout: 2500 }); };
     if (document.readyState === "complete") go(); else window.addEventListener("load", go);
