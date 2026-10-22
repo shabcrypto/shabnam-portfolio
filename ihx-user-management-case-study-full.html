@@ -709,6 +709,8 @@ section h2{font-size:var(--step-2);font-weight:900;letter-spacing:-0.01em;max-wi
 }
 .outcome .baseline .bl{color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:var(--step--1);}
 .outcome .baseline .bv{color:var(--ink-soft);font-weight:800;font-family:"Manrope", sans-serif;}
+.outcome .baseline + .baseline{margin-top:0;padding-top:10px;}
+.outcome .baseline .bv{text-align:right;}
 .outcome-note{
   margin-top:20px;background:var(--row-bg);border:1px solid var(--row-border);border-radius:12px;padding:18px 22px;
   font-size:var(--step--1);color:var(--muted);
@@ -1325,7 +1327,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       </div>
       <div class="hero-stats reveal">
         <div class="cell"><span class="tag">Tickets / day</span><div class="num accent">80 &rarr; <span class="d1">1</span>0</div><div class="lbl">Support tickets routed to Ops</div></div>
-        <div class="cell"><span class="tag">Time to create</span><div class="num teal">30 &rarr; 5 min</div><div class="lbl">A new user, email request to in-product self-serve</div></div>
+        <div class="cell"><span class="tag">Create or deactivate</span><div class="num teal">30 &rarr; 5 min</div><div class="lbl">A user, email request to in-product self-serve</div></div>
         <div class="cell"><span class="tag">Deactivate</span><div class="num indigo">4 &rarr; <span class="d1">1</span></div><div class="lbl">Manual steps to deactivate or delete a user</div></div>
       </div>
     </div>
@@ -1397,7 +1399,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="tldr reveal"><span class="k">Problem</span><p>No in-product way to manage users. <b>Every change needed IHX support.</b></p></div>
       <div class="tldr reveal"><span class="k">Risk</span><p>No quick way to <b>deactivate a user</b> on a platform holding patient and financial data.</p></div>
       <div class="tldr reveal"><span class="k">Solution</span><p>A <b>discoverable user management module</b>, built on a real role hierarchy.</p></div>
-      <div class="tldr reveal"><span class="k">Numbers</span><p><b>87% fewer support tickets.</b> User creation 30&nbsp;&rarr;&nbsp;5&nbsp;min. Deactivation 4&nbsp;steps&nbsp;&rarr;&nbsp;1.</p></div>
+      <div class="tldr reveal"><span class="k">Numbers</span><p><b>87% fewer support tickets.</b> User creation and deactivation 30&nbsp;&rarr;&nbsp;5&nbsp;min. Deactivation 4&nbsp;steps&nbsp;&rarr;&nbsp;1.</p></div>
       <div class="tldr reveal"><span class="k">Takeaway</span><p>Problems users can solve themselves need <b>product-led solutions</b>, not process.</p></div>
     </div>
   </div>
@@ -1707,18 +1709,21 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <div class="hero-val"><span><span class="d1">1</span>0</span><small>/day, down from 80</small></div>
         <p class="desc">87% reduction, roughly 2,100 support tickets eliminated a month.</p>
         <div class="baseline"><span class="bl">Baseline</span><span class="bv">~50 creations + ~30 resets / day</span></div>
+        <div class="baseline"><span class="bl">Source</span><span class="bv">Customer support team's Freshdesk data, 2 months</span></div>
       </div>
       <div class="outcome reveal">
-        <div class="t">Time to create a user</div>
+        <div class="t">Time to create or deactivate a user</div>
         <div class="hero-val">5 min<small>self-serve, in product</small></div>
         <p class="desc">Down from an average of 30 minutes over email, a process spanning multiple teams.</p>
         <div class="baseline"><span class="bl">Baseline</span><span class="bv">~30 min average, by email, multi-team</span></div>
+        <div class="baseline"><span class="bl">Source</span><span class="bv">My calculation from resolution times, same 2 months</span></div>
       </div>
       <div class="outcome reveal" style="grid-column:1/-1;">
         <div class="t">Deactivating a user</div>
         <div class="hero-val"><span><span class="d1">1</span> step</span><small>down from 4, taken directly by the hospital admin</small></div>
         <p class="desc">A four-step manual process with no time guarantee on any step, now one step inside the product.</p>
-        <div class="baseline"><span class="bl">Baseline</span><span class="bv">4-step manual process</span></div>
+        <div class="baseline"><span class="bl">Baseline</span><span class="bv">4 email-based manual steps</span></div>
+        <div class="baseline"><span class="bl">Source</span><span class="bv">Same 2-month measurement</span></div>
       </div>
     </div>
     <div class="outcome-note reveal">
