@@ -320,9 +320,9 @@ This is the governing rule for every case study, current and future. It override
 2. Hero tags (chips, §11b)
 3. Hero title (`h1`, §11b Titles)
 4. Lede (the short intro paragraph under the title)
-5. Hero image, **full width, directly below the title and lede**. Until the real image is added, every case study holds this space with the shared `.hero-image` slot: `<figure class="hero-image">` with a `.hi-ph` label, the expected filename in `<code>`, and an `<img onerror="this.remove()">`. 16:9, radius 20px, `--card-bg` with a 1px dashed `rgba(20,18,14,0.18)` border; once the image loads the dash goes transparent and the card shadow applies. CSS lives in the shared override block on all four pages. Hero images are added last, after the rest of a case study is done.
-6. Project info row (§11b)
-7. Metrics card (§11b)
+5. Project info row (§11b): Role, Team, Timeframe, Also Covered. **Set by Shabnam 2026-10-22: the role card sits below the lede and above the hero image.**
+6. Hero image, **full width, below the project info row**. Until the real image is added, every case study holds this space with the shared `.hero-image` slot: `<figure class="hero-image">` with a `.hi-ph` label, the expected filename in `<code>`, and an `<img onerror="this.remove()">`. 16:9, radius 20px, `--card-bg` with a 1px dashed `rgba(20,18,14,0.18)` border; once the image loads the dash goes transparent and the card shadow applies. CSS lives in the shared override block on all four pages. Hero images are added last, after the rest of a case study is done.
+7. Metrics card (§11b), **directly below the hero image** (2026-10-22).
 8. TL;DR (**required on every case study**, directly after the metrics, same design everywhere)
 
 "Info section" and "project info" are the same thing: the row of Role, Timeline/Timeframe and similar project facts (item 6). There is no separate info section.

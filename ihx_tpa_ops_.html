@@ -260,9 +260,15 @@ nav.cs-nav{
 .impact-chart-card img{width:100%;height:100%;object-fit:cover;display:block;}
 .impact-bottom{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
 .impact-bottom-cell{padding:24px;border-right:1px solid var(--border);}
+.of5{font-size:.45em;margin-left:2px;opacity:.7;}
+.stat-src-ops{margin-top:6px;font-size:0.72rem;letter-spacing:.04em;color:#302F2C;opacity:.7;}
+.oc-sub{display:block;font-size:.8em;opacity:.75;}
+.todo{margin-top:8px;font-size:0.72rem;font-weight:700;color:#C02D0C;}
 .impact-bottom-cell:last-child{border-right:none;}
 .impact-bottom-val{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-2);font-weight:400;color:var(--ink);letter-spacing:0.02em;margin-bottom:5px;}
 .impact-bottom-lbl{font-size:var(--step--1);color:var(--muted);}
+.impact-why{margin-top:12px;font-size:var(--step--1);line-height:1.65;color:var(--ink-soft);}
+.impact-cap{margin-top:8px;font-size:0.72rem;line-height:1.5;color:var(--muted);}
 
 /* LEARNINGS */
 .learnings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;}
@@ -394,6 +400,11 @@ footer{background:var(--asphalt);color:var(--coconut);}
 .oc-time.on .oc-after{height:63px;transition:height 1.1s cubic-bezier(.65,0,.35,1) .9s;}
 .oc-time.on .oc-stat{transition:opacity .5s ease .7s,transform .5s ease .7s;}
 /* task efficiency */
+.oc-adopt{padding:36px 24px 24px;}
+.oc-adopt .oc-body{flex:1;display:flex;align-items:center;justify-content:center;}
+.oc-adopt .oc-num{font-size:52px;line-height:1;}
+.oc-adopt .oc-plus{color:var(--indigo-light);}
+.oc-adopt .oc-lbl{margin-top:12px;font-size:12.5px;}
 .oc-eff{padding:36px 22px 24px 24px;}
 .oc-eff .oc-body{flex:1;display:flex;align-items:center;justify-content:space-between;margin-top:16px;}
 .oc-eff .oc-chart{position:relative;width:184px;height:110px;display:flex;flex-direction:column;justify-content:center;gap:12px;}
@@ -488,7 +499,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   .project-info .pi { display: flex; flex-direction: column; gap: 8px; }
   .project-info .pi-l { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #302F2C; }
   .project-info .pi-v { font-family: "Manrope", sans-serif; font-size: var(--step--1); font-weight: 600; line-height: 1.5; color: #302F2C; }
-  .project-info + .hero-stats { margin-top: 32px; }
+  .project-info + .hero-stats, .hero-image + .hero-stats { margin-top: 32px; }
   /* Hero image: full width, directly below the title and lede and above project info, on every
      case study. Until the real image is added the slot holds its space as a dashed 16:9
      placeholder naming the expected file. */
@@ -1009,17 +1020,17 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   </div>
 
   <div class="page-inner" style="margin-bottom:56px;">
-    <figure class="hero-image"><img src="images/ops-hero.webp" width="2400" height="1600" alt="IHX Nucleus Ops Dashboard UI showcase" fetchpriority="high"></figure>
     <div class="project-info">
       <div class="pi"><span class="pi-l">Role</span><span class="pi-v">Product Design · UX Research · IA · UI · Prototyping · Usability Testing</span></div>
       <div class="pi"><span class="pi-l">Team</span><span class="pi-v">1 PM · 1 PD (me) · 2 Developers</span></div>
       <div class="pi"><span class="pi-l">Timeframe</span><span class="pi-v">4 weeks &middot; Mar–Apr 2025</span></div>
       <div class="pi"><span class="pi-l">Also Covered</span><span class="pi-v">Dev Handoff · Design Review · Stakeholder Management</span></div>
     </div>
+    <figure class="hero-image"><img src="images/ops-hero.webp" width="2400" height="1600" alt="IHX Nucleus Ops Dashboard UI showcase" fetchpriority="high"></figure>
     <div class="hero-stats">
-      <div class="cell"><span class="tag">Revenue</span><div class="num accent">&uarr;33%</div><div class="lbl">Revenue per claim, INR 90 to 120</div></div>
-      <div class="cell"><span class="tag">Time on task</span><div class="num teal">3.23 &rarr; <i class="d1">1</i>.56 min</div><div class="lbl">Average per task, a 51% reduction</div></div>
-      <div class="cell"><span class="tag">Contracts</span><div class="num indigo">3</div><div class="lbl">Group hospital contracts secured</div></div>
+      <div class="cell"><span class="tag">Time to claim submission</span><div class="num teal">3.23 &rarr; <i class="d1">1</i>.56 min</div><div class="lbl">Average, a 51% reduction</div></div>
+      <div class="cell"><span class="tag">Revenue per claim</span><div class="num accent">&uarr;33%</div><div class="lbl">INR 90 to 120, on one enterprise contract</div></div>
+      <div class="cell"><span class="tag">Dashboard adoption</span><div class="num indigo">900+</div><div class="lbl">Contracted hospitals live on the new Ops Dashboard, of 18,000+ providers on IHX</div></div>
     </div>
   </div>
 
@@ -1032,7 +1043,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div class="tldr"><span class="k">Problem</span><p>The brief said redesign the UI. The real problem was <b>information architecture</b>.</p></div>
     <div class="tldr"><span class="k">Evidence</span><p>The old dashboard <b>did not reflect the hospital workflow</b>, so users searched around it.</p></div>
     <div class="tldr"><span class="k">Solution</span><p>Separate <b>PA View and Claim View</b>, each with its own buckets, filters and scoped search.</p></div>
-    <div class="tldr"><span class="k">Numbers</span><p><b>&uarr;33% revenue per claim.</b> Time on task <b>3.23 &rarr; 1.56 min</b>. 3 group hospital contracts.</p></div>
+    <div class="tldr"><span class="k">Numbers</span><p>Time to claim submission <b>3.23 &rarr; 1.56 min</b>. <b>&uarr;33% revenue per claim</b> on one enterprise contract. <b>900+</b> contracted hospitals live.</p></div>
     <div class="tldr"><span class="k">Takeaway</span><p>Let data answer design questions. Make <b>platform decisions that hold for everyone</b>.</p></div>
   </div>
 </div>
@@ -1047,7 +1058,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   <div class="stat-grid">
     <div class="stat-cell"><div class="stat-val">2,00,000+</div><div class="stat-lbl">Claims processed monthly</div></div>
     <div class="stat-cell"><div class="stat-val"><i class="d1">1</i>8,000+</div><div class="stat-lbl">Healthcare providers on platform</div></div>
-    <div class="stat-cell"><div class="stat-val">40%</div><div class="stat-lbl">India's overall claim volume</div></div>
+    <div class="stat-cell"><div class="stat-val">40%</div><div class="stat-lbl">India's overall claim volume</div><div class="stat-src-ops">Source: IHX internal data</div></div>
     <div class="stat-cell"><div class="stat-val">35+ Payers</div><div class="stat-lbl">Insurance payers connected</div></div>
   </div>
   <div class="callout">
@@ -1062,7 +1073,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="page-inner">
   <div class="section-label">02 · Problem Framing</div>
   <h2 class="cs-heading">The Brief vs The Real Problem</h2>
-  <p class="cs-sub">The digital backbone for hospital insurance operations across India. Hospitals manage the full claim lifecycle without logging into 35+ different insurer portals.</p>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative;">
 
@@ -1147,11 +1157,11 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div class="card">
         <div class="ev-header"><div class="ev-dot indigo"></div><div class="ev-lbl">Google Analytics · Events Data</div></div>
         <div class="ev-stat">80%+</div>
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.65;margin-top:8px;">Of all column level searches used just 2 parameters: Patient Name, Claim Number. UTR had low usage but stays essential for Claim team</p>
+        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.65;margin-top:8px;">Of all column-level searches, over 80% used just 2 parameters: Patient Name (68%) and Claim Number (20%). UTR had low usage (12%) but stays essential for the Claim team.</p>
         <div style="margin-top:14px;"><span class="src-chip">From discovery research</span></div>
       </div>
       <div class="synthesis">
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;">Reading across both sources (the cold table in Hotjar and 42% of search events concentrated on just two parameters in GA), the pattern points to one conclusion: users were not finding what they needed through the bucket structure. They were relying on search as a workaround.</p>
+        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;">Reading across both sources (the cold table in Hotjar and the column-level search data in GA), the pattern points to one conclusion: users were not finding what they needed through the bucket structure. They were relying on search as a workaround.</p>
         <div style="margin-top:12px;"><span class="src-chip">Synthesis across Hotjar + GA</span></div>
       </div>
     </div>
@@ -1453,7 +1463,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       [[[110, 219], [470, 219], [470, 232]], "Date range filter with quick presets"],
       [[[600, 88], [600, 260]], "Claim-stage buckets: submission, query, in progress, settled, denied"],
       [[[1260, 268], [1118, 268]], "PA utilisation pending flagged once past DOD + 3"],
-      [[[1260, 193], [1162, 193]], "Initiate Settlement CTA shown only in the Claim view"]
+      [[[1260, 193], [1162, 193]], "Initiate Settlement CTA, since renamed Claim Submission, shown only in the Claim view"]
     ]
   };
   SETS.draft = SETS.pa.concat([[[[110, 356], [238, 356]], "Secondary buckets by draft type: Pre Auth, Enhancement, Discharge, Query Reply"]]);
@@ -1536,7 +1546,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="page-inner">
   <div class="section-label">08 · Design Decisions</div>
   <h2 class="cs-heading">Key decisions and why.</h2>
-  <p class="cs-sub">The problems were not fixable at the surface because the surface was built on the wrong model. I had two options. Improve the existing screen or restructure the underlying information architecture. I chose the harder one.</p>
   <div class="kd-table">
     <!-- D01 -->
     <div class="kd-row" style="display:grid;grid-template-columns:1fr 340px;">
@@ -1550,10 +1559,19 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <img src="images/ops-pa-view-claim-view.webp" alt="PA View Claim View" style="width:100%;height:auto;border-radius:6px;display:block;">
       </div>
     </div>
-    <!-- D02 -->
+    <!-- D02b: claim submission bucket -->
     <div class="kd-row">
       <div class="kd-row-inner">
         <div class="kd-num">02</div>
+        <div class="kd-title">A Claim Submission bucket, eligible claims first</div>
+        <p class="kd-body">Staff used to search for every claim ready for submission. Claim View now has a dedicated Claim Submission bucket, with claims eligible for submission shown at the top, so the search step disappears. This is the change behind the 51% drop in time to claim submission.</p>
+        <span class="kd-tag indigo">Core Design Decision</span>
+      </div>
+    </div>
+    <!-- D02 -->
+    <div class="kd-row">
+      <div class="kd-row-inner">
+        <div class="kd-num">03</div>
         <div class="kd-title">Visual design: nested bucket hierarchy with consistent visual cues across all modules</div>
         <p class="kd-body">The bucket card (primary label, count, urgency indicator, secondary filter chips) communicates stage, volume, and action at a glance. Colour coding is consistent: indigo for approval states, amber for queries, teal for discharge, red for denied. The same component was reused across PA View, Claim View, Government Scheme, Self-Funded Corporate, Recon Module, IHX Mobile App, and Reporting & Analytics, with no additional design or dev work.</p>
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">PA View</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Claim View</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Gov Scheme</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Self-Funded Corporate</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Recon Module</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Reporting & Analytics</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">IHX Mobile App</span>
@@ -1568,7 +1586,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <!-- D03 -->
     <div class="kd-row">
       <div class="kd-row-inner">
-        <div class="kd-num">03</div>
+        <div class="kd-num">04</div>
         <div class="kd-title">Secondary filters evolved from single-select chips to checkbox multi-select</div>
         <p class="kd-body">Initial design used horizontal tag chips, clean for single selections. Testing revealed supervisors needed to select multiple statuses simultaneously. Evolved to checkbox-based multi-select in a dropdown, which serves both the staff member needing a focused filter and the supervisor needing a cross-status overview.</p>
         <span class="kd-tag teal">Testing-Driven Change</span>
@@ -1577,7 +1595,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <!-- D04 -->
     <div class="kd-row" style="display:grid;grid-template-columns:1fr 340px;">
       <div class="kd-row-inner" style="border-right:1px solid var(--row-border);">
-        <div class="kd-num">04</div>
+        <div class="kd-num">05</div>
         <div class="kd-title">Handling search errors &middot; cross-view search results</div>
         <p class="kd-body">Splitting views created a problem. A Claim Number search in Claim View will return empty results because the claim lived in Pre-Auth View. Fix: when a search returns no results, the platform shows how many results exist in the other view with a direct link to switch. One line of copy. Now one of the most-used interaction patterns post-launch.</p>
         <span class="kd-tag indigo">Core Design Decision</span>
@@ -1589,7 +1607,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <!-- D05 -->
     <div class="kd-row">
       <div class="kd-row-inner">
-        <div class="kd-num">05</div>
+        <div class="kd-num">06</div>
         <div class="kd-title">The Follow-Up Feature &middot; increasing platform stickiness</div>
         <p class="kd-body">One of the points users were leaving the platform was to follow up with payers on delay in approval pending cases. A feature was introduced: email follow up through CTA under actions column inside the claim listing screen against cases along with the elapsed time.</p>
         <span class="kd-tag teal">Platform Stickiness Feature</span>
@@ -1598,7 +1616,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <!-- D06 -->
     <div class="kd-row">
       <div class="kd-row-inner">
-        <div class="kd-num">06</div>
+        <div class="kd-num">07</div>
         <div class="kd-title">Filtering by Time & Date</div>
         <p class="kd-body">Searching claims by patient name returned everything (claims from origin onwards), forcing users to manually sift through noise. We added a time period and date filter with hierarchical claim date types, letting users surface only relevant records.</p>
         <span class="kd-tag teal">Testing-Driven Change</span>
@@ -1630,11 +1648,11 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
           <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Hospitals had been requesting global search since the platform launched. Engineering assessed ElasticSearch as infeasible: too expensive and architecturally complex at this database scale. The constraint was real and non-negotiable.</p>
+          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Hospitals had been requesting global search since the platform launched. Engineering assessed Elasticsearch as infeasible: too expensive and architecturally complex at this database scale. The constraint was real and non-negotiable. The mobile app searches a smaller, scoped dataset, so Elasticsearch was affordable there.</p>
         </div>
         <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
           <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">How I Approached It</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">I pulled Google Analytics event data on column-level searches. Patient Name: 68% · Claim Number: 20% · UTR Number: 12%. Over 80% of searches fell into three parameters. Rather than accepting a blank space, I built scoped search across those three: data-backed, constraint-aware, and faster in practice for the most common use cases.</p>
+          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">I pulled Google Analytics event data on column-level searches. Patient Name: 68% · Claim Number: 20% · UTR Number: 12%. Over 80% of column-level searches used two of them, Patient Name and Claim Number. UTR was low but the Claim team cannot work without it. Rather than accepting a blank space, I built scoped search across those three: data-backed, constraint-aware, and faster in practice for the most common use cases.</p>
         </div>
         <div style="padding:20px 24px;">
           <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:8px;">Result</div>
@@ -1713,7 +1731,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         </div>
         <div style="padding:20px 24px;">
           <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:8px;">Result</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Staff send follow-up emails directly from IHX without leaving the platform. Configurable per payer. This feature was a dealbreaker for several enterprise hospitals during contract negotiations. Not a nice-to-have. A requirement to sign.</p>
+          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Staff send follow-up emails directly from IHX without leaving the platform. Configurable per payer. 3 group hospital contracts, where the follow-up feature was a requirement to sign. Not a nice-to-have.</p>
         </div>
       </div>
     </div>
@@ -1739,11 +1757,10 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="page-inner">
   <div class="section-label">10 · Impact: Design Decisions Tied to Business Outcomes</div>
   <h2 class="cs-heading">The numbers matter. So does understanding which decisions produced which outcomes.</h2>
-  <p class="cs-sub">Four situations from this project where the decision was not straightforward.</p>
   <div class="impact-top">
-    <div class="impact-cell" style="border-top:3px solid #00B894;"><div class="impact-lbl" style="margin-top:16px;">Revenue Per Claim</div><div class="impact-val teal">↑33%</div><p class="impact-desc">INR 90 to 120 per claim on one enterprise hospital contract, with the new Ops Dashboard as a premium feature</p></div>
-    <div class="impact-cell" style="border-top:3px solid var(--indigo-light);"><div class="impact-lbl" style="margin-top:16px;">Enterprise Contracts</div><div class="impact-val indigo">3</div><p class="impact-desc">Group hospital contracts secured. The follow-up feature was the dealbreaker</p></div>
-    <div class="impact-cell" style="border-top:3px solid var(--indigo-light);"><div class="impact-lbl" style="margin-top:16px;">CSAT Score</div><div class="impact-val indigo">4.6</div><p class="impact-desc">Improved customer satisfaction post-launch</p></div>
+    <div class="impact-cell" style="border-top:3px solid #00B894;"><div class="impact-lbl" style="margin-top:16px;">Revenue Per Claim</div><div class="impact-val teal">↑33%</div><p class="impact-desc">INR 90 to 120 per claim on one enterprise hospital contract, with the new Ops Dashboard as a premium feature</p><p class="impact-cap">On a 1-year contract.</p></div>
+    <div class="impact-cell" style="border-top:3px solid var(--indigo-light);"><div class="impact-lbl" style="margin-top:16px;">Group Hospital Contracts</div><div class="impact-val indigo">3</div><p class="impact-desc">Group hospital contracts, where the follow-up feature was a requirement to sign</p><p class="impact-cap">All 1-year contracts, signed in the second half of 2025.</p></div>
+    <div class="impact-cell" style="border-top:3px solid var(--indigo-light);"><div class="impact-lbl" style="margin-top:16px;">CSAT Score</div><div class="impact-val indigo">4.6<span class="of5">/5</span></div><p class="impact-desc">Improved customer satisfaction post-launch, up from 4.1.</p><p class="impact-cap">Out of 5. Survey of hospitals by marketing over 3 weeks, around 350 responses, 2025.</p></div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
     <div class="oc-wrap" role="img" aria-label="Revenue per claim up 33%, before and after">
@@ -1765,31 +1782,29 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
         <div class="oc-legend"><div><span style="background:#ece6d6"></span>Before</div><div><span style="background:#3a35e0"></span>After</div></div>
       </div>
     </div>
-    <div class="oc-wrap" role="img" aria-label="Average time on task down 51%, from 3.23 to 1.56 minutes">
+    <div class="oc-wrap" role="img" aria-label="Average time to claim submission down 51%, from 3.23 to 1.56 minutes">
       <div class="oc-card oc-time" data-oc="51" aria-hidden="true" title="Click to replay">
-        <div class="oc-title">Reduced Average Time On Task</div>
+        <div class="oc-title">Reduced Average Time To Claim Submission</div>
         <div class="oc-body">
           <div class="oc-col"><div class="oc-slot"><div class="oc-before"><span>3.23 Min</span></div></div><div class="oc-lbl-sm">Before</div></div>
           <div class="oc-col"><div class="oc-slot"><div class="oc-after-wrap"><div class="oc-hatch"></div><div class="oc-after"><span class="oc-mins">1.56</span>&nbsp;Min</div></div></div><div class="oc-lbl-sm">After</div></div>
-          <div class="oc-stat"><div class="oc-num"><span class="oc-n">51</span> %</div><div class="oc-lbl">Reduction In<br>Avg Time On Task</div></div>
+          <div class="oc-stat"><div class="oc-num"><span class="oc-n">51</span> %</div><div class="oc-lbl">Reduction In<br>Time To Claim<br>Submission</div></div>
         </div>
       </div>
     </div>
-    <div class="oc-wrap" role="img" aria-label="Average task efficiency up 34%, before and after">
-      <div class="oc-card oc-eff" data-oc="34" aria-hidden="true" title="Click to replay">
-        <div class="oc-title">Increased Average Task Efficiency</div>
+    <div class="oc-wrap" role="img" aria-label="Dashboard adoption: 900+ contracted hospitals live on the new Ops Dashboard, of 18,000+ providers on IHX">
+      <div class="oc-card oc-adopt" data-oc="900" aria-hidden="true" title="Click to replay">
+        <div class="oc-title">Dashboard Adoption</div>
         <div class="oc-body">
-          <div class="oc-chart"><svg class="oc-grid" viewBox="0 0 184 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0.5 0V110M6.5 0V110M12.5 0V110M18.5 0V110M24.5 0V110M30.5 0V110M36.5 0V110M42.5 0V110M48.5 0V110M54.5 0V110M60.5 0V110M66.5 0V110M72.5 0V110M78.5 0V110M84.5 0V110M90.5 0V110M96.5 0V110M102.5 0V110M108.5 0V110M114.5 0V110M120.5 0V110M126.5 0V110M132.5 0V110M138.5 0V110M144.5 0V110M150.5 0V110M156.5 0V110M162.5 0V110M168.5 0V110M174.5 0V110M180.5 0V110"/></svg><div class="oc-bar oc-b4"></div><div class="oc-bar oc-af"></div></div>
-          <div class="oc-stat"><div class="oc-num"><span class="oc-n">34</span> %</div><div class="oc-lbl">Increased<br>Task Efficiency</div></div>
+          <div class="oc-stat"><div class="oc-num"><span class="oc-n">900</span><span class="oc-plus">+</span></div><div class="oc-lbl">Contracted hospitals live on the<br>new Ops Dashboard, of 18,000+<br>providers on IHX</div></div>
         </div>
-        <div class="oc-legend"><div><span style="background:#ece6d6"></span>Before</div><div><span style="background:#3a35e0"></span>After</div></div>
       </div>
     </div>
   </div>
   <div class="impact-bottom">
-    <div class="impact-bottom-cell"><div class="impact-bottom-val">4000+</div><div class="impact-bottom-lbl">Clicks in 30 days across 10 pilot hospitals</div></div>
-    <div class="impact-bottom-cell"><div class="impact-bottom-val">5<i class="d1">1</i>%</div><div class="impact-bottom-lbl">Reduction in avg time on task &middot; 3.23 min to 1.56 min</div></div>
-    <div class="impact-bottom-cell"><div class="impact-bottom-val">34%</div><div class="impact-bottom-lbl">Increase in task efficiency</div></div>
+    <div class="impact-bottom-cell"><div class="impact-bottom-val">4,000+</div><div class="impact-bottom-lbl">Clicks on the PA View / Claim View toggle in 30 days across 10 pilot hospitals (Google Analytics)</div></div>
+    <div class="impact-bottom-cell"><div class="impact-bottom-val">5<i class="d1">1</i>%</div><div class="impact-bottom-lbl">Reduction in avg time to claim submission &middot; 3.23 min to 1.56 min</div><p class="impact-why">Before: no Claim Submission bucket, so staff searched for every claim ready for submission. After: a dedicated Claim Submission bucket in Claim View, with claims eligible for submission shown at the top. The search step disappeared.</p><p class="impact-cap">Average of 25 random claim submission sessions from Hotjar recordings, 2 months before launch vs 2 months after.</p></div>
+    <div class="impact-bottom-cell"><div class="impact-lbl">Dashboard adoption</div><p class="impact-why" style="margin-top:0;">Received positive user feedback, and we have consistently enhanced and iterated it by adding more buckets and secondary filters.</p></div>
   </div>
 </div>
 </div>
