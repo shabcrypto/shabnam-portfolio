@@ -509,6 +509,35 @@
   }
   .scroll-cue:hover { color: var(--red-deep); }
 
+
+  /* =====================================================================
+     HERO (2026-10-22): cinema red behind the name, and every
+     letter tilting on its own toward the cursor, with painted depth.
+     ===================================================================== */
+  .giant .g1, .giant .g2 { perspective: 900px; }
+  .js .giant span.l { display: inline-block; opacity: 1; animation: none; padding: 0; transform-origin: 50% 70%; will-change: transform; }
+  .hero-red { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .hero-red .spot { position: absolute; left: 0; top: 0; width: 70vmax; height: 70vmax; margin: -35vmax 0 0 -35vmax; border-radius: 50%;
+                    background: radial-gradient(closest-side, rgba(192, 45, 12, 0.32), rgba(192, 45, 12, 0.1) 50%, rgba(192, 45, 12, 0) 80%);
+                    mix-blend-mode: screen; will-change: transform; opacity: 0; animation: redIn 1600ms ease calc(var(--intro-offset) + 900ms) forwards; }
+  .hero-red .haze { position: absolute; width: 90vmax; height: 50vmax; border-radius: 50%; filter: blur(60px); mix-blend-mode: screen; opacity: 0;
+                    animation: redIn 2000ms ease calc(var(--intro-offset) + 1200ms) forwards, hazeDrift 18s ease-in-out infinite alternate; }
+  .hero-red .h1 { left: -30vmax; bottom: -25vmax; background: radial-gradient(closest-side, rgba(163, 36, 10, 0.3), transparent); }
+  .hero-red .h2 { right: -35vmax; top: -20vmax; background: radial-gradient(closest-side, rgba(192, 45, 12, 0.2), transparent); animation-duration: 2000ms, 23s; }
+  @keyframes redIn { to { opacity: 1; } }
+  @keyframes hazeDrift { from { transform: translate(0, 0) scale(1); } to { transform: translate(8vmax, -5vmax) scale(1.12); } }
+  .hero-layers { z-index: 1; }
+  /* texture that only shows inside the glow, and travels with it */
+  .hero-red .tex { position: absolute; inset: 0; width: 100%; height: 100%; display: none; opacity: 0;
+                   -webkit-mask-image: radial-gradient(circle at var(--gx, 50%) var(--gy, 40%), #000 0, rgba(0,0,0,0.55) 12vmax, transparent 26vmax);
+                           mask-image: radial-gradient(circle at var(--gx, 50%) var(--gy, 40%), #000 0, rgba(0,0,0,0.55) 12vmax, transparent 26vmax);
+                   animation: redIn 2000ms ease calc(var(--intro-offset) + 1400ms) forwards; }
+  .hero-red .tex-twigs { opacity: 0 !important; transition: opacity 1400ms ease; }
+  .hero-red .tex-twigs.ready { opacity: 1 !important; }
+  .hero-red .tex-dots { background-image: radial-gradient(rgba(240, 230, 210, 0.32) 1.1px, transparent 1.7px); background-size: 13px 13px; }
+  .tex-on-dots .tex-dots, .tex-on-twigs .tex-twigs { display: block; }
+  @media (prefers-reduced-motion: reduce) { .hero-red .haze { animation: redIn 1ms forwards; } }
+
   /* the parallax scrub triggers on this block's approach */
   .after-hero { position: relative; }
 
@@ -2260,10 +2289,11 @@
   <div class="hero-layers" data-parallax-layers>
     <div class="hero-layer hero-title" data-parallax-layer="2">
       <p class="hero-role"><span class="sr-only">Product Designer, Product Builder, Product Thinker</span><span class="hr-text" aria-hidden="true">Product Designer</span></p>
-      <h1 class="giant"><span class="g1">Shabnam</span><span class="g2">Raghavan</span></h1>
+      <h1 class="giant" aria-label="Shabnam Raghavan"><span class="g1" aria-hidden="true"><span class="l">S</span><span class="l">h</span><span class="l">a</span><span class="l">b</span><span class="l">n</span><span class="l">a</span><span class="l">m</span></span><span class="g2" aria-hidden="true"><span class="l">R</span><span class="l">a</span><span class="l">g</span><span class="l">h</span><span class="l">a</span><span class="l">v</span><span class="l">a</span><span class="l">n</span></span></h1>
     </div>
   </div>
   <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-red" aria-hidden="true"><i class="haze h1"></i><i class="haze h2"></i><i class="spot"></i><div class="tex tex-dots"></div><canvas class="tex tex-twigs"></canvas></div>
   <div class="hero-grain" aria-hidden="true"></div>
   <a class="scroll-cue" href="#intro" aria-label="Scroll to the introduction">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -3738,5 +3768,128 @@ function startMotion() {
 <!-- first-party analytics, see design-context section 13 --><script src="/analytics.js" defer></script>
 <!-- Cloudflare Web Analytics --><script>/* only the real domain is counted: Vercel's preview robot (it visits every deploy on a *.vercel.app address) and localhost are left out */
 if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.createElement("script"); cfb.type = "module"; cfb.src = "https://static.cloudflareinsights.com/beacon.min.js"; cfb.setAttribute("data-cf-beacon", '{"token": "f26ea28c97844cfabcd844e4d335180a"}'); document.body.appendChild(cfb); }</script><!-- End Cloudflare Web Analytics -->
+<script>
+/* HERO: per-letter tilt with painted depth, and a red projector glow that follows the cursor */
+(function () {
+  var hero = document.querySelector(".hero"), name = document.querySelector(".giant");
+  if (!hero || !name) return;
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var L = [].slice.call(name.querySelectorAll(".l")), spot = hero.querySelector(".spot");
+  // ENTRANCE: ?intro=focuspaint (default) | focus | flicker | paint
+  var intro = new URLSearchParams(location.search).get("intro") || "focuspaint";
+  var base = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--intro-offset")) || 0) + 300;
+  var depthK = still ? 1 : 0, depthFrom = 0, depthAt = 0, depthDur = 1400;
+  var mid = (L.length - 1) / 2;
+  L.forEach(function (l, i) {
+    if (still) return;
+    var d = Math.abs(i - (i < 7 ? 3 : 10.5));   // distance from the middle of its own word
+    if (intro === "focus" || intro === "focuspaint") {
+      // a projector pulling into focus: blurred, oversized and faint, settling sharp from the centre of each word outward
+      l.animate([{ opacity: 0, filter: "blur(18px)", transform: "scale(1.35)" }, { opacity: 0.6, filter: "blur(6px)", offset: 0.5 }, { opacity: 1, filter: "blur(0)", transform: "none" }],
+        { duration: 1500, delay: base + d * 90 + (i > 6 ? 160 : 0), easing: "cubic-bezier(0.16,1,0.3,1)", fill: "backwards" });
+    } else if (intro === "flicker") {
+      // film flicker: each letter stutters on at its own moment, like a bulb warming up
+      var st = base + ((i * 7) % 15) * 70;
+      l.animate([{ opacity: 0 }, { opacity: 0.8, offset: 0.1 }, { opacity: 0.1, offset: 0.18 }, { opacity: 0.9, offset: 0.3 }, { opacity: 0.3, offset: 0.38 }, { opacity: 1, offset: 0.55 }, { opacity: 1 }],
+        { duration: 900, delay: st, easing: "linear", fill: "backwards" });
+    } else {
+      // paint: letters fade in flat, then the red depth is pulled out of them
+      l.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }],
+        { duration: 700, delay: base + i * 55, easing: "ease-out", fill: "backwards" });
+    }
+  });
+  // the red depth grows after the letters land, in every version
+  if (!still) { depthAt = performance.now() + base + (intro === "paint" ? 1100 : intro === "flicker" ? 1300 : intro === "focuspaint" ? 1250 : 900); }
+  var perLetter = intro === "focuspaint" || intro === "paint", letterGap = 70;
+  // TEXTURE: ?tex=twigs (default) | dots | both | none
+  var tex = (new URLSearchParams(location.search).get("tex") || "twigs");
+  if (tex === "both") hero.classList.add("tex-on-dots", "tex-on-twigs");
+  else if (tex !== "none") hero.classList.add("tex-on-" + tex);
+  var svg = hero.querySelector(".tex-twigs");
+  function drawTwigs() {
+    if (!svg || !hero.classList.contains("tex-on-twigs")) return;
+    var _t0 = performance.now();
+    var W = hero.clientWidth, H = hero.clientHeight, seed = 7;
+    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    var out = [], NS = "http://www.w3.org/2000/svg";
+    function branch(x, y, ang, len, w, d) {
+      if (d === 0 || len < 6) { // a leaf at the tip
+        var la = ang * 180 / Math.PI + (rnd() - 0.5) * 60;
+        out.push('<ellipse cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="' + (5 + rnd() * 5).toFixed(1) + '" ry="' + (2 + rnd() * 2).toFixed(1) + '" transform="rotate(' + la.toFixed(0) + ' ' + x.toFixed(1) + ' ' + y.toFixed(1) + ')" fill="rgba(225,74,32,0.42)"/>');
+        return;
+      }
+      var bend = (rnd() - 0.5) * 0.6, x2 = x + Math.cos(ang) * len, y2 = y + Math.sin(ang) * len;
+      var qx = x + Math.cos(ang + bend) * len * 0.55, qy = y + Math.sin(ang + bend) * len * 0.55;
+      out.push('<path d="M' + x.toFixed(1) + ' ' + y.toFixed(1) + 'Q' + qx.toFixed(1) + ' ' + qy.toFixed(1) + ' ' + x2.toFixed(1) + ' ' + y2.toFixed(1) + '" stroke="rgba(240,230,210,' + (0.18 + w * 0.05).toFixed(2) + ')" stroke-width="' + w.toFixed(2) + '" fill="none" stroke-linecap="round"/>');
+      if (d < 5 && rnd() < 0.5) branch(x2, y2, ang + (rnd() - 0.5) * 1.4, len * 0.35, w * 0.6, 0);
+      branch(x2, y2, ang - 0.32 - rnd() * 0.3, len * (0.7 + rnd() * 0.12), w * 0.72, d - 1);
+      branch(x2, y2, ang + 0.32 + rnd() * 0.3, len * (0.7 + rnd() * 0.12), w * 0.72, d - 1);
+    }
+    var roots = Math.max(5, Math.round(W / 240));
+    for (var i = 0; i < roots; i++) {
+      var fromTop = i % 2, x0 = (i + 0.5) / roots * W + (rnd() - 0.5) * 80;
+      branch(x0, fromTop ? -10 : H + 10, (fromTop ? 1 : -1) * Math.PI / 2 + (rnd() - 0.5) * 0.7, H * (0.16 + rnd() * 0.06), 2.4, 8);
+    }
+    // drawn once into a single image, so moving the glow never redraws 1,500 shapes
+    var markup = '<svg xmlns="' + NS + '" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '">' + out.join("") + '</svg>';
+    // painted onto a canvas (not a background image), so it never counts as the page's largest paint
+    var url = URL.createObjectURL(new Blob([markup], { type: "image/svg+xml" })), img = new Image();
+    img.onload = function () {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      svg.width = W * dpr; svg.height = H * dpr;
+      var ctx = svg.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.drawImage(img, 0, 0, W, H);
+      URL.revokeObjectURL(url); svg.classList.add("ready"); window.__twigMs = Math.round(performance.now() - _t0);
+    };
+    img.src = url;
+  }
+  // twigs come last, and only where the connection and device can take it
+  var c = navigator.connection || {}, slow = c.saveData || /(^|-)2g|3g/.test(c.effectiveType || "") || (navigator.deviceMemory && navigator.deviceMemory < 4);
+  if (!slow) {
+    var go = function () { (window.requestIdleCallback || function (f) { setTimeout(f, 300); })(drawTwigs, { timeout: 2500 }); };
+    if (document.readyState === "complete") go(); else window.addEventListener("load", go);
+    var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(drawTwigs, 200); });
+  }
+  var mx = -1, my = -1, gx = 0.5, gy = 0.4, tgx = 0.5, tgy = 0.4, state = L.map(function () { return { rx: 0, ry: 0 }; }), last = "";
+  if (fine && !still) {
+    hero.addEventListener("pointermove", function (e) { var r = hero.getBoundingClientRect(); mx = e.clientX; my = e.clientY; tgx = (e.clientX - r.left) / r.width; tgy = (e.clientY - r.top) / r.height; kick(); });
+    hero.addEventListener("pointerleave", function () { mx = -1; tgx = 0.5; tgy = 0.4; kick(); });
+  }
+  window.addEventListener("scroll", kick, { passive: true });
+  var running = false;
+  function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+  function frame() {
+    var H = hero.clientHeight, W = hero.clientWidth, p = Math.max(0, Math.min(1, window.scrollY / (H * 0.6)));
+    var now = performance.now(), last = perLetter ? (L.length - 1) * letterGap : 0;
+    function dk(i) { if (still) return 1; var t = (now - depthAt - (perLetter ? i * letterGap : 0)) / depthDur; t = Math.max(0, Math.min(1, t)); return 1 - Math.pow(1 - t, 3); }
+    var fs = parseFloat(getComputedStyle(name).fontSize), moving = !still && now < depthAt + last + depthDur;
+    gx += (tgx - gx) * 0.06; gy += (tgy - gy) * 0.06;
+    if (spot) spot.style.transform = "translate(" + (gx * W).toFixed(0) + "px," + (gy * H).toFixed(0) + "px)";
+    hero.style.setProperty("--gx", (gx * 100).toFixed(2) + "%"); hero.style.setProperty("--gy", (gy * 100).toFixed(2) + "%");
+    if (Math.abs(tgx - gx) > 0.001 || Math.abs(tgy - gy) > 0.001) moving = true;
+    L.forEach(function (l, i) {
+      var r = l.getBoundingClientRect(), cxl = r.left + r.width / 2, cyl = r.top + r.height / 2, trx = 0, try_ = 0;
+      if (mx >= 0) {
+        // only the letter under the cursor: angle from where the cursor sits on that letter
+        var ux = (mx - cxl) / (r.width / 2), uy = (my - cyl) / (r.height / 2);
+        var k = (Math.abs(ux) <= 1.05 && Math.abs(uy) <= 1.1) ? 1 : 0;
+        try_ = Math.max(-1, Math.min(1, ux)) * 32 * k; trx = -Math.max(-1, Math.min(1, uy)) * 26 * k;
+      }
+      trx += p * 24;
+      var st = state[i]; st.rx += (trx - st.rx) * 0.12; st.ry += (try_ - st.ry) * 0.12;
+      if (Math.abs(trx - st.rx) > 0.05 || Math.abs(try_ - st.ry) > 0.05) moving = true;
+      l.style.transform = "rotateX(" + st.rx.toFixed(2) + "deg) rotateY(" + st.ry.toFixed(2) + "deg)";
+      var depth = fs * 0.07 * dk(i), sx = 0.45 - st.ry / 30, sy = 0.9 + st.rx / 40, parts = [];
+      for (var k2 = 1; k2 <= 10; k2++) parts.push((sx * depth * k2 / 10).toFixed(1) + "px " + (sy * depth * k2 / 10).toFixed(1) + "px 0 " + (k2 < 10 ? "#A3240A" : "#5E1405"));
+      parts.push((sx * depth * 1.4).toFixed(1) + "px " + (sy * depth * 1.4 + 6).toFixed(1) + "px 18px rgba(0,0,0,0.55)");
+      l.style.textShadow = parts.join(",");
+    });
+    if (moving && !still) requestAnimationFrame(frame); else running = false;
+  }
+  // nothing to draw while the intro curtain is down: start when the letters arrive
+  setTimeout(kick, still ? 0 : Math.max(0, depthAt - performance.now() - 200));
+  window.addEventListener("resize", kick);
+})();
+</script>
 </body>
 </html>
