@@ -284,6 +284,14 @@ body{
 .stat-n.v{color:var(--v2);}
 .stat-l{margin-top:18px;font-size:var(--step--1);font-weight:400;line-height:1.6;color:var(--w3);}
 .stat-src{margin-top:8px;font-size:var(--step--1);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--w4);}
+.cite{display:flex;gap:8px;margin-top:12px;font-size:0.78rem;line-height:1.5;color:var(--w3);}
+.cite-n{flex:none;font-weight:700;color:var(--w2);}
+.cite-n::after{content:".";}
+.cite a{color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}
+.cite-foot{margin-top:40px;max-width:760px;font-size:var(--step--1);line-height:1.7;color:var(--w3);}
+.rev-stars{display:block;margin-top:10px;font-size:.9rem;letter-spacing:2px;color:var(--v2);}
+.rev p{margin-top:10px;font-size:var(--step--1);line-height:1.7;color:var(--w2);max-width:52ch;}
+.rev-note{margin-top:56px;max-width:760px;font-size:var(--step--1);line-height:1.7;color:var(--w3);}
 
 .reviews{margin-top:104px;position:relative;}
 .rev-eyebrow{font-size:var(--step--1);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w4);margin-bottom:48px;}
@@ -376,12 +384,10 @@ body{
 .split-cap span{font-size:var(--step--1);font-weight:500;color:var(--w3);}
 .split-cap span:last-child{color:var(--v2);}
 
-.tokens{margin-top:80px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.tokens{margin-top:80px;display:grid;grid-template-columns:1fr;max-width:560px;}
 .tok-row{display:flex;justify-content:space-between;padding:16px 0;border-top:1px solid var(--line-2);font-size:var(--step--1);}
 .tok-row span:first-child{color:var(--w3);font-weight:400;}
 .tok-row span:last-child{color:var(--w1);font-weight:600;}
-.cost b{font-family:"Staatliches", "Impact", "Arial Narrow", sans-serif;font-size:var(--step-3);font-weight:400;color:var(--w1);letter-spacing:0.02em;}
-.cost p{margin-top:14px;font-size:var(--step--1);font-weight:300;line-height:1.7;color:var(--w2);}
 
 /* ── 06 EXPERIENCE, rebuilt to Shabnam's reference layout ──
    Header (title left, intro right) → Branding and Colours (app icon beside 7 swatches) →
@@ -397,13 +403,14 @@ body{
 
 .exp-brand{margin-top:40px;display:flex;align-items:flex-start;gap:clamp(32px,8vw,90px);}
 .exp-icon{flex:none;width:clamp(110px,11vw,150px);aspect-ratio:1/1;border-radius:12.6%;}
-.exp-swatches{flex:1;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(10px,1.4vw,18px);}
+.exp-swatches{flex:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(10px,1.4vw,18px);}
 /* The hex label sits UNDER its chip, not on it. On #8B5CF6 neither white (4.23) nor the ink
    (3.16) clears AA, because that purple sits mid-lightness; the only real fix is to get the
    label off the colour. Below the chip, every label is ink on the card and comfortably legible. */
 .exp-sw{display:flex;flex-direction:column;gap:6px;}
 .exp-sw i{display:block;aspect-ratio:11/10;border-radius:8px;}
 .exp-sw span{font-size:var(--step--1);font-weight:600;letter-spacing:.02em;color:var(--ink);text-align:center;}
+.exp-sw small{margin-top:-4px;font-size:0.72rem;font-weight:500;letter-spacing:.04em;color:var(--ink);opacity:.65;text-align:center;}
 .exp-sw.on-light i{box-shadow:var(--shadow-card);}
 
 .exp-asset{position:relative;margin:0;overflow:hidden;border-radius:20px;background:#141318;
@@ -468,7 +475,15 @@ body{
 @media(max-width:880px){
   .exp-head,.exp-logo,.exp-onboard{grid-template-columns:1fr;}
   .exp-brand{flex-direction:column;}
-  .exp-swatches{width:100%;grid-template-columns:repeat(4,minmax(0,1fr));}
+  .exp-swatches{width:100%;grid-template-columns:repeat(5,minmax(0,1fr));}
+  .exp-swatches{gap:8px;}
+  .exp-sw span{font-size:0.66rem;letter-spacing:0;}
+  .exp-sw small{font-size:0.6rem;letter-spacing:0;}
+}
+@media (max-width:380px){
+  .exp-swatches{gap:6px;}
+  .exp-sw span{font-size:0.6rem;}
+  .exp-sw small{font-size:0.52rem;}
 }
 
 /* ── 06 EXPERIENCE ── */
@@ -1021,13 +1036,13 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   <div class="project-info">
     <div class="pi"><span class="pi-l">Role</span><span class="pi-v">Product Designer + Builder</span></div>
     <div class="pi"><span class="pi-l">Timeframe</span><span class="pi-v">5 days · Sept 2025</span></div>
-    <div class="pi"><span class="pi-l">Stack</span><span class="pi-v">Lovable · Gemini 2.5 Flash · Supabase</span></div>
-    <div class="pi"><span class="pi-l">Type</span><span class="pi-v">Personal project · Live MVP</span></div>
+    <div class="pi"><span class="pi-l">Stack</span><span class="pi-v">Vite on Lovable Cloud · Gemini via Lovable AI Gateway</span></div>
+    <div class="pi"><span class="pi-l">Type</span><span class="pi-v">Personal project · In testing</span></div>
   </div>
   <div class="hero-stats">
-    <div class="cell"><span class="tag">Build</span><div class="num violet">5 days</div><div class="lbl">From first design to a live MVP</div></div>
+    <div class="cell"><span class="tag">Build</span><div class="num violet">5 days</div><div class="lbl">From first design to a working MVP</div></div>
     <div class="cell"><span class="tag">AI functions</span><div class="num violet">6</div><div class="lbl">Each mapped to rules, an LLM or deterministic logic</div></div>
-    <div class="cell"><span class="tag">Status</span><div class="num violet">Live</div><div class="lbl">MVP in use with real users</div></div>
+    <div class="cell"><span class="tag">Status</span><div class="num violet">Testing</div><div class="lbl">In testing on Android, still in development</div></div>
   </div>
 </section>
 
@@ -1041,7 +1056,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div class="tldr"><span class="k">Problem</span><p>Planners assume <b>one role and constant energy</b>. Energy shifts across the cycle, and work, home, care and self all pile into one flat list.</p></div>
     <div class="tldr"><span class="k">Approach</span><p>A <b>planning chain, not a to-do list</b>: cycle phase, energy, role context and task grouping come together as one daily plan.</p></div>
     <div class="tldr"><span class="k">AI</span><p><b>Rules handle 90%+ of the work.</b> The LLM steps in only where rules fail, free speech and tone. The system assists, the user decides.</p></div>
-    <div class="tldr"><span class="k">Build</span><p><b>5 days</b> from first design to a live MVP with real users, on Lovable, Gemini 2.5 Flash and Supabase.</p></div>
+    <div class="tldr"><span class="k">Build</span><p><b>5 days</b> from first design to a working MVP, now in testing, built with Vite on Lovable Cloud and Gemini via the Lovable AI Gateway.</p></div>
     <div class="tldr"><span class="k">Takeaway</span><p>Designing for a body that changes means <b>a plan that flexes</b>, not one that punishes the low-energy days.</p></div>
   </div>
 </section>
@@ -1103,15 +1118,15 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <div class="gap-row">
       <div class="gap-reality">Accountability matters<small>without the guilt</small></div>
       <div class="gap-bars">
-        <div class="gap-bar apps" style="width:30%"><span>streaks and guilt</span></div>
-        <div class="gap-bar need" style="width:76%"><span>gentle structure</span></div>
+        <div class="gap-bar apps" style="width:30%"><span>streaks that punish</span></div>
+        <div class="gap-bar need" style="width:76%"><span>rewards without penalty</span></div>
       </div>
     </div>
   </div>
 
   <div class="callout">
-    <b>High-accountability planners are not the answer.</b>
-    <p>Streaks, guilt mechanics, and rigid daily quotas punish the exact days when capacity is lowest. The system needs to flex with the person, not demand the person flex to the system.</p>
+    <b>Guilt is the problem, not accountability.</b>
+    <p>Streaks that break and quotas that reset punish the exact days when capacity is lowest. WiseWoman keeps a streak and celebrates every finished task, but a missed day costs nothing and unfinished tasks roll forward. The system flexes with the person, not the other way round.</p>
   </div>
 </section>
 
@@ -1136,34 +1151,35 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <section class="sec">
   <div class="sec-num">03 &middot; Research &amp; Pattern Synthesis</div>
   <h2 class="sec-head">Small sample. Honest method.</h2>
-  <p class="method">No inflated numbers. Patterns were drawn from <b>Reddit threads</b> on productivity and women's planning, <b>3 direct conversations</b>, and <b>12 app store audits</b> across cycle and productivity tools. The signal was consistent enough to act on, not large enough to claim more than it was.</p>
+  <p class="method">Reviewed Reddit threads (r/productivity, r/workingmoms, r/TwoXChromosomes), analyzed user reviews of Todoist, Notion, Google Calendar, and Flo, and conducted informal conversations with 3 working women. Clustered recurring pain patterns to identify core problems. Kept it honest: no inflated sample sizes.</p>
 
   <div class="stats">
     <div class="stat">
       <div class="stat-n v">4.8<span style="font-size:.4em;font-weight:700;"> hrs</span></div>
-      <div class="stat-l">of unpaid work carried by women each day, on average.</div>
-      <div class="stat-src">OECD</div>
+      <div class="stat-l">Women average 4.8 hrs unpaid work daily; men 1.6–2 hrs.</div>
+      <div class="cite"><span class="cite-n">1</span>OECD (2023), Gender Inequality in Time Use (SDG Indicator 5.4.1); Dean et al. (2022), University of Bath, Mental Load Study</div>
     </div>
     <div class="stat">
       <div class="stat-n">7<span style="font-size:.4em;font-weight:700;"> in <i class="d1">1</i>0</span></div>
-      <div class="stat-l">mothers report cognitive overload from juggling roles.</div>
-      <div class="stat-src">IJIP</div>
+      <div class="stat-l">7 in 10 mothers carry the majority of household planning tasks, increasing cognitive load.</div>
+      <div class="cite"><span class="cite-n">2</span>IJIP (2025), Vol. 18, Issue 1, Work-Family Role Conflict and Mental Load Study; University of Bath, Mental Load Study</div>
     </div>
     <div class="stat">
       <div class="stat-n">5–<i class="d1">1</i>0<span style="font-size:.4em;font-weight:700;">%</span></div>
-      <div class="stat-l">typical long-term retention for productivity apps.</div>
-      <div class="stat-src">Industry benchmark</div>
+      <div class="stat-l">Only 5–10% of productivity app users remain after 30 days.</div>
+      <div class="cite"><span class="cite-n">3</span>App Annie (Data.ai), State of Mobile Reports, 2019–2023</div>
     </div>
   </div>
+  <p class="cite-foot">Findings are grounded in OECD time-use data, University of Bath mental load research, and peer-reviewed studies on work-family strain and menstrual cycle-related energy fluctuations. Industry behaviour insights drawn from AIMA Review (2017), App Annie (Data.ai) State of Mobile Reports, 2019–2023.</p>
 
   <div class="reviews">
-    <div class="rev-eyebrow">In their own words &middot; app store and forum voices, unedited</div>
     <div class="rev-flow">
-      <div class="rev a"><q>Managing the tool is a work !</q><cite>Productivity app review</cite></div>
-      <div class="rev b"><q>PMS is a thing !!</q><cite>Reddit, r/productivity</cite></div>
-      <div class="rev c"><q>Not for personal management</q><cite>Task app review</cite></div>
-      <div class="rev d"><q>Organising the task is a pain</q><cite>App store review</cite></div>
+      <div class="rev a"><q>Managing the tool is a work !</q><span class="rev-stars" aria-label="1 out of 5 stars">★☆☆☆☆</span><p>It takes more time to manage the tool than to actually do the work.</p></div>
+      <div class="rev b"><q>PMS is a thing !!</q><span class="rev-stars" aria-label="1 out of 5 stars">★☆☆☆☆</span><p>Sometimes I'll be great, locked in, getting loads done, then the next week or so later I'll have a couple of days where I just can't focus on ANYTHING and I'll get all the rest of the PMS symptoms.</p></div>
+      <div class="rev c"><q>Not for personal management</q><span class="rev-stars" aria-label="1 out of 5 stars">★☆☆☆☆</span><p>That most productivity/task management apps are created with companies in mind. I get that obviously people need these kind of apps at work and for team collaboration, but I wish there were more options created with personal growth and personal management as their primary goal.</p></div>
+      <div class="rev d"><q>Organising the task is a pain</q><span class="rev-stars" aria-label="1 out of 5 stars">★☆☆☆☆</span><p>We inherently know what needs to be done; it's the act of organizing those tasks that can feel overwhelming</p></div>
     </div>
+    <p class="rev-note">User pain points were collected from Reddit discussions (r/productivity, r/workingmoms, r/TwoXChromosomes, r/todoist) and App Store and Google Play reviews of productivity tools.</p>
   </div>
 </section>
 
@@ -1179,11 +1195,13 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <p>FemTech <b>tracks the body</b>. Productivity tools <b>schedule the day</b>. No category leader connects the two.</p>
       <p>Cycle apps know energy shifts but do nothing with it. Planners structure the day but stay blind to the person using them. WiseWoman sits in the gap between them.</p>
     </div>
+    <div class="mkt-right">
     <div class="mkt-stats">
-      <div class="mkt-cell"><div class="n v">$56.5B</div><div class="l">FemTech market, 2024</div></div>
-      <div class="mkt-cell"><div class="n">$<i class="d1">1</i>8B+</div><div class="l">Productivity software</div></div>
-      <div class="mkt-cell"><div class="n">$2B+</div><div class="l">FemTech VC, recent cycle</div></div>
-      <div class="mkt-cell"><div class="n">~$300M</div><div class="l">Serviceable opportunity</div></div>
+      <div class="mkt-cell"><div class="n v">~$60B</div><div class="l">FemTech market, 2024</div><div class="cite"><span class="cite-n">1</span><a href="https://www.gminsights.com/industry-analysis/femtech-market" target="_blank" rel="noopener">Global Market Insights, FemTech Market Size report (2024 estimate)</a></div></div>
+      <div class="mkt-cell"><div class="n">~$<i class="d1">1</i>2B</div><div class="l">Productivity apps, 2025, $18B by 2030</div><div class="cite"><span class="cite-n">2</span><a href="https://www.mordorintelligence.com/industry-reports/productivity-apps-market" target="_blank" rel="noopener">Mordor Intelligence, Productivity Apps Market (2025 to 2030)</a></div></div>
+      <div class="mkt-cell"><div class="n">$<i class="d1">1</i>.2B</div><div class="l">FemTech VC, 2024</div><div class="cite"><span class="cite-n">3</span><a href="https://files.pitchbook.com/website/files/pdf/2025_Femtech_VC_Market_Snapshot_Preview.pdf" target="_blank" rel="noopener">PitchBook, 2025 Femtech VC Market Snapshot</a></div></div>
+      <div class="mkt-cell"><div class="n">~$300M</div><div class="l">Serviceable opportunity</div><div class="cite">Own estimate</div></div>
+    </div>
     </div>
   </div>
 
@@ -1271,16 +1289,12 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
   <div class="tokens">
     <div>
-      <div class="split-title">Token economics</div>
-      <div class="tok-row"><span>Text capture</span><span>0 tokens</span></div>
-      <div class="tok-row"><span>Categorisation</span><span>0 tokens</span></div>
-      <div class="tok-row"><span>Scheduling</span><span>0 tokens</span></div>
-      <div class="tok-row"><span>Voice parsing</span><span>LLM call</span></div>
-      <div class="tok-row"><span>Energy guidance</span><span>LLM call</span></div>
-    </div>
-    <div class="cost">
-      <b>$0</b>
-      <p>Cost to the end user. The platform absorbs all model cost through the Lovable AI Gateway. Routing most interactions through rules keeps that absorbable.</p>
+      <div class="split-title">Rules or Gemini, by function</div>
+      <div class="tok-row"><span>Text capture</span><span>Rule-based</span></div>
+      <div class="tok-row"><span>Categorisation</span><span>Rule-based</span></div>
+      <div class="tok-row"><span>Scheduling</span><span>Rule-based</span></div>
+      <div class="tok-row"><span>Voice parsing</span><span>Gemini API</span></div>
+      <div class="tok-row"><span>Energy guidance</span><span>Gemini API</span></div>
     </div>
   </div>
 </section>
@@ -1297,17 +1311,20 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
   <div class="exp-block">
     <h3 class="exp-label">Branding and Colours</h3>
-    <p class="exp-note">Two violets carry the moon mark and key actions, a near-white carries text, and four deep indigo neutrals build the dark surfaces.</p>
+    <p class="exp-note">A brand purple and a lighter accent carry the moon mark and key actions. Near-white and grey carry text. Five deep indigo layers, one step apart, build the dark surfaces, and red is kept for danger only.</p>
     <div class="exp-brand">
       <figure class="exp-asset exp-icon"><span class="exp-ph">App icon</span><code>images/wisewoman-app-icon.svg</code><img src="images/wisewoman-app-icon.svg" alt="WiseWoman app icon, a crescent moon on a dark tile" style="object-fit:contain;" onerror="this.remove()"></figure>
       <div class="exp-swatches">
-        <div class="exp-sw"><i style="background:#8B5CF6;"></i><span>#8B5CF6</span></div>
-        <div class="exp-sw"><i style="background:#B08CF5;"></i><span>#B08CF5</span></div>
-        <div class="exp-sw on-light"><i style="background:#F2F2F2;"></i><span>#F2F2F2</span></div>
-        <div class="exp-sw"><i style="background:#1A1832;"></i><span>#1A1832</span></div>
-        <div class="exp-sw"><i style="background:#181630;"></i><span>#181630</span></div>
-        <div class="exp-sw"><i style="background:#252538;"></i><span>#252538</span></div>
-        <div class="exp-sw"><i style="background:#29293D;"></i><span>#29293D</span></div>
+        <div class="exp-sw"><i style="background:#895AF6;"></i><span>#895AF6</span><small>Primary</small></div>
+        <div class="exp-sw"><i style="background:#AB8CF2;"></i><span>#AB8CF2</span><small>Accent</small></div>
+        <div class="exp-sw on-light"><i style="background:#F2F2F2;"></i><span>#F2F2F2</span><small>Foreground</small></div>
+        <div class="exp-sw"><i style="background:#999999;"></i><span>#999999</span><small>Muted text</small></div>
+        <div class="exp-sw"><i style="background:#E05252;"></i><span>#E05252</span><small>Destructive</small></div>
+        <div class="exp-sw"><i style="background:#1A1A2D;"></i><span>#1A1A2D</span><small>Background</small></div>
+        <div class="exp-sw"><i style="background:#18182A;"></i><span>#18182A</span><small>Card</small></div>
+        <div class="exp-sw"><i style="background:#252537;"></i><span>#252537</span><small>Muted</small></div>
+        <div class="exp-sw"><i style="background:#29293D;"></i><span>#29293D</span><small>Secondary</small></div>
+        <div class="exp-sw"><i style="background:#342D43;"></i><span>#342D43</span><small>Border</small></div>
       </div>
     </div>
   </div>
@@ -1350,7 +1367,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   <div class="exp-feature">
     <div class="exp-feature-txt">
       <h3>Habit Reflection &amp; Tracking</h3>
-      <p>The habit section translates completed tasks and synced events into visible behavioural patterns. Instead of manually logging habits, the system derives insight from actual daily activity across roles.<br>It surfaces where time is spent, how workload is distributed, and what routines are forming over days and weeks. The goal is awareness, not streak pressure: helping users understand their lived patterns rather than optimise obsessively.</p>
+      <p>The habit section translates completed tasks and synced events into visible behavioural patterns. Instead of manually logging habits, the system derives insight from actual daily activity across roles.<br>It surfaces where time is spent, how workload is distributed, and what routines are forming over days and weeks. The goal is awareness, not pressure: streaks celebrate progress but never punish a missed day, helping users understand their lived patterns rather than optimise obsessively.</p>
     </div>
     <div class="exp-feature-card">
       <figure class="exp-asset exp-feature-shot"><span class="exp-ph">Your Activities</span><code>images/wisewoman-habit-reflection.webp</code><img src="images/wisewoman-habit-reflection.webp" alt="WiseWoman Your Activities dashboard, weekly time split across roles with self-care actions" style="object-fit:contain;" onerror="this.remove()"></figure>
@@ -1391,7 +1408,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
   <div class="state">
     <b>Current state</b>
-    <p>Live MVP with real users. Vibe-coded on Lovable with Google OAuth and Supabase. Functional end to end: capture, categorisation, energy guidance, and scheduling.</p>
+    <p>In testing and still in development. Vibe-coded with Vite on Lovable Cloud, with Google OAuth. Functional end to end: capture, categorisation, energy guidance, and scheduling.</p>
   </div>
   <div class="future">
     <b>Future scope</b>
