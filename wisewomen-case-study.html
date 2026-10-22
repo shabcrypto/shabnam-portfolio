@@ -311,6 +311,36 @@ body{
 .mkt-text p{font-size:var(--step-0);font-weight:300;line-height:1.8;color:var(--w2);margin-bottom:20px;}
 .mkt-text p b{color:var(--w1);font-weight:600;}
 .mkt-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.funnel{margin-top:56px;}
+.mo-pos{margin-top:28px;max-width:760px;font-size:var(--step-0);line-height:1.75;color:var(--w2);}
+.mo-pos b{color:var(--w1);}
+.mo-support{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);max-width:1040px;margin:64px auto 0;padding-top:32px;border-top:1px solid var(--line);}
+.mo-k{font-size:var(--step--1);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w1);margin-bottom:10px;}
+.mo-support p:not(.mo-k){font-size:var(--step--1);line-height:1.7;color:var(--w2);}
+.mo-foot{max-width:1040px;margin:32px auto 0;font-size:0.78rem;line-height:1.6;color:var(--w3);font-style:italic;}
+@media (max-width:860px){.mo-support{grid-template-columns:1fr;}}
+
+.funnel-k{font-size:var(--step--1);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w2);margin-bottom:20px;}
+.funnel-viz{display:block;width:100%;max-width:400px;height:auto;margin:0 auto;}
+.funnel-viz .f-tam{fill:rgba(139,92,246,0.10);stroke:rgba(139,92,246,0.45);stroke-width:1.5;}
+.funnel-viz .f-sam{fill:rgba(139,92,246,0.22);stroke:rgba(139,92,246,0.6);stroke-width:1.5;}
+.funnel-viz .f-som{fill:#8B5CF6;}
+.funnel-viz text{text-anchor:middle;fill:var(--w1);}
+.funnel-viz .f-l{font-family:"Manrope",sans-serif;font-size:13px;font-weight:700;letter-spacing:.16em;}
+.funnel-viz .f-v{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:30px;letter-spacing:.02em;}
+.funnel-viz .f-v.sm{font-size:22px;}
+.funnel-viz .d1s{font-family:"Manrope",sans-serif;font-weight:800;font-size:0.86em;}
+.funnel-viz .on{fill:#FFFFFF;}
+.funnel-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:center;max-width:1040px;margin:0 auto;}
+.funnel-k{text-align:center;}
+.funnel-list{margin:0;}
+.funnel-list > div:first-child{border-top:none;}
+@media (max-width:860px){.funnel-row{grid-template-columns:1fr;}.funnel-list{margin-top:12px;}.funnel-list > div:first-child{border-top:1px solid var(--line);}}
+.funnel-list > div{padding:18px 0;border-top:1px solid var(--line);}
+.funnel-list dt{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:var(--step-1);letter-spacing:.02em;color:var(--w1);}
+.funnel-list dt span{display:inline-block;min-width:3.4em;color:var(--v2);}
+.funnel-list dd{margin:6px 0 0;font-size:var(--step--1);line-height:1.6;color:var(--w2);}
+.funnel-list dd .cite{margin-top:2px;}
 .mkt-cell{padding:30px;border-top:1px solid var(--line);border-left:1px solid var(--line);}
 .mkt-cell:nth-child(odd){border-left:none;}
 .mkt-cell:nth-child(1),.mkt-cell:nth-child(2){border-top:none;}
@@ -318,9 +348,10 @@ body{
 .mkt-cell .n.v{color:var(--v2);}
 .mkt-cell .l{margin-top:10px;font-size:var(--step--1);font-weight:500;color:var(--w3);line-height:1.5;}
 
-.comp{margin-top:96px;}
+.comp{margin-top:96px;max-width:1040px;margin-left:auto;margin-right:auto;}
+.comp .mo-k{margin-bottom:24px;}
 .comp-row{display:grid;grid-template-columns:200px 1fr 1fr;gap:32px;padding:26px 0;border-top:1px solid var(--line-2);align-items:baseline;}
-.comp-row:last-child{border-top:1px solid var(--v1);border-bottom:1px solid var(--v1);}
+.comp-row:last-child{border-bottom:none;}
 .comp-row .who{font-family:"Manrope", sans-serif;font-size:var(--step-0);font-weight:700;color:var(--w1);}
 .comp-row.us .who{color:var(--v2);}
 .comp-row .does{font-size:var(--step--1);font-weight:400;color:var(--w2);}
@@ -1187,30 +1218,48 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
 <!-- 04 MARKET -->
 <section class="sec">
-  <div class="sec-num">04 &middot; Market Signal &amp; Competitive Landscape</div>
-  <h2 class="sec-head">Two markets that never met.</h2>
+  <div class="sec-num">04 &middot; Market</div>
+  <h2 class="sec-head">Market Opportunity</h2>
+  <p class="mo-pos"><b>Positioning:</b> We position this product as a femtech app that helps women plan: a planner that adapts to fluctuating energy, cycle phases and the household mental load. It is not a generic productivity tool with cycle features added on. This places us in the femtech market, and all sizing below uses femtech figures.</p>
 
-  <div class="mkt">
-    <div class="mkt-text">
-      <p>FemTech <b>tracks the body</b>. Productivity tools <b>schedule the day</b>. No category leader connects the two.</p>
-      <p>Cycle apps know energy shifts but do nothing with it. Planners structure the day but stay blind to the person using them. WiseWoman sits in the gap between them.</p>
-    </div>
-    <div class="mkt-right">
-    <div class="mkt-stats">
-      <div class="mkt-cell"><div class="n v">~$60B</div><div class="l">FemTech market, 2024</div><div class="cite"><span class="cite-n">1</span><a href="https://www.gminsights.com/industry-analysis/femtech-market" target="_blank" rel="noopener">Global Market Insights, FemTech Market Size report (2024 estimate)</a></div></div>
-      <div class="mkt-cell"><div class="n">~$<i class="d1">1</i>2B</div><div class="l">Productivity apps, 2025, $18B by 2030</div><div class="cite"><span class="cite-n">2</span><a href="https://www.mordorintelligence.com/industry-reports/productivity-apps-market" target="_blank" rel="noopener">Mordor Intelligence, Productivity Apps Market (2025 to 2030)</a></div></div>
-      <div class="mkt-cell"><div class="n">$<i class="d1">1</i>.2B</div><div class="l">FemTech VC, 2024</div><div class="cite"><span class="cite-n">3</span><a href="https://files.pitchbook.com/website/files/pdf/2025_Femtech_VC_Market_Snapshot_Preview.pdf" target="_blank" rel="noopener">PitchBook, 2025 Femtech VC Market Snapshot</a></div></div>
-      <div class="mkt-cell"><div class="n">~$300M</div><div class="l">Serviceable opportunity</div><div class="cite">Own estimate</div></div>
-    </div>
+  <div class="funnel">
+    <div class="funnel-row">
+      <svg class="funnel-viz" viewBox="0 0 400 400" role="img" aria-label="Market funnel: TAM femtech $45.6B contains SAM menstrual health apps $2.0B, which contains SOM $10 to 20M ARR">
+        <circle class="f-tam" cx="200" cy="200" r="190"/>
+        <circle class="f-sam" cx="200" cy="268" r="122"/>
+        <circle class="f-som" cx="200" cy="334" r="56"/>
+        <text class="f-l" x="200" y="52">TAM</text><text class="f-v" x="200" y="88">$45.6B</text>
+        <text class="f-l" x="200" y="186">SAM</text><text class="f-v" x="200" y="222">$2.0B</text>
+        <text class="f-l on" x="200" y="326">SOM</text><text class="f-v on sm" x="200" y="352">$<tspan class="d1s">1</tspan>0–20M</text>
+      </svg>
+      <dl class="funnel-list">
+        <div><dt><span>TAM</span>Femtech, $45.6B (2025)</dt><dd>The global femtech market is projected to reach $<i class="d1">1</i>45.5B by 2033 (15.5% CAGR), and menstrual health is its fastest-growing application at 16.3% CAGR.</dd><dd><div class="cite"><span class="cite-n">1</span><a href="https://www.grandviewresearch.com/industry-analysis/femtech-market-report" target="_blank" rel="noopener">Grand View Research, Femtech Market Report</a></div></dd></div>
+        <div><dt><span>SAM</span>Menstrual health apps, $2.0B (2025)</dt><dd>This segment covers period cycle tracking, fertility and ovulation, and menstrual and hormonal health management. It is projected to reach $7.7B by 2033 (18% CAGR).</dd><dd><div class="cite"><span class="cite-n">2</span><a href="https://www.researchandmarkets.com/reports/6246106/menstrual-health-apps-market-size-share-and" target="_blank" rel="noopener">Grand View Research, Menstrual Health Apps Market, via Research and Markets</a></div></dd><dd>An independent firm confirms the segment’s scale: Global Market Insights sizes it at $1.4B (2023), growing at 18.3% CAGR to $6.3B by 2032.</dd><dd><div class="cite"><span class="cite-n">3</span><a href="https://www.gminsights.com/industry-analysis/menstrual-health-apps-market" target="_blank" rel="noopener">Global Market Insights, Menstrual Health Apps Market</a></div></dd></div>
+        <div><dt><span>SOM</span>$<i class="d1">1</i>0–20M ARR within 3–5 years</dt></div>
+      </dl>
     </div>
   </div>
 
+  <div class="mo-support">
+    <div>
+      <p class="mo-k">Calculation</p>
+      <p>0.5–1% of the $2.0B SAM = $10–20M in annual recurring revenue. At an assumed price of ~$40/year (benchmarked just below Todoist Pro at $48/year), that equals 250,000–500,000 paying subscribers.</p>
+      <div class="cite"><span class="cite-n">4</span><a href="https://www.capterra.com/p/149339/Todoist-for-Business/pricing/" target="_blank" rel="noopener">Todoist Pro pricing, Capterra</a></div>
+    </div>
+    <div>
+      <p class="mo-k">Sanity check (conservative)</p>
+      <p>Flo, the category leader, reports nearly 70 million monthly active users and close to 5 million paid subscribers (June 2024). Our target of 250K–500K paying users equals just 5–10% of Flo’s paying base and under 1% of its monthly users. The estimate is also conservative because it uses the 2025 SAM, even though the segment grows ~18% a year.</p>
+      <div class="cite"><span class="cite-n">5</span><a href="https://flo.health/newsroom/flo-health-raises-over-200m" target="_blank" rel="noopener">Flo Health newsroom</a></div>
+    </div>
+  </div>
+  <p class="mo-foot">TAM and SAM use a single publisher (Grand View Research) for consistent definitions; figures vary across research firms. SOM, price and capture rate are our own estimates.</p>
+
   <div class="comp">
+    <h3 class="mo-k">Competitor analysis</h3>
     <div class="comp-head"><span>Player</span><span>What it does</span><span>What it misses</span></div>
     <div class="comp-row"><div class="who">Flo · Clue</div><div class="does">Tracks the cycle with depth and accuracy.</div><div class="gap-c">No planning layer. Insight never becomes action.</div></div>
     <div class="comp-row"><div class="who">Phase · Essence</div><div class="does">Cycle-aware lifestyle and wellness guidance.</div><div class="gap-c">No task or scheduling system.</div></div>
     <div class="comp-row"><div class="who">Todoist · Notion</div><div class="does">Powerful, flexible planning and task management.</div><div class="gap-c">No body awareness. Treats every day the same.</div></div>
-    <div class="comp-row us"><div class="who">WiseWoman</div><div class="does">Maps tasks to roles, reads cycle energy, builds one plan.</div><div class="gap-c">Connects both. Body and day in one system.</div></div>
   </div>
 </section>
 
