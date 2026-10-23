@@ -12,7 +12,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Shabnam Raghavan" />
 <meta property="og:title" content="Shabnam Raghavan · Product Designer" />
-<meta property="og:description" content="3+ years in high-stakes B2B SaaS. 3 core products shipped end to end, 1 million monthly users impacted." />
+<meta property="og:description" content="I design complex B2B workflows around how people actually work, so teams move faster and need less support." />
 <meta property="og:url" content="https://www.shabnamraghavan.com/" />
 <meta property="og:image" content="https://www.shabnamraghavan.com/images/og-share-v5.jpg" />
 <meta property="og:image:width" content="1200" />
@@ -20,9 +20,9 @@
 <meta property="og:image:alt" content="Shabnam Raghavan, Product Designer" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Shabnam Raghavan · Product Designer" />
-<meta name="twitter:description" content="3+ years in high-stakes B2B SaaS. 3 core products shipped end to end, 1 million monthly users impacted." />
+<meta name="twitter:description" content="I design complex B2B workflows around how people actually work, so teams move faster and need less support." />
 <meta name="twitter:image" content="https://www.shabnamraghavan.com/images/og-share-v5.jpg" />
-<meta name="description" content="3+ years in high-stakes B2B SaaS. 3 core products shipped end to end, 1 million monthly users impacted." />
+<meta name="description" content="I design complex B2B workflows around how people actually work, so teams move faster and need less support." />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
@@ -59,6 +59,7 @@
      ever invalid the browser drops the whole declaration and the card goes see-through. */
   :root { --paper-tex: url("images/paper-sheet.webp"); }
   @media (max-width: 900px) { :root { --paper-tex: url("images/paper-sheet-sm.webp"); } }
+  section[hidden] { display: none !important; }
   .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   :root {
     /* ---- the board ---- */
@@ -486,6 +487,9 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     animation: heroGrain 4s ease-in-out infinite;
   }
+  /* the bottom of the hero melts into the metrics strip's Deep Asphalt, so the two read as one */
+  .hero-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 28%; z-index: 1; pointer-events: none;
+               background: linear-gradient(to bottom, rgba(14, 12, 10, 0), rgba(14, 12, 10, 0.75) 60%, #0E0C0A); }
   @keyframes heroGrain { 0%, 100% { opacity: 0.10; } 50% { opacity: 0.18; } }
 
   /* the chevron: a bone disc with a red chevron, breathing */
@@ -526,18 +530,27 @@
   .hero-red .h2 { right: -35vmax; top: -20vmax; background: radial-gradient(closest-side, rgba(192, 45, 12, 0.2), transparent); animation-duration: 2000ms, 23s; }
   @keyframes redIn { to { opacity: 1; } }
   @keyframes hazeDrift { from { transform: translate(0, 0) scale(1); } to { transform: translate(8vmax, -5vmax) scale(1.12); } }
-  .hero-layers { z-index: 1; }
+  .hero-layers { z-index: 2; }   /* above the bottom fade, so the name and line are never dimmed */
   /* texture that only shows inside the glow, and travels with it */
   .hero-red .tex { position: absolute; inset: 0; width: 100%; height: 100%; display: none; opacity: 0;
                    -webkit-mask-image: radial-gradient(circle at var(--gx, 50%) var(--gy, 40%), #000 0, rgba(0,0,0,0.55) 12vmax, transparent 26vmax);
                            mask-image: radial-gradient(circle at var(--gx, 50%) var(--gy, 40%), #000 0, rgba(0,0,0,0.55) 12vmax, transparent 26vmax);
                    animation: redIn 2000ms ease calc(var(--intro-offset) + 1400ms) forwards; }
-  .hero-red .tex-twigs { opacity: 0 !important; transition: opacity 2400ms ease; }
-  .hero-red .tex-twigs.ready { opacity: 1 !important; }
+  .hero-red .tex-twigs { animation: none; opacity: 0; }
   .hero-red .tex-dots { background-image: radial-gradient(rgba(240, 230, 210, 0.32) 1.1px, transparent 1.7px); background-size: 13px 13px; }
   .tex-on-dots .tex-dots, .tex-on-twigs .tex-twigs { display: block; }
   @media (prefers-reduced-motion: reduce) { .hero-red .haze { animation: redIn 1ms forwards; } }
 
+
+  /* HERO (2026-10-23): a smaller name, and one line on what I do for a business */
+  .giant.giant-sm { font-size: clamp(2.6rem, 8.2vw, 8rem); }
+  .hero-line { margin: clamp(18px, 2.6vh, 30px) auto 0; max-width: 34ch; padding: 0 20px; text-align: center;
+               font-family: var(--font-body); font-weight: 500; font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.55rem); line-height: 1.45;
+               color: var(--bone); opacity: 0.92; }
+  .hero-line b { font-weight: 700; color: #F2D987; }
+  @keyframes lineIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 0.92; transform: none; } }
+  .hero-title { justify-content: center; padding-top: 0; }
+  .js .hero-role { animation: none; opacity: 0.82; }
   /* the parallax scrub triggers on this block's approach */
   .after-hero { position: relative; }
 
@@ -591,6 +604,13 @@
     transform: rotate(-3deg);
   }
   .file-body { padding-top: clamp(18px, 2vw, 28px); }
+  /* outcome tags (2026-10-23): one quiet filled pill per card, same fill for the same outcome */
+  .file-tag { display: inline-block; margin-left: 10px; padding: 2px 9px; border-radius: 999px; vertical-align: 0.15em;
+              font-family: var(--font-body); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.01em; text-transform: none; color: #302F2C; }
+  .tag-fast    { background: rgba(192, 45, 12, 0.14); }
+  .tag-support { background: rgba(205, 156, 52, 0.28); }
+  .tag-adopt   { background: rgba(48, 47, 44, 0.12); }
+  .tag-side    { background: rgba(240, 230, 210, 0.75); }
   .file-no { font-family: var(--font-display); font-size: clamp(1.1rem, 1.4vw, 1.4rem); letter-spacing: 0.06em; color: #302F2C; }
   .file h3 {
     margin: 6px 0 0;
@@ -615,7 +635,7 @@
   .file-org { margin: 12px 0 0; font-size: 0.92rem; letter-spacing: 0.02em; color: #302F2C; }
   .file-metrics { margin: 4px 0 0; font-size: 0.97rem; font-weight: 600; line-height: 1.5; color: #0E0C0A; font-variant-numeric: lining-nums tabular-nums; }
   .file-go {
-    position: relative; display: inline-block; margin-top: var(--s-3); padding-bottom: 8px;
+    position: relative; display: table; margin-left: auto; margin-right: auto; margin-top: var(--s-3); padding-bottom: 8px;
     font-family: var(--font-display); font-size: 1.02rem; letter-spacing: 0.08em; color: #0E0C0A;
   }
   /* the loom's weft thread, drawn in under the words on hover, as in the top nav */
@@ -626,7 +646,7 @@
     transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .file-soon {
-    display: inline-block; margin-top: var(--s-3); padding: 6px 12px; border-radius: 999px;
+    display: table; margin: var(--s-3) auto 0; padding: 6px 12px; border-radius: 999px;
     background: #CD9C34; color: #0E0C0A;
     font: 700 0.78rem/1 var(--font-body); letter-spacing: 0.1em; text-transform: uppercase;
   }
@@ -1048,7 +1068,7 @@
   .stat {
     position: relative; isolation: isolate; overflow: hidden; outline: none;
     padding: clamp(34px, 4.4vw, 64px) var(--gut);
-    display: flex; flex-direction: column; justify-content: flex-end; gap: 10px;
+    display: flex; flex-direction: column; justify-content: center; gap: 10px;
     min-height: clamp(180px, 20vw, 280px);
     cursor: default;
     transition: opacity 420ms ease;
@@ -1066,7 +1086,7 @@
   .stat-fig { display: inline-block; }
   .stat-fig .dc { display: inline-block; text-align: center; }
   .stat-fig .dc[data-s="scr"] { opacity: 0.55; }
-  .stat dd { margin: 0; font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem); color: var(--bone); opacity: 0.8; transition: opacity 320ms ease, transform 420ms var(--paint); }
+  .stat dd { min-height: 2.9em; margin: 0; font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem); color: var(--bone); opacity: 0.8; transition: opacity 320ms ease, transform 420ms var(--paint); }
   /* the fill, the dimming and the lift are for a mouse only: on a phone a tap left the
      "hover" stuck on, so the band is simply still there */
   @media (hover: hover) and (pointer: fine) {
@@ -1089,7 +1109,7 @@
      as JSON. Then the footer: page links, social links, built by. Staatliches
      for headings and links, Manrope for text, palette colours only.
      --------------------------------------------------------------------- */
-  .sheet section.contact-sec { background: #C02D0C; color: var(--bone); padding: clamp(80px, 9vw, 140px) 0; }
+  .sheet section.contact-sec { background: #0E0C0A; color: var(--bone); padding: clamp(80px, 9vw, 140px) 0; }
   .sheet section.contact-sec::before { display: none; }
   .sheet section.contact-sec h2.contact-call { color: var(--bone); font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1.02; max-width: 17ch; }
   .contact-talk { display: block; margin-top: 0.55em; }
@@ -1502,18 +1522,18 @@
   /* the brain, knitting itself, pinned above the first line */
   .brain {
     position: absolute; z-index: 3;
-    /* on the left, centred under the paper clip, sitting just above the headline */
-    left: calc(26% + 17px); translate: -50% 0;
-    top: 109px;
-    width: clamp(83px, 8.55vw, 119px); height: auto;
+    /* small, in the paper's top-left corner, clear of the headline */
+    left: 5%; translate: none;
+    top: 22px;
+    width: clamp(62px, 5.6vw, 82px); height: auto;
     transform: rotate(-7deg);
     pointer-events: none;
   }
   /* an old computer on the right edge of the stack, with a line on its screen */
   .computer {
     position: absolute; z-index: 4;
-    right: -56px; top: 798px;   /* on the right edge, mostly over the paper, just under the caption */
-    width: clamp(172px, 16vw, 206px);
+    right: -86px; top: auto; bottom: -58px;   /* on the paper's bottom-right corner, tied to the corner so it never drops off the sheet */
+    width: clamp(132px, 10vw, 152px);
     container-type: inline-size;
   }
   .computer img { display: block; width: 100%; height: auto; }
@@ -1560,23 +1580,26 @@
        row 3:  . 3 . 4 .
        row 4:  . . 5 . .
        row 5:  . . . . .                                                         */
-  .shelf li:nth-child(1) { grid-area: 2 / 1; }
-  .shelf li:nth-child(2) { grid-area: 2 / 3; }
-  .shelf li:nth-child(3) { grid-area: 3 / 2; }
-  .shelf li:nth-child(4) { grid-area: 3 / 4; }
-  .shelf li:nth-child(5) { grid-area: 4 / 3; }
+  /* a calm five, like a die: centred in columns 2 to 4, a full cell clear of the paper and the page edge */
+  .shelf li:nth-child(1) { grid-area: 2 / 2; }
+  .shelf li:nth-child(2) { grid-area: 2 / 4; }
+  .shelf li:nth-child(3) { grid-area: 3 / 3; }
+  .shelf li:nth-child(4) { grid-area: 4 / 2; }
+  .shelf li:nth-child(5) { grid-area: 4 / 4; }
   .book {
     width: 100%; height: 100%;
     display: flex; align-items: flex-end;
     padding: 0; overflow: hidden;
-    background: #ECEAE4;
+    background: var(--bg, #ECEAE4);
     font-family: var(--font-display); font-size: clamp(0.8rem, 1vw, 0.95rem);
     letter-spacing: 0.06em; line-height: 1.1; color: var(--ink);
-    filter: grayscale(0.85) brightness(0.55);
-    transition: filter 320ms ease;
+    box-shadow: 0 8px 18px rgba(40, 8, 0, 0.22);
+    transition: transform 320ms var(--paint), box-shadow 320ms ease;
   }
-  .book img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
-  .shelf li:hover .book { filter: none; }
+  /* every cover shown whole, on its own edge colour, in full colour */
+  .book img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: 50% 50%; }
+  .book.book-fill img { object-fit: cover; }   /* this scan has grey strips down its own sides */
+  .shelf li:hover .book { transform: translateY(-6px); box-shadow: 0 18px 30px rgba(40, 8, 0, 0.32); }
   /* books 3 and 5 are zoomed out to show the whole cover; the space around them is the
      cover's own flat yellow, so the cell still reads as one cover */
   .book.book-yellow { background: var(--bg); }
@@ -2081,7 +2104,11 @@
 
   function skip() {
     document.documentElement.style.setProperty("--intro-offset", "0ms");
-    if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+    if (intro && intro.parentNode) {
+      intro.parentNode.removeChild(intro);
+      // tell the hero, so the name arrives now instead of waiting out the curtain's timer
+      try { document.dispatchEvent(new Event("intro:skip")); } catch (e) {}
+    }
   }
 
   // Chrome prerenders URLs it expects you to visit, such as a bare domain you type often. That
@@ -2119,6 +2146,7 @@
 
     if (!intro) return;
     intro.addEventListener("click", skip);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") skip(); });
 
     var num = document.getElementById("intro-num");
     var rule = document.getElementById("intro-rule");
@@ -2289,12 +2317,14 @@
   <div class="hero-layers" data-parallax-layers>
     <div class="hero-layer hero-title" data-parallax-layer="2">
       <p class="hero-role"><span class="sr-only">Product Designer, Product Builder, Product Thinker</span><span class="hr-text" aria-hidden="true">Product Designer</span></p>
-      <h1 class="giant" aria-label="Shabnam Raghavan"><span class="g1" aria-hidden="true"><span class="l">S</span><span class="l">h</span><span class="l">a</span><span class="l">b</span><span class="l">n</span><span class="l">a</span><span class="l">m</span></span><span class="g2" aria-hidden="true"><span class="l">R</span><span class="l">a</span><span class="l">g</span><span class="l">h</span><span class="l">a</span><span class="l">v</span><span class="l">a</span><span class="l">n</span></span></h1>
+      <h1 class="giant giant-sm" aria-label="Shabnam Raghavan"><span class="g1" aria-hidden="true"><span class="l">S</span><span class="l">h</span><span class="l">a</span><span class="l">b</span><span class="l">n</span><span class="l">a</span><span class="l">m</span></span><span class="g2" aria-hidden="true"><span class="l">R</span><span class="l">a</span><span class="l">g</span><span class="l">h</span><span class="l">a</span><span class="l">v</span><span class="l">a</span><span class="l">n</span></span></h1>
+      <p class="hero-line" id="hero-line">I design complex B2B workflows around how people actually work, so teams move faster and need less support.</p>
     </div>
   </div>
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-red" aria-hidden="true"><i class="haze h1"></i><i class="haze h2"></i><i class="spot"></i><div class="tex tex-dots"></div><canvas class="tex tex-twigs"></canvas></div>
   <div class="hero-grain" aria-hidden="true"></div>
+  <div class="hero-fade" aria-hidden="true"></div>
   <a class="scroll-cue" href="#intro" aria-label="Scroll to the introduction">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
       <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2305,9 +2335,9 @@
 <!-- the metrics, between the hero and the intro -->
 <div class="after-hero hero-metrics">
   <dl class="stats">
-    <div class="stat" tabindex="0"><dt><span class="stat-fig">3+</span> Years</dt><dd>in high-stakes UX</dd></div>
-    <div class="stat" tabindex="0"><dt><span class="stat-fig">3</span> Core</dt><dd>products shipped end to end</dd></div>
-    <div class="stat" tabindex="0"><dt><span class="stat-fig">1</span> Million</dt><dd>monthly users impacted</dd></div>
+    <div class="stat" tabindex="0"><dt><span class="stat-fig">51%</span> Faster</dt><dd>claim submission</dd></div>
+    <div class="stat" tabindex="0"><dt><span class="stat-fig">87%</span> Fewer</dt><dd>support tickets</dd></div>
+    <div class="stat" tabindex="0"><dt><span class="stat-fig">1</span> Million</dt><dd>monthly active users across hospital products</dd></div>
   </dl>
 </div>
 
@@ -2362,11 +2392,11 @@
   </div>
   <div class="shelf-wrap">
   <ul class="shelf" id="shelf" aria-label="Books that shaped how I design">
-    <li><div class="book"><img src="images/book-people-watching.webp" alt="People Watching by Desmond Morris" loading="lazy" decoding="async" /></div></li>
+    <li><div class="book" style="--bg:#F8F8F8"><img src="images/book-people-watching.webp" alt="People Watching by Desmond Morris" loading="lazy" decoding="async" /></div></li>
     <li><div class="book book-yellow" style="--bg:#FFF129"><img src="images/book-hooked.webp" alt="Hooked by Nir Eyal" loading="lazy" decoding="async" /></div></li>
     <li><div class="book book-yellow" style="--bg:#F8C900"><img src="images/book-design-of-everyday-things.webp" alt="The Design of Everyday Things by Don Norman" loading="lazy" decoding="async" /></div></li>
-    <li><div class="book"><img src="images/book-games-people-play.webp" alt="Games People Play by Eric Berne" loading="lazy" decoding="async" /></div></li>
-    <li><div class="book"><img src="images/book-naked-ape.webp" alt="The Naked Ape by Desmond Morris" loading="lazy" decoding="async" /></div></li>
+    <li><div class="book book-fill" style="--bg:#808070"><img src="images/book-games-people-play.webp" alt="Games People Play by Eric Berne" loading="lazy" decoding="async" /></div></li>
+    <li><div class="book" style="--bg:#F8F8F8"><img src="images/book-naked-ape.webp" alt="The Naked Ape by Desmond Morris" loading="lazy" decoding="async" /></div></li>
   </ul>
   <div class="row-nav" data-row="shelf">
     <button type="button" data-dir="-1" aria-label="Previous book"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -2391,14 +2421,13 @@
   <div class="wrap">
     <h2 id="work-h" class="pass">Selected Works</h2>
     <div class="file-desk">
-      <a class="file" href="ihx-user-management-case-study.html">
+      <a class="file" href="ihx_tpa_ops_.html">
         <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-user-mgmt-cover.mp4" poster="images/ihx-user-mgmt-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX user management case study screen"></video></div>
+          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Ops dashboard claims listing screen"></video></div>
           <div class="file-body">
-            <span class="file-no">01</span>
-            <h3><span class="sel">87% of Support Tickets Were for a Feature Users Never Found</span></h3>
-            <p class="file-org">IHX · In-product user management</p>
-            <p class="file-metrics">87% reduction in support tickets · 30 min to 5 min self-serve</p>
+            <span class="file-no">01</span> <span class="file-tag tag-fast">Making workflows faster</span>
+            <h3><span class="sel">51% faster claim submission for 900+ hospitals</span></h3>
+            <p class="file-org">IHX · Nucleus Ops dashboard</p>
             <span class="file-go">Read case study</span>
           </div>
         </div>
@@ -2408,23 +2437,21 @@
         <div class="file-sheet">
           <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" muted loop playsinline preload="none" aria-label="AI at the point of friction case study screen"></video></div>
           <div class="file-body">
-            <span class="file-no">02</span>
-            <h3><span class="sel">AI Agents at Points of Human Friction</span></h3>
+            <span class="file-no">02</span> <span class="file-tag tag-fast">Making workflows faster</span>
+            <h3><span class="sel">Pre-auth submission cut from 5 to 2 minutes</span></h3>
             <p class="file-org">IHX · Agentic workflow design</p>
-            <p class="file-metrics">Claim submission 5 min to 2 min · 7 AI agentic product lines</p>
             <span class="file-go">Read case study</span>
           </div>
         </div>
       </a>
 
-      <a class="file" href="ihx_tpa_ops_.html">
+      <a class="file" href="ihx-user-management-case-study.html">
         <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Ops dashboard claims listing screen"></video></div>
+          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-user-mgmt-cover.mp4" poster="images/ihx-user-mgmt-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX user management case study screen"></video></div>
           <div class="file-body">
-            <span class="file-no">03</span>
-            <h3><span class="sel">A Four-Bucket Layout Was Hiding a Two-Team Operation</span></h3>
-            <p class="file-org">IHX · Nucleus Ops dashboard</p>
-            <p class="file-metrics">51% reduction in time to claim submission · 33% increase in revenue per claim on one enterprise contract · 900+ contracted hospitals live</p>
+            <span class="file-no">03</span> <span class="file-tag tag-support">Reducing support load</span>
+            <h3><span class="sel">87% fewer support tickets</span></h3>
+            <p class="file-org">IHX · In-product user management</p>
             <span class="file-go">Read case study</span>
           </div>
         </div>
@@ -2434,10 +2461,9 @@
         <div class="file-sheet">
           <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-nucleus-mobile-cover-v2.mp4" poster="images/ihx-nucleus-mobile-cover-v2-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Mobile app screen"></video></div>
           <div class="file-body">
-            <span class="file-no">04</span>
-            <h3><span class="sel">A Hospital App, Shipped in Three Weeks</span></h3>
+            <span class="file-no">04</span> <span class="file-tag tag-adopt">Driving adoption</span>
+            <h3><span class="sel">9,500+ daily users, shipped in three weeks</span></h3>
             <p class="file-org">IHX · Hospital-facing mobile app</p>
-            <p class="file-metrics">9,500+ daily active users · 33% more client acquisition</p>
             <span class="file-go">Read case study</span>
           </div>
         </div>
@@ -2447,10 +2473,9 @@
         <div class="file-sheet">
           <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="wisewoman-cover.mp4" poster="images/wisewoman-cover-poster.webp" muted loop playsinline preload="none" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
           <div class="file-body">
-            <span class="file-no">05</span>
+            <span class="file-no">05</span> <span class="file-tag tag-side">Side project</span>
             <h3><span class="sel">Idea to Shipped in Five Days</span></h3>
             <p class="file-org">WiseWoman · Cycle-aware planner</p>
-            <p class="file-metrics">5 days to ship · AI harness eval</p>
             <span class="file-go">Read case study</span>
           </div>
         </div>
@@ -2463,7 +2488,6 @@
             <span class="file-no">06</span>
             <h3><span class="sel">A Secure Way for Patients to Share Health Records</span></h3>
             <p class="file-org">IHX OneHealth · B2C patient health record</p>
-            <p class="file-metrics">Share documents with any provider, safely</p>
             <span class="file-soon">Case study in progress</span>
           </div>
         </div>
@@ -2472,7 +2496,7 @@
   </div>
 </section>
 
-<section id="approach" class="ways" aria-label="How I look at design and how I design">
+<section id="approach" class="ways" aria-label="How I look at design and how I design" hidden>
   <div class="wrap">
     <div class="ways-row">
     <div class="ways-halo">
@@ -2964,7 +2988,7 @@
 </section>
 
 <!-- ============ THE LEDGER ============ -->
-<section id="history" class="hist-sec" aria-labelledby="history-h">
+<section id="history" class="hist-sec" aria-labelledby="history-h" hidden>
   <div class="wrap">
     <h2 id="history-h" class="pass">Work history</h2>
     <ol class="hist">
@@ -3776,37 +3800,49 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
   var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var L = [].slice.call(name.querySelectorAll(".l")), spot = hero.querySelector(".spot");
-  // ENTRANCE: ?intro=focuspaint (default) | focus | flicker | paint
-  var intro = new URLSearchParams(location.search).get("intro") || "focuspaint";
-  var base = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--intro-offset")) || 0) + 300;
-  var depthK = still ? 1 : 0, depthFrom = 0, depthAt = 0, depthDur = 2400;
-  var mid = (L.length - 1) / 2;
-  L.forEach(function (l, i) {
-    if (still) return;
-    var d = Math.abs(i - (i < 7 ? 3 : 10.5));   // distance from the middle of its own word
-    if (intro === "focus" || intro === "focuspaint") {
-      // a projector pulling into focus: blurred, oversized and faint, settling sharp from the centre of each word outward
-      l.animate([{ opacity: 0, filter: "blur(18px)", transform: "scale(1.35)" }, { opacity: 0.6, filter: "blur(6px)", offset: 0.5 }, { opacity: 1, filter: "blur(0)", transform: "none" }],
-        { duration: 2800, delay: base + d * 150 + (i > 6 ? 300 : 0), easing: "cubic-bezier(0.25,0.1,0.25,1)", fill: "backwards" });
-    } else if (intro === "flicker") {
-      // film flicker: each letter stutters on at its own moment, like a bulb warming up
-      var st = base + ((i * 7) % 15) * 70;
-      l.animate([{ opacity: 0 }, { opacity: 0.8, offset: 0.1 }, { opacity: 0.1, offset: 0.18 }, { opacity: 0.9, offset: 0.3 }, { opacity: 0.3, offset: 0.38 }, { opacity: 1, offset: 0.55 }, { opacity: 1 }],
-        { duration: 900, delay: st, easing: "linear", fill: "backwards" });
-    } else {
-      // paint: letters fade in flat, then the red depth is pulled out of them
-      l.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }],
-        { duration: 700, delay: base + i * 55, easing: "ease-out", fill: "backwards" });
+  // ENTRANCE. First visit: each letter pulls into focus from the middle of its word, then the red
+  // depth is painted on letter by letter. Returning in the same tab, or after skipping the curtain,
+  // the name simply fades in, because the visitor has already seen it or asked not to wait.
+  var depthAt = 0, depthDur = 1800, letterGap = 90, perLetter = true, curtainAt = 0, anims = [];
+  function startEntrance(offset, quick) {
+    anims.forEach(function (a) { a.cancel(); }); anims = [];
+    var t = performance.now();
+    if (still) { depthAt = t; depthDur = 1; letterGap = 0; curtainAt = t; return; }
+    var extra = [document.querySelector(".hero-role"), document.querySelector(".hero-line")].filter(Boolean);
+    if (quick) {
+      L.forEach(function (l, i) { anims.push(l.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, delay: 80 + i * 25, easing: "ease-out", fill: "backwards" })); });
+      extra.forEach(function (el) { anims.push(el.animate([{ opacity: 0 }, { opacity: getComputedStyle(el).opacity }], { duration: 700, delay: 120, easing: "ease-out", fill: "backwards" })); });
+      depthAt = t + 450; depthDur = 900; letterGap = 40; curtainAt = t + 800; return;
     }
-  });
-  // the red depth grows after the letters land, in every version
-  if (!still) { depthAt = performance.now() + base + (intro === "paint" ? 1100 : intro === "flicker" ? 1300 : intro === "focuspaint" ? 2600 : 900); }
-  var perLetter = intro === "focuspaint" || intro === "paint", letterGap = 110;
+    var base = offset + 300;
+    L.forEach(function (l, i) {
+      var d = Math.abs(i - (i < 7 ? 3 : 10.5));   // distance from the middle of its own word
+      anims.push(l.animate([{ opacity: 0, filter: "blur(18px)", transform: "scale(1.35)" }, { opacity: 0.6, filter: "blur(6px)", offset: 0.5 }, { opacity: 1, filter: "blur(0)", transform: "none" }],
+        { duration: 2800, delay: base + d * 150 + (i > 6 ? 300 : 0), easing: "cubic-bezier(0.25,0.1,0.25,1)", fill: "backwards" }));
+    });
+    // the role line above and the hero line below pull into focus with the name, the same way
+    extra.forEach(function (el, k) {
+      anims.push(el.animate([{ opacity: 0, filter: "blur(14px)", transform: "scale(1.15)" }, { opacity: 0.5, filter: "blur(5px)", offset: 0.5 }, { opacity: getComputedStyle(el).opacity, filter: "blur(0)", transform: "none" }],
+        { duration: 2800, delay: base + 150 + k * 300, easing: "cubic-bezier(0.25,0.1,0.25,1)", fill: "backwards" }));
+    });
+    depthAt = t + base + 2600; depthDur = 2400; letterGap = 110;
+    curtainAt = t + base + 3.5 * 150 + 300 + 2800;   // twigs wait until the last letter of the name is sharp
+  }
+  var offset0 = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--intro-offset")) || 0;
+  startEntrance(offset0, false);   // the full focus-and-paint on every visit, refresh included; only a skip is quick
   // TEXTURE: ?tex=twigs (default) | dots | both | none
   var tex = (new URLSearchParams(location.search).get("tex") || "twigs");
   if (tex === "both") hero.classList.add("tex-on-dots", "tex-on-twigs");
   else if (tex !== "none") hero.classList.add("tex-on-" + tex);
   var svg = hero.querySelector(".tex-twigs");
+  var twigsDrawn = false, twigT;
+  // the twigs fade in behind the name once the curtain has fully parted, never while it is opening
+  function showTwigs() { clearTimeout(twigT); twigT = setTimeout(function () {
+      if (svg.classList.contains("ready")) return;
+      svg.classList.add("ready");
+      // a slow fade up from nothing, behind the name
+      svg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: still ? 1 : 3200, easing: "cubic-bezier(0.4,0,0.2,1)", fill: "forwards" });
+    }, Math.max(0, curtainAt - performance.now())); }
   function drawTwigs() {
     if (!svg || !hero.classList.contains("tex-on-twigs")) return;
     var _t0 = performance.now();
@@ -3840,9 +3876,7 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
       svg.width = W * dpr; svg.height = H * dpr;
       var ctx = svg.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.drawImage(img, 0, 0, W, H);
       URL.revokeObjectURL(url); window.__twigMs = Math.round(performance.now() - _t0);
-      // fade in from behind as the name appears
-      var landed = still ? 0 : depthAt - 2100 - performance.now();   // as the letters start coming into focus
-      setTimeout(function () { svg.classList.add("ready"); }, Math.max(0, landed));
+      twigsDrawn = true; showTwigs();
     };
     img.src = url;
   }
@@ -3893,6 +3927,7 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
   }
   // nothing to draw while the intro curtain is down: start when the letters arrive
   setTimeout(kick, still ? 0 : Math.max(0, depthAt - performance.now() - 200));
+  document.addEventListener("intro:skip", function () { startEntrance(0, true); if (twigsDrawn) showTwigs(); kick(); });
   window.addEventListener("resize", kick);
 })();
 </script>
