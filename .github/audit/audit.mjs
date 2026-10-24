@@ -26,7 +26,7 @@ const VIEWPORTS = [
 ];
 // every card that should read as paper (or any element carrying the paper texture) must have a solid colour
 const SURFACES = ".file-sheet, .pr-card, .proc-item, .paper, .ritual, .bcard";
-const BLOCK = /\/api\/collect|cloudflareinsights\.com|\/analytics\.js$/;
+const BLOCK = /\/api\/collect|cloudflareinsights\.com|\/analytics\.js$|clarity\.ms/;
 
 mkdirSync("out", { recursive: true });
 const failures = [];

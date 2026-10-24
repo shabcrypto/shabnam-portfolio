@@ -326,6 +326,7 @@
   <div class="filters">
     <span class="lbl">Period</span>
     <div class="seg" id="range" role="group" aria-label="Date range">
+      <button type="button" data-days="1" aria-pressed="false">Today</button>
       <button type="button" data-days="7" aria-pressed="false">7 days</button>
       <button type="button" data-days="30" aria-pressed="true">30 days</button>
       <button type="button" data-days="90" aria-pressed="false">90 days</button>
@@ -516,6 +517,16 @@ const SAMPLE = {
   /* headline stats, by range. Each tile carries its OWN 12-point series:
      a sparkline must plot the metric above it, never a shared line. */
   stats: {
+    1: {
+      visitors: 18, downloads: 1, median: 142, bounce: 39, plays: 13,
+      dVisitors: 6, dDownloads: 0, dMedian: 4, dBounce: -2, dPlays: 8,
+      sparks: {
+        downloads: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        median:    [142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142],
+        bounce:    [39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39],
+        plays:     [1, 0, 2, 1, 1, 0, 2, 1, 2, 1, 1, 1],
+      },
+    },
     7: {
       visitors: 121, downloads: 9, median: 138, bounce: 44, plays: 96,
       dVisitors: 12, dDownloads: -1, dMedian: 9, dBounce: -3, dPlays: 27,
@@ -639,7 +650,7 @@ function renderHead() {
   $('#hero-value').textContent = num(s.visitors);
   const sign = s.dVisitors >= 0 ? '+' : '';
   $('#hero-meta').innerHTML =
-    `<b>${sign}${s.dVisitors}%</b> vs the previous ${days} days · ` +
+    `<b>${sign}${s.dVisitors}%</b> vs ${days === 1 ? 'yesterday' : `the previous ${days} days`} · ` +
     `<b>${num(DATA.funnel[1].v)}</b> case study opens · <b>${num(s.downloads)}</b> resume downloads`;
 
   const tiles = [
@@ -675,7 +686,8 @@ function renderHead() {
 function renderVisitors() {
   const host = $('#visitors');
   host.innerHTML = '';
-  const data = DATA.days.slice(-days);
+  // one day is a single point, so Today shows the week that ends today
+  const data = DATA.days.slice(-Math.max(days, 7));
 
   if (views.visitors === 'table') {
     host.innerHTML =

@@ -13,6 +13,9 @@
   // Shabnam's own devices: any browser that has opened the stats dashboard with her key
   // carries this flag and is never counted (stats.html sets it; stats.html#k= clears it).
   try { if (localStorage.getItem("shab-ignore") === "1") return; } catch (e) {}
+  // Bots and automated browsers (crawlers, link previews, Lighthouse, headless test runs) are not visitors.
+  if (navigator.webdriver) return;
+  if (/bot|crawl|spider|slurp|preview|lighthouse|headless|phantom|puppeteer|playwright|facebookexternalhit|whatsapp|embedly|vercel|uptime|monitor/i.test(navigator.userAgent || "")) return;
 
   var ENDPOINT = "/api/collect";
 

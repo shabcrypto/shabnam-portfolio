@@ -33,7 +33,7 @@ jobs:
         run: |
           npx -y lighthouse@12 https://www.shabnamraghavan.com/ --quiet --only-categories=performance \
             --chrome-flags="--headless=new --no-sandbox" \
-            --blocked-url-patterns="*cloudflareinsights*" --blocked-url-patterns="*/api/collect*" \
+            --blocked-url-patterns="*cloudflareinsights*" --blocked-url-patterns="*/api/collect*" --blocked-url-patterns="*clarity.ms*" \
             --output=json --output-path=lh.json
           node lighthouse-check.mjs lh.json
       - name: Keep the screenshots and report

@@ -242,7 +242,7 @@ module.exports = async function handler(req, res) {
     days: daysOut, sources, funnel, pages, depth,
     depthLabels: ["25%", "50%", "75%", "90%"],
     events, errors,
-    stats: { 7: block(7), 30: block(30), 90: block(90) },
+    stats: { 1: block(1), 7: block(7), 30: block(30), 90: block(90) },
   });
 };
 

@@ -59,6 +59,8 @@ module.exports = async function handler(req, res) {
 
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
+  // bots that post beacons anyway are accepted and dropped, never counted
+  if (/bot|crawl|spider|slurp|preview|lighthouse|headless|phantom|puppeteer|playwright|facebookexternalhit|whatsapp|embedly|vercel|uptime|monitor/i.test(String(req.headers["user-agent"] || ""))) return res.status(204).end();
   if (!S.configured) return res.status(204).end();   // no store yet: accept and drop, never 500
 
   let body = req.body;
