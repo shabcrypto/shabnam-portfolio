@@ -568,6 +568,9 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 @media (prefers-reduced-motion:reduce){.sc .bc-caret{animation:none;}}
 /* Staatliches draws 1 as a bare stroke that reads as "I"; in big numbers and headings the 1 comes from Manrope */
 .d1{font-family:"Manrope",sans-serif;font-style:normal;font-weight:800;font-size:0.86em;letter-spacing:0;}
+
+/* case study title spacing = the home intro headline (letter-spacing 0.005em, no extra word spacing) */
+.page-card h1{letter-spacing:0.005em !important;word-spacing:0 !important;}
 </style>
 </head>
 <body>
@@ -1019,7 +1022,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 .ops2 .o-title{margin-top:18px;max-width:none;text-wrap:balance;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:clamp(2.3rem,1.3rem + 3.6vw,4.6rem);line-height:1.02;letter-spacing:0.01em;color:var(--ink);}
 .ops2 .o-nw{white-space:nowrap;}
 .ops2 .o-lede{margin-top:22px;max-width:860px;font-size:clamp(1.08rem,1rem + 0.35vw,1.25rem);line-height:1.6;color:var(--ink-soft);}
-.ops2 .o-meta{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.4fr;gap:20px 36px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--border);}
+.ops2 .o-meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:20px 36px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--border);}
 .ops2 .o-meta div{min-width:0;}
 .ops2 .o-meta dt{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);margin-bottom:6px;}
 .ops2 .o-meta dd{margin:0;font-size:0.9rem;line-height:1.55;color:var(--ink-soft);}
@@ -1211,7 +1214,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 .ops2 .o-toc a{font-size:0.88rem;}
 
 /* "The product &" sits small above the section title, so the two read as one */
-.ops2 .o-eyebrow{margin:0 0 6px;font-size:1rem;font-weight:700;color:var(--ink-soft);}
+.ops2 .o-eyebrow{margin:0 0 4px;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:clamp(1.3rem,1rem + 0.9vw,1.8rem);line-height:1;letter-spacing:0.005em;color:var(--ink-soft);}
 /* display titles: Staatliches packs words tight, so give the spaces room */
 .ops2 .o-title,.ops2 .o-sec h2,.ops2 .o-dec h3{word-spacing:0.04em;letter-spacing:0;}
 
@@ -1253,7 +1256,6 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <div><dt>Role</dt><dd>Product designer, the only designer on the team. Research, IA, UI, prototyping, moderated feedback sessions with hospitals, presenting the design rationale to senior stakeholders, dev handoff.</dd></div>
       <div><dt>Team</dt><dd>1 PM, 1 product designer (me), 2 developers</dd></div>
       <div><dt>Timeline</dt><dd>4 weeks, March to April 2025</dd></div>
-      <div><dt>Product</dt><dd>IHX Nucleus, used by hospital insurance teams to manage pre-authorisations and claims for 18,000+ providers in India</dd></div>
     </dl>
     <figure class="o-fig o-fig-hero">
       <img src="images/ops-hero.webp" width="2400" height="1600" alt="IHX Nucleus Ops Dashboard UI showcase" fetchpriority="high" />
