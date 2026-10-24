@@ -1045,8 +1045,9 @@ function markSample(reason) {
     if (m) { key = decodeURIComponent(m[1]); localStorage.setItem('shab-stats-key', key);
              history.replaceState(null, '', location.pathname); }
     else { key = localStorage.getItem('shab-stats-key') || ''; }
-    // a browser holding the key is hers, so analytics.js stops counting it
-    if (key) localStorage.setItem('shab-ignore', '1'); else localStorage.removeItem('shab-ignore');
+    // anyone who opens this page is her: mark the browser so analytics.js and Clarity skip it.
+    // Set on every open, key or not, and never removed here (it used to be cleared when no key was saved).
+    localStorage.setItem('shab-ignore', '1');
   } catch (e) {}
 
   let res;
