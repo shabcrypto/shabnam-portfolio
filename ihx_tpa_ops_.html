@@ -1001,411 +1001,428 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 .peer-link{display:inline-block;padding:13px 0;margin:-13px 0;}
 .menu-foot a{padding:12px 0;}
 </style>
-  <!-- the top bar is fixed now, so the hero has to clear it rather than sit under it -->
-  <div class="page-inner" style="display:grid;grid-template-columns:1fr;gap:40px;align-items:center;margin-bottom:0;padding-top:clamp(112px,12vw,152px);">
-    <div>
-      <div class="meta-row hero-tags-top">
-        <span class="chip">IHX Case Study</span>
-        <span class="chip">B2B SaaS</span>
-        <span class="chip">WebApp</span>
-        <span class="chip">Health InsurTech</span>
-      </div>
-      <h1 style="font-family:'Staatliches', 'Impact', 'Arial Narrow', sans-serif;font-weight:400;font-size:var(--step-4);line-height:1.02;letter-spacing:0.02em;margin-bottom:20px;">
-        <span style="color:var(--ink);">Reimagining</span><br>
-        <span style="color:var(--indigo);">IHX Nucleus Ops Dashboard</span><br>
-        <span style="color:var(--ink);">for <i class="d1">1</i>8,000+ Healthcare Providers</span>
-      </h1>
-      <p style="font-size:var(--step-0);color:var(--ink-soft);line-height:1.75;max-width:460px;">A 4-bucket layout was hiding a multi-stage, two-team operation across 35+ insurance payers. Nobody had fixed it because nobody had asked how hospital teams actually work. We did.</p>
+<style>
+/* =====================================================================
+   OPS CASE STUDY REWRITE (2026-10-23). Every rule is scoped to .ops2, so
+   the shared case study styles, nav and footer stay exactly as they are.
+   Type: Staatliches 400 for headings and big numbers, Manrope 400 and 700
+   for everything else. One rhythm: every section starts --o-gap below the last.
+   ===================================================================== */
+.ops2{--o-gap:clamp(72px,9vw,120px);--o-pad:clamp(20px,4vw,48px);--o-text:68ch;color:var(--ink);}
+.ops2 *{box-sizing:border-box;}
+.ops2 p{margin:0 0 18px;max-width:var(--o-text);font-size:clamp(1rem,0.96rem + 0.2vw,1.08rem);line-height:1.75;color:var(--ink-soft);font-weight:400;}
+.ops2 strong{color:var(--ink);font-weight:700;}
+.ops2 h2,.ops2 h3{margin:0;font-weight:400;}
+
+/* hero */
+.ops2 .o-hero{max-width:1200px;margin:0 auto;padding:clamp(112px,12vw,152px) var(--o-pad) 0;}
+.ops2 .o-title{margin-top:18px;max-width:none;text-wrap:balance;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:clamp(2.3rem,1.3rem + 3.6vw,4.6rem);line-height:1.02;letter-spacing:0.01em;color:var(--ink);}
+.ops2 .o-nw{white-space:nowrap;}
+.ops2 .o-lede{margin-top:22px;max-width:860px;font-size:clamp(1.08rem,1rem + 0.35vw,1.25rem);line-height:1.6;color:var(--ink-soft);}
+.ops2 .o-meta{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.4fr;gap:20px 36px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--border);}
+.ops2 .o-meta div{min-width:0;}
+.ops2 .o-meta dt{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);margin-bottom:6px;}
+.ops2 .o-meta dd{margin:0;font-size:0.9rem;line-height:1.55;color:var(--ink-soft);}
+.ops2 .o-fig{margin:0;}
+.ops2 .o-fig img{display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 18px 44px rgba(14,12,10,0.12);background:#ECEAE4;}
+.ops2 .o-fig figcaption{margin-top:12px;font-size:0.85rem;line-height:1.5;color:var(--ink-soft);}
+.ops2 .o-fig-hero{margin-top:40px;}
+.ops2 .o-stats{list-style:none;margin:44px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 40px;}
+.ops2 .o-stats b{display:block;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:clamp(3.2rem,2rem + 4vw,5.6rem);line-height:0.95;color:var(--indigo);letter-spacing:0.01em;}
+.ops2 .o-stats span{display:block;margin-top:10px;max-width:28ch;font-size:0.95rem;line-height:1.5;color:var(--ink-soft);}
+
+/* body: a sticky section nav beside one reading column */
+.ops2 .o-layout{max-width:1200px;margin:0 auto;padding:0 var(--o-pad) var(--o-gap);display:grid;grid-template-columns:170px minmax(0,1fr);gap:clamp(32px,5vw,72px);}
+.ops2 .o-toc{position:sticky;top:120px;align-self:start;margin-top:var(--o-gap);display:flex;flex-direction:column;gap:4px;}
+.ops2 .o-toc a{display:block;padding:8px 0 8px 14px;border-left:2px solid var(--border);font-size:0.78rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;opacity:0.55;transition:opacity 200ms ease,border-color 200ms ease;}
+.ops2 .o-toc a:hover,.ops2 .o-toc a.is-on{opacity:1;border-left-color:var(--ink);}
+.ops2 .o-main{min-width:0;max-width:860px;}
+.ops2 .o-sec{padding-top:var(--o-gap);scroll-margin-top:90px;}
+.ops2 .o-sec h2{margin-bottom:22px;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:clamp(2rem,1.4rem + 2vw,3.1rem);line-height:1;letter-spacing:0.01em;color:var(--ink);}
+.ops2 .o-find,.ops2 .o-sub{margin:44px 0 14px;font-family:"Manrope",sans-serif;font-weight:700;font-size:clamp(1.1rem,1rem + 0.4vw,1.3rem);line-height:1.35;color:var(--ink);}
+
+/* lists with strong lead-ins */
+.ops2 .o-points{list-style:none;margin:0 0 18px;padding:0;max-width:var(--o-text);}
+.ops2 .o-points li{position:relative;margin:0 0 14px;padding-left:20px;font-size:clamp(1rem,0.96rem + 0.2vw,1.08rem);line-height:1.7;color:var(--ink-soft);}
+.ops2 .o-points li::before{content:"";position:absolute;left:0;top:0.72em;width:7px;height:7px;border-radius:50%;background:var(--ink);}
+.ops2 .o-ol{counter-reset:o;}
+.ops2 .o-ol li{counter-increment:o;padding-left:30px;}
+.ops2 .o-ol li::before{content:counter(o);width:auto;height:auto;border-radius:0;background:none;top:0;font-family:"Manrope",sans-serif;font-weight:700;font-size:1rem;line-height:1.7;color:var(--indigo);}
+.ops2 .o-wide{margin:36px 0;}
+
+/* user quotes */
+.ops2 .o-quotes{display:grid;grid-template-columns:1fr 1fr;gap:28px 40px;margin:36px 0;}
+.ops2 .o-quote{margin:0;padding-top:34px;position:relative;}
+.ops2 .o-quote::before{content:"\201C";position:absolute;left:-2px;top:-14px;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:4.6rem;line-height:1;color:var(--indigo);}
+.ops2 .o-quote p{margin:0;font-size:clamp(1.12rem,1rem + 0.45vw,1.3rem);line-height:1.5;font-style:italic;color:var(--ink);}
+.ops2 .o-quote cite{display:block;margin-top:12px;font-style:normal;font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);}
+
+
+/* decisions: one pattern, five times */
+.ops2 .o-dec{padding:40px 0;border-top:1px solid var(--border);}
+.ops2 .o-dec:first-of-type{border-top:0;padding-top:8px;}
+.ops2 .o-finding:first-of-type{margin-top:28px;}
+.ops2 .o-dec h3{display:flex;align-items:baseline;gap:16px;margin-bottom:16px;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:clamp(1.6rem,1.2rem + 1.3vw,2.3rem);line-height:1.05;letter-spacing:0.01em;color:var(--ink);}
+.ops2 .o-n{flex:none;color:var(--indigo);}
+.ops2 .o-n .d1,.ops2 .o-round-n .d1,.ops2 .o-res-big .d1,.ops2 .o-bar .d1{font-family:"Manrope",sans-serif;font-weight:800;font-size:0.86em;}
+.ops2 .o-call{margin:26px 0;padding:20px 24px;max-width:var(--o-text);border-left:5px solid var(--indigo);border-radius:0 12px 12px 0;background:rgba(60,58,218,0.07);}
+.ops2 .o-call-hard{border-left:0;border-radius:14px;background:var(--indigo);padding:24px 28px;}
+.ops2 .o-call-hard .o-call-k,.ops2 .o-call-hard p,.ops2 .o-call-hard strong{color:#FFFFFF;}
+.ops2 .o-call-hard .o-call-k{opacity:0.8;}
+.ops2 .o-call-k{display:block;margin-bottom:8px;font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink);}
+.ops2 .o-call p{margin:0;color:var(--ink);font-size:clamp(1.02rem,0.98rem + 0.25vw,1.12rem);}
+.ops2 .o-ph{display:flex;align-items:center;justify-content:center;aspect-ratio:16/5;margin:30px 0 0;border:1.5px dashed rgba(14,12,10,0.25);border-radius:14px;}
+.ops2 .o-ph span{font-size:0.78rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);}
+
+/* minimal tables */
+.ops2 .o-table{margin:26px 0;border-top:1px solid rgba(14,12,10,0.16);}
+.ops2 .o-tr{display:grid;grid-template-columns:70px 1fr 1fr;gap:24px;padding:14px 0;border-bottom:1px solid var(--border);font-size:0.95rem;line-height:1.55;color:var(--ink-soft);}
+.ops2 .o-th{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);padding:12px 0;}
+.ops2 .o-results .o-tr{grid-template-columns:1fr 0.9fr 1.7fr;}
+.ops2 .o-tr .o-num{font-weight:700;color:var(--ink);}
+.ops2 .o-lead{font-size:clamp(1.15rem,1.05rem + 0.4vw,1.35rem);line-height:1.5;color:var(--ink);}
+.ops2 .o-close{margin-top:44px;font-size:clamp(1.08rem,1rem + 0.35vw,1.22rem);}
+.ops2 .o-ba{margin-top:40px;}
+
+@media (max-width:1000px){
+  .ops2 .o-layout{grid-template-columns:minmax(0,1fr);}
+  .ops2 .o-toc{display:none;}
+}
+@media (max-width:760px){
+  .ops2 .o-meta{grid-template-columns:1fr 1fr;}
+  .ops2 .o-stats{grid-template-columns:1fr;gap:26px;}
+  .ops2 .o-quotes{grid-template-columns:1fr;}
+  .ops2 .o-tr.o-th{display:none;}
+  .ops2 .o-tr,.ops2 .o-results .o-tr{display:block;padding:16px 0;}
+  .ops2 .o-tr span{display:block;margin-top:6px;}
+  .ops2 .o-tr span::before{content:attr(data-k);display:block;font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);margin-bottom:2px;}
+}
+@media (max-width:480px){ .ops2 .o-meta{grid-template-columns:1fr;} }
+
+/* ---- sticky nav: the shared .page-card uses overflow:hidden, which breaks position:sticky;
+   on this page only it clips without becoming a scroll container ---- */
+.page-card:has(.ops2){overflow:clip;}
+
+/* cards, in the site's card style */
+.ops2 .o-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:24px;box-shadow:var(--shadow-card);}
+.ops2 .o-card h4{margin:0;font-family:"Manrope",sans-serif;font-weight:700;font-size:1.08rem;color:var(--ink);}
+.ops2 .o-card p{margin:0;font-size:0.95rem;line-height:1.65;}
+.ops2 .o-card .o-tagline{margin:4px 0 12px;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);}
+.ops2 .o-roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:8px 0 0;}
+.ops2 .o-vbox{position:relative;overflow:hidden;border-radius:8px;background:#ECEAE4;box-shadow:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);cursor:pointer;}
+/* the recording has a 2 to 3 px dark edge baked in on two sides: scale a hair to crop it */
+.ops2 .o-vbox video{display:block;width:100%;height:auto;transform:scale(1.012);background:#ECEAE4;}
+.ops2 .o-play{position:absolute;left:50%;top:50%;z-index:2;width:72px;height:72px;margin:-36px 0 0 -36px;display:flex;align-items:center;justify-content:center;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(244,243,239,0.92);color:#0E0C0A;box-shadow:0 6px 24px rgba(20,18,14,0.22);transition:transform 240ms cubic-bezier(0.22,1,0.36,1),opacity 200ms ease;}
+.ops2 .o-play:hover{transform:scale(1.08);}
+.ops2 .o-play svg{margin-left:4px;}
+.ops2 .o-vbox.is-playing .o-play{opacity:0;pointer-events:none;}
+.ops2 .o-vid{margin:30px 0 0;}
+.ops2 .o-ev{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;margin:8px 0 0;align-items:stretch;}
+.ops2 .o-ev-h{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:0.85rem;font-weight:700;color:var(--ink-soft);}
+.ops2 .o-dot{width:8px;height:8px;border-radius:50%;background:var(--indigo);}
+.ops2 .o-dot-2{background:var(--indigo-light);}
+.ops2 .o-ev-stat{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:clamp(3rem,2rem + 3vw,4.6rem);line-height:0.95;color:var(--indigo);margin-bottom:10px;}
+
+/* the four prototype rounds */
+.ops2 .o-rounds{list-style:none;margin:28px 0 0;padding:0;}
+.ops2 .o-round{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.4fr);gap:28px;align-items:center;padding:24px 0;border-top:1px solid var(--border);}
+.ops2 .o-round:last-child{border-bottom:1px solid var(--border);}
+.ops2 .o-round-n{display:block;margin-bottom:10px;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:1.7rem;line-height:1;color:var(--indigo);letter-spacing:0.02em;}
+.ops2 .o-round p{margin:0 0 8px;font-size:0.95rem;line-height:1.6;}
+.ops2 .o-round img{border-radius:0;background:none;box-shadow:none;}   /* the prototype shots sit straight on the page, no card */
+
+/* design details as a set of two columns */
+.ops2 .o-grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px 36px;max-width:none;}
+
+/* results: the measured change first */
+.ops2 .o-res{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:36px;align-items:center;margin:4px 0 0;padding:32px;border-radius:18px;background:var(--card-bg);box-shadow:var(--shadow-card);}
+.ops2 .o-res-k{display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink);}
+.ops2 .o-res .o-res-big{margin:10px 0 0;max-width:none;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:clamp(2.6rem,1.6rem + 3.4vw,4.4rem);line-height:0.95;color:var(--indigo);}
+.ops2 .o-res .o-res-sub{margin:12px 0 0;font-size:1rem;line-height:1.55;color:var(--ink-soft);}
+.ops2 .o-bars{display:grid;gap:12px;}
+.ops2 .o-bar{display:grid;grid-template-columns:110px minmax(0,1fr);align-items:center;gap:12px;font-size:0.8rem;color:var(--ink-soft);}
+.ops2 .o-bar-l{font-weight:700;letter-spacing:0.04em;}
+.ops2 .o-bar-t{position:relative;display:block;height:34px;width:var(--w);border-radius:6px;background:rgba(48,47,44,0.22);}
+.ops2 .o-bar-t b{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--ink);white-space:nowrap;}
+.ops2 .o-bar-after .o-bar-t{background:var(--indigo);}
+.ops2 .o-bar-after .o-bar-t b{color:#FFFFFF;}
+.ops2 .o-bar-ctrl .o-bar-t{background:transparent;border:1.5px dashed rgba(48,47,44,0.35);}
+
+/* learnings as three cards */
+.ops2 .o-learn{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
+.ops2 .o-learn li{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:var(--shadow-card);font-size:0.95rem;line-height:1.65;color:var(--ink-soft);}
+.ops2 .o-learn li strong{display:block;margin-bottom:8px;font-size:1.02rem;}
+
+
+/* this page: no red. The before/after markers use indigo, the decision numbers match their titles */
+.ops2 .ba-card{--mark:var(--indigo);--mark-hot:#26248F;}
+.ops2 .ba-lines marker path{fill:var(--indigo);}
+.ops2 .o-dec h3 .o-n{font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-size:1em;font-weight:400;letter-spacing:0.01em;}
+/* the shared ".page-card h3" rule forces every h3 small with !important; this page sets its own sizes */
+.page-card .ops2 .o-dec h3{font-size:clamp(1.6rem,1.2rem + 1.3vw,2.3rem) !important;}
+.page-card .ops2 h3.o-find,.page-card .ops2 h3.o-sub{font-size:clamp(1.1rem,1rem + 0.4vw,1.3rem) !important;}
+.ops2 .o-res .o-res-big{white-space:nowrap;font-size:clamp(2.2rem,1.4rem + 2.6vw,3.6rem);}
+.ops2 .o-grid2{grid-template-columns:1fr;max-width:var(--o-text);}
+
+/* research evidence: the production layout (Hotjar beside GA, synthesis under GA, comments beside the hospital photo) */
+.ops2 .o-evidence{margin-top:8px;}
+.ops2 .o-evidence .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.ops2 .ev-stack{display:flex;flex-direction:column;gap:12px;}
+.ops2 .o-evidence p.ev-p{margin:0;max-width:none;font-size:var(--step--1);line-height:1.7;color:var(--ink-soft);}
+.ops2 .ev-img{width:100%;height:220px;object-fit:cover;border-radius:6px;display:block;margin-bottom:14px;}
+.ops2 .ev-dot.indigo{background:var(--indigo);} .ops2 .ev-dot.indigo-light{background:var(--indigo-light);}
+.ops2 .ev-stat{margin-bottom:6px;}
+.ops2 .ev-chip{margin-top:14px;}
+.ops2 .src-chip{text-transform:none;letter-spacing:0.01em;font-weight:600;}
+.ops2 .ev-sub{margin:40px 0 20px;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:var(--step-1);color:var(--ink);}
+.ops2 .comment p{margin:0;max-width:none;font-size:var(--step--1);}
+.ops2 .comment-attr{text-transform:none;letter-spacing:0.01em;}
+.ops2 .ev-hospital{width:100%;height:100%;min-height:300px;object-fit:cover;border-radius:6px;display:block;}
+@media (max-width:860px){ .ops2 .o-evidence .two-col{grid-template-columns:1fr;} }
+
+/* calm callouts: the site's plain card, no colour fill, no coloured rule. Blue is kept only for
+   metrics and the decision numbers. */
+.ops2 .o-call,.ops2 .o-call-hard{border:1px solid var(--border);border-radius:12px;background:var(--card-bg);box-shadow:var(--shadow-card);padding:22px 26px;}
+.ops2 .o-call .o-call-k,.ops2 .o-call-hard .o-call-k{color:var(--ink);opacity:1;}
+.ops2 .o-call p,.ops2 .o-call-hard p{color:var(--ink-soft);}
+.ops2 .o-call strong,.ops2 .o-call-hard strong{color:var(--ink);}
+.ops2 .o-card .o-tagline{color:var(--ink-soft);}
+.ops2 .o-round-n{color:var(--ink);}
+.ops2 .o-ol li::before{color:var(--ink);}
+
+/* ONE card style on this page, taken from the before/after card: no stroke, soft shadow, same radius */
+.ops2 .card,.ops2 .synthesis,.ops2 .comment,.ops2 .o-card,.ops2 .o-call,.ops2 .o-call-hard,.ops2 .o-learn li,.ops2 .o-res,.ops2 .hero-stats{
+  border:0 !important;border-radius:8px;background:var(--row-bg);
+  box-shadow:0 1px 2px oklch(26% 0.021 42 / 0.04), 0 12px 32px oklch(26% 0.021 42 / 0.07);}
+.ops2 .synthesis{border-left:0 !important;}
+.ops2 .hero-stats.o-hero-stats{margin-top:32px;overflow:hidden;gap:0;}
+.ops2 .hero-stats .cell{background:transparent;}
+.ops2 .hero-stats .cell + .cell{box-shadow:inset 1px 0 0 rgba(20,18,14,0.06);}
+.ops2 .o-charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 0;}
+.ops2 p.o-control{margin:14px 0 40px;font-size:0.92rem;}
+@media (max-width:760px){ .ops2 .o-charts{grid-template-columns:1fr;} .ops2 .hero-stats .cell + .cell{box-shadow:inset 0 1px 0 rgba(20,18,14,0.06);} }
+
+/* no all-caps labels on this page: small labels read in sentence case (only Staatliches headings are capitals) */
+.ops2 .hero-stats .tag,.ops2 .o-meta dt,.ops2 .o-res-k,.ops2 .o-call-k,.ops2 .o-toc a,.ops2 .o-card .o-tagline,
+.ops2 .o-th,.ops2 .o-tr span::before,.ops2 .o-ph span,.ops2 .chip,.ops2 .ev-lbl,.ops2 .comment-attr,.ops2 .ba-list-title,.ops2 .ba-tabs button,.ops2 .ba-steps button{
+  text-transform:none !important;letter-spacing:0.01em !important;}
+.ops2 .hero-stats .tag,.ops2 .o-meta dt,.ops2 .o-res-k,.ops2 .o-call-k,.ops2 .o-th{font-size:0.85rem;}
+.ops2 .o-toc a{font-size:0.88rem;}
+
+/* "The product &" sits small above the section title, so the two read as one */
+.ops2 .o-eyebrow{margin:0 0 6px;font-size:1rem;font-weight:700;color:var(--ink-soft);}
+/* display titles: Staatliches packs words tight, so give the spaces room */
+.ops2 .o-title,.ops2 .o-sec h2,.ops2 .o-dec h3{word-spacing:0.04em;letter-spacing:0;}
+
+/* the time card now carries the control group too */
+.ops2 .oc-time{padding:30px 20px 20px;}
+.ops2 .oc-time .oc-body{margin-top:16px;}
+.ops2 .oc-time .oc-slot{height:118px;}
+.ops2 .oc-time .oc-col{gap:12px;}
+.ops2 .oc-ctrl{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;font-size:11.5px;color:#d9d4ca;}
+.ops2 .oc-ctrl b{font-weight:500;padding:5px 14px;border:1px dashed rgba(239,234,224,0.45);border-radius:8px;color:#efeae0;}
+.ops2 .o-charts{margin:4px 0 40px;}
+@media (max-width:1000px){
+  .ops2 .o-roles,.ops2 .o-learn{grid-template-columns:1fr;}
+  .ops2 .o-ev,.ops2 .o-res,.ops2 .o-round{grid-template-columns:1fr;}
+  .ops2 .o-grid2{grid-template-columns:1fr;}
+}
+@media (max-width:760px){
+  .ops2 .o-res{padding:24px;}
+  .ops2 .o-bar{grid-template-columns:86px minmax(0,1fr);}
+}
+</style>
+
+<!-- ============================================================
+     OPS CASE STUDY, REWRITE (2026-10-23). Everything below sits inside .ops2
+     and every style for it is scoped to .ops2, so no other case study changes.
+     ============================================================ -->
+<div class="ops2">
+
+  <header class="o-hero">
+    <div class="o-tags meta-row hero-tags-top">
+      <span class="chip">IHX Case Study</span>
+      <span class="chip">B2B SaaS</span>
+      <span class="chip">WebApp</span>
+      <span class="chip">Health InsurTech</span>
     </div>
-  </div>
-
-  <div class="page-inner" style="margin-bottom:56px;">
-    <div class="project-info">
-      <div class="pi"><span class="pi-l">Role</span><span class="pi-v">Product Design · UX Research · IA · UI · Prototyping · Usability Testing</span></div>
-      <div class="pi"><span class="pi-l">Team</span><span class="pi-v">1 PM · 1 PD (me) · 2 Developers</span></div>
-      <div class="pi"><span class="pi-l">Timeframe</span><span class="pi-v">4 weeks &middot; Mar–Apr 2025</span></div>
-      <div class="pi"><span class="pi-l">Also Covered</span><span class="pi-v">Dev Handoff · Design Review · Stakeholder Management</span></div>
+    <h1 class="o-title">Two teams, one dashboard: the structural change behind a <span class="o-nw">51% drop</span> in claim submission time</h1>
+    <p class="o-lede">Hospitals were complaining about the IHX Ops Dashboard, and three group hospital contracts needed a follow-up feature it had no place for. The real problem: the dashboard treated two very different hospital teams as one user.</p>
+    <dl class="o-meta">
+      <div><dt>Role</dt><dd>Product designer, the only designer on the team. Research, IA, UI, prototyping, moderated feedback sessions with hospitals, presenting the design rationale to senior stakeholders, dev handoff.</dd></div>
+      <div><dt>Team</dt><dd>1 PM, 1 product designer (me), 2 developers</dd></div>
+      <div><dt>Timeline</dt><dd>4 weeks, March to April 2025</dd></div>
+      <div><dt>Product</dt><dd>IHX Nucleus, used by hospital insurance teams to manage pre-authorisations and claims for 18,000+ providers in India</dd></div>
+    </dl>
+    <figure class="o-fig o-fig-hero">
+      <img src="images/ops-hero.webp" width="2400" height="1600" alt="IHX Nucleus Ops Dashboard UI showcase" fetchpriority="high" />
+    </figure>
+    <div class="hero-stats o-hero-stats">
+      <div class="cell"><span class="tag">Time to claim submission</span><div class="num indigo">&minus;5<i class="d1">1</i>%</div><div class="lbl">Against a control group that saw no change</div></div>
+      <div class="cell"><span class="tag">Contracts</span><div class="num indigo">3</div><div class="lbl">Group hospital contracts signed, all requiring the new follow-up feature</div></div>
+      <div class="cell"><span class="tag">Adoption</span><div class="num indigo">900+</div><div class="lbl">Hospitals live on the new dashboard</div></div>
     </div>
-    <figure class="hero-image"><img src="images/ops-hero.webp" width="2400" height="1600" alt="IHX Nucleus Ops Dashboard UI showcase" fetchpriority="high"></figure>
-    <div class="hero-stats">
-      <div class="cell"><span class="tag">Time to claim submission</span><div class="num teal">3.23 &rarr; <i class="d1">1</i>.56 min</div><div class="lbl">Average, a 51% reduction</div></div>
-      <div class="cell"><span class="tag">Revenue per claim</span><div class="num accent">&uarr;33%</div><div class="lbl">INR 90 to 120, on one enterprise contract</div></div>
-      <div class="cell"><span class="tag">Dashboard adoption</span><div class="num indigo">900+</div><div class="lbl">Contracted hospitals live on the new Ops Dashboard, of 18,000+ providers on IHX</div></div>
-    </div>
-  </div>
+  </header>
 
-<!-- ── TL;DR ── -->
-<div id="tldr" style="padding:80px 48px;border-top:1px solid rgba(20,18,14,0.06);">
-<div class="page-inner">
-  <div class="section-label">TL;DR</div>
-  <h2 class="cs-heading">The whole story, in five cards.</h2>
-  <div class="tldr-grid">
-    <div class="tldr"><span class="k">Problem</span><p>The brief said redesign the UI. The real problem was <b>information architecture</b>.</p></div>
-    <div class="tldr"><span class="k">Evidence</span><p>The old dashboard <b>did not reflect the hospital workflow</b>, so users searched around it.</p></div>
-    <div class="tldr"><span class="k">Solution</span><p>Separate <b>PA View and Claim View</b>, each with its own buckets, filters and scoped search.</p></div>
-    <div class="tldr"><span class="k">Numbers</span><p>Time to claim submission <b>3.23 &rarr; 1.56 min</b>. <b>&uarr;33% revenue per claim</b> on one enterprise contract. <b>900+</b> contracted hospitals live.</p></div>
-    <div class="tldr"><span class="k">Takeaway</span><p>Let data answer design questions. Make <b>platform decisions that hold for everyone</b>.</p></div>
-  </div>
-</div>
-</div>
+  <div class="o-layout">
+    <nav class="o-toc" aria-label="On this page">
+      <a href="#o-problem">The problem</a>
+      <a href="#o-research">Research</a>
+      <a href="#o-decisions">Decisions</a>
+      <a href="#o-results">Results</a>
+      <a href="#o-learnings">Learnings</a>
+    </nav>
 
-  <!-- ── 02: WHAT IS IHX ── -->
-<div style="padding:112px 48px 80px;border-top:1px solid rgba(20,18,14,0.06);border-bottom:1px solid rgba(20,18,14,0.06);">
-<div class="page-inner">
-  <div class="section-label">01 · Platform</div>
-  <h2 class="cs-heading">What is IHX?</h2>
-  <p class="cs-sub">The digital backbone for hospital insurance operations across India. Hospitals manage the full claim lifecycle without logging into 35+ different insurer portals.</p>
-  <div class="stat-grid">
-    <div class="stat-cell"><div class="stat-val">2,00,000+</div><div class="stat-lbl">Claims processed monthly</div></div>
-    <div class="stat-cell"><div class="stat-val"><i class="d1">1</i>8,000+</div><div class="stat-lbl">Healthcare providers on platform</div></div>
-    <div class="stat-cell"><div class="stat-val">40%</div><div class="stat-lbl">India's overall claim volume</div><div class="stat-src-ops">Source: IHX internal data</div></div>
-    <div class="stat-cell"><div class="stat-val">35+ Payers</div><div class="stat-lbl">Insurance payers connected</div></div>
-  </div>
-  <div class="callout">
-    <div class="callout-label">Architectural Reality</div>
-    <p class="callout-text">Of 35 payers: <strong>7 via direct API · 28 via RPA and email extraction</strong>. When automation fails, claims disappear. The hospital has zero visibility. We had to design for that failure mode.</p>
-  </div>
-</div>
-</div>
+    <main class="o-main">
 
-<!-- ── 03: BRIEF VS PROBLEM ── -->
-<div style="padding:80px 48px;border-bottom:1px solid rgba(20,18,14,0.06);">
-<div class="page-inner">
-  <div class="section-label">02 · Problem Framing</div>
-  <h2 class="cs-heading">The Brief vs The Real Problem</h2>
+      <section class="o-sec" id="o-problem" aria-labelledby="h-problem">
+        <p class="o-eyebrow">The product &amp;</p>
+        <h2 id="h-problem">The business problem</h2>
+        <article class="o-dec o-finding">
+          <h3><span class="o-n">0<i class="d1">1</i></span>IHX</h3>
+          <p>IHX is a health-tech platform for hospital insurance operations in India. Hospitals manage the full claim lifecycle in one place, instead of logging into 35+ insurer portals. It processes 2,00,000+ claims a month for 18,000+ providers, about 40% of India's claim volume.</p>
+          <p>Of the 35+ insurers, 7 connect through an API. The other 28 run on RPA and email extraction. When that automation fails, the claim disappears and the hospital can't see it. The design had to account for that.</p>
+        </article>
+        <article class="o-dec o-finding">
+          <h3><span class="o-n">02</span>Why we redesigned it</h3>
+          <p>The Ops Dashboard is where hospital insurance staff spend their working day. It was inherited from IHX's parent insurance company. When IHX became its own company, nobody went back to check how hospital teams actually work.</p>
+          <p>Hospitals were complaining, and the complaints reached us through account managers and sales. At the same time, a new contract required a follow-up feature, and the dashboard had no sensible place for it.</p>
+          <p>So the dashboard had to be redesigned. The work started with the research and the data, to understand what was going wrong for hospitals.</p>
+          <figure class="o-fig o-wide">
+            <img src="images/ops-ba-before.webp" width="1366" height="770" loading="lazy" decoding="async" alt="The old Ops Dashboard: one claims table for every user group" />
+            <figcaption>The old Ops Dashboard.</figcaption>
+          </figure>
+        </article>
+      </section>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative;">
+      <section class="o-sec" id="o-research" aria-labelledby="h-research">
+        <h2 id="h-research">What the research showed</h2>
+        <p>Over a year and a half on IHX products, I had run a user behaviour study with hospital insurance staff: 15+ users across 5+ hospitals and 6+ teams. Account managers and hospital staff added more input during the project.</p>
 
-    <!-- THE BRIEF -->
-    <div style="background:var(--card-bg);border:none;border-radius:6px;overflow:hidden;box-shadow:var(--shadow-card);">
-      <div style="padding:24px 24px 16px;">
-        <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">The Brief</div>
-        <div style="font-family:'Staatliches', 'Impact', 'Arial Narrow', sans-serif;font-size:var(--step-1);font-weight:400;color:var(--ink);margin-bottom:12px;line-height:1.2;">"Redesign the dashboard"</div>
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Make it look better. Clean up the UI. Better visual design.</p>
-      </div>
-      <!-- Row: Assumption -->
-      <div style="border-top:1px solid var(--border);">
-        <div style="padding:14px 24px;display:flex;align-items:baseline;gap:0;">
-          <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;min-width:140px;">Assumption</span>
-          <span style="font-size:var(--step--1);font-weight:500;color:var(--ink-soft);">This is a UI problem.</span>
+        <article class="o-dec o-finding">
+          <h3><span class="o-n">0<i class="d1">1</i></span>It's two workflows, not one</h3>
+        <div class="o-roles">
+          <div class="o-card"><h4>Pre-Auth team</h4><p class="o-tagline">Time-critical &middot; patient-facing</p><p>They start the claim before admission, answer insurer queries and start the discharge. A delayed discharge costs the hospital a bed.</p></div>
+          <div class="o-card"><h4>Claim team</h4><p class="o-tagline">Finance-critical</p><p>They submit the final claim after discharge, settle claims at the end of the day and reconcile payments.</p></div>
+          <div class="o-card"><h4>Supervisors</h4><p class="o-tagline">Oversight, not action</p><p>They check their team's workload rather than act, so they need counts across several statuses at once.</p></div>
         </div>
-      </div>
-      <!-- Row: Hospital Needs -->
-      <div style="border-top:1px solid var(--border);">
-        <div style="padding:14px 24px;display:flex;align-items:baseline;gap:0;">
-          <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;min-width:140px;">Hospital Needs</span>
-          <span style="font-size:var(--step--1);font-weight:500;color:var(--ink-soft);">An easy way to manage claims</span>
+        <figure class="o-fig o-wide">
+          <img src="images/ops-claim-lifecycle-journey-map-v2.webp" width="2400" height="1494" loading="lazy" decoding="async" alt="User journey map: ten stages from pre-auth to reconciliation, with the handover from the Pre-Auth team to the Claim team at discharge" />
+          <figcaption>Two teams, ten stages, one handover at discharge.</figcaption>
+        </figure>
+
+        </article>
+        <article class="o-dec o-finding">
+          <h3><span class="o-n">02</span>Staff were searching around the dashboard</h3>
+        <div class="o-evidence">
+          <div class="two-col">
+            <div class="card">
+              <div class="ev-header"><div class="ev-dot indigo"></div><div class="ev-lbl">Hotjar · Session heatmap</div></div>
+              <img src="images/ops-hotjar.webp" width="2288" height="1080" loading="lazy" decoding="async" alt="Hotjar heatmap of the old dashboard: heat at the top of the screen, the table cold" class="ev-img">
+              <p class="ev-p">Clicks clustered at the top of the screen, on New Admission, search and the Approval Pending bucket. The table below went unused.</p>
+            </div>
+            <div class="ev-stack">
+              <div class="card">
+                <div class="ev-header"><div class="ev-dot indigo-light"></div><div class="ev-lbl">Google Analytics · Events data</div></div>
+                <div class="ev-stat">80%+</div>
+                <p class="ev-p">Of column searches used Patient Name (68%) or Claim Number (20%). UTR was 12%, but the Claim team can't work without it.</p>
+                <div class="ev-chip"><span class="src-chip">From discovery research</span></div>
+              </div>
+              <div class="synthesis">
+                <p class="ev-p"><strong>This wasn't a screen problem.</strong> The structure didn't match how hospitals work, so staff used search to get around it.</p>
+                <div class="ev-chip"><span class="src-chip">Synthesis across Hotjar + GA</span></div>
+              </div>
+            </div>
+          </div>
+          <h4 class="ev-sub">User comments</h4>
+          <div class="two-col">
+            <div>
+              <div class="comment"><p>"If there's a query pending at the discharge stage, I don't even get to know. I can't tell my team to start working on it."</p><div class="comment-attr">Hospital insurance head</div></div>
+              <div class="comment"><p>"Our claims are all mixed up. Patients come and ask us whats the status, i have to search the claim every time, we are really busy you know ?"</p><div class="comment-attr">Hospital insurance staff</div></div>
+              <div class="comment"><p>"So much work! I keep searching for claims ready for discharge. If I miss one, patient discharge gets delayed and my supervisor scolds me"</p><div class="comment-attr">Hospital insurance staff</div></div>
+              <div class="comment"><p>"Hospitals scold us asking why are we paying, why cant you guys add global search feature ?"</p><div class="comment-attr">IHX account managers</div></div>
+            </div>
+            <img src="images/ops-hospital.webp" alt="Hospital insurance desk" class="ev-hospital" loading="lazy" decoding="async">
+          </div>
         </div>
-      </div>
-      <!-- Row: Business Goals -->
-      <div style="border-top:1px solid var(--border);">
-        <div style="padding:14px 24px;display:flex;align-items:baseline;gap:0;">
-          <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;min-width:140px;">Business Goals</span>
-          <span style="font-size:var(--step--1);font-weight:500;color:var(--ink-soft);">Retain hospitals and secure new ones</span>
-        </div>
-      </div>
-    </div>
+        </article>
+      </section>
 
-    <!-- VS badge -->
-    <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ground);border:1px solid var(--border);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:var(--step--1);font-weight:700;color:var(--muted);z-index:2;">VS</div>
+      <section class="o-sec" id="o-decisions" aria-labelledby="h-decisions">
+        <h2 id="h-decisions">What I decided and why</h2>
 
-    <!-- THE REAL PROBLEM -->
-    <div style="background:var(--card-bg);border-radius:6px;overflow:hidden;box-shadow:var(--shadow-card);">
-      <div style="padding:24px 24px 16px;">
-        <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:14px;">The Real Problem</div>
-        <div style="font-family:'Staatliches', 'Impact', 'Arial Narrow', sans-serif;font-size:var(--step-1);font-weight:400;color:var(--ink);margin-bottom:12px;line-height:1.2;">Information Architecture</div>
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">A multi-stage, two-team operation (pre-auth, enhancement, discharge, settlement, reconciliation across 35+ payers) flattened into 4 buckets and called an Operations Dashboard.</p>
-      </div>
-      <!-- Row: Root Cause -->
-      <div style="border-top:1px solid rgba(48,47,44,0.12);">
-        <div style="padding:14px 24px;display:flex;align-items:baseline;gap:0;">
-          <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;min-width:140px;">Root Cause</span>
-          <span style="font-size:var(--step--1);font-weight:500;color:var(--ink-soft);">Information architecture problem, not a UI problem.</span>
-        </div>
-      </div>
-      <!-- Row: Why We Should Solve This -->
-      <div style="border-top:1px solid rgba(48,47,44,0.12);">
-        <div style="padding:14px 24px;display:flex;align-items:baseline;gap:0;">
-          <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;min-width:160px;">Why Solve This</span>
-          <span style="font-size:var(--step--1);font-weight:500;color:var(--ink-soft);">When hospital staff cannot find what they need, queries go unanswered, discharges get delayed, and IHX loses the client.</span>
-        </div>
-      </div>
-    </div>
+        <article class="o-dec">
+          <h3><span class="o-n">0<i class="d1">1</i></span>Two views, joined by a toggle</h3>
+          <p>I took the study findings to the PM, who checked them against what he was hearing from hospitals. We landed on two views: a <strong>PA View</strong> for the Pre-Auth team and a <strong>Claim View</strong> for the Claim team.</p>
+          <p>The obvious next step was a fixed view per role. I recommended a toggle instead, because in smaller hospitals one person does both jobs. Split teams each get their own view, and everyone else switches in one click.</p>
+          <p>Each view follows one pattern: stage buckets, then secondary filters, then the table. Five later IHX modules reused it with no new architecture work.</p>
+          <figure class="o-fig o-wide">
+            <img src="images/ops-information-architecture-v2.webp" width="1280" height="757" loading="lazy" decoding="async" alt="Information architecture: PA View to stage buckets to secondary filters to table, and Claim View to settlement buckets to secondary filters to table" />
+            <figcaption>PA View &rarr; stage buckets &rarr; secondary filters &rarr; table &nbsp;|&nbsp; Claim View &rarr; settlement buckets &rarr; secondary filters &rarr; table</figcaption>
+          </figure>
+        </article>
 
-  </div>
+        <article class="o-dec">
+          <h3><span class="o-n">02</span>Scoped search instead of global search</h3>
+          <p>Hospitals had asked for global search since launch, but engineering found Elasticsearch too expensive and complex at our database size. GA showed Patient Name, Claim Number and UTR covered almost every search, so I recommended a scoped search across those three fields, with partial match.</p>
+          <aside class="o-call"><span class="o-call-k">The tradeoff</span><p>Hospitals didn't get the global search they asked for, but they got the searches they actually ran, with no new infrastructure.</p></aside>
+          <figure class="o-fig o-vid"><div class="o-vbox"><video src="ops-scoped-search.mp4" poster="images/ops-scoped-search-poster.webp" width="1600" height="898" controls muted playsinline preload="none" aria-label="Recording: searching by patient name with the scoped search field"></video></div><figcaption>The scoped search field: Patient Name, Claim Number or UTR, with partial match.</figcaption></figure>
+        </article>
 
-  <div style="background:var(--card-bg);border-left:4px solid var(--indigo-light);padding:20px 24px;border-radius:0 6px 6px 0;margin-top:16px;box-shadow:var(--shadow-card);">
-    <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;font-style:italic;">"The platform had been inherited from a parent insurance company. When IHX became its own entity, nobody had gone back and asked how hospital teams actually work. The screen reflected the logic of the company that built it, not the people using it."</p>
-    <div style="margin-top:12px;"><span class="src-chip">From discovery research</span></div>
-  </div>
-</div>
-</div>
+        <article class="o-dec">
+          <h3><span class="o-n">03</span>Buckets agreed with the hospitals who use them</h3>
+          <p>I worked out the buckets with the PM. Pre-Auth buckets follow time (Awaiting Discharge splits today and tomorrow), and Claim buckets follow settlement status. We then ran four rounds of moderated feedback sessions with 2 to 3 hospitals each, covering Pre-Auth staff, Claim staff and supervisors.</p>
+          <ol class="o-rounds">
+            <li class="o-round">
+              <div class="o-round-t"><span class="o-round-n">Round <i class="d1">1</i></span>
+                <p><strong>What we learned.</strong> Both teams found their own view without help. Pre-Auth staff didn't need a Discharge Tomorrow bucket.</p>
+                <p><strong>What changed.</strong> The PA/Claim split was confirmed. That bucket was removed.</p></div>
+              <figure class="o-fig"><img src="images/ops-testing-round-1.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 1 prototype: the Claims Listing split into Pre Auth View and Claim View, change marked" /></figure>
+            </li>
+            <li class="o-round">
+              <div class="o-round-t"><span class="o-round-n">Round 2</span>
+                <p><strong>What we learned.</strong> Some bucket names weren't clear. Staff asked for a date filter. Supervisors needed several statuses at once.</p>
+                <p><strong>What changed.</strong> Names reworked.</p></div>
+              <figure class="o-fig"><img src="images/ops-testing-round-2.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 2 prototype: action-focused primary buckets by stage and secondary filters for status" /></figure>
+            </li>
+            <li class="o-round">
+              <div class="o-round-t"><span class="o-round-n">Round 3</span>
+                <p><strong>What we learned.</strong> Bucket names agreed across five hospitals.</p>
+                <p><strong>What changed.</strong> Final names. Multi-select filters and the date filter added.</p></div>
+              <figure class="o-fig"><img src="images/ops-testing-round-3.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 3 prototype: a date filter for a time range and multi-select secondary filters" /></figure>
+            </li>
+            <li class="o-round">
+              <div class="o-round-t"><span class="o-round-n">Round 4</span>
+                <p><strong>What we learned.</strong> Scoped search and the follow-up feature worked.</p>
+                <p><strong>What changed.</strong> Follow-up timing made configurable per insurer.</p></div>
+              <figure class="o-fig"><img src="images/ops-testing-round-4.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 4 prototype: the date filter covers all three claim dates, and scoped search by Patient Name, Claim Number and UTR" /></figure>
+            </li>
+          </ol>
+          <aside class="o-call o-call-hard"><span class="o-call-k">The hardest call</span><p>One enterprise hospital pushed hard to replace the Discharge bucket with a filter, and the account manager was under pressure to agree. But the dashboard serves thousands of hospitals, and four others in the same round confirmed the bucket worked. The bucket stayed. The reasoning went back through the account manager, and their feedback was logged. <strong>They signed anyway.</strong></p></aside>
+        </article>
 
-<!-- ── 04: EVIDENCE ── -->
-<div style="padding:80px 48px;">
-<div class="page-inner">
-  <div class="section-label">03 · What the Data Showed</div>
-  <h2 class="cs-heading">Three sources of evidence shaped the direction before any design decisions.</h2>
-  <p class="cs-sub">Hotjar session recordings, Google Analytics event data, and user feedback direct and indirect routed through account managers gave three different angles on the same problem.</p>
-  <div class="two-col" style="margin-bottom:16px;">
-    <div class="card">
-      <div class="ev-header"><div class="ev-dot orange"></div><div class="ev-lbl">Hotjar · Session Heatmap</div></div>
-      <img src="images/ops-hotjar.webp" alt="Hotjar" style="width:100%;height:220px;object-fit:cover;border-radius:6px;display:block;margin-bottom:14px;">
-      <p style="font-size:var(--step--1);color:var(--muted);line-height:1.65;">The heatmap showed heat concentrated at the top of the screen. New Admission, the search fields, and the Approval Pending bucket. The table body was cold. Users were not browsing. They were searching.</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px;">
-      <div class="card">
-        <div class="ev-header"><div class="ev-dot indigo"></div><div class="ev-lbl">Google Analytics · Events Data</div></div>
-        <div class="ev-stat">80%+</div>
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.65;margin-top:8px;">Of all column-level searches, over 80% used just 2 parameters: Patient Name (68%) and Claim Number (20%). UTR had low usage (12%) but stays essential for the Claim team.</p>
-        <div style="margin-top:14px;"><span class="src-chip">From discovery research</span></div>
-      </div>
-      <div class="synthesis">
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;">Reading across both sources (the cold table in Hotjar and the column-level search data in GA), the pattern points to one conclusion: users were not finding what they needed through the bucket structure. They were relying on search as a workaround.</p>
-        <div style="margin-top:12px;"><span class="src-chip">Synthesis across Hotjar + GA</span></div>
-      </div>
-    </div>
-  </div>
-  <h3 style="font-family:'Staatliches', 'Impact', 'Arial Narrow', sans-serif;font-size:var(--step-1);font-weight:400;color:var(--ink);margin:40px 0 20px;">User Comments</h3>
-  <div class="two-col">
-    <div>
-      <div class="comment"><p>"If there's a query pending at the discharge stage, I don't even get to know. I can't tell my team to start working on it."</p><div class="comment-attr">Hospital Insurance Head</div></div>
-      <div class="comment"><p>"Our claims are all mixed up. Patients come and ask us whats the status, i have to search the claim every time, we are really busy you know ?"</p><div class="comment-attr">Hospital Insurance Staff</div></div>
-      <div class="comment"><p>"So much work! I keep searching for claims ready for discharge. If I miss one, patient discharge gets delayed and my supervisor scolds me"</p><div class="comment-attr">Hospital Insurance Staff</div></div>
-      <div class="comment"><p>"Hospitals scold us asking why are we paying, why cant you guys add global search feature ?"</p><div class="comment-attr">IHX Account Managers</div></div>
-    </div>
-    <img src="images/ops-hospital.webp" alt="Hospital" style="width:100%;height:100%;min-height:300px;object-fit:cover;border-radius:6px;display:block;">
-  </div>
-  <div class="coverage">
-    <div><div class="cov-val"><i class="d1">1</i>5+</div><div class="cov-lbl">Users interviewed</div></div>
-    <div><div class="cov-val">5+</div><div class="cov-lbl">Hospitals covered</div></div>
-    <div><div class="cov-val">6+</div><div class="cov-lbl">Teams represented</div></div>
-  </div>
-</div>
-</div>
+        <article class="o-dec">
+          <h3><span class="o-n">04</span>Follow-up timing set per insurer</h3>
+          <p>When a claim sat in Approval Pending with no reply, staff left IHX to email the insurer from their own inbox. The new structure gave follow-up a natural home: an action in the claim list, next to how long the claim has been waiting.</p>
+          <p>The real decision was <em>when</em> to follow up. Each insurer works on its own timeline, and each hospital has its own agreement with each insurer, so a single default would have been wrong for most. The waiting time is configurable per insurer, in Manage Configuration, and shows in the claim list as an elapsed time column.</p>
+          <figure class="o-fig o-vid"><div class="o-vbox"><video src="ops-followup.mp4" poster="images/ops-followup-poster.webp" width="1600" height="898" controls muted playsinline preload="none" aria-label="Recording: sending a follow-up to the insurer from the claim list, with the elapsed time column"></video></div><figcaption>The follow-up action in the claim list, next to the elapsed time column.</figcaption></figure>
+        </article>
 
-<!-- ── 05: USER GROUPS ── -->
-<div style="padding:80px 48px;border-bottom:1px solid rgba(20,18,14,0.06);">
-<div class="page-inner">
-  <div class="section-label">04 · Understanding the Users & Ecosystem</div>
-  <h2 class="cs-heading">A hospital insurance operation is not one workflow. It is two.</h2>
-  <p class="cs-sub">I spoke with account managers, sat with the PM, and had direct conversations with hospital staff. What I found was two distinct operations, each with different pressures, timelines, and a completely different relationship with the platform.</p>
+        <article class="o-dec">
+          <h3><span class="o-n">05</span>What I left out: bulk settlement</h3>
+          <p>Hotjar showed the Claim team settling claims one by one every evening. We designed a bulk workflow, but shipping it alongside a structural redesign would have added risk on two fronts. We shipped the structure first and planned bulk settlement for v2.</p>
+        </article>
 
-  <!-- Pre-Auth + Claim Team row -->
-  <div class="team-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-
-    <!-- PRE-AUTH TEAM -->
-    <div style="border:none;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-card);">
-      <!-- Header -->
-      <div style="background:var(--card-bg);padding:16px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-bottom:1px solid rgba(48,47,44,0.12);">
-        <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);">Pre-Auth Team</div>
-        <div style="display:flex;gap:6px 10px;flex-wrap:wrap;">
-          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);display:flex;align-items:center;gap:4px;">⚡ Time-critical</span>
-          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);display:flex;align-items:center;gap:4px;">⚡ Patient facing</span>
-        </div>
-      </div>
-      <!-- Bullets -->
-      <div style="padding:16px 20px;background:var(--card-bg);flex:1;">
-        <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Initiates the claim before the patient is admitted</div>
-        <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Responds to insurer queries on missing documents or procedure clarifications</div>
-        <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Raises enhancement requests</div>
-        <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Initiates discharge when the patient is medically ready to leave</div>
-      </div>
-      <!-- Critical note -->
-      <div style="padding:14px 20px;background:var(--card-bg);border-top:1px solid rgba(48,47,44,0.12);">
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.6;"><b style="font-weight:700;">Every action is time-critical</b>: an unanswered query increases TAT, a delayed discharge costs the hospital a bed/hour.</p>
-      </div>
-    </div>
-
-    <!-- CLAIM TEAM -->
-    <div style="border:none;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-card);">
-      <!-- Header -->
-      <div style="background:var(--card-bg);padding:16px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-bottom:1px solid rgba(48,47,44,0.12);">
-        <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);">Claim Team</div>
-        <div style="display:flex;gap:6px 10px;flex-wrap:wrap;">
-          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);display:flex;align-items:center;gap:4px;">💰 Finance-critical</span>
-          <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);display:flex;align-items:center;gap:4px;">⚡ Settlement focused</span>
-        </div>
-      </div>
-      <!-- Bullets -->
-      <div style="padding:16px 20px;background:var(--card-bg);flex:1;">
-        <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Submits the formal claim to the insurer after discharge is approved</div>
-        <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Initiates settlement in bulk at end of day across multiple payers</div>
-        <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Resolves finance-level queries that affect the settlement timeline</div>
-        <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Reconciles payments against the hospital contracted tariff / MOUs</div>
-      </div>
-      <!-- Critical note -->
-      <div style="padding:14px 20px;background:var(--card-bg);border-top:1px solid rgba(48,47,44,0.12);">
-        <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.6;"><b style="font-weight:700;">Every delay means money already spent on care sitting</b> unreturned, impacting operational capital.</p>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- SUPERVISORS / TEAM HEADS -->
-  <div style="border:none;border-radius:8px;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-card);">
-    <!-- Header -->
-    <div style="background:var(--card-bg);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid rgba(48,47,44,0.12);">
-      <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);">Supervisors / Team Heads</div>
-      <div style="display:flex;gap:6px 10px;flex-wrap:wrap;">
-        <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);">⚡ Time-sensitive</span>
-        <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);">⚡ Management critical</span>
-        <span style="white-space:nowrap;font-size:0.78rem;font-weight:400;letter-spacing:0;color:var(--asphalt);">⚡ CXO facing</span>
-      </div>
-    </div>
-    <!-- Bullets -->
-    <div style="padding:16px 20px;background:var(--card-bg);">
-      <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Opens the dashboard to understand the team's workload at a glance, not to take action directly</div>
-      <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>If a query has been sitting unanswered, they will reach out to their staff immediately</div>
-      <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;margin-bottom:6px;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;">&middot;</span>Needs to see counts across multiple sub-statuses simultaneously to assess team performance</div>
-      <div style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;display:flex;gap:8px;"><span style="color:var(--muted);flex-shrink:0;"></span>The dashboard is a supervision and oversight tool, not an action tool</div>
-    </div>
-    <!-- Accountability note -->
-    <div style="padding:14px 20px;background:var(--card-bg);border-top:1px solid rgba(48,47,44,0.12);">
-      <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Every unanswered query and delayed discharge is visible to them first. <b style="font-weight:700;">They are accountable for the team's turnaround time.</b></p>
-    </div>
-  </div>
-
-  <!-- Ecosystem Reality -->
-  <div style="background:var(--card-bg);border-left:4px solid var(--indigo-light);border-radius:0 6px 6px 0;box-shadow:var(--shadow-card);padding:24px;margin-bottom:24px;">
-    <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:10px;">Ecosystem Reality</div>
-    <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.75;margin-bottom:6px;">The users work in a high pressure, highly sensitive environment. The user faces high cognitive load: talking to multiple patients, submitting cases, and answering queries by coordinating with department heads. They are easily frustrated when the platform adds to that load instead of reducing it.</p>
-    <div style="margin-top:12px;"><span class="src-chip">From discovery research</span></div>
-  </div>
-
-  <!-- Journey map image -->
-  <div style="position:relative;margin-bottom:12px;">
-    <div style="margin-bottom:12px;">
-  <img src="images/ops-claim-lifecycle-journey-map-v2.webp" alt="Claim lifecycle journey map: ten stages from pre-auth initiation to reconciliation, the team's mood from steady to strained at each stage, the pain points under each, and the handoff from the Pre-Auth team to the Claim team at discharge approval" style="width:100%;height:auto;border-radius:6px;display:block;">
-  
-  </div>
-
-  <!-- User Journey Mapping callout -->
-  <div style="background:var(--card-bg);border-left:4px solid var(--indigo-light);border-radius:0 6px 6px 0;box-shadow:var(--shadow-card);padding:24px;">
-    <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:10px;">User Journey Mapping</div>
-    <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Two teams. Two urgency profiles. Two completely different reasons to open the platform. The old UI treated them as one user with one need.</p>
-    <div style="margin-top:12px;"><span class="src-chip">From discovery research</span></div>
-  </div>
-</div>
-</div>
-</div>
-
-<!-- ── 07: IA ── -->
-<div style="padding:80px 48px;">
-<div class="page-inner">
-  <div class="section-label">05 · Designing for the Existing Mental Model</div>
-  <h2 class="cs-heading">Information Architecture Revamped</h2>
-  <p class="cs-sub">The problems were not fixable at the surface because the surface was built on the wrong model. I had two options. Improve the existing screen or restructure the underlying information architecture. I chose the harder one.</p>
-  <div class="ia-bar"><div class="ia-dot"></div><div class="ia-dot"></div><div class="ia-dot"></div><div class="ia-lbl">New Information Architecture &middot; Modular · Replicable · Scalable</div></div>
-  <img src="images/ops-information-architecture-v2.webp" width="1280" height="757" alt="Information architecture: the Operations Dashboard with scoped search and date filters at level 00, splitting into a PA View and a Claim View at level 01, each with its own stage or settlement buckets at level 02, and secondary filters over a claim listing table at level 03" style="width:100%;height:auto;display:block;border:1px solid rgba(20,18,14,0.06);border-top:none;border-radius:0 0 6px 6px;">
-  <div class="ia-breadcrumb"><strong>PA View</strong> → Stage Buckets → Secondary Filters → Table &nbsp;|&nbsp; <strong>Claim View</strong> → Settlement Buckets → Secondary Filters → Table</div>
-  <div class="callout" style="border-left:4px solid var(--indigo-light);border-radius:0 6px 6px 0;">
-    <div class="callout-label">The Scalable Architecture</div>
-    <p class="callout-text">The PA View / Claim View template with nested bucket, secondary filter, and table became the foundation for the Government Scheme module, Self-Funded Corporate module, Recon module, IHX Nucleus mobile app, and the Reporting & Analytics module, all on the same pattern without additional architectural work.</p>
-  </div>
-</div>
-</div>
-
-<!-- ── 06: TESTING ── -->
-<div style="padding:80px 48px;">
-<div class="page-inner">
-  <div class="section-label">06 · Testing</div>
-  <h2 class="cs-heading">4 Rounds. Testing as process, not just validation.</h2>
-  <p class="cs-sub">2–3 hospitals per round, covering Pre-Auth staff, Claims staff, and supervisors. Key decisions were made or remade through testing.</p>
-  <div class="rt-tabs" role="tablist" aria-label="Testing rounds">
-    <button type="button" role="tab" id="rt-tab-1" aria-controls="rt-panel-1" aria-selected="true">Round 1</button>
-    <button type="button" role="tab" id="rt-tab-2" aria-controls="rt-panel-2" aria-selected="false" tabindex="-1">Round 2</button>
-    <button type="button" role="tab" id="rt-tab-3" aria-controls="rt-panel-3" aria-selected="false" tabindex="-1">Round 3</button>
-    <button type="button" role="tab" id="rt-tab-4" aria-controls="rt-panel-4" aria-selected="false" tabindex="-1">Round 4</button>
-  </div>
-  <div class="kd-table">
-    <div class="kd-row rt-panel" role="tabpanel" id="rt-panel-1" aria-labelledby="rt-tab-1" tabindex="0">
-      <div class="kd-row-inner">
-        <div class="kd-num">Round 01</div>
-        <div class="kd-title">Both user groups found their own view without guidance.</div>
-        <ul class="rt-list">
-          <li>The PA / Claim split, the core architecture decision, was confirmed</li>
-          <li>The Discharge Tomorrow bucket did not matter to the Pre-Auth team, so it was removed</li>
-          <li>Buckets were recommended per user group</li>
+        <h3 class="o-sub">Design details that changed the outcome</h3>
+        <ul class="o-points o-grid2">
+          <li><strong>A Claim Submission bucket.</strong> Claim submission is when the pre-auth becomes a final claim at discharge. Claim View now has its own bucket for claims ready to submit, with eligible claims at the top, so staff no longer search for them one by one.</li>
+          <li><strong>Search across views.</strong> With two views, a claim searched in the wrong view returned nothing. Now an empty search shows how many results exist in the other view, with a link to switch. It's one line of copy, and it became one of the most used patterns after launch.</li>
+          <li><strong>Multi-select filters.</strong> Single-select chips became a checkbox dropdown, so supervisors can see several statuses at once.</li>
+          <li><strong>Date filters.</strong> A patient name search returned every claim on record for that name. A date filter narrows it to the relevant ones.</li>
+          <li><strong>One bucket card, everywhere.</strong> Label, count, urgency and filter chips, with consistent colours: indigo for approvals, amber for queries, teal for discharge, red for denied. The same card runs across seven IHX surfaces.</li>
         </ul>
-        <img class="rt-img" src="images/ops-testing-round-1.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 1 prototype: the Claims Listing split into Pre Auth View and Claim View, with a note on the user need for a dedicated claim screen for each user group." />
-        <span class="kd-tag teal">PA / Claim Split Validated</span>
-      </div>
-    </div>
-    <div class="kd-row rt-panel" role="tabpanel" id="rt-panel-2" aria-labelledby="rt-tab-2" tabindex="0">
-      <div class="kd-row-inner">
-        <div class="kd-num">Round 02</div>
-        <div class="kd-title">The nested structure was understood. Bucket names needed work.</div>
-        <ul class="rt-list">
-          <li>Bucket names changed to match hospital vocabulary</li>
-          <li>Users asked for a date filter</li>
-          <li>Supervisors needed to see several statuses at once, which led to the multi-select filter</li>
-        </ul>
-        <img class="rt-img" src="images/ops-testing-round-2.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 2 prototype: action-focused primary buckets by stage, secondary filters for status, and download for filtered data. User needs: actionable segregation of claims, categorising claim stage level, ability to download data." />
-        <span class="kd-tag teal">Label Refinement Needed</span>
-      </div>
-    </div>
-    <div class="kd-row rt-panel" role="tabpanel" id="rt-panel-3" aria-labelledby="rt-tab-3" tabindex="0">
-      <div class="kd-row-inner">
-        <div class="kd-num">Round 03</div>
-        <div class="kd-title">Bucket names finalised. Multi-select and date filter added.</div>
-        <ul class="rt-list">
-          <li>Bucket names finalised from 5 hospitals</li>
-          <li>Checkbox multi-select built</li>
-          <li>Date filter introduced</li>
-          <li>Global search flagged as an engineering constraint, which started the scoped search decision</li>
-        </ul>
-        <img class="rt-img" src="images/ops-testing-round-3.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 3 prototype: a date filter for a specific time range and multi-select secondary filters. User needs: filtering claims by monthly or yearly range, flexibility in secondary filter selection." />
-        <span class="kd-tag teal">Filters &amp; Search Locked</span>
-      </div>
-    </div>
-    <div class="kd-row rt-panel" role="tabpanel" id="rt-panel-4" aria-labelledby="rt-tab-4" tabindex="0">
-      <div class="kd-row-inner">
-        <div class="kd-num">Round 04</div>
-        <div class="kd-title">Search and the follow-up feature validated.</div>
-        <ul class="rt-list">
-          <li>Partial-match search across Patient Name, Claim Number and UTR accepted</li>
-          <li>Follow-up feature validated</li>
-          <li>Elapsed time set per payer confirmed as necessary</li>
-        </ul>
-        <img class="rt-img" src="images/ops-testing-round-4.webp" width="1490" height="689" loading="lazy" decoding="async" alt="Round 4 prototype: the date filter covers all three claim dates, scoped search by Patient Name, Claim Number and UTR, the most searched fields in Google Analytics, and click or bar scrolling for columns. User needs: Discharges Today as the bucket name, all date type filtering, a better way to search claims, easier column scrolling." />
-        <span class="kd-tag teal">Scoped Search Accepted</span>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-<script>
-(function () {
-  var tabs = [].slice.call(document.querySelectorAll('.rt-tabs [role="tab"]'));
-  function show(t, focus) {
-    tabs.forEach(function (x) {
-      var on = x === t;
-      x.setAttribute("aria-selected", String(on));
-      x.tabIndex = on ? 0 : -1;
-      document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
-    });
-    if (focus) t.focus();
-  }
-  tabs.forEach(function (t, i) {
-    t.addEventListener("click", function () { show(t); });
-    t.addEventListener("keydown", function (e) {
-      var j = e.key === "ArrowRight" ? i + 1 : e.key === "ArrowLeft" ? i - 1 : e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : null;
-      if (j === null) return;
-      e.preventDefault();
-      show(tabs[(j + tabs.length) % tabs.length], true);
-    });
-  });
-  show(tabs[0]);
-})();
-</script>
-
-<!-- ── 07: BEFORE / AFTER ── -->
-<div style="padding:80px 48px;">
-<div class="page-inner">
-  <div class="section-label">07 · Before and After</div>
-  <h2 class="cs-heading">What Changed on the Ops Dashboard</h2>
-  <p class="cs-sub">User Pain Points and Improvements</p>
+        <div class="o-ba">
   <div class="ba-tabs" role="tablist" aria-label="Before or after">
     <button type="button" role="tab" id="ba-tab-before" aria-controls="ba-card" aria-selected="true">Before</button>
     <button type="button" role="tab" id="ba-tab-after" aria-controls="ba-card" aria-selected="false" tabindex="-1">After</button>
@@ -1433,8 +1450,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
       <ol class="ba-list"></ol>
     </div>
   </div>
-</div>
-</div>
+
 <script>
 (function () {
   // Coordinates are in the 1410x772 stage of the original Before/After board; the stage crops to y 55 to 706.
@@ -1540,288 +1556,113 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   render();
 })();
 </script>
+        </div>
+      </section>
 
-<!-- ── 08: KEY DECISIONS ── -->
-<div style="padding:80px 48px;">
-<div class="page-inner">
-  <div class="section-label">08 · Design Decisions</div>
-  <h2 class="cs-heading">Key decisions and why.</h2>
-  <div class="kd-table">
-    <!-- D01 -->
-    <div class="kd-row" style="display:grid;grid-template-columns:1fr 340px;">
-      <div class="kd-row-inner" style="border-right:1px solid var(--row-border);">
-        <div class="kd-num">01</div>
-        <div class="kd-title">Separated PA View and Claim View at the primary navigation level</div>
-        <p class="kd-body">Two tabs, two user groups, two bucket hierarchies. Pre-Auth buckets are time-stamped: Awaiting Discharge shows today and tomorrow separately. Claims buckets are settlement-state-oriented. Navigation is a single click; cross-view search results redirect automatically.</p>
-        <span class="kd-tag indigo">Core IA Decision</span>
-      </div>
-      <div style="padding:20px;display:flex;align-items:center;justify-content:center;">
-        <img src="images/ops-pa-view-claim-view.webp" alt="PA View Claim View" style="width:100%;height:auto;border-radius:6px;display:block;">
-      </div>
-    </div>
-    <!-- D02b: claim submission bucket -->
-    <div class="kd-row">
-      <div class="kd-row-inner">
-        <div class="kd-num">02</div>
-        <div class="kd-title">A Claim Submission bucket, eligible claims first</div>
-        <p class="kd-body">Claim submission is when the pre-auth becomes a final claim at discharge. Staff used to search for every claim ready for submission. Claim View now has a dedicated Claim Submission bucket, with claims eligible for submission shown at the top, so the search step disappears. This is the change behind the 51% drop in time to claim submission.</p>
-        <span class="kd-tag indigo">Core Design Decision</span>
-      </div>
-    </div>
-    <!-- D02 -->
-    <div class="kd-row">
-      <div class="kd-row-inner">
-        <div class="kd-num">03</div>
-        <div class="kd-title">Visual design: nested bucket hierarchy with consistent visual cues across all modules</div>
-        <p class="kd-body">The bucket card (primary label, count, urgency indicator, secondary filter chips) communicates stage, volume, and action at a glance. Colour coding is consistent: indigo for approval states, amber for queries, teal for discharge, red for denied. The same component was reused across PA View, Claim View, Government Scheme, Self-Funded Corporate, Recon Module, IHX Mobile App, and Reporting & Analytics, with no additional design or dev work.</p>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">PA View</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Claim View</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Gov Scheme</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Self-Funded Corporate</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Recon Module</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">Reporting & Analytics</span><span style="font-size:var(--step--1);font-weight:600;color:var(--ink-soft);background:rgba(20,18,14,0.06);border:1px solid rgba(20,18,14,0.1);padding:3px 10px;border-radius:3px;">IHX Mobile App</span>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px;">
-          <img src="images/ops-pa-view.webp" alt="PA View" style="width:100%;height:auto;border-radius:6px;display:block;">
-          <img src="images/ops-claim-view.webp" alt="Claim View" style="width:100%;height:auto;border-radius:6px;display:block;">
-        </div>
-        <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);">Visual Design &middot; Scalable Modular Design · Hierarchy</div>
-      </div>
-    </div>
-    <!-- D03 -->
-    <div class="kd-row">
-      <div class="kd-row-inner">
-        <div class="kd-num">04</div>
-        <div class="kd-title">Secondary filters evolved from single-select chips to checkbox multi-select</div>
-        <p class="kd-body">Initial design used horizontal tag chips, clean for single selections. Testing revealed supervisors needed to select multiple statuses simultaneously. Evolved to checkbox-based multi-select in a dropdown, which serves both the staff member needing a focused filter and the supervisor needing a cross-status overview.</p>
-        <span class="kd-tag teal">Testing-Driven Change</span>
-      </div>
-    </div>
-    <!-- D04 -->
-    <div class="kd-row" style="display:grid;grid-template-columns:1fr 340px;">
-      <div class="kd-row-inner" style="border-right:1px solid var(--row-border);">
-        <div class="kd-num">05</div>
-        <div class="kd-title">Handling search errors &middot; cross-view search results</div>
-        <p class="kd-body">Splitting views created a problem. A Claim Number search in Claim View will return empty results because the claim lived in Pre-Auth View. Fix: when a search returns no results, the platform shows how many results exist in the other view with a direct link to switch. One line of copy. Now one of the most-used interaction patterns post-launch.</p>
-        <span class="kd-tag indigo">Core Design Decision</span>
-      </div>
-      <div style="padding:20px;display:flex;align-items:center;justify-content:center;">
-        <img src="images/ops-error-handling.webp" alt="Error handling" style="width:100%;height:auto;border-radius:6px;display:block;">
-      </div>
-    </div>
-    <!-- D05 -->
-    <div class="kd-row">
-      <div class="kd-row-inner">
-        <div class="kd-num">06</div>
-        <div class="kd-title">The Follow-Up Feature &middot; increasing platform stickiness</div>
-        <p class="kd-body">One of the points users were leaving the platform was to follow up with payers on delay in approval pending cases. A feature was introduced: email follow up through CTA under actions column inside the claim listing screen against cases along with the elapsed time.</p>
-        <span class="kd-tag teal">Platform Stickiness Feature</span>
-      </div>
-    </div>
-    <!-- D06 -->
-    <div class="kd-row">
-      <div class="kd-row-inner">
-        <div class="kd-num">07</div>
-        <div class="kd-title">Filtering by Time & Date</div>
-        <p class="kd-body">Searching claims by patient name returned everything (claims from origin onwards), forcing users to manually sift through noise. We added a time period and date filter with hierarchical claim date types, letting users surface only relevant records.</p>
-        <span class="kd-tag teal">Testing-Driven Change</span>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ── 08: TRADEOFFS ── -->
-<div style="padding:80px 48px;border-bottom:1px solid rgba(20,18,14,0.06);">
-<div class="page-inner">
-  <div class="section-label">09 · Constraints, Tradeoffs & Stakeholder Management</div>
-  <h2 class="cs-heading">What I worked around, held on, and let go.</h2>
-  <p class="cs-sub">Four situations from this project where the decision was not straightforward.</p>
-
-  <!-- One seamless table, all 4 rows -->
-  <div style="border:none;border-radius:8px;overflow:hidden;background:var(--card-bg);box-shadow:var(--shadow-card);">
-
-    <!-- Row 01 -->
-    <div style="border-bottom:1px solid rgba(20,18,14,0.08);">
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:center;justify-content:space-between;gap:12px;">
-        <div>
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:6px;">Engineering Constraint</div>
-          <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);line-height:1.3;">Search: global search was infeasible. I used GA data to figure out what to build instead.</div>
-        </div>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-deep);border:0;background:rgba(0,184,148,0.12);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Shipped</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
-        <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Hospitals had been requesting global search since the platform launched. Engineering assessed Elasticsearch as infeasible: too expensive and architecturally complex at this database scale. The constraint was real and non-negotiable. The mobile app searches a smaller, scoped dataset, so Elasticsearch was affordable there.</p>
-        </div>
-        <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">How I Approached It</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">I pulled Google Analytics event data on column-level searches. Patient Name: 68% · Claim Number: 20% · UTR Number: 12%. Over 80% of column-level searches used two of them, Patient Name and Claim Number. UTR was low but the Claim team cannot work without it. Rather than accepting a blank space, I built scoped search across those three: data-backed, constraint-aware, and faster in practice for the most common use cases.</p>
-        </div>
-        <div style="padding:20px 24px;">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:8px;">Result</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Scoped partial-match search across Patient Name, Claim Number, and UTR Number. Zero additional infra cost. Covers the real use cases.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 02 -->
-    <div style="border-bottom:1px solid rgba(20,18,14,0.08);">
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:center;justify-content:space-between;gap:12px;">
-        <div>
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:6px;">Stakeholder Management</div>
-          <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);line-height:1.3;">One enterprise hospital pushed to remove the Discharge bucket entirely. I held the line. They signed anyway.</div>
-        </div>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--indigo);border:0;background:rgba(60,58,218,0.10);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Client Retained</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
-        <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">During testing, one enterprise hospital pushed hard to remove the Discharge bucket and replace it with a secondary filter. Their workflow had specific reasons for this preference. The account manager was under pressure to accommodate them.</p>
-        </div>
-        <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">How I Approached It</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">The platform serves thousands of hospitals on a single interface. Accepting one hospital's structural preference would create inconsistency for every other hospital and a long-term maintenance problem. Four other hospitals in the cohort confirmed the Discharge bucket structure was right for the majority.</p>
-        </div>
-        <div style="padding:20px 24px;">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:8px;">Result</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">I held the line, communicated the reasoning through the AM, and documented the feedback. Platform IA integrity maintained. Feedback on the roadmap.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 03 -->
-    <div style="border-bottom:1px solid rgba(20,18,14,0.08);">
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:center;justify-content:space-between;gap:12px;">
-        <div>
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:6px;">MVP Scope</div>
-          <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);line-height:1.3;">Settlement in bulk was painful. We designed it. We did not ship it.</div>
-        </div>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A5A0F;border:0;background:rgba(245,166,35,0.16);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Deliberately Deferred</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
-        <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Hotjar confirmed Claims team was doing bulk settlement case by case every evening, a real operational cost. We had designed the bulk workflow. Engineering capacity and stable IA shipping took priority for the MVP.</p>
-        </div>
-        <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">How I Approached It</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">The decision was deliberate, not a compromise. Shipping an unstable bulk feature alongside a structural redesign would have introduced risk on two fronts. The IA needed to be proven stable first. Bulk was documented and roadmapped for v2.</p>
-        </div>
-        <div style="padding:20px 24px;">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:8px;">Result</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">MVP shipped stable. Bulk Settlement confirmed as v2 priority. Deferring it was a decision with a reason and a record, not a gap.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 04 -->
-    <div>
-      <div style="padding:20px 24px;border-bottom:1px solid rgba(20,18,14,0.06);display:flex;align-items:center;justify-content:space-between;gap:12px;">
-        <div>
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--asphalt);margin-bottom:6px;">Design Thinking &middot; Platform Stickiness</div>
-          <div style="font-family:'Manrope', sans-serif;font-size:var(--step-0);font-weight:800;color:var(--ink);line-height:1.3;">The Follow-Up Feature: from workflow improvement to contract requirement.</div>
-        </div>
-        <span style="font-size:var(--step--1);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal-deep);border:0;background:rgba(0,184,148,0.12);padding:5px 12px;border-radius:3px;flex-shrink:0;white-space:nowrap;">Contract Secured</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
-        <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">Situation</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Hospital staff were leaving IHX to send follow-up emails from their inbox when claims sat in Approval Pending with no insurer response. Every exit broke the workflow.</p>
-        </div>
-        <div style="padding:20px 24px;border-right:1px solid rgba(20,18,14,0.06);">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;">How I Approached It</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">The feature itself was straightforward. The real design work was the configuration layer. A fixed system default would have been wrong for most hospitals: different insurers operate on different timelines, each hospital has its own MOU with each payer. The elapsed time is configurable per payer in Manage Configuration.</p>
-        </div>
-        <div style="padding:20px 24px;">
-          <div style="font-size:var(--step--1);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:8px;">Result</div>
-          <p style="font-size:var(--step--1);color:var(--ink-soft);line-height:1.7;">Staff send follow-up emails directly from IHX without leaving the platform. Configurable per payer. 3 group hospital contracts, where the follow-up feature was a requirement to sign. Not a nice-to-have.</p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Through-line -->
-  <div class="throughline" style="margin-top:24px;">
-    <div class="tl-lbl">Through-Line</div>
-    <div class="tl-title">Three things that ran through every decision here</div>
-    <div class="tl-grid">
-      <div><div class="tl-item-title">Use data to answer design questions, not just validate them.</div><p class="tl-item-body">Search decision came from GA. Stakeholder pushback was settled by cohort testing. If I can get data, I get data first.</p></div>
-      <div><div class="tl-item-title">Platform decisions have to hold for everyone, not just the loudest user.</div><p class="tl-item-body">One hospital's workflow preference cannot drive structural changes to a platform used by thousands.</p></div>
-      <div><div class="tl-item-title">Deferring is a decision, not a failure. It needs a reason and a record.</div><p class="tl-item-body">Bulk Settlement was ready. It was deliberately deprioritised and added to the v2.</p></div>
-    </div>
-  </div>
-
-</div>
-</div>
-
-<!-- ── 10: IMPACT ── -->
-<div style="padding:80px 48px;">
-<div class="page-inner">
-  <div class="section-label">10 · Impact: Design Decisions Tied to Business Outcomes</div>
-  <h2 class="cs-heading">The numbers matter. So does understanding which decisions produced which outcomes.</h2>
-  <div class="impact-top">
-    <div class="impact-cell" style="border-top:3px solid #00B894;"><div class="impact-lbl" style="margin-top:16px;">Revenue Per Claim</div><div class="impact-val teal">↑33%</div><p class="impact-desc">INR 90 to 120 per claim on one enterprise hospital contract, with the new Ops Dashboard as a premium feature</p><p class="impact-cap">On a 1-year contract.</p></div>
-    <div class="impact-cell" style="border-top:3px solid var(--indigo-light);"><div class="impact-lbl" style="margin-top:16px;">Group Hospital Contracts</div><div class="impact-val indigo">3</div><p class="impact-desc">Group hospital contracts, where the follow-up feature was a requirement to sign</p><p class="impact-cap">All 1-year contracts, signed in the second half of 2025.</p></div>
-    <div class="impact-cell" style="border-top:3px solid var(--indigo-light);"><div class="impact-lbl" style="margin-top:16px;">CSAT Score</div><div class="impact-val indigo">4.6<span class="of5">/5</span></div><p class="impact-desc">Improved customer satisfaction post-launch, up from 4.1.</p><p class="impact-cap">Out of 5. Survey of hospitals by marketing over 3 weeks, around 350 responses, 2025.</p></div>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
-    <div class="oc-wrap" role="img" aria-label="Revenue per claim up 33%, before and after">
-      <div class="oc-card oc-rev" data-oc="33" aria-hidden="true" title="Click to replay">
-        <div class="oc-title">Increased Revenue / Claim</div>
-        <div class="oc-body">
-          <div class="oc-chart">
-            <svg width="150" height="130" viewBox="0 0 150 130"><path class="oc-arrow" d="M0 64 L122 6 M110 4 L122 6 L115 16"></path></svg>
-            <div class="oc-bar" style="--h:56px;--d:0s"></div>
-            <div class="oc-bar" style="--h:66px;--d:.08s"></div>
-            <div class="oc-bar" style="--h:74px;--d:.16s"></div>
-            <div class="oc-bar" style="--h:84px;--d:.24s"></div>
-            <div class="oc-bar" style="--h:92px;--d:.32s"></div>
-            <div class="oc-bar" style="--h:102px;--d:.40s"></div>
-            <div class="oc-bar" style="--h:112px;--d:.48s"></div>
+      <section class="o-sec" id="o-results" aria-labelledby="h-results">
+        <h2 id="h-results">Results</h2>
+        <div class="o-charts">
+          <div class="oc-wrap" role="img" aria-label="Per-claim price 33% higher on one enterprise hospital contract">
+            <div class="oc-card oc-rev" data-oc="33" aria-hidden="true" title="Click to replay">
+              <div class="oc-title">Per-Claim Price</div>
+              <div class="oc-body">
+                <div class="oc-chart">
+                  <svg width="150" height="130" viewBox="0 0 150 130"><path class="oc-arrow" d="M0 64 L122 6 M110 4 L122 6 L115 16"></path></svg>
+                  <div class="oc-bar" style="--h:56px;--d:0s"></div>
+                  <div class="oc-bar" style="--h:66px;--d:.08s"></div>
+                  <div class="oc-bar" style="--h:74px;--d:.16s"></div>
+                  <div class="oc-bar" style="--h:84px;--d:.24s"></div>
+                  <div class="oc-bar" style="--h:92px;--d:.32s"></div>
+                  <div class="oc-bar" style="--h:102px;--d:.40s"></div>
+                  <div class="oc-bar" style="--h:112px;--d:.48s"></div>
+                </div>
+                <div class="oc-stat"><div class="oc-num"><span class="oc-n">33</span>%</div><div class="oc-lbl">Higher, On One<br>Enterprise Contract</div></div>
+              </div>
+              <div class="oc-legend"><div><span style="background:#ece6d6"></span>Before</div><div><span style="background:#3a35e0"></span>After</div></div>
+            </div>
           </div>
-          <div class="oc-stat"><div class="oc-num"><span class="oc-n">33</span>%</div><div class="oc-lbl">Increase In<br>Revenue Per Claim</div></div>
+          <div class="oc-wrap" role="img" aria-label="Average time to claim submission down 51%, from 3.23 to 1.56 minutes; no change for hospitals still on the old UI">
+            <div class="oc-card oc-time" data-oc="51" aria-hidden="true" title="Click to replay">
+              <div class="oc-title">Reduced Time To Claim Submission</div>
+              <div class="oc-body">
+                <div class="oc-col"><div class="oc-slot"><div class="oc-before"><span>3.23 Min</span></div></div><div class="oc-lbl-sm">Before</div></div>
+                <div class="oc-col"><div class="oc-slot"><div class="oc-after-wrap"><div class="oc-hatch"></div><div class="oc-after"><span class="oc-mins">1.56</span>&nbsp;Min</div></div></div><div class="oc-lbl-sm">After</div></div>
+                <div class="oc-stat"><div class="oc-num"><span class="oc-n">51</span> %</div><div class="oc-lbl">Average<br>Reduction</div></div>
+              </div>
+              <div class="oc-ctrl"><span>Control, old UI</span><b>No change</b></div>
+            </div>
+          </div>
         </div>
-        <div class="oc-legend"><div><span style="background:#ece6d6"></span>Before</div><div><span style="background:#3a35e0"></span>After</div></div>
-      </div>
-    </div>
-    <div class="oc-wrap" role="img" aria-label="Average time to claim submission down 51%, from 3.23 to 1.56 minutes">
-      <div class="oc-card oc-time" data-oc="51" aria-hidden="true" title="Click to replay">
-        <div class="oc-title">Reduced Average Time To Claim Submission</div>
-        <div class="oc-body">
-          <div class="oc-col"><div class="oc-slot"><div class="oc-before"><span>3.23 Min</span></div></div><div class="oc-lbl-sm">Before</div></div>
-          <div class="oc-col"><div class="oc-slot"><div class="oc-after-wrap"><div class="oc-hatch"></div><div class="oc-after"><span class="oc-mins">1.56</span>&nbsp;Min</div></div></div><div class="oc-lbl-sm">After</div></div>
-          <div class="oc-stat"><div class="oc-num"><span class="oc-n">51</span> %</div><div class="oc-lbl">Reduction In<br>Time To Claim<br>Submission</div></div>
+        <p><strong>Why I measured claim submission.</strong> It's one bucket among many, but it was the clearest test of whether buckets work:</p>
+        <ol class="o-points o-ol">
+          <li><strong>It was the biggest visible waste.</strong> Hotjar showed Claim staff in an evening loop: search the patient name, open the claim, initiate submission, return to the list, search again. Most of the time went on finding the claim, not submitting it.</li>
+          <li><strong>It's finance-critical.</strong> Submission is the last step before the insurer pays, so a delay holds up the hospital's money.</li>
+          <li><strong>It's repeated all day, one claim at a time.</strong> That's where a bucket surfacing the next item should save the most time.</li>
+        </ol>
+        <div class="o-table o-results" role="table" aria-label="Results">
+          <div class="o-tr o-th" role="row"><span role="columnheader">Measure</span><span role="columnheader">Result</span><span role="columnheader">How it was measured</span></div>
+          <div class="o-tr" role="row"><span role="cell" data-k="Measure">Time to claim submission</span><span role="cell" data-k="Result" class="o-num">3.23 to 1.56 min (51% less)</span><span role="cell" data-k="How it was measured">25 random Hotjar sessions from contracted hospitals, 2 months before vs 2 months after launch. Non-contracted hospitals on the old UI were the control.</span></div>
+          <div class="o-tr" role="row"><span role="cell" data-k="Measure">Group hospital contracts</span><span role="cell" data-k="Result" class="o-num">3 signed</span><span role="cell" data-k="How it was measured">All three required the follow-up feature. 1-year contracts, second half of 2025.</span></div>
+          <div class="o-tr" role="row"><span role="cell" data-k="Measure">Per-claim price</span><span role="cell" data-k="Result" class="o-num">33% higher</span><span role="cell" data-k="How it was measured">One enterprise hospital contract, 1 year, with the new dashboard as a premium feature</span></div>
+          <div class="o-tr" role="row"><span role="cell" data-k="Measure">Adoption</span><span role="cell" data-k="Result" class="o-num">900+ hospitals live</span><span role="cell" data-k="How it was measured">Contracted hospitals on the new dashboard</span></div>
+          <div class="o-tr" role="row"><span role="cell" data-k="Measure">CSAT</span><span role="cell" data-k="Result" class="o-num">4.1 to 4.6 out of 5</span><span role="cell" data-k="How it was measured">Marketing survey of hospitals, ~350 responses over 3 weeks, 2025</span></div>
+          <div class="o-tr" role="row"><span role="cell" data-k="Measure">PA/Claim toggle</span><span role="cell" data-k="Result" class="o-num">4,000+ clicks in 30 days</span><span role="cell" data-k="How it was measured">GA, across 10 pilot hospitals</span></div>
         </div>
-      </div>
-    </div>
-    <div class="oc-wrap" role="img" aria-label="Dashboard adoption: 900+ contracted hospitals live on the new Ops Dashboard, of 18,000+ providers on IHX">
-      <div class="oc-card oc-adopt" data-oc="900" aria-hidden="true" title="Click to replay">
-        <div class="oc-title">Dashboard Adoption</div>
-        <div class="oc-body">
-          <div class="oc-stat"><div class="oc-num"><span class="oc-n">900</span><span class="oc-plus">+</span></div><div class="oc-lbl">Contracted hospitals live on the<br>new Ops Dashboard, of 18,000+<br>providers on IHX</div></div>
-        </div>
-      </div>
-    </div>
+        <p><strong>How I know the redesign drove the 51%.</strong> Only contracted hospitals got the new dashboard, while non-contracted hospitals stayed on the old UI. Over the same period, time dropped on the new dashboard and stayed flat on the old one, so it wasn't seasonality or a platform-wide change.</p>
+        <p>Since launch, we've kept adding buckets and filters based on hospital feedback.</p>
+      </section>
+
+      <section class="o-sec" id="o-learnings" aria-labelledby="h-learnings">
+        <h2 id="h-learnings">What I learned</h2>
+        <ul class="o-learn">
+          <li><strong>Look past the feature request.</strong> Hospitals asked for global search. What they needed was a dashboard that matched their two workflows, and the study, Hotjar and GA showed that before I designed anything.</li>
+          <li><strong>Let data settle the arguments.</strong> Scoped search came from GA, not opinion. The Discharge bucket was settled by four hospitals in the same round, not by whoever pushed hardest.</li>
+          <li><strong>Ship one big change at a time.</strong> Bulk settlement was ready, and we held it for v2 so the new structure could land on its own.</li>
+        </ul>
+        <h3 class="o-sub">If there was more time</h3>
+        <ol class="o-points o-ol">
+          <li><strong>Measure the Pre-Auth side too.</strong> I only measured the Claim team's time. Pre-Auth is the time-critical team, so I'd measure how long they take to find and answer an insurer query.</li>
+          <li><strong>Bring supervisors in earlier.</strong> Their need to see several statuses at once only surfaced in round 2, which meant reworking the filters. I'd observe supervisors in the user study itself.</li>
+        </ol>
+        <p class="o-close"><strong>What this shows about how I work:</strong> I design complex B2B workflows around how people actually work, and I use data to decide what to build and what to leave out.</p>
+      </section>
+
+    </main>
   </div>
-  <div class="impact-bottom">
-    <div class="impact-bottom-cell"><div class="impact-bottom-val">4,000+</div><div class="impact-bottom-lbl">Clicks on the PA View / Claim View toggle in 30 days across 10 pilot hospitals (Google Analytics)</div></div>
-    <div class="impact-bottom-cell"><div class="impact-bottom-val">5<i class="d1">1</i>%</div><div class="impact-bottom-lbl">Reduction in avg time to claim submission &middot; 3.23 min to 1.56 min</div><p class="impact-why">Before: no Claim Submission bucket, so staff searched for every claim ready for submission. After: a dedicated Claim Submission bucket in Claim View, with claims eligible for submission shown at the top. The search step disappeared.</p><p class="impact-cap">Average of 25 random claim submission sessions from Hotjar recordings, 2 months before launch vs 2 months after.</p></div>
-    <div class="impact-bottom-cell"><div class="impact-lbl">Dashboard adoption</div><p class="impact-why" style="margin-top:0;">Received positive user feedback, and we have consistently enhanced and iterated it by adding more buckets and secondary filters.</p></div>
-  </div>
-</div>
 </div>
 
-<!-- ── 09: LEARNINGS ── -->
-<div style="padding:80px 48px;">
-<div class="page-inner">
-  <div class="section-label">11 · What Do I Do Differently?</div>
-  <h2 class="cs-heading">Learnings</h2>
-  <div class="learnings-grid">
-    <div class="learning-card"><div class="learning-title">Understand the full user journey. Do not assume.</div><p class="learning-body">Diving deep into the journey to capture all frustrations and requirements before designing. The brief was wrong. The Hotjar data told a different story.</p></div>
-    <div class="learning-card"><div class="learning-title">Design with purpose. Evolve with feedback.</div><p class="learning-body">Test, listen, and iterate. Prioritise usability: aesthetics come second to function. The multi-select filter was a testing discovery, not an assumption.</p></div>
-    <div class="learning-card"><div class="learning-title">Data-driven decisions.</div><p class="learning-body">Make design choices based on data, user feedback, and business goals, not just intuition. The scoped search solution came directly from GA event data.</p></div>
-  </div>
-</div>
-</div>
 
+<script>
+// the sticky section nav marks the section being read
+(function () {
+  var links = [].slice.call(document.querySelectorAll(".ops2 .o-toc a"));
+  if (!links.length || !("IntersectionObserver" in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (a) { a.classList.toggle("is-on", a.getAttribute("href") === "#" + e.target.id); }); });
+  }, { rootMargin: "-30% 0px -60% 0px" });
+  links.forEach(function (a) { var t = document.querySelector(a.getAttribute("href")); if (t) io.observe(t); });
+})();
+</script>
+
+<script>
+// clean video: no browser controls, no dark bar. One light play button; click the video to pause or resume.
+(function () {
+  [].forEach.call(document.querySelectorAll(".ops2 .o-vbox"), function (box) {
+    var v = box.querySelector("video"); if (!v) return;
+    v.controls = false;
+    var b = document.createElement("button");
+    b.className = "o-play"; b.type = "button"; b.setAttribute("aria-label", "Play video");
+    b.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l14 8-14 8z" fill="currentColor"/></svg>';
+    box.appendChild(b);
+    function toggle() { if (v.paused || v.ended) v.play(); else v.pause(); }
+    b.addEventListener("click", function (e) { e.stopPropagation(); toggle(); });
+    v.addEventListener("click", toggle);
+    v.addEventListener("play", function () { box.classList.add("is-playing"); b.setAttribute("aria-label", "Pause video"); });
+    v.addEventListener("pause", function () { box.classList.remove("is-playing"); b.setAttribute("aria-label", "Play video"); });
+    v.addEventListener("ended", function () { box.classList.remove("is-playing"); });
+  });
+})();
+</script>
 <!-- OTHER CASE STUDIES -->
 <section class="more-work">
   <div class="wrap">
