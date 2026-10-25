@@ -816,6 +816,7 @@ footer{background:var(--asphalt);color:var(--coconut);}
   .page-card code { font-family: "Manrope", sans-serif; }
   section h2, h2.cs-heading, h2.sec-head { font-size: var(--step-3) !important; }
   .page-card h3 { font-size: var(--step-1) !important; }
+  section h2, h2.cs-heading, h2.sec-head { line-height: 1.05; letter-spacing: 0.02em; font-weight: 400; }
 
   /* Hero metrics: the one standard metric card (User Management's), identical everywhere.
      Numbers take the page's own accent colour; the number sits below the corner tag so a
@@ -1015,6 +1016,25 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 /* case study title spacing = the home intro headline (letter-spacing 0.005em, no extra word spacing) */
 .page-card h1{letter-spacing:0.005em !important;word-spacing:0 !important;}
 </style>
+
+<style>
+/* ==== SIDE NAVIGATION, copied from the TPA Ops benchmark (2026-10-25) ====
+   From section 01 on, sections sit in a two-column layout: a sticky 170px section list on the left.
+   Hero and TL;DR stay full width above it. Under 1000px the list hides and sections go full width. */
+@media (min-width:1001px){
+  .cs-layout{max-width:1200px;margin:clamp(48px,6vw,80px) auto 0;padding:0 48px;display:grid;grid-template-columns:170px minmax(0,1fr);column-gap:72px;border-top:1px solid rgba(20,18,14,0.08);}
+  .cs-main{min-width:0;}
+  .cs-main > section:first-of-type{border-top:0 !important;}
+  .cs-main .wrap{max-width:none !important;padding-left:0 !important;padding-right:0 !important;}
+  .cs-main .sec{max-width:none !important;padding-left:0 !important;padding-right:0 !important;}
+  .cs-toc{position:sticky;top:120px;align-self:start;margin-top:64px;display:flex;flex-direction:column;gap:4px;}
+  .cs-toc a{display:block;padding:8px 0 8px 14px;border-left:4px solid rgba(20,18,14,0.08);font-family:"Manrope",sans-serif;font-size:0.875rem;line-height:1.5;font-weight:700;letter-spacing:0;text-transform:none;color:#302F2C;text-decoration:none;opacity:0.75;transition:opacity 200ms ease,border-color 200ms ease;}
+  .cs-toc a:hover,.cs-toc a.is-on{opacity:1;border-left-color:#0E0C0A;}
+  .cs-toc a:focus-visible{outline:2px solid #3C3ADA;outline-offset:2px;}
+  .cs-tocn{display:inline-block;min-width:26px;font-weight:400;font-variant-numeric:tabular-nums;color:#3C3ADA;}
+}
+@media (max-width:1000px){ .cs-toc{display:none;} }
+</style>
 </head>
 <body>
 
@@ -1098,7 +1118,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="divider"></div>
 
 <!-- 01 PROBLEM SPACE -->
-<section class="sec">
+<div class="cs-layout"><nav class="cs-toc" aria-label="On this page"><a href="#ww-s1"><span class="cs-tocn">01</span>Problem space</a><a href="#ww-s2"><span class="cs-tocn">02</span>Design process</a><a href="#ww-s3"><span class="cs-tocn">03</span>Research</a><a href="#ww-s4"><span class="cs-tocn">04</span>Market</a><a href="#ww-s5"><span class="cs-tocn">05</span>System logic</a><a href="#ww-s6"><span class="cs-tocn">06</span>AI architecture</a><a href="#ww-s7"><span class="cs-tocn">07</span>Experience</a><a href="#ww-s8"><span class="cs-tocn">08</span>Reflections</a></nav><div class="cs-main">
+<section id="ww-s1" class="sec">
   <div class="sec-num">01 &middot; The Problem Space</div>
   <h2 class="sec-head">Where productivity systems break for women.</h2>
   <p class="sec-lede">Planners optimise for task completion. They assume a flat, steady person with one role and constant energy. That person does not exist.</p>
@@ -1167,7 +1188,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="divider"></div>
 
 <!-- 02 PROCESS -->
-<section class="sec">
+<section id="ww-s2" class="sec">
   <div class="sec-num">02 &middot; Design Process</div>
   <h2 class="sec-head">Five days, four moves.</h2>
 
@@ -1182,7 +1203,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="divider"></div>
 
 <!-- 03 RESEARCH -->
-<section class="sec">
+<section id="ww-s3" class="sec">
   <div class="sec-num">03 &middot; Research &amp; Pattern Synthesis</div>
   <h2 class="sec-head">Small sample. Honest method.</h2>
   <p class="method">Reviewed Reddit threads (r/productivity, r/workingmoms, r/TwoXChromosomes), analyzed user reviews of Todoist, Notion, Google Calendar, and Flo, and conducted informal conversations with 3 working women. Clustered recurring pain patterns to identify core problems. Kept it honest: no inflated sample sizes.</p>
@@ -1220,7 +1241,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="divider"></div>
 
 <!-- 04 MARKET -->
-<section class="sec">
+<section id="ww-s4" class="sec">
   <div class="sec-num">04 &middot; Market</div>
   <h2 class="sec-head">Market Opportunity</h2>
   <p class="mo-pos"><b>Positioning:</b> We position this product as a femtech app that helps women plan: a planner that adapts to fluctuating energy, cycle phases and the household mental load. It is not a generic productivity tool with cycle features added on. This places us in the femtech market, and all sizing below uses femtech figures.</p>
@@ -1269,7 +1290,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="divider"></div>
 
 <!-- 05 SYSTEM LOGIC -->
-<section class="sec">
+<section id="ww-s5" class="sec">
   <div class="sec-num">05 &middot; Core System Logic &amp; Product Strategy</div>
   <h2 class="sec-head">A planning chain, not a to-do list.</h2>
   <p class="sec-lede">Every task moves through five stages before it reaches the schedule. The system reads context first, then plans.</p>
@@ -1304,7 +1325,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="divider"></div>
 
 <!-- 06 AI ARCHITECTURE -->
-<section class="sec">
+<section id="ww-s6" class="sec">
   <div class="sec-num">06 &middot; AI Architecture</div>
   <h2 class="sec-head">Two systems, chosen for two jobs.</h2>
   <p class="sec-lede">Text and voice do not share a pipeline. Each input type routes to the system that fits it. This is the most important technical decision in the product.</p>
@@ -1354,7 +1375,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="divider"></div>
 
 <!-- 07 EXPERIENCE -->
-<section class="sec exp">
+<section id="ww-s7" class="sec exp">
   <div class="sec-num">07 &middot; Experience</div>
   <div class="exp-head">
     <h2 class="sec-head">Experience Strategy &amp; Interaction Design</h2>
@@ -1436,7 +1457,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 <div class="divider"></div>
 
 <!-- 08 REFLECTIONS -->
-<section class="sec">
+<section id="ww-s8" class="sec">
   <div class="sec-num">08 &middot; Reflections &amp; Future Scope</div>
   <h2 class="sec-head">What held, what fought back.</h2>
 
@@ -1467,6 +1488,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     <p>Native deployment, advanced pattern recognition from longer activity history, and richer cycle-signal integration to sharpen the energy read.</p>
   </div>
 </section>
+</div></div>
+
 
 <!-- CLOSING -->
 <section class="closing">
@@ -1669,6 +1692,18 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
   });
 
   panel.setAttribute('inert', '');
+})();
+</script>
+
+<script>
+// side navigation: marks the section being read (same as TPA Ops)
+(function () {
+  var links = [].slice.call(document.querySelectorAll(".cs-toc a"));
+  if (!links.length || !("IntersectionObserver" in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (a) { a.classList.toggle("is-on", a.getAttribute("href") === "#" + e.target.id); }); });
+  }, { rootMargin: "-30% 0px -60% 0px" });
+  links.forEach(function (a) { var t = document.querySelector(a.getAttribute("href")); if (t) io.observe(t); });
 })();
 </script>
 </body>

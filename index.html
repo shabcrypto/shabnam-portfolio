@@ -2013,6 +2013,15 @@
     :root { --s-7: 74px; --s-6: 52px; }
     .sheet section { padding: var(--s-6) 0; }
   }
+
+  .paper .note-link { color: inherit; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; pointer-events: auto; }
+  .paper .note-link:hover { text-decoration-color: var(--red); }
+  .paper .note-link:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 2px; }
+  /* 2026-10-25: the books moved to the About page; the paper is the intro's centrepiece,
+     centred on the orange grid */
+  .sheet section.dossier { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .sheet section.dossier .stack-col { justify-self: center; width: min(100%, 760px); padding-left: var(--gut); padding-right: var(--gut); }
+  .sheet section.dossier .stack { margin: 0 auto; }
 </style>
 </head>
 <body>
@@ -2382,25 +2391,8 @@
     </div>
     <div class="paper">
       <h2 class="lead" id="intro-h">I design for how people <span class="nw"><span class="mark">actually behave</span>,</span> even inside the most <span class="nw"><span class="mark alt">complex systems</span>.</span></h2>
-      <p class="note">I am a sucker for human behaviour and psychology. These are some of the books which have changed the way I look at people.</p>
-      <svg class="note-arrow" viewBox="0 0 132 20" fill="none" aria-hidden="true">
-        <path d="M2 10 Q 10 4 18 10 T 34 10 T 50 10 T 66 10 T 82 10 T 98 10 T 114 10" stroke="#0E0C0A" stroke-width="2" stroke-linecap="round"/>
-        <path d="M112 3 L126 10 L112 17" stroke="#0E0C0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      <p class="note">I am a sucker for human behaviour and psychology. <a class="note-link" href="about.html#books">These are some of the books which have changed the way I look at people.</a></p>
     </div>
-  </div>
-  </div>
-  <div class="shelf-wrap">
-  <ul class="shelf" id="shelf" aria-label="Books that shaped how I design">
-    <li><div class="book" style="--bg:#F8F8F8"><img src="images/book-people-watching.webp" alt="People Watching by Desmond Morris" loading="lazy" decoding="async" /></div></li>
-    <li><div class="book book-yellow" style="--bg:#FFF129"><img src="images/book-hooked.webp" alt="Hooked by Nir Eyal" loading="lazy" decoding="async" /></div></li>
-    <li><div class="book book-yellow" style="--bg:#F8C900"><img src="images/book-design-of-everyday-things.webp" alt="The Design of Everyday Things by Don Norman" loading="lazy" decoding="async" /></div></li>
-    <li><div class="book book-fill" style="--bg:#808070"><img src="images/book-games-people-play.webp" alt="Games People Play by Eric Berne" loading="lazy" decoding="async" /></div></li>
-    <li><div class="book" style="--bg:#F8F8F8"><img src="images/book-naked-ape.webp" alt="The Naked Ape by Desmond Morris" loading="lazy" decoding="async" /></div></li>
-  </ul>
-  <div class="row-nav" data-row="shelf">
-    <button type="button" data-dir="-1" aria-label="Previous book"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <button type="button" data-dir="1" aria-label="Next book"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
   </div>
 </section>
@@ -2469,6 +2461,7 @@
         </div>
       </a>
 
+      <!-- HIDDEN 2026-10-25 (her call: show only the four IHX case studies). Restore by removing this comment wrapper.
       <a class="file" href="wisewomen-case-study.html">
         <div class="file-sheet">
           <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="wisewoman-cover.mp4" poster="images/wisewoman-cover-poster.webp" muted loop playsinline preload="none" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
@@ -2492,6 +2485,7 @@
           </div>
         </div>
       </div>
+      -->
     </div>
   </div>
 </section>

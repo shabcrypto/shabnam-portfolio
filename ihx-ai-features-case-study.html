@@ -925,6 +925,8 @@ footer{background:var(--asphalt);color:var(--coconut);}
   .page-card code { font-family: "Manrope", sans-serif; }
   section h2, h2.cs-heading, h2.sec-head { font-size: var(--step-3) !important; }
   .page-card h3 { font-size: var(--step-1) !important; }
+  section h2, h2.cs-heading, h2.sec-head { line-height: 1.05; letter-spacing: 0.02em; font-weight: 400; }
+  .page-card h3 { line-height: 1.1; letter-spacing: 0.02em; }
 
   /* Hero metrics: the one standard metric card (User Management's), identical everywhere.
      Numbers take the page's own accent colour; the number sits below the corner tag so a
@@ -1029,6 +1031,25 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
 /* case study title spacing = the home intro headline (letter-spacing 0.005em, no extra word spacing) */
 .page-card h1{letter-spacing:0.005em !important;word-spacing:0 !important;}
+</style>
+
+<style>
+/* ==== SIDE NAVIGATION, copied from the TPA Ops benchmark (2026-10-25) ====
+   From section 01 on, sections sit in a two-column layout: a sticky 170px section list on the left.
+   Hero and TL;DR stay full width above it. Under 1000px the list hides and sections go full width. */
+@media (min-width:1001px){
+  .cs-layout{max-width:1200px;margin:clamp(48px,6vw,80px) auto 0;padding:0 48px;display:grid;grid-template-columns:170px minmax(0,1fr);column-gap:72px;border-top:1px solid rgba(20,18,14,0.08);}
+  .cs-main{min-width:0;}
+  .cs-main > section:first-of-type{border-top:0 !important;}
+  .cs-main .wrap{max-width:none !important;padding-left:0 !important;padding-right:0 !important;}
+  .cs-main .sec{max-width:none !important;padding-left:0 !important;padding-right:0 !important;}
+  .cs-toc{position:sticky;top:120px;align-self:start;margin-top:64px;display:flex;flex-direction:column;gap:4px;}
+  .cs-toc a{display:block;padding:8px 0 8px 14px;border-left:4px solid rgba(20,18,14,0.08);font-family:"Manrope",sans-serif;font-size:0.875rem;line-height:1.5;font-weight:700;letter-spacing:0;text-transform:none;color:#302F2C;text-decoration:none;opacity:0.75;transition:opacity 200ms ease,border-color 200ms ease;}
+  .cs-toc a:hover,.cs-toc a.is-on{opacity:1;border-left-color:#0E0C0A;}
+  .cs-toc a:focus-visible{outline:2px solid #3C3ADA;outline-offset:2px;}
+  .cs-tocn{display:inline-block;min-width:26px;font-weight:400;font-variant-numeric:tabular-nums;color:#3C3ADA;}
+}
+@media (max-width:1000px){ .cs-toc{display:none;} }
 </style>
 </head>
 <body id="top">
@@ -1478,6 +1499,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   </div>
 </section>
 
+<div class="cs-layout"><nav class="cs-toc" aria-label="On this page"><a href="#s1"><span class="cs-tocn">01</span>The flow</a><a href="#s2"><span class="cs-tocn">02</span>BenefSnap.AI</a><a href="#s3"><span class="cs-tocn">03</span>PreAuthSnap.AI</a><a href="#s4"><span class="cs-tocn">04</span>CodeRight.AI</a><a href="#s5"><span class="cs-tocn">05</span>DocuSense.AI</a><a href="#s6"><span class="cs-tocn">06</span>SDMS.AI</a><a href="#s7"><span class="cs-tocn">07</span>After submission</a></nav><div class="cs-main">
 <section id="s1">
   <div class="wrap">
     <div class="sec-tag"><em>01</em> · The <span class="nw">Intelligent Pre-Auth Flow</span></div>
@@ -1888,6 +1910,8 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
     </div>
   </div>
 </section>
+</div></div>
+
 
 <div class="take" id="take">
   <div class="wrap">
@@ -2111,6 +2135,18 @@ if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.
   });
 
   panel.setAttribute('inert', '');
+})();
+</script>
+
+<script>
+// side navigation: marks the section being read (same as TPA Ops)
+(function () {
+  var links = [].slice.call(document.querySelectorAll(".cs-toc a"));
+  if (!links.length || !("IntersectionObserver" in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (a) { a.classList.toggle("is-on", a.getAttribute("href") === "#" + e.target.id); }); });
+  }, { rootMargin: "-30% 0px -60% 0px" });
+  links.forEach(function (a) { var t = document.querySelector(a.getAttribute("href")); if (t) io.observe(t); });
 })();
 </script>
 </body>
