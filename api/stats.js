@@ -17,6 +17,7 @@ const PAGES = [
   { path: "/resume",                           name: "Resume" },
 ];
 const CASES = PAGES.slice(1, 6);
+const DEVICES = ["phone", "tablet", "desktop"];
 const SOURCES = ["Direct", "LinkedIn", "Google", "Behance", "Read.cv", "Dribbble", "GitHub", "Medium", "Search", "Other"];
 const EVENT_LABEL = {
   resume_download: "Resume downloaded",
@@ -80,8 +81,9 @@ module.exports = async function handler(req, res) {
     return res.status(503).json({ error: "store not configured", hint: "add Upstash for Redis in Vercel and redeploy" });
   }
 
-  // 180 days so a 90 day range can be compared against the 90 before it
-  const days = S.lastDays(180);
+  // The longest range is 7 days, compared against the 7 before it, so 14 days are read.
+  // (It used to read 180, which cost about 1,000 database commands a load.)
+  const days = S.lastDays(14);
 
   // Every plain counter is fetched in a few big MGETs rather than one GET each. Upstash bills per
   // command, and one GET per key was about 46,000 commands a dashboard load, which spent the free
@@ -100,6 +102,7 @@ module.exports = async function handler(req, res) {
     push(`bounce|${d}`, ["GET", `d:${d}:bounce`]);
     push(`sess|${d}`,   ["GET", `d:${d}:sessions`]);
     SOURCES.forEach((s) => push(`src|${d}|${s}`, ["GET", `d:${d}:src:${s}`]));
+    DEVICES.forEach((v) => push(`dev|${d}|${v}`, ["GET", `d:${d}:dev:${v}`]));
     Object.keys(EVENT_LABEL).forEach((e) => push(`ev|${d}|${e}`, ["GET", `d:${d}:ev:${e}`]));
     PAGES.forEach((p) => push(`pv|${d}|${p.path}`, ["GET", `d:${d}:p:${p.path}`]));
     CASES.forEach((p) => {
@@ -123,8 +126,9 @@ module.exports = async function handler(req, res) {
   }
   const g = (label) => { const a = at[label]; return n(a.g !== undefined ? gets[a.g] : rest[a.c]); };
 
-  const inRange = (r) => days.slice(days.length - r);
-  const prevRange = (r) => days.slice(days.length - r * 2, days.length - r);
+  // a range is r days ending `off` days ago: Today = (1,0), Yesterday = (1,1), Last 3 days = (3,0)
+  const inRange = (r, off = 0) => days.slice(Math.max(0, days.length - off - r), days.length - off);
+  const prevRange = (r, off = 0) => days.slice(Math.max(0, days.length - off - r * 2), Math.max(0, days.length - off - r));
 
   // ---- daily visitor line, last 90 ----
   const last90 = inRange(90);
@@ -171,9 +175,33 @@ module.exports = async function handler(req, res) {
     .map((e) => ({ name: EVENT_LABEL[e], v: sum(last90.map((d) => g(`ev|${d}|${e}`))) }))
     .sort((a, b) => b.v - a.v);
 
+  // ---- the per-range panels: same shapes as the 90-day ones above, for any list of days ----
+  const sourcesFor = (L) => SOURCES.map((x) => ({ name: x, v: sum(L.map((d) => g(`src|${d}|${x}`))) })).filter((x) => x.v > 0).sort((a, b) => b.v - a.v);
+  const funnelFor = (L) => [
+    { name: "Landed on the site",    v: sum(L.map((d) => g(`fun|${d}|landed`))) },
+    { name: "Opened a case study",   v: sum(L.map((d) => g(`fun|${d}|case`))) },
+    { name: "Read one to the end",   v: sum(L.map((d) => g(`fun|${d}|finished`))) },
+    { name: "Downloaded the resume", v: sum(L.map((d) => g(`fun|${d}|resume`))) },
+  ];
+  const pagesFor = (L) => CASES.map((p) => {
+    const bins = [];
+    for (let i = 0; i < BINS; i++) bins.push(sum(L.map((d) => g(`dur|${d}|${p.path}|${i}`))));
+    const views = sum(L.map((d) => g(`pv|${d}|${p.path}`)));
+    const reach90 = sum(L.map((d) => g(`dep|${d}|${p.path}|90`)));
+    return { name: p.name, views, median: medianFromBins(bins),
+      finished: views ? Math.min(100, Math.round((reach90 / views) * 100)) : 0,
+      plays: sum(L.map((d) => g(`plays|${d}|${p.path}`))) };
+  }).sort((a, b) => b.views - a.views);
+  const depthFor = (L) => CASES.map((p) => {
+    const views = sum(L.map((d) => g(`pv|${d}|${p.path}`)));
+    const b = ["25", "50", "75", "90"].map((k) => sum(L.map((d) => g(`dep|${d}|${p.path}|${k}`))));
+    return { name: p.name, buckets: views ? b.map((x) => Math.min(100, Math.round((x / views) * 100))) : [0, 0, 0, 0] };
+  }).sort((a, b) => b.buckets[3] - a.buckets[3]);
+  const eventsFor = (L) => Object.keys(EVENT_LABEL).map((e) => ({ name: EVENT_LABEL[e], v: sum(L.map((d) => g(`ev|${d}|${e}`))) })).sort((a, b) => b.v - a.v);
+
   // ---- headline tiles, per range ----
-  function block(r) {
-    const cur = inRange(r), prv = prevRange(r);
+  function block(r, off = 0) {
+    const cur = inRange(r, off), prv = prevRange(r, off);
     const visitors = sum(cur.map((d) => g(`uniq|${d}`)));
     const downloads = sum(cur.map((d) => g(`ev|${d}|resume_download`)));
     const plays = sum(cur.map((d) => g(`ev|${d}|video_play`)));
@@ -209,8 +237,11 @@ module.exports = async function handler(req, res) {
       return s ? Math.round((g(`bounce|${d}`) / s) * 100) : 0;
     });
 
+    // page views by device type, for this range (counted from 2026-10-26)
+    const devices = DEVICES.map((v) => ({ name: v, v: sum(cur.map((d) => g(`dev|${d}|${v}`))) }));
     return {
-      visitors, downloads, median, bounce, plays,
+      visitors, downloads, median, bounce, plays, devices,
+      sources: sourcesFor(cur), funnel: funnelFor(cur), pages: pagesFor(cur), depth: depthFor(cur), events: eventsFor(cur),
       dVisitors: pct(visitors, pVisitors),
       dDownloads: pct(downloads, pDownloads),
       dMedian: pct(median, medianFromBins(pBins)),
@@ -242,7 +273,7 @@ module.exports = async function handler(req, res) {
     days: daysOut, sources, funnel, pages, depth,
     depthLabels: ["25%", "50%", "75%", "90%"],
     events, errors,
-    stats: { 1: block(1), 7: block(7), 30: block(30), 90: block(90) },
+    stats: { 1: block(1), y: block(1, 1), 3: block(3), 7: block(7) },
   });
 };
 

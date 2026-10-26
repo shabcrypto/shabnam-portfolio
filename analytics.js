@@ -45,8 +45,17 @@
     try { fetch(ENDPOINT, { method: "POST", body: body, headers: { "Content-Type": "application/json" }, keepalive: true }); } catch (e) {}
   }
 
+  /* ---- device type: phone, tablet or desktop only. Nothing more specific is sent. ---- */
+  var device = (function () {
+    var ua = navigator.userAgent || "";
+    if (/iPad|Tablet|PlayBook|Silk/i.test(ua) || (/Android/i.test(ua) && !/Mobile/i.test(ua)) ||
+        (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) return "tablet";   // iPadOS reports as a Mac
+    if (/Mobi|iPhone|iPod|Android/i.test(ua)) return "phone";
+    return "desktop";
+  })();
+
   /* ---- pageview ---- */
-  send({ t: "view", r: document.referrer || "" });
+  send({ t: "view", r: document.referrer || "", dv: device });
 
   /* ---- dwell time, counted only while the tab is actually visible ---- */
   var visible = document.visibilityState === "visible";
@@ -106,13 +115,27 @@
 
   document.addEventListener("play", function (e) {
     var t = e.target;
-    // the looping cover videos autoplay; only a walkthrough the visitor pressed counts
-    if (t && t.tagName === "VIDEO" && !t.autoplay) ev("video_play");
+    // Only a walkthrough the visitor chose to play counts. The card cover videos loop and are
+    // started by script each time a card scrolls into view, so a looping video, or any video
+    // inside a case study card, is never counted (they were, until 2026-10-26).
+    // Walkthroughs hide the native controls behind a play button, so "has controls" is not a test.
+    if (!t || t.tagName !== "VIDEO") return;
+    if (t.loop || t.autoplay) return;
+    if (t.closest && t.closest(".file-photo, .cs-thumb, .cs-card, .more-work")) return;
+    ev("video_play");
   }, true);
 
   /* ---- client errors, so the dashboard's error panel has something real ---- */
+  // A download cancelled because the visitor is leaving, or a video the browser aborted,
+  // is not a failure on the site, so neither is reported.
+  var leaving = false;
+  window.addEventListener("pagehide", function () { leaving = true; });
+  window.addEventListener("beforeunload", function () { leaving = true; });
   var errs = 0;
   window.addEventListener("error", function (e) {
+    if (leaving) return;
+    var tg = e.target;
+    if (tg && (tg.tagName === "VIDEO" || tg.tagName === "AUDIO") && tg.error && tg.error.code === 1) return;   // MEDIA_ERR_ABORTED
     if (errs++ > 3) return;                       // never let a loop flood the collector
     var m = e.message || (e.target && (e.target.src || e.target.href) ? "Failed to load resource: " + String(e.target.src || e.target.href).split("/").pop() : "");
     if (m) send({ t: "error", m: String(m) });

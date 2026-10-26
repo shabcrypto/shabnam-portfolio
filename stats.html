@@ -326,10 +326,10 @@
   <div class="filters">
     <span class="lbl">Period</span>
     <div class="seg" id="range" role="group" aria-label="Date range">
-      <button type="button" data-days="1" aria-pressed="false">Today</button>
-      <button type="button" data-days="7" aria-pressed="false">7 days</button>
-      <button type="button" data-days="30" aria-pressed="true">30 days</button>
-      <button type="button" data-days="90" aria-pressed="false">90 days</button>
+      <button type="button" data-days="1" aria-pressed="true">Today</button>
+      <button type="button" data-days="y" aria-pressed="false">Yesterday</button>
+      <button type="button" data-days="3" aria-pressed="false">Last 3 days</button>
+      <button type="button" data-days="7" aria-pressed="false">Last 7 days</button>
     </div>
   </div>
 
@@ -375,6 +375,15 @@
     </section>
   </div>
 
+  <!-- ============ DEVICES ============ -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Devices</h2>
+    </div>
+    <p class="desc">Page views by phone, tablet or desktop, counted from 26 October 2026. Nothing more specific about a device is recorded.</p>
+    <div id="devices"></div>
+  </section>
+
   <!-- ============ CASE STUDY TABLE ============ -->
   <section class="panel">
     <div class="panel-head">
@@ -400,7 +409,7 @@
       <div class="panel-head">
         <h2>Actions taken</h2>
       </div>
-      <p class="desc">Direct clicks, so these counts are close to exact.</p>
+      <p class="desc">Direct clicks, so these counts are close to exact. Walkthrough plays count only videos a visitor pressed play on (before 26 October they also counted card previews).</p>
       <div class="chart-wrap" id="events"></div>
     </section>
 
@@ -409,7 +418,7 @@
       <div class="panel-head">
         <h2>Errors</h2>
       </div>
-      <p class="desc">JavaScript errors your visitors hit, which you would otherwise never hear about.</p>
+      <p class="desc">Files or scripts that failed to load for a visitor, usually a weak connection. Loads cancelled because the visitor left the page are not counted (from 26 October).</p>
       <div id="errors"></div>
     </section>
   </div>
@@ -619,7 +628,7 @@ function bindTip(node, label, value) {
 /* ============================================================
    STATE
    ============================================================ */
-let days = 30;
+let days = "1";
 const views = {};              // panel id -> 'chart' | 'table'
 
 /* ============================================================
@@ -645,13 +654,16 @@ function sparkline(series, w = 88, h = 26) {
   return svg;
 }
 
+/* panels follow the chosen range when the collector sends them per range; the sample data does not */
+function cur(k) { const s = DATA.stats[days] || {}; return s[k] || DATA[k]; }
+
 function renderHead() {
   const s = DATA.stats[days];
   $('#hero-value').textContent = num(s.visitors);
   const sign = s.dVisitors >= 0 ? '+' : '';
   $('#hero-meta').innerHTML =
-    `<b>${sign}${s.dVisitors}%</b> vs ${days === 1 ? 'yesterday' : `the previous ${days} days`} · ` +
-    `<b>${num(DATA.funnel[1].v)}</b> case study opens · <b>${num(s.downloads)}</b> resume downloads`;
+    `<b>${sign}${s.dVisitors}%</b> vs ${days === '1' ? 'yesterday' : days === 'y' ? 'the day before' : `the previous ${days} days`} · ` +
+    `<b>${num(cur('funnel')[1].v)}</b> case study opens · <b>${num(s.downloads)}</b> resume downloads`;
 
   const tiles = [
     { label: 'Resume downloads', value: num(s.downloads), d: s.dDownloads, goodUp: true,  spark: s.sparks.downloads },
@@ -687,7 +699,7 @@ function renderVisitors() {
   const host = $('#visitors');
   host.innerHTML = '';
   // one day is a single point, so Today shows the week that ends today
-  const data = DATA.days.slice(-Math.max(days, 7));
+  const data = DATA.days.slice(-7);   // the line always shows the last week
 
   if (views.visitors === 'table') {
     host.innerHTML =
@@ -776,7 +788,7 @@ function renderVisitors() {
 function renderSources() {
   const host = $('#sources');
   host.innerHTML = '';
-  const data = DATA.sources;
+  const data = cur('sources');
 
   if (views.sources === 'table') {
     const total = data.reduce((a, b) => a + b.v, 0);
@@ -820,7 +832,7 @@ function renderSources() {
 function renderFunnel() {
   const host = $('#funnel');
   host.innerHTML = '';
-  const data = DATA.funnel;
+  const data = cur('funnel');
   const ramp = ['var(--c-ord-1)', 'var(--c-ord-2)', 'var(--c-ord-3)', 'var(--c-ord-4)'];
 
   if (views.funnel === 'table') {
@@ -878,7 +890,7 @@ function renderPages() {
         <th class="num">Read to the end</th>
       </tr></thead>
       <tbody>` +
-    DATA.pages.map(p =>
+    cur('pages').map(p =>
       `<tr>
         <td class="name">${p.name}</td>
         <td class="num">${num(p.views)}</td>
@@ -907,7 +919,7 @@ function renderDepth() {
       `<div class="chart-wrap"><table><thead><tr><th>Case study</th>` +
       DATA.depthLabels.map(l => `<th class="num">${l}</th>`).join('') +
       `</tr></thead><tbody>` +
-      DATA.depth.map(d =>
+      cur('depth').map(d =>
         `<tr><td class="name">${d.name}</td>` +
         d.buckets.map(b => `<td class="num">${b}%</td>`).join('') + `</tr>`).join('') +
       `</tbody></table></div>`;
@@ -916,7 +928,7 @@ function renderDepth() {
 
   const grid = document.createElement('div');
   grid.className = 'sm-grid';
-  DATA.depth.forEach(d => {
+  cur('depth').forEach(d => {
     const cell = document.createElement('div');
     cell.className = 'sm';
     cell.innerHTML = `<h3>${d.name}</h3><p class="sm-sub">${d.buckets[3]}% reached the end</p>`;
@@ -954,7 +966,19 @@ function renderDepth() {
 function renderEvents() {
   $('#events').innerHTML =
     `<table><thead><tr><th>Action</th><th class="num">Times</th></tr></thead><tbody>` +
-    DATA.events.map(e => `<tr><td class="name">${e.name}</td><td class="num">${num(e.v)}</td></tr>`).join('') +
+    cur('events').map(e => `<tr><td class="name">${e.name}</td><td class="num">${num(e.v)}</td></tr>`).join('') +
+    `</tbody></table>`;
+}
+
+function renderDevices() {
+  const host = $('#devices');
+  const data = cur('devices');
+  const total = data ? data.reduce((t, d) => t + d.v, 0) : 0;
+  if (!total) { host.innerHTML = `<p class="empty">No device data for this range yet. Counting started on 26 October 2026.</p>`; return; }
+  const label = { phone: 'Phone', tablet: 'Tablet', desktop: 'Desktop' };
+  host.innerHTML =
+    `<table><thead><tr><th>Device</th><th class="num">Page views</th><th class="num">Share</th></tr></thead><tbody>` +
+    data.map(d => `<tr><td class="name">${label[d.name] || d.name}</td><td class="num">${num(d.v)}</td><td class="num">${Math.round(d.v / total * 100)}%</td></tr>`).join('') +
     `</tbody></table>`;
 }
 
@@ -990,13 +1014,14 @@ function renderAll() {
   renderPages();
   renderDepth();
   renderEvents();
+  renderDevices();
   renderErrors();
 }
 
 $('#range').addEventListener('click', e => {
   const b = e.target.closest('button');
   if (!b) return;
-  days = +b.dataset.days;
+  days = b.dataset.days;
   [...e.currentTarget.querySelectorAll('button')]
     .forEach(x => x.setAttribute('aria-pressed', String(x === b)));
   renderAll();
@@ -1023,6 +1048,8 @@ window.addEventListener('resize', () => {
    unreachable, keep the sample data and keep saying so. The page
    must never break just because the backend is not up.
    ============================================================ */
+SAMPLE.stats.y = SAMPLE.stats[1];
+SAMPLE.stats[3] = SAMPLE.stats[7];
 let DATA = SAMPLE;
 
 function markLive(generated) {

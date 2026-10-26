@@ -14,6 +14,7 @@ const EVENTS = new Set([
   "resume_download", "video_play", "linkedin_click", "email_click", "case_study_open",
 ]);
 const DEPTHS = new Set(["25", "50", "75", "90"]);
+const DEVICES = new Set(["phone", "tablet", "desktop"]);
 
 // Where a visitor came from, bucketed. Anything unrecognised becomes Other rather than being
 // stored verbatim, so this can never accumulate a list of arbitrary URLs.
@@ -90,6 +91,8 @@ module.exports = async function handler(req, res) {
       `d:${day}:src:${src}`,
     ];
     k.forEach((key) => { cmds.push(["INCR", key]); touch(key); });
+    // phone, tablet or desktop: one counter per day, nothing about the device beyond that
+    if (DEVICES.has(body.dv)) { const dk = `d:${day}:dev:${body.dv}`; cmds.push(["INCR", dk]); touch(dk); }
     if (vid) {
       cmds.push(["PFADD", `d:${day}:uniq`, vid]); touch(`d:${day}:uniq`);
       cmds.push(["PFADD", `d:${day}:f:landed`, vid]); touch(`d:${day}:f:landed`);
