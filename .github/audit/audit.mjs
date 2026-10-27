@@ -16,9 +16,9 @@ import { mkdirSync, writeFileSync, appendFileSync } from "node:fs";
 
 const SITE = (process.env.SITE || "https://www.shabnamraghavan.com").replace(/\/$/, "");
 const PAGES = process.env.PAGES ? process.env.PAGES.split(",") : [
-  "/", "/about.html", "/resume.html",
-  "/ihx-user-management-case-study.html", "/ihx-ai-features-case-study.html",
-  "/ihx_tpa_ops_.html", "/ihx_tpa_ops_-full.html", "/ihx-nucleus-mobile-case-study.html", "/wisewomen-case-study.html",
+  "/", "/about", "/resume",
+  "/ihx-user-management-case-study", "/ihx-ai-features-case-study",
+  "/ihx_tpa_ops_", "/ihx_tpa_ops_-full", "/ihx-nucleus-mobile-case-study", "/wisewomen-case-study",
 ];
 const VIEWPORTS = [
   { name: "desktop", viewport: { width: 1440, height: 900 } },
