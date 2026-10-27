@@ -18,7 +18,7 @@ const SITE = (process.env.SITE || "https://www.shabnamraghavan.com").replace(/\/
 const PAGES = process.env.PAGES ? process.env.PAGES.split(",") : [
   "/", "/about.html", "/resume.html",
   "/ihx-user-management-case-study.html", "/ihx-ai-features-case-study.html",
-  "/ihx_tpa_ops_.html", "/ihx_tpa_ops_-story.html", "/ihx-nucleus-mobile-case-study.html", "/wisewomen-case-study.html",
+  "/ihx_tpa_ops_.html", "/ihx_tpa_ops_-full.html", "/ihx-nucleus-mobile-case-study.html", "/wisewomen-case-study.html",
 ];
 const VIEWPORTS = [
   { name: "desktop", viewport: { width: 1440, height: 900 } },
