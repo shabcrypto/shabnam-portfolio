@@ -61,13 +61,27 @@ for (const vp of VIEWPORTS) {
 
     // walk down the page so lazy images and cards load, then come back up
     await page.evaluate(async () => {
+      // instant jumps: on smooth-scrolling pages a 120ms smooth scroll never arrives, so the walk
+      // would stop short of the lower sections
+      document.documentElement.style.scrollBehavior = "auto";
       const step = Math.round(innerHeight * 0.8);
       for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
-        window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 120));
+        window.scrollTo({ top: y, behavior: "instant" }); await new Promise((r) => setTimeout(r, 120));
       }
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: "instant" });
     });
     await page.waitForTimeout(800);
+
+    // scroll-played content (the short case study's [data-a] parts) must all be visible once the
+    // page has been read through: on 2026-10-27 a tall section never reached its 30% trigger and
+    // its cards stayed invisible on the live site
+    if (await page.evaluate(() => !!document.querySelector("[data-a]"))) {
+      await page.waitForTimeout(4500);
+      const hidden = await page.evaluate(() => [...document.querySelectorAll(".sx [data-a], .sx-w")]
+        .filter((e) => parseFloat(getComputedStyle(e).opacity) < 0.5)
+        .map((e) => String(e.textContent.trim() || e.getAttribute("class") || e.tagName).replace(/\s+/g, " ").slice(0, 40)));
+      if (hidden.length) fail(where, `${hidden.length} scroll-animated parts never appeared, e.g. "${hidden[0]}"`);
+    }
 
     const r = await page.evaluate(async (SURFACES) => {
       await document.fonts.ready;

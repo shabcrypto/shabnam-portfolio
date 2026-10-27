@@ -29,7 +29,6 @@
 <!-- fonts are served from this site, not Google: two fewer round trips before any text can paint -->
 <link rel="preload" href="fonts/staatliches-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="images/ops-film-poster.webp" as="image" fetchpriority="high" />
 <style>
 @font-face{font-family:'Manrope';font-style:normal;font-weight:300 800;font-display:swap;src:url(fonts/manrope-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
 @font-face{font-family:'Manrope';font-style:normal;font-weight:300 800;font-display:swap;src:url(fonts/manrope-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
@@ -2547,10 +2546,19 @@ kit.scene('solution', {
     sec.classList.add("armed");
     [].forEach.call(sec.querySelectorAll('[data-a="rise"]'), words);
   });
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); play(e.target); } });
-  }, { threshold: 0, rootMargin: "0px 0px -20% 0px" });   // a scene plays once its top is a fifth of the way up the screen, however tall it is
-  scenes.forEach(function (sec) { io.observe(sec); });
+  // a scene plays once its top has passed a line a fifth of the way up the screen, however the
+  // reader got there: scrolling, a fast jump, the End key or a link. Checked on scroll, once a frame.
+  var left = scenes.slice(), queued = false;
+  function check() {
+    queued = false;
+    var line = window.innerHeight * 0.8;
+    left = left.filter(function (sec) { if (sec.getBoundingClientRect().top < line) { play(sec); return false; } return true; });
+    if (!left.length) { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); }
+  }
+  function onScroll() { if (!queued) { queued = true; requestAnimationFrame(check); } }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  check();
 })();
 
 (function () {
@@ -2558,7 +2566,10 @@ kit.scene('solution', {
   var demo = document.querySelector(".sx-demo-hero"), stage = demo && demo.querySelector(".sx-stage");
   if (!stage || !window.__FILM_MAKEKIT__) return;
   var box = document.createElement("div"); box.style.cssText = "position:absolute;inset:0;overflow:hidden"; stage.appendChild(box);
-  var kit = window.__FILM_MAKEKIT__(box); window.__FILM_SOLUTION__.run(kit);
+  var kit = window.__FILM_MAKEKIT__(box);
+  // the follow-up beat only ever shows the active-claims screen: every other image stays unloaded
+  kit.assets = { url: function (n) { return n === "active.webp" ? window.__FILM_ASSETS__[n] : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="; } };
+  window.__FILM_SOLUTION__.run(kit);
   var def = kit._def; def.init(kit);
   var A = 8.75, B = 12.6, CROP = { x: 70, y: 200, w: 1240 };
   function fit() { var s = demo.clientWidth / CROP.w; stage.style.transform = "scale(" + s + ") translate(" + (-CROP.x) + "px," + (-CROP.y) + "px)"; }
@@ -2581,6 +2592,12 @@ kit.scene('solution', {
   if (!stage || !window.__FILM_MAKEKIT__) return;
   var sec = document.querySelector(".sx-design");
   var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // nothing is built, and no screenshot is fetched, until the reader is within two screens of it
+  if ("IntersectionObserver" in window) {
+    var near = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { near.disconnect(); mount(); } }, { rootMargin: "1600px 0px" });
+    near.observe(demo);
+  } else mount();
+  function mount() {
   var box = document.createElement("div");
   box.style.cssText = "position:absolute;inset:0;overflow:hidden";
   stage.appendChild(box);
@@ -2628,6 +2645,7 @@ kit.scene('solution', {
     if (es[0].isIntersecting) { io.disconnect(); start(0); }
   }, { threshold: 0.4 });
   io.observe(demo);
+  }
 })();
 </script>
 <script>
