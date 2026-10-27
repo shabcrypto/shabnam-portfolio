@@ -1862,7 +1862,6 @@ html body .page-card .sx-page .sx-embed .jm-pain li{margin:0 0 5px;font-size:0.7
       <div class="sx-ctx sx-journey-head">
         <div>
           <h3 class="sx-h3">Analytic insights</h3>
-          <p class="sx-sub sx-sub-tight">Insights collected from Hotjar session heatmaps, Google Analytics events tracked for the last 6 months.</p>
         </div>
         <p class="sx-did" data-a="fade" data-t="0.2"><b>What I did</b>I collected and analysed the analytics data myself: 6 months of Hotjar session heatmaps and Google Analytics events.</p>
       </div>
@@ -2550,7 +2549,7 @@ kit.scene('solution', {
   });
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); play(e.target); } });
-  }, { threshold: 0.3 });
+  }, { threshold: 0, rootMargin: "0px 0px -20% 0px" });   // a scene plays once its top is a fifth of the way up the screen, however tall it is
   scenes.forEach(function (sec) { io.observe(sec); });
 })();
 
