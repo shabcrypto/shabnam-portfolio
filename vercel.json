@@ -1,3 +1,75 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/ihx_tpa_ops_-full",
+      "destination": "/tpa-ops-detailed",
+      "permanent": true
+    },
+    {
+      "source": "/ihx_tpa_ops_-full.html",
+      "destination": "/tpa-ops-detailed",
+      "permanent": true
+    },
+    {
+      "source": "/ihx_tpa_ops_",
+      "destination": "/tpa-ops",
+      "permanent": true
+    },
+    {
+      "source": "/ihx_tpa_ops_.html",
+      "destination": "/tpa-ops",
+      "permanent": true
+    },
+    {
+      "source": "/ihx-user-management-case-study-full",
+      "destination": "/user-management",
+      "permanent": true
+    },
+    {
+      "source": "/ihx-user-management-case-study-full.html",
+      "destination": "/user-management",
+      "permanent": true
+    },
+    {
+      "source": "/ihx-user-management-case-study",
+      "destination": "/user-management",
+      "permanent": true
+    },
+    {
+      "source": "/ihx-user-management-case-study.html",
+      "destination": "/user-management",
+      "permanent": true
+    },
+    {
+      "source": "/ihx-ai-features-case-study",
+      "destination": "/ai-features",
+      "permanent": true
+    },
+    {
+      "source": "/ihx-ai-features-case-study.html",
+      "destination": "/ai-features",
+      "permanent": true
+    },
+    {
+      "source": "/ihx-nucleus-mobile-case-study",
+      "destination": "/nucleus-mobile",
+      "permanent": true
+    },
+    {
+      "source": "/ihx-nucleus-mobile-case-study.html",
+      "destination": "/nucleus-mobile",
+      "permanent": true
+    },
+    {
+      "source": "/wisewomen-case-study",
+      "destination": "/wisewoman",
+      "permanent": true
+    },
+    {
+      "source": "/wisewomen-case-study.html",
+      "destination": "/wisewoman",
+      "permanent": true
+    }
+  ]
 }
