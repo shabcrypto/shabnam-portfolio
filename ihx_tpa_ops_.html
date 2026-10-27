@@ -29,6 +29,7 @@
 <!-- fonts are served from this site, not Google: two fewer round trips before any text can paint -->
 <link rel="preload" href="fonts/staatliches-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="images/ops-film-poster.webp" as="image" fetchpriority="high" />
 <style>
 @font-face{font-family:'Manrope';font-style:normal;font-weight:300 800;font-display:swap;src:url(fonts/manrope-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
 @font-face{font-family:'Manrope';font-style:normal;font-weight:300 800;font-display:swap;src:url(fonts/manrope-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
@@ -269,7 +270,7 @@ section h2, h2.cs-heading, h2.sec-head { font-size: var(--step-3) !important; }
    out here because this page does not share the home page's tokens.
    --------------------------------------------------------------------- */
 .sc-wrap{max-width:1500px;margin:0 auto;padding:0 clamp(18px,4.6vw,64px);position:relative;}
-section.contact-sec.sc{background:#C02D0C;color:#F0E6D2;padding:clamp(80px,9vw,140px) 0;border-radius:0 0 var(--frame,24px) var(--frame,24px);}
+section.contact-sec.sc{background:repeating-linear-gradient(to right,rgba(240,230,210,0.14) 0 1px,transparent 1px 56px),repeating-linear-gradient(to bottom,rgba(240,230,210,0.1) 0 1px,transparent 1px 56px),#C02D0C;color:#F0E6D2;padding:clamp(80px,9vw,140px) 0;border-radius:0 0 var(--frame,24px) var(--frame,24px);}
 .sc .contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:78px;align-items:center;}
 .sc h2.contact-call{margin:0;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:clamp(1.9rem,1.2rem + 2.6vw,3.4rem);line-height:1.02;letter-spacing:0.02em;color:#F0E6D2;max-width:17ch;text-transform:uppercase;}
 .sc .contact-talk{display:block;margin-top:0.55em;}
@@ -410,7 +411,7 @@ html body .page-card .ops2.ops2 .o-sec.o-sec .o-pphoto{font-family:"Manrope",san
 <!-- NAV (shared chrome, identical across every case study) -->
 <header class="topbar">
   <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
-    <span class="mark"><img src="logo_nobg_black.svg" width="986" height="1008" alt="" /></span>
+    <span class="name">Shabnam Raghavan</span>
   </a>
   <nav aria-label="Primary">
     <a href="index.html#work">Work</a>
@@ -484,6 +485,7 @@ html body .page-card .ops2.ops2 .o-sec.o-sec .o-pphoto{font-family:"Manrope",san
 .wordmark{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--asphalt);}
 .wordmark .mark{display:block;height:30px;}
 .wordmark .mark img{display:block;height:100%;width:auto;}
+.wordmark .name{font-family:var(--font-display);font-weight:400;text-transform:none;letter-spacing:0.04em;font-size:1.1rem;}
 .topbar nav{display:flex;align-items:center;gap:var(--space-md);}
 .topbar nav a{font-family:var(--font-display);position:relative;color:var(--asphalt-soft);text-decoration:none;padding:8px 0;transition:color 160ms ease;}
 /* the weft thread from the loom, borrowed as an underline */
@@ -1154,6 +1156,8 @@ html body .page-card .ops2 .o-tbl td{padding:14px 16px 14px 0;vertical-align:top
 html body .page-card .ops2 .o-tbl td:first-child{width:30%;}
 html body .page-card .ops2 .o-tbl strong{color:var(--ink);font-weight:700;}
 html body .page-card .ops2 .o-tbl-res td:first-child{width:28%;}
+html body .page-card .ops2 .o-tbl-map td:first-child{width:46%;}
+html body .page-card .ops2 .o-tbl-map td:last-child,html body .page-card .ops2 .o-tbl-map th:last-child{width:72px;text-align:right;padding-right:0;}
 html body .page-card .ops2 .o-tbl-res td:nth-child(2){width:26%;}
 html body .page-card .ops2 .o-main .o-call{max-width:none !important;}
 html body .page-card .ops2 .o-toggleimg img{width:100%;max-width:420px;height:auto;border-radius:8px;}
@@ -1522,6 +1526,29 @@ html body .page-card .ops2 .o-sec .o-step{grid-template-columns:26px minmax(0,1f
 html body .page-card .ops2 .o-sec .o-why,html body .page-card .ops2 .o-sec .o-insights{grid-template-columns:1fr;}
 html body .page-card .ops2 .o-sec .o-round{grid-template-columns:1fr;}
 }
+/* ---- the film first (2026-10-26): the first screen holds the line, the film and, at its foot, the
+   way into the detailed case study ---- */
+.ops2 .o-film{box-sizing:border-box;min-height:calc(100svh - 40px);max-width:1200px;margin:0 auto;padding:clamp(100px,11vw,128px) var(--o-pad) 28px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;}
+.ops2 .o-film-cap{margin:0 0 16px;font-family:var(--font-body);font-size:1rem;font-weight:500;color:#302F2C;}
+.ops2 .o-film-fig{margin:0 auto;width:min(100%,calc((100svh - 300px) * 16 / 9));min-width:min(100%,560px);}
+/* the film has no baked-in edge to crop, so it is drawn at its own size: any scale softens its text */
+.ops2 .o-film .o-vbox video{transform:none;}
+.ops2 .o-film-next{position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:auto;padding:28px 0 9px;font-family:var(--font-display);font-size:1.1rem;letter-spacing:0.08em;color:#0E0C0A;text-decoration:none;}
+/* the loom's weft thread draws in under the words on hover, as in the top nav */
+.ops2 .o-film-next::after{content:"";position:absolute;left:0;right:24px;bottom:0;height:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q 6 0.5 12 4 T 24 4' fill='none' stroke='%230E0C0A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 24px 8px;
+  transform:scaleX(0);transform-origin:left;transition:transform 300ms cubic-bezier(0.22,1,0.36,1);}
+.ops2 .o-film-next:hover::after,.ops2 .o-film-next:focus-visible::after{transform:scaleX(1);}
+/* the arrow bounces gently, pointing down to the rest of the page */
+.ops2 .o-film-next svg{animation:oFilmBounce 1.6s ease-in-out infinite;}
+@keyframes oFilmBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+@media (prefers-reduced-motion:reduce){.ops2 .o-film-next svg{animation:none;}}
+.ops2 .o-film-next:focus-visible{outline:2px solid #0E0C0A;outline-offset:4px;border-radius:2px;}
+.ops2 .o-film + .o-hero{padding-top:clamp(72px,9vw,120px);scroll-margin-top:24px;}
+/* on phones the film is short, so the link follows it rather than waiting at the foot of an empty screen */
+@media (max-width:760px){.ops2 .o-film{min-height:0;}.ops2 .o-film-next{margin-top:8px;}}
+/* no section title runs past three lines (her rule, 2026-10-27) */
+@media (max-width:560px){html body .page-card .ops2.ops2 .o-hero .o-title{font-size:1.55rem !important;}}
 </style>
 
 <!-- ============================================================
@@ -1530,7 +1557,15 @@ html body .page-card .ops2 .o-sec .o-round{grid-template-columns:1fr;}
      ============================================================ -->
 <div class="ops2">
 
-  <header class="o-hero">
+  <!-- the film comes first (2026-10-26): the first thing anyone sees. The detailed case study
+       follows below it, for anyone who wants to read in depth. Nothing downloads until play. -->
+  <section class="o-film" aria-label="Case study film">
+    <p class="o-film-cap">Click play to watch the quick overview video.</p>
+    <figure class="o-film-fig"><div class="o-vbox"><video src="ops-case-study-film.mp4" poster="images/ops-film-poster.webp" width="1280" height="720" controls muted playsinline preload="none" aria-label="Case study film: Two teams, one dashboard"></video></div></figure>
+    <a class="o-film-next" href="#case-study">Read the detailed case study<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </section>
+
+  <header class="o-hero" id="case-study">
     <div class="o-tags meta-row hero-tags-top">
       <span class="chip">IHX Case Study</span>
       <span class="chip">B2B SaaS</span>
@@ -1545,7 +1580,7 @@ html body .page-card .ops2 .o-sec .o-round{grid-template-columns:1fr;}
       <div><dt>Timeline</dt><dd>4 weeks, March to April 2025</dd></div>
     </dl>
     <figure class="o-fig o-fig-hero">
-      <img src="images/ops-hero.webp" width="2400" height="1600" alt="IHX Nucleus Ops Dashboard UI showcase" fetchpriority="high" />
+      <img src="images/ops-hero.webp" width="2400" height="1600" alt="IHX Nucleus Ops Dashboard UI showcase" loading="lazy" decoding="async" />
     </figure>
     <div class="hero-stats o-hero-stats">
       <div class="cell"><span class="tag">Time to claim submission</span><div class="num indigo">&minus;5<i class="d1">1</i>%</div><div class="lbl">Against a control group that saw no change</div></div>
@@ -1704,7 +1739,7 @@ html body .page-card .ops2 .o-sec .o-round{grid-template-columns:1fr;}
               <div class="jm-lbl">Team</div>
               <div class="jm-body jm-teams"><div class="jm-team">Pre-Auth team <span>time-critical, patient-facing</span></div><div class="jm-team is-claim">Claim team <span>finance-critical, settlement-focused</span></div></div>
               <div class="jm-lbl">Stage</div>
-              <div class="jm-body jm-stages"><div class="jm-stage"><span class="jm-sn">01</span><b>Pre-Auth initiation</b></div><div class="jm-stage"><span class="jm-sn">02</span><b>Approval pending</b></div><div class="jm-stage"><span class="jm-sn">03</span><b>Insurer query</b></div><div class="jm-stage"><span class="jm-sn">04</span><b>Approval &amp; admission</b></div><div class="jm-stage"><span class="jm-sn">05</span><b>Enhancement</b></div><div class="jm-stage"><span class="jm-sn">06</span><b>Discharge initiation</b></div><div class="jm-stage is-claim"><span class="jm-sn">07</span><b>Claim submission</b></div><div class="jm-stage is-claim"><span class="jm-sn">08</span><b>Finance query</b></div><div class="jm-stage is-claim"><span class="jm-sn">09</span><b>Settlement</b></div></div>
+              <div class="jm-body jm-stages"><div class="jm-stage"><span class="jm-sn">01</span><b>Pre-Auth initiation</b></div><div class="jm-stage"><span class="jm-sn">02</span><b>Approval pending</b></div><div class="jm-stage"><span class="jm-sn">03</span><b>Insurer query</b></div><div class="jm-stage"><span class="jm-sn">04</span><b>Approval &amp; admission</b></div><div class="jm-stage"><span class="jm-sn">05</span><b>Enhancement</b></div><div class="jm-stage"><span class="jm-sn">06</span><b>Discharge initiation</b></div><div class="jm-stage is-claim"><span class="jm-sn">07</span><b>Claim submission</b></div><div class="jm-stage is-claim"><span class="jm-sn">08</span><b>Claim query</b></div><div class="jm-stage is-claim"><span class="jm-sn">09</span><b>Settlement</b></div></div>
               <div class="jm-lbl">Emotions</div>
               <div class="jm-body jm-emos" style="height:560px">
                 <svg class="jm-wave" viewBox="0 0 1144 560" width="1144" height="560" aria-hidden="true">
@@ -1712,7 +1747,7 @@ html body .page-card .ops2 .o-sec .o-round{grid-template-columns:1fr;}
                   <path d="M0.0,117.7 C9.5,117.9 28.6,116.0 57.2,119.0 C85.8,122.0 131.8,123.3 171.6,135.7 C211.4,148.1 259.7,190.4 296.2,193.6 C332.6,196.8 358.7,150.1 390.2,155.0 C421.8,159.9 457.4,213.5 485.6,223.1 C513.7,232.8 530.7,206.4 559.3,212.9 C587.9,219.3 631.3,264.5 657.2,261.7 C683.0,258.9 695.7,203.4 714.4,196.1 C733.0,188.9 747.8,220.4 769.0,218.0 C790.2,215.6 819.4,180.3 841.5,182.0 C863.5,183.7 881.5,210.7 901.2,228.3 C920.9,245.9 938.9,290.0 959.7,287.4 C980.5,284.9 1003.1,219.3 1025.8,212.9 C1048.5,206.4 1076.0,247.8 1095.7,248.9 C1115.4,249.9 1135.9,224.2 1144.0,219.3" fill="none" stroke="url(#jm-team-grad)" stroke-width="2.5" stroke-linecap="round"/>
                   <path class="jm-hmark" d="M755.0,206.0 L777.0,218.0 L755.0,230.0 Z" fill="#3C3ADA" stroke="#ECEAE4" stroke-width="2" stroke-linejoin="round"/>
                 </svg>
-                <span class="jm-emo is-set" data-k="1" data-side="b" data-x="57.2" style="left:33px;top:143px">Patient and calm, neutral mind</span><i class="jm-dot" style="left:57.2px;top:119.0px"></i><span class="jm-emo is-set" data-k="2" data-side="a" data-x="171.6" style="left:148px;top:81px">Slightly overloaded with work</span><i class="jm-dot" style="left:171.6px;top:135.7px"></i><span class="jm-emo is-set" data-k="3" data-side="b" data-x="296.2" style="left:272px;top:204px">Stressed of workload</span><i class="jm-dot" style="left:296.2px;top:193.6px"></i><span class="jm-emo is-set" data-k="4" data-side="a" data-x="390.2" style="left:366px;top:88px">Pleasant about responding to queries</span><i class="jm-dot" style="left:390.2px;top:155.0px"></i><span class="jm-emo is-set" data-k="5" data-side="b" data-x="485.6" style="left:462px;top:237px">Tensed that senior informed about unreplied query</span><i class="jm-dot" style="left:485.6px;top:223.1px"></i><span class="jm-emo is-set" data-k="6" data-side="a" data-x="559.3" style="left:535px;top:145px">Anxious about missing other queries</span><i class="jm-dot" style="left:559.3px;top:212.9px"></i><span class="jm-emo is-set" data-k="7" data-side="b" data-x="657.2" style="left:633px;top:272px">Frustrated about having to check again and again</span><i class="jm-dot" style="left:657.2px;top:261.7px"></i><span class="jm-emo is-set" data-k="8" data-side="a" data-x="714.4" style="left:632px;top:84px">Relieved the discharge is approved</span><i class="jm-dot" style="left:714.4px;top:196.1px"></i><span class="jm-emo is-set" data-k="9" data-side="a" data-x="769.0" style="left:772px;top:134px">Worried about other queries</span><span class="jm-emo is-set" data-k="10" data-side="a" data-x="841.5" style="left:818px;top:90px">Happy to notice a new claim</span><i class="jm-dot" style="left:841.5px;top:182.0px"></i><span class="jm-emo is-set" data-k="11" data-side="b" data-x="901.2" style="left:877px;top:298px">Stressed about responding to queries</span><i class="jm-dot" style="left:901.2px;top:228.3px"></i><span class="jm-emo is-set" data-k="12" data-side="b" data-x="959.7" style="left:936px;top:362px">Annoyed at having to work so much on reports</span><i class="jm-dot" style="left:959.7px;top:287.4px"></i><span class="jm-emo is-set" data-k="13" data-side="a" data-x="1025.8" style="left:1002px;top:146px">Relieved to find claims approved without disputes</span><i class="jm-dot" style="left:1025.8px;top:212.9px"></i><span class="jm-emo is-set" data-k="14" data-side="b" data-x="1095.7" style="left:1016px;top:423px">Frustrated about checking again and again for claim statuses and needs to raise disputes</span><i class="jm-dot" style="left:1095.7px;top:248.9px"></i>
+                <span class="jm-emo is-set" data-k="1" data-side="b" data-x="57.2" style="left:33px;top:143px">Patient and calm, neutral mind</span><i class="jm-dot" style="left:57.2px;top:119.0px"></i><span class="jm-emo is-set" data-k="2" data-side="a" data-x="171.6" style="left:148px;top:81px">Slightly overloaded with work</span><i class="jm-dot" style="left:171.6px;top:135.7px"></i><span class="jm-emo is-set" data-k="3" data-side="b" data-x="296.2" style="left:272px;top:204px">Stressed of workload</span><i class="jm-dot" style="left:296.2px;top:193.6px"></i><span class="jm-emo is-set" data-k="4" data-side="a" data-x="390.2" style="left:366px;top:88px">Pleasant about responding to queries</span><i class="jm-dot" style="left:390.2px;top:155.0px"></i><span class="jm-emo is-set" data-k="5" data-side="b" data-x="485.6" style="left:462px;top:237px">Tensed that senior informed about unreplied query</span><i class="jm-dot" style="left:485.6px;top:223.1px"></i><span class="jm-emo is-set" data-k="6" data-side="a" data-x="559.3" style="left:535px;top:145px">Anxious about missing other queries</span><i class="jm-dot" style="left:559.3px;top:212.9px"></i><span class="jm-emo is-set" data-k="7" data-side="b" data-x="657.2" style="left:633px;top:272px">Frustrated about having to check again and again</span><i class="jm-dot" style="left:657.2px;top:261.7px"></i><span class="jm-emo is-set" data-k="8" data-side="a" data-x="714.4" style="left:632px;top:84px">Relieved the discharge is approved</span><i class="jm-dot" style="left:714.4px;top:196.1px"></i><span class="jm-emo is-set" data-k="9" data-side="a" data-x="769.0" style="left:772px;top:134px">Worried about other queries</span><span class="jm-emo is-set" data-k="10" data-side="a" data-x="841.5" style="left:818px;top:90px">Happy to notice a new claim</span><i class="jm-dot" style="left:841.5px;top:182.0px"></i><span class="jm-emo is-set" data-k="11" data-side="b" data-x="901.2" style="left:877px;top:298px">Stressed about responding to queries</span><i class="jm-dot" style="left:901.2px;top:228.3px"></i><span class="jm-emo is-set" data-k="12" data-side="b" data-x="959.7" style="left:936px;top:362px">Annoyed at having to work so much on reports</span><i class="jm-dot" style="left:959.7px;top:287.4px"></i><span class="jm-emo is-set" data-k="13" data-side="a" data-x="1025.8" style="left:1002px;top:146px">Relieved to find claims approved without queries</span><i class="jm-dot" style="left:1025.8px;top:212.9px"></i><span class="jm-emo is-set" data-k="14" data-side="b" data-x="1095.7" style="left:1016px;top:423px">Frustrated about searching for claim statuses</span><i class="jm-dot" style="left:1095.7px;top:248.9px"></i>
                 <span class="jm-hlbl" style="left:764px">Handover at discharge</span>
               </div>
               <div class="jm-lbl">Pain points</div>
@@ -1765,6 +1800,21 @@ html body .page-card .ops2 .o-sec .o-round{grid-template-columns:1fr;}
         </ul>
         <div class="o-tags"><span class="src-chip">Synthesis across study, Hotjar + GA</span></div>
         </div>
+
+        <!-- 2026-10-27: each pain point mapped to the design that answers it, leading into the design sections -->
+        <h3 class="o-h3">From pain point to solution</h3>
+        <table class="o-tbl o-tbl-map">
+          <thead><tr><th>Pain point</th><th>What I designed</th><th>Decision</th></tr></thead>
+          <tbody>
+            <tr><td>The dashboard treated two hospital teams as one user.</td><td><strong>PA View and Claim View, joined by a toggle</strong></td><td>01</td></tr>
+            <tr><td>Searching or checking claim by claim at 8 of the 10 stages</td><td><strong>Buckets that lead to an action, then secondary filters, then one table</strong></td><td>02</td></tr>
+            <tr><td>Staff kept clicking Approval Pending and searching for claims ready for Initiate Settlement</td><td><strong>A Claim Submission bucket for claims ready to submit</strong></td><td>02</td></tr>
+            <tr><td>Failed claims hidden, hospital-fixable errors stuck</td><td><strong>A Need Human Intervention (NHI) bucket in both views</strong></td><td>02</td></tr>
+            <tr><td>Missed discharge queries</td><td><strong>A Query Reply Pending bucket, next to Discharges in PA View</strong></td><td>02</td></tr>
+            <tr><td>Hospitals asked for global search; 80%+ of column searches used Patient Name or Claim Number</td><td><strong>Scoped search on Patient Name, Claim Number and UTR</strong></td><td>03</td></tr>
+            <tr><td>Staff left IHX to email the insurer when a claim sat in Approval Pending</td><td><strong>Follow-up in the claim list, next to how long the claim has been waiting</strong></td><td>05</td></tr>
+          </tbody>
+        </table>
       </section>
 
       <section class="o-sec" id="o-ia" aria-labelledby="h-ia">
@@ -2172,6 +2222,33 @@ html body .page-card .ops2 .o-sec .o-round{grid-template-columns:1fr;}
     v.addEventListener("pause", function () { box.classList.remove("is-playing"); b.setAttribute("aria-label", "Play video"); });
     v.addEventListener("ended", function () { box.classList.remove("is-playing"); });
   });
+})();
+</script>
+<style>html body .page-card .ops2 .jm-lead{position:absolute;width:1px;margin-left:-0.5px;background:rgba(48,47,44,0.35);pointer-events:none;}</style>
+<style>html body .page-card .ops2 .jm-emo{width:104px;font-size:0.8rem;}</style>
+<script>
+/* Claim journey emotions (2026-10-27, placed by hand): each label sits right next to its own dot,
+   above or below as set here, nudged sideways only where a neighbour needs room. No leader lines. */
+(function () {
+  // k: [side, sideways nudge in px from centred]
+  var PLACE = { 1: ["b", 0], 2: ["a", -12], 3: ["b", 0], 4: ["a", 0], 5: ["b", 0], 6: ["a", 0], 7: ["b", -10],
+                8: ["a", -20], 9: ["b", 60], 10: ["a", 0], 11: ["b", -50, 56], 12: ["b", 0], 13: ["a", 0], 14: ["b", 0] };   // [side, sideways nudge, extra drop]
+  function layout(emos) {
+    var path = emos.querySelector("svg.jm-wave path"); if (!path) return;
+    var len = path.getTotalLength();
+    function yAt(x) { var lo = 0, hi = len; for (var i = 0; i < 30; i++) { var m = (lo + hi) / 2; if (path.getPointAtLength(m).x < x) lo = m; else hi = m; } return path.getPointAtLength((lo + hi) / 2).y; }
+    [].forEach.call(emos.querySelectorAll(".jm-dot, .jm-lead"), function (n) { n.remove(); });
+    var W = emos.clientWidth, GAP = 12;
+    [].forEach.call(emos.querySelectorAll(".jm-emo"), function (l) {
+      var k = +l.dataset.k, x = +l.dataset.x, y = yAt(x), p = PLACE[k] || [l.dataset.side, 0];
+      var dot = document.createElement("i"); dot.className = "jm-dot"; dot.style.left = x + "px"; dot.style.top = y + "px"; emos.appendChild(dot);
+      var w = l.offsetWidth, h = l.offsetHeight;
+      l.style.left = Math.max(0, Math.min(W - w, x - w / 2 + p[1])) + "px";
+      l.style.top = (p[0] === "a" ? y - GAP - h : y + GAP + (p[2] || 0)) + "px";
+    });
+  }
+  function all() { [].forEach.call(document.querySelectorAll(".ops2 .jm-emos"), layout); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(all); else window.addEventListener("load", all);
 })();
 </script>
 <!-- OTHER CASE STUDIES -->

@@ -146,61 +146,9 @@
   /* the grain of primed plywood, and the tooth of handbill paper */
   .grain { position: absolute; inset: 0; pointer-events: none; z-index: 4; opacity: 0.5; }
 
-  /* ---------------------------------------------------------------------
-     THE SHUTTERS  (the intro)
-     Two painted shutters that part over the board, the way a hoarding is
-     unveiled. Plays once per tab session, never under reduced motion.
-     --------------------------------------------------------------------- */
-  .intro { position: fixed; inset: 0; z-index: 300; pointer-events: auto; }
-  .intro-panel {
-    position: absolute; left: 0; right: 0; height: 50.2%;
-    background: #C02D0C;   /* vermillion shutters, so the split opens onto the black hero */
-    animation: shutter 1300ms var(--paint) var(--intro-offset) forwards;
-  }
-  .intro-panel-top { top: 0; transform-origin: top center; }
-  .intro-panel-bottom { bottom: 0; transform-origin: bottom center; animation-name: shutterDown; }
-  @keyframes shutter     { to { transform: translateY(-101%); } }
-  @keyframes shutterDown { to { transform: translateY(101%); } }
-  .intro-content {
-    position: absolute; inset: 0; z-index: 2;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: var(--s-4);
-    /* room for a two-line sentence above the pinned count, so the whole group still sits
-       centred on the screen (the sentence is out of the flow now) */
-    padding-top: calc(2 * 1.02 * clamp(1.8rem, 4.6vw, 4.2rem) + var(--s-3));
-    /* fades as the count reaches 100, then the red holds alone for --intro-hold before it splits */
-    animation: introOut 520ms ease calc(var(--intro-offset) - var(--intro-hold, 300ms)) forwards;
-  }
-  @keyframes introOut { to { opacity: 0; visibility: hidden; } }
-  /* the count and the progress line are pinned; the sentence sits above them and grows
-     upward, so its changing height (empty, one line, two, wider scramble glyphs) never
-     pushes them up and down */
-  .intro-lines { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--s-3); }
-  /* the sentence carries the hierarchy; the count is a small quiet figure under it */
-  .intro-count {
-    font-family: var(--font-display);
-    font-size: clamp(0.95rem, 1.4vw, 1.2rem); line-height: 1; letter-spacing: 0.1em; color: #F0E6D2; opacity: 0.8;
-  }
-  .intro-count .pc { font-size: 1em; color: inherit; margin-left: 2px; vertical-align: 0; }
-  .intro-line {
-    font-family: var(--font-display);
-    font-size: clamp(1.8rem, 4.6vw, 4.2rem); line-height: 1.02;
-    letter-spacing: 0.02em; color: var(--bone);
-    width: max-content; max-width: 94vw; text-align: center; text-wrap: balance; margin: 0;
-    position: absolute; left: 50%; bottom: calc(100% + var(--s-3)); transform: translateX(-50%);
-  }
-  .intro-line .dc { display: inline-block; text-align: center; }
-  .intro-line .intro-row { display: block; white-space: nowrap; }
-  /* the hero role line scrambles between titles the same way the intro types; the noise
-     stays in the line's own beige (no red text on the page) */
+  /* the hero role line scrambles between titles; the noise stays in the line's own beige */
   .hero-role .dc { display: inline-block; text-align: center; }
   .hero-role .dc[data-s="scr"] { opacity: 0.5; }
-  .intro-line .dc[data-s="scr"] { opacity: 0.5; }
-  .intro-line .dc[data-s="off"] { opacity: 0; }
-  .intro-rule {
-    width: min(460px, 62vw); height: 3px; background: #F0E6D2;   /* coconut soft on the red */
-    transform: scaleX(0); transform-origin: left center;
-  }
 
   /* ---------------------------------------------------------------------
      THE BRUSH  (custom pointer)
@@ -229,6 +177,8 @@
     transition: opacity 180ms ease, transform 220ms var(--paint);
   }
   .cursor.on-case .cursor-dot { transform: scale(1.9); }
+  /* over the red hero and the red contact block the blot is Deep Asphalt, never red on red */
+  body:has(.hero.landing:hover) .cursor-dot, body:has(.contact-sec:hover) .cursor-dot { background: #0E0C0A; }
   .cursor.on-case .cursor-chip { opacity: 1; transform: none; }
   .cursor.on-soon .cursor-chip { background: var(--bone-dim); }
 
@@ -597,7 +547,8 @@
     transition: box-shadow 520ms var(--paint);
   }
   .file-photo { position: relative; transform: rotate(calc(var(--tilt) * -1.4)); }
-  .file-photo video { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 4px; background: #ECEAE4; box-shadow: 0 6px 16px rgba(14, 12, 10, 0.14); }
+  .file-photo img { height: auto; }
+  .file-photo video, .file-photo img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 4px; background: #ECEAE4; box-shadow: 0 6px 16px rgba(14, 12, 10, 0.14); }
   .file-tape {
     position: absolute; z-index: 2; left: 50%; top: -12px; width: 86px; height: 24px;
     margin-left: -43px; background: rgba(236, 234, 228, 0.78);
@@ -671,6 +622,205 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .file, .file h3 .sel { transition: none; }
+  }
+
+  /* =====================================================================
+     THE LANDING  (2026-10-26, v3)
+     For a recruiter, on one flat Coconut ground: the role and her name lead on
+     the left, her line and the numbers sit under them, and the work is on the
+     right, the same paper case file as before, one at a time with arrows.
+     The only motion is the role line's decrypt and the slide between cases.
+     ===================================================================== */
+  .hero.landing { height: auto; min-height: 0; overflow: visible; isolation: auto; background: #F4F3EF; color: #0E0C0A;
+                  padding: clamp(84px, 10vh, 112px) var(--gut) 20px; }   /* the toolkit band shows at the fold */
+  /* the hero fills the first screen less the toolkit band, so the band's foot sits on the fold */
+  .hero.landing { min-height: calc(100svh - var(--frame) - var(--band-h, 46px)); display: flex; flex-direction: column; justify-content: center; }
+  .landing-in { width: 100%; }
+  .landing-in { display: grid; grid-template-columns: minmax(0, 1fr) clamp(360px, min(40vw, calc((100svh - 370px) * 0.95)), 540px);
+                align-items: center; gap: var(--s-5) clamp(40px, 6vw, 110px); max-width: 1320px; margin: 0 auto; }
+  .landing .hero-role { margin: 0 0 12px; text-align: left; color: #6B6964; opacity: 1; }
+  .landing .hero-role .dc[data-s="scr"] { opacity: 0.45; }
+  .ld-name { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.1rem, 3.8vw, 3.8rem);
+             line-height: 0.95; letter-spacing: 0.03em; color: #0E0C0A; }
+  .ld-line { margin: clamp(18px, 2.6vh, 28px) 0 0; max-width: 36ch; font-family: var(--font-body); font-weight: 500;
+             font-size: clamp(1rem, 0.9rem + 0.35vw, 1.2rem); line-height: 1.5; color: #5D584E; }
+
+  /* the numbers: big figures in the display face, each with a short line under it */
+  .ld-stats { display: grid; grid-template-columns: repeat(3, minmax(0, max-content)); gap: 0; margin: clamp(26px, 4vh, 44px) 0 0; padding: 0; list-style: none; }
+  .ld-stats li { padding: 4px clamp(16px, 2vw, 32px); border-left: 1px solid rgba(48, 47, 44, 0.18); max-width: 19ch; }
+  .ld-stats li:first-child { padding-left: 0; border-left: 0; }
+  .ld-fig { display: block; font-family: var(--font-display); font-size: clamp(2.2rem, 3.6vw, 3.4rem); line-height: 1; letter-spacing: 0.02em; color: #302F2C; }
+  /* each figure sits on a Turmeric highlighter stroke, the same mark as the intro's selected text */
+  .ld-fig { width: fit-content; padding: 0 0.08em; background: linear-gradient(transparent 58%, #F2D987 58%, #F2D987 92%, transparent 92%); }
+  .ld-stats span + span { display: block; margin-top: 6px; font-family: var(--font-body); font-size: 0.86rem; line-height: 1.4; color: #5D584E; }
+
+  /* the work: a heading with one line under it and the peers' arrows and count, then the
+     case files as a deck, moving exactly like the peers' cards */
+  .ld-work { min-width: 0; }
+  .ld-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-3); }
+  .ld-label { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.1; letter-spacing: 0.04em; color: #302F2C; }
+  .ld-sub { margin: 4px 0 0; font-family: var(--font-body); font-size: 0.95rem; color: #5D584E; }
+  .landing .pr-ctrl { margin-top: 0; gap: 14px; flex: none; }
+  .landing .pr-btn { width: 48px; height: 48px; background: #C02D0C; color: #F0E6D2; }
+  .landing .pr-btn:hover { background: #9B1302; }
+  .landing .pr-btn:focus-visible { outline-color: #C02D0C; }
+  .landing .pr-count { color: #6B6964; }
+  .landing .pr-count b { color: #302F2C; }
+  .ld-deck .file h3 { font-size: clamp(1.15rem, 1.45vw, 1.5rem); }
+  .ld-deck .file-sheet { padding: clamp(14px, 1.3vw, 20px); }
+  .ld-deck .file-body { padding-top: 12px; }
+  .ld-deck .file-org { margin-top: 6px; font-size: 0.84rem; }
+  .ld-deck .file-go { margin-top: 10px; }
+  .ld-deck { position: relative; display: grid; margin-top: 18px; padding: 0 34px 34px 0;
+             touch-action: pan-y; user-select: none; -webkit-user-select: none; outline: none; }
+  .ld-deck .file { grid-area: 1 / 1; margin-top: 0; -webkit-user-drag: none;
+                   transition: transform 620ms var(--paint), opacity 400ms ease; will-change: transform; }
+  .ld-deck .file[data-pos="0"] { z-index: 4; transform: none; cursor: grab; }
+  .ld-deck .file[data-pos="1"] { z-index: 3; transform: translate(18px, 18px) rotate(2.4deg) scale(0.97); }
+  .ld-deck .file[data-pos="2"] { z-index: 2; transform: translate(34px, 34px) rotate(-1.8deg) scale(0.94); }
+  .ld-deck .file[data-pos="3"] { z-index: 1; transform: translate(34px, 34px) rotate(-1.8deg) scale(0.94); opacity: 0; }
+  .ld-deck .file.dragging { transition: none; cursor: grabbing; }
+  .ld-deck .file.flying { z-index: 5; transition: transform 380ms cubic-bezier(0.33, 0, 0.2, 1); }
+  .ld-deck .file[data-pos="0"]:hover { transform: translateY(-6px); }
+  .ld-deck:focus-visible .file[data-pos="0"] .file-sheet { box-shadow: 0 0 0 3px #0E0C0A, 0 14px 34px rgba(14, 12, 10, 0.16); }
+  .landing .file-go { margin-top: var(--s-2); }
+  @media (prefers-reduced-motion: reduce) { .ld-deck .file, .ld-deck .file.flying { transition: none; } }
+
+  /* =====================================================================
+     THE CANVAS  (2026-10-26, draft "one crazy shot")
+     The landing as her working file: a dot-grid canvas, her name as the
+     selected layer with its name tag, the numbers as taped sticky notes, and
+     a multiplayer cursor that selects her name, highlights how people
+     actually work, and settles on the case study. CSS and one small script.
+     ===================================================================== */
+  .hero.landing { background: radial-gradient(rgba(48, 47, 44, 0.16) 1px, transparent 1.5px) 0 0 / 22px 22px, #F4F3EF; }
+  .landing-in { position: relative; }
+
+  /* the selected layer: a Vermillion box, four square handles, and the layer's name tag on top */
+  .ld-frame { position: relative; display: inline-block; margin-top: 30px; padding: 8px 16px 10px; outline: 1.5px solid #C02D0C; }
+  .ld-frame .hero-role { position: absolute; left: -1.5px; bottom: 100%; margin: 0; padding: 4px 9px 3px; white-space: nowrap;
+                         background: #C02D0C; color: #F0E6D2; font-size: 0.78rem; letter-spacing: 0.22em; border-radius: 3px 3px 0 0; }
+  .landing .ld-frame .hero-role { color: #F0E6D2; }
+  .ld-hd { position: absolute; width: 9px; height: 9px; background: #F4F3EF; border: 1.5px solid #C02D0C; }
+  .ld-hd.tl { left: -5px; top: -5px; } .ld-hd.tr { right: -5px; top: -5px; }
+  .ld-hd.bl { left: -5px; bottom: -5px; } .ld-hd.br { right: -5px; bottom: -5px; }
+  /* the size readout under the selection, as a design tool shows it */
+  .ld-size { position: absolute; right: -1.5px; top: calc(100% + 8px); padding: 2px 7px; border-radius: 3px; background: #302F2C; color: #F0E6D2;
+             font: 600 0.68rem/1.4 var(--font-body); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
+
+  /* the phrase the cursor selects: the intro's highlighter, swept in */
+  .ld-sel { background: linear-gradient(#F2D987, #F2D987) no-repeat 0 0 / 100% 100%; color: #0E0C0A; padding: 0 0.08em;
+            -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .ld-anim .ld-sel { background-size: 0% 100%; transition: background-size 800ms cubic-bezier(0.45, 0, 0.2, 1); }
+  .ld-anim .ld-sel.on { background-size: 100% 100%; }
+
+  /* the numbers as sticky notes, taped down at slight angles, each a different paper */
+  .ld-stats { display: flex; flex-wrap: wrap; gap: 18px; margin-top: clamp(30px, 4.5vh, 48px); }
+  .ld-stats li, .ld-stats li:first-child { position: relative; flex: 0 0 auto; width: clamp(132px, 11vw, 158px); min-height: 128px; max-width: none;
+                  padding: 20px 16px 14px; border: 0; border-radius: 2px; background: #F2D987; box-shadow: 0 12px 24px rgba(14, 12, 10, 0.12);
+                  transform: rotate(-2.4deg); }
+  .ld-stats li:nth-child(2) { background: #C02D0C; transform: rotate(1.8deg) translateY(10px); }
+  .ld-stats li:nth-child(3) { background: #ECEAE4; transform: rotate(-1deg); }
+  .ld-stats li::before { content: ""; position: absolute; left: 50%; top: -9px; width: 58px; height: 18px; margin-left: -29px;
+                         background: rgba(236, 234, 228, 0.82); transform: rotate(-4deg); box-shadow: 0 1px 2px rgba(14, 12, 10, 0.08); }
+  .ld-fig, .landing .ld-fig { background: none; padding: 0; color: #302F2C; font-size: clamp(2.1rem, 3vw, 2.8rem); }
+  .ld-stats li:nth-child(2) .ld-fig, .ld-stats li:nth-child(2) span + span { color: #F0E6D2; }
+  .ld-stats span + span { color: #302F2C; }
+
+  /* the multiplayer cursor: desktop with motion only; it glides, so nothing is drawn per frame */
+  .ld-cursor { position: absolute; left: 0; top: 0; z-index: 30; display: none; pointer-events: none; will-change: transform; }
+  .ld-anim .ld-cursor { display: block; }
+  .ld-cursor svg { display: block; filter: drop-shadow(0 2px 3px rgba(14, 12, 10, 0.25)); }
+  .ld-cursor span { position: absolute; left: 16px; top: 18px; padding: 3px 9px; border-radius: 0 999px 999px 999px; white-space: nowrap;
+                    background: #C02D0C; color: #F0E6D2; font: 600 0.78rem/1.4 var(--font-body); }
+
+  @media (max-width: 760px) {
+    .ld-frame { padding: 6px 10px 8px; }
+    .ld-size { display: none; }
+    .ld-stats { gap: 12px; }
+    .landing .ld-stats li { width: calc((100% - 24px) / 3); min-height: 112px; padding: 28px 10px 10px; }
+    .ld-stats li::before { width: 44px; margin-left: -22px; top: -8px; }
+    .ld-fig, .landing .ld-fig { font-size: 1.7rem; }
+  }
+
+  /* the nav reads in ink on the Coconut landing, her name included */
+  body .topbar:not(.solid) { color: #0E0C0A; }
+  body .topbar:not(.solid) nav a { color: #6B6964; }
+  body .topbar:not(.solid) nav a:hover { color: #9B1302; }
+  body .topbar:not(.solid) .wordmark { color: #302F2C; }
+
+  /* =====================================================================
+     SHOT 2  (2026-10-26, draft): the canvas on her red. The About page's
+     Vermillion grid behind everything, her name as the selected layer in
+     Coconut, one colour of sticky note, Coconut arrows as on the peers red,
+     and the case files laid on the red like the About page's prints.
+     ===================================================================== */
+  .hero.landing {
+    --cw: clamp(117px, 11.25vw, 171px); --ch: calc(var(--cw) * 1.3); --line: rgba(240, 230, 210, 0.16);
+    background: repeating-linear-gradient(to right, rgba(240, 230, 210, 0.14) 0 1px, transparent 1px 56px), repeating-linear-gradient(to bottom, rgba(240, 230, 210, 0.1) 0 1px, transparent 1px 56px), #C02D0C;   /* the site's one small grid, as on the About page */
+    color: #F0E6D2;
+  }
+  .ld-name { color: #F0E6D2; }
+  .ld-line { color: rgba(240, 230, 210, 0.9); }
+  .ld-frame { outline-color: rgba(240, 230, 210, 0.4); }   /* the selection steps back behind the name */
+  .ld-frame .hero-role, .landing .ld-frame .hero-role { background: #0E0C0A; color: #F0E6D2; }
+  .ld-hd { background: #C02D0C; border-color: rgba(240, 230, 210, 0.55); }
+  .ld-size { background: #0E0C0A; }
+  /* the highlighter sweeps across the phrase once, on its own */
+  .ld-sel { color: #0E0C0A; animation: selSweep 900ms cubic-bezier(0.45, 0, 0.2, 1) 900ms both; }
+  @keyframes selSweep { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
+  @media (prefers-reduced-motion: reduce) { .ld-sel { animation: none; } }
+  /* one paper for every note: Coconut, so the yellow stays with the highlight alone */
+  .ld-stats li:nth-child(n) { background: #CDC9B6; box-shadow: 0 14px 28px rgba(40, 8, 0, 0.3); }   /* Paper, the case card stock */
+  /* Coconut notes take a slightly darker tape, so the strip still reads on them */
+  .ld-stats li:nth-child(n)::before { background: rgba(205, 201, 182, 0.8); }
+  .ld-stats li:nth-child(n) .ld-fig { color: #0E0C0A; }
+  .ld-stats li:nth-child(n) span + span { color: #302F2C; }
+  /* the work, on the red */
+  .ld-label { color: #F0E6D2; }
+  .ld-sub { color: rgba(240, 230, 210, 0.86); }
+  .landing .pr-btn { background: #F0E6D2; color: #0E0C0A; }
+  .landing .pr-btn:hover { background: #F0E6D2; }
+  .landing .pr-btn:focus-visible { outline-color: #F0E6D2; }
+  .landing .pr-count { color: rgba(240, 230, 210, 0.7); }
+  .landing .pr-count b { color: #F0E6D2; }
+  .ld-deck .file-sheet { box-shadow: 0 18px 40px rgba(40, 8, 0, 0.35); }
+  .ld-deck:focus-visible .file[data-pos="0"] .file-sheet { box-shadow: 0 0 0 3px #F0E6D2, 0 18px 40px rgba(40, 8, 0, 0.35); }
+  /* over the hero the nav carries only her logo (the hero already says her name); once the bar
+     turns solid, the logo gives way to her name as on every other page */
+  .topbar .wordmark .mark { display: grid; }
+  .topbar .wordmark .mark img { height: 30px; width: auto; }
+  .topbar .wordmark .mark { display: none; }
+  /* over the hero only (the exception): no logo or name, the links centred. Once the bar turns
+     solid it is the usual nav, her name on the left, links on the right, as on every page. */
+  .topbar:not(.solid) .wordmark { display: none; }
+  @media (min-width: 901px) { .topbar:not(.solid) { justify-content: center; } }
+  @media (max-width: 900px) { .topbar:not(.solid) { justify-content: flex-end; } }
+
+  /* the line sits under the card, centred, with the arrows after it */
+  .ld-sub.ld-after { margin: 0 0 22px; text-align: center; color: #F0E6D2; }
+  /* the arrows, as in direction 4: small, reversed, centred under the card with the count */
+  .landing .ld-under { justify-content: center; margin-top: -8px; gap: 12px; }
+  .landing .ld-under .pr-btn { width: 38px; height: 38px; background: #F0E6D2; color: #0E0C0A; }
+  .landing .ld-under .pr-btn svg { width: 14px; height: 14px; }
+  .landing .ld-under .pr-btn:hover { background: #E4DED1; transform: none; }
+  .landing .ld-under .pr-count { font-size: 1rem; }
+  .landing .ld-under .pr-count b { font-size: 1.3rem; }
+
+  /* the nav over the red reads in Coconut until it becomes the solid pill */
+  body .topbar:not(.solid) nav a, body .topbar:not(.solid) nav a:hover, body .topbar:not(.solid) .wordmark { color: #F0E6D2; }
+  body .topbar:not(.solid) { color: #F0E6D2; }
+
+  @media (max-width: 900px) {
+    .landing-in { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
+  }
+  @media (max-width: 760px) {
+    .hero.landing { padding-top: 96px; }
+    .ld-name { font-size: clamp(2.2rem, 10vw, 3rem); }
+    .ld-head { flex-direction: column; align-items: flex-start; gap: var(--s-2); }
+    .ld-stats li { padding: 2px 12px; }
+    .ld-fig { font-size: 2rem; }
+    .ld-stats span + span { font-size: 0.78rem; }
   }
 
   /* ---------------------------------------------------------------------
@@ -783,7 +933,7 @@
      back; the arrows and arrow keys do the same. The phrases each peer
      stressed carry the intro's lilac "selected text" highlight. No red text.
      --------------------------------------------------------------------- */
-  .sheet section.peers2 { background: #C02D0C; color: var(--bone); }
+  .sheet section.peers2 { background: repeating-linear-gradient(to right, rgba(240, 230, 210, 0.07) 0 1px, transparent 1px 56px), repeating-linear-gradient(to bottom, rgba(240, 230, 210, 0.05) 0 1px, transparent 1px 56px), #0E0C0A; color: var(--bone); }
   .sheet section.peers2 h2 { color: var(--bone); }
   .sheet section.peers2 h2::after { display: none; }
   .sheet section.ways + section.peers2::before { display: none; }
@@ -996,11 +1146,11 @@
   .sheet section.hist-sec + section.person::before, .sheet section.contact-sec + section.person::before { display: none; }
   /* the intro's big grid, here with a photo landing in whichever cell the pointer enters */
   .person-field {
-    --cw: clamp(117px, 11.25vw, 171px); --ch: calc(var(--cw) * 1.3);
-    position: relative; min-height: calc(var(--ch) * 5); display: grid; place-items: center;
+    --cw: 168px; --ch: 224px;   /* 3 x 4 squares of the site's 56px grid */
+    position: relative; min-height: calc(var(--ch) * 4); display: grid; place-items: center;
     background:
-      linear-gradient(0deg, rgba(48, 47, 44, 0.08) 1px, transparent 1px) left 0 top 0 / var(--cw) var(--ch),
-      linear-gradient(90deg, rgba(48, 47, 44, 0.08) 1px, transparent 1px) left 0 top 0 / var(--cw) var(--ch);
+      repeating-linear-gradient(to right, rgba(48, 47, 44, 0.07) 0 1px, transparent 1px 56px),
+      repeating-linear-gradient(to bottom, rgba(48, 47, 44, 0.05) 0 1px, transparent 1px 56px);
   }
   .person-copy { position: relative; z-index: 2; text-align: center; pointer-events: none; }
   .person-copy a { pointer-events: auto; }
@@ -1109,7 +1259,7 @@
      as JSON. Then the footer: page links, social links, built by. Staatliches
      for headings and links, Manrope for text, palette colours only.
      --------------------------------------------------------------------- */
-  .sheet section.contact-sec { background: #0E0C0A; color: var(--bone); padding: clamp(80px, 9vw, 140px) 0; }
+  .sheet section.contact-sec { background: repeating-linear-gradient(to right, rgba(240, 230, 210, 0.14) 0 1px, transparent 1px 56px), repeating-linear-gradient(to bottom, rgba(240, 230, 210, 0.1) 0 1px, transparent 1px 56px), #C02D0C; color: var(--bone); padding: clamp(80px, 9vw, 140px) 0; }
   .sheet section.contact-sec::before { display: none; }
   .sheet section.contact-sec h2.contact-call { color: var(--bone); font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1.02; max-width: 17ch; }
   .contact-talk { display: block; margin-top: 0.55em; }
@@ -2109,190 +2259,6 @@
 </svg>
 
 <!-- ============ THE SHUTTERS ============ -->
-<div class="intro" id="intro-curtain" aria-hidden="true">
-  <div class="intro-panel intro-panel-top"></div>
-  <div class="intro-panel intro-panel-bottom"></div>
-  <div class="intro-content">
-    <div class="intro-lines">
-      <p class="intro-line"><span id="intro-type"></span></p>
-      <div class="intro-count"><span id="intro-num">1</span><span class="pc">%</span></div>
-    </div>
-    <div class="intro-rule" id="intro-rule"></div>
-  </div>
-</div>
-<script>
-// Runs inline, right under the curtain, so a repeat view in the same session never flashes
-// it: the node is gone before the browser has painted a frame of it.
-(function () {
-  var KEY = "shab-intro-seen";
-  var intro = document.getElementById("intro-curtain");
-
-  function skip() {
-    document.documentElement.style.setProperty("--intro-offset", "0ms");
-    if (intro && intro.parentNode) {
-      intro.parentNode.removeChild(intro);
-      // tell the hero, so the name arrives now instead of waiting out the curtain's timer
-      try { document.dispatchEvent(new Event("intro:skip")); } catch (e) {}
-    }
-  }
-
-  // Chrome prerenders URLs it expects you to visit, such as a bare domain you type often. That
-  // runs this script inside a page you have not seen yet, which would spend the once-per-session
-  // flag and tear the curtain down while the document is still invisible, so the real visit lands
-  // on a page where the intro has already "played". Hold everything until the page is actually
-  // activated. Browsers without prerendering report undefined here and start straight away.
-  if (document.prerendering) {
-    document.addEventListener("prerenderingchange", begin, { once: true });
-  } else {
-    begin();
-  }
-
-  // CSS animation delays count from when the document was created, not from when it became
-  // visible. A prerendered document has been sitting there a while, so the curtain has to be
-  // pushed out by that much or the panels start parting before the typing has finished. This is
-  // zero on an ordinary load.
-  function activationStart() {
-    try {
-      var nav = performance.getEntriesByType("navigation")[0];
-      return Math.max(0, Math.round((nav && nav.activationStart) || 0));
-    } catch (e) { return 0; }
-  }
-
-  function begin() {
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      skip();
-      return;
-    }
-
-    try {
-      if (sessionStorage.getItem(KEY) && !/[?&]intro\b/.test(location.search)) { skip(); return; }
-      sessionStorage.setItem(KEY, "1");
-    } catch (e) { /* storage unavailable; play the intro anyway */ }
-
-    if (!intro) return;
-    intro.addEventListener("click", skip);
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape") skip(); });
-
-    var num = document.getElementById("intro-num");
-    var rule = document.getElementById("intro-rule");
-
-    // The three sentences are typed out, one after another, on a single line. Built as an
-    // absolute timeline rather than chained timeouts: every frame derives the text from
-    // elapsed time alone, so nothing accumulates drift and the curtain, which is on its own
-    // CSS timer, cannot fall out of step with the last keystroke.
-    // Decrypt: each sentence lands as a line of scrambled glyphs that resolve left to right,
-    // one character every STAGGER ms, holds, then scrambles back out left to right and is gone.
-    //   LEAD       how long the whole line scrambles before the first character locks
-    //   STAGGER    gap between one character locking and the next (the reference uses 38)
-    //   OUT_STAG   the exit wave is quicker than the entry, so it reads as a wipe, not a replay
-    //   OUT_SCR    how long a character scrambles on its way out before it disappears
-    //   TICK       glyphs reshuffle on this clock, not every frame, so the noise is legible
-    var LEAD = 120, STAGGER = 7, HOLD = 800, LAST_HOLD = 1820, OUT_STAG = 3, OUT_SCR = 140,
-        GAP = 160, TICK = 55, TYPE_START = 300;   /* 2026-10-22: scramble starts 0.2s later (300ms, was 100); LAST_HOLD cut by the same 200ms so the shutters still part at 3.0s */
-    var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>?";
-    // "\n" is a fixed line break: the sentence always sits on exactly these two lines
-    var WORDS = [
-      "3+ years in product design.\nHigh-stakes UX."
-    ];
-    var type = document.getElementById("intro-type");
-    var segs = [], mark = TYPE_START;
-    WORDS.forEach(function (w, i) {
-      var n = w.length, last = i === WORDS.length - 1;
-      var locked = mark + LEAD + (n - 1) * STAGGER;
-      var outStart = locked + (last ? LAST_HOLD : HOLD);
-      // the last line scrambles out too, so the curtain opens on an empty field rather than
-      // leaving the sentence sitting over the hero while the panels part
-      var end = outStart + (n - 1) * OUT_STAG + OUT_SCR;
-      segs.push({ s: mark, outStart: outStart, e: end, w: w });
-      mark = end + (last ? 0 : GAP);
-    });
-    var TYPE_END = mark;
-    // the curtain's CSS timer and this timeline share one number, written from here
-    // HOLD: after the count reaches 100 and the words have gone, the screen stays plain red for
-    // this long before the shutters part, so the reveal starts from a still frame
-    var HOLD = 200;
-    document.documentElement.style.setProperty("--intro-hold", HOLD + "ms");
-    document.documentElement.style.setProperty("--intro-offset", (TYPE_END + HOLD + activationStart()) + "ms");
-
-    // a cheap deterministic hash, so a character shows the same glyph for a whole TICK and a
-    // frame drawn twice never flickers
-    function glyph(i, t, k) {
-      var h = (i * 374761393 + Math.floor(t / TICK) * 668265263 + k * 2147483647) | 0;
-      h = (h ^ (h >>> 13)) * 1274126177 | 0;
-      return GLYPHS.charAt(Math.abs(h ^ (h >>> 16)) % GLYPHS.length);
-    }
-
-    // Staatliches is proportional, so a scrambled glyph is wider or narrower than the letter
-    // it stands in for. Each character gets its own box locked to its final width, which
-    // keeps the centred line perfectly still while the noise runs through it.
-    var cells = [], built = -1;
-    function build(k) {
-      type.textContent = "";
-      cells = [];
-      built = k;
-      if (k < 0) return;
-      var w = segs[k].w, word = null, line = null;
-      // letters are grouped into unbreakable words with real spaces between them, so the now
-      // large sentence wraps between words, never inside one
-      for (var i = 0; i < w.length; i++) {
-        var c = document.createElement("span");
-        c.className = "dc";
-        if (!line || w[i] === "\n") { line = document.createElement("span"); line.className = "intro-row"; type.appendChild(line); word = null; }
-        if (w[i] === "\n") { cells.push(c); continue; }
-        if (w[i] === " ") { line.appendChild(document.createTextNode(" ")); word = null; cells.push(c); continue; }
-        if (!word) { word = document.createElement("span"); word.style.whiteSpace = "nowrap"; word.style.display = "inline-block"; line.appendChild(word); }
-        c.textContent = w[i];
-        word.appendChild(c);
-        cells.push(c);
-      }
-      cells.forEach(function (c) { c.style.width = c.getBoundingClientRect().width + "px"; });
-    }
-
-    function render(t) {
-      var k = -1;
-      for (var j = 0; j < segs.length; j++) if (t >= segs[j].s && t < segs[j].e) k = j;
-      if (k !== built) build(k);
-      if (k < 0) return;
-      var sg = segs[k], w = sg.w;
-      for (var i = 0; i < cells.length; i++) {
-        if (w[i] === " " || w[i] === "\n") continue;
-        var state, ch = w[i];
-        if (t < sg.outStart) {
-          state = t < sg.s + LEAD + i * STAGGER ? "scr" : "on";
-        } else {
-          var u = t - sg.outStart - i * OUT_STAG;
-          state = u < 0 ? "on" : u < OUT_SCR ? "scr" : "off";
-        }
-        if (state === "scr") ch = glyph(i, t, k);
-        var c = cells[i];
-        if (c.textContent !== ch) c.textContent = ch;
-        if (c.getAttribute("data-s") !== state) c.setAttribute("data-s", state);
-      }
-    }
-
-    // One loop drives the number, the rule and the typing, so the load state and the copy can
-    // never disagree. The count is linear across the whole sequence and only ever writes whole
-    // numbers, so it reads as a count rather than a blur.
-    var t0 = performance.now();
-    (function tick(now) {
-      if (!intro.parentNode) return;   // skipped part way through
-      var t = now - t0;
-      var p = Math.min(1, Math.max(0, t / TYPE_END));
-      num.textContent = Math.max(1, Math.ceil(p * 100));
-      rule.style.transform = "scaleX(" + p + ")";
-      render(t);
-      if (t < TYPE_END) requestAnimationFrame(tick);
-      else build(-1);
-    })(t0);
-
-    // the panels finish parting 1300ms after the hold; drop the node once it is off screen
-    setTimeout(function () {
-      if (intro.parentNode) intro.parentNode.removeChild(intro);
-    }, TYPE_END + HOLD + 1600);
-  }
-})();
-</script>
-
 <div class="cursor" aria-hidden="true">
   <span class="cursor-dot"></span>
   <span class="cursor-chip">View case study</span>
@@ -2300,10 +2266,8 @@
 
 <header class="topbar">
   <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
-    <span class="mark">
-      <img class="mark-light" src="logo_nobg_white.svg" width="986" height="1008" alt="" />
-      <img class="mark-dark" src="logo_nobg_black.svg" width="986" height="1008" alt="" />
-    </span>
+    <span class="mark"><img class="mark-light" src="logo_nobg_white.svg" width="986" height="1008" alt="" /></span>
+    <span class="name">Shabnam Raghavan</span>
   </a>
   <nav aria-label="Primary">
     <a href="#work">Work</a>
@@ -2337,28 +2301,99 @@
      THE HOARDING
      ============================================================ -->
 <div class="page-card">
-<!-- the production hero: her illustration, name and chevron -->
-<section class="hero hero-flat" aria-label="Introduction">
-  <div class="hero-layers" data-parallax-layers>
-    <div class="hero-layer hero-title" data-parallax-layer="2">
-      <p class="hero-role"><span class="sr-only">Product Designer, Product Builder, Product Thinker</span><span class="hr-text" aria-hidden="true">Product Designer</span></p>
-      <h1 class="giant giant-sm" aria-label="Shabnam Raghavan"><span class="g1" aria-hidden="true"><span class="l">S</span><span class="l">h</span><span class="l">a</span><span class="l">b</span><span class="l">n</span><span class="l">a</span><span class="l">m</span></span><span class="g2" aria-hidden="true"><span class="l">R</span><span class="l">a</span><span class="l">g</span><span class="l">h</span><span class="l">a</span><span class="l">v</span><span class="l">a</span><span class="l">n</span></span></h1>
-      <p class="hero-line" id="hero-line">I design complex B2B workflows around how people actually work, so teams move faster and need less support.</p>
+<!-- the landing (2026-10-26, v3): role and name lead, her line and the numbers under them, one case file at a time on the right -->
+<section class="hero landing" aria-label="Introduction">
+  <div class="landing-in">
+    <div class="ld-id">
+      <div class="ld-frame">
+        <p class="hero-role"><span class="sr-only">Product Designer, Product Builder, Product Thinker</span><span class="hr-text" aria-hidden="true">Product Designer</span></p>
+        <h1 class="ld-name"><span>Shabnam</span> <span>Raghavan</span></h1>
+        <i class="ld-hd tl" aria-hidden="true"></i><i class="ld-hd tr" aria-hidden="true"></i><i class="ld-hd bl" aria-hidden="true"></i><i class="ld-hd br" aria-hidden="true"></i>
+        <span class="ld-size" aria-hidden="true"></span>
+      </div>
+      <p class="ld-line" id="hero-line">I design complex B2B workflows around <span class="ld-sel">how people actually work</span>, so teams move faster and need less support. 3.6 years of experience.</p>
+      <ul class="ld-stats" aria-label="Results">
+        <li><span class="ld-fig" data-to="51" data-suf="%">51%</span><span>faster claim submission</span></li>
+        <li><span class="ld-fig" data-to="87" data-suf="%">87%</span><span>fewer support tickets</span></li>
+        <li><span class="ld-fig" data-to="1" data-dec="1" data-suf="M">1M</span><span>monthly active users across hospital products</span></li>
+      </ul>
+    </div>
+    <div class="ld-work" id="work">
+      <div class="ld-head">
+        <h2 class="sr-only" id="work-h">Work</h2>
+      </div>
+      <!-- WiseWoman and OneHealth are hidden since 2026-10-25 (her call: only the four IHX case studies) -->
+      <div class="ld-deck" tabindex="0" role="group" aria-labelledby="work-h">
+        <a class="file" draggable="false" href="ihx_tpa_ops_.html">
+          <div class="file-sheet">
+            <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Ops dashboard claims listing screen"></video></div>
+            <div class="file-body">
+              <span class="file-no">01</span> <span class="file-tag tag-fast">Making workflows faster</span>
+              <h3><span class="sel">51% faster claim submission for 900+ hospitals</span></h3>
+              <p class="file-org">IHX · Nucleus Ops dashboard</p>
+              <span class="file-go">Read case study</span>
+            </div>
+          </div>
+        </a>
+        <a class="file" draggable="false" href="ihx-user-management-case-study.html">
+          <div class="file-sheet">
+            <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><img src="images/ihx-user-mgmt-cover.webp" width="1200" height="750" alt="User management: user accounts, roles, permissions and an inactive-user alert. 87% fewer support tickets in two months." decoding="async" /></div>
+            <div class="file-body">
+              <span class="file-no">02</span> <span class="file-tag tag-support">Reducing support load</span>
+              <h3><span class="sel">87% fewer support tickets</span></h3>
+              <p class="file-org">IHX · In-product user management</p>
+              <span class="file-go">Read case study</span>
+            </div>
+          </div>
+        </a>
+        <a class="file" draggable="false" href="ihx-ai-features-case-study.html">
+          <div class="file-sheet">
+            <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" muted loop playsinline preload="none" aria-label="AI at the point of friction case study screen"></video></div>
+            <div class="file-body">
+              <span class="file-no">03</span> <span class="file-tag tag-fast">Making workflows faster</span>
+              <h3><span class="sel">Pre-auth submission cut from 5 to 2 minutes</span></h3>
+              <p class="file-org">IHX · Agentic workflow design</p>
+              <span class="file-go">Read case study</span>
+            </div>
+          </div>
+        </a>
+        <a class="file" draggable="false" href="ihx-nucleus-mobile-case-study.html">
+          <div class="file-sheet">
+            <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-nucleus-mobile-cover-v2.mp4" poster="images/ihx-nucleus-mobile-cover-v2-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Mobile app screen"></video></div>
+            <div class="file-body">
+              <span class="file-no">04</span> <span class="file-tag tag-adopt">Driving adoption</span>
+              <h3><span class="sel">9,500+ daily users, shipped in three weeks</span></h3>
+              <p class="file-org">IHX · Hospital-facing mobile app</p>
+              <span class="file-go">Read case study</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <p class="ld-sub ld-after">Check out some of my best work.</p>
+      <div class="pr-ctrl ld-ctrl ld-under">
+        <button type="button" class="pr-btn" data-go="-1" aria-label="Previous case study"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <span class="pr-count" aria-live="polite"><b>01</b> / 04</span>
+        <button type="button" class="pr-btn" data-go="1" aria-label="Next case study"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
     </div>
   </div>
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="hero-red" aria-hidden="true"><i class="haze h1"></i><i class="haze h2"></i><i class="spot"></i><div class="tex tex-dots"></div><canvas class="tex tex-twigs"></canvas></div>
-  <div class="hero-grain" aria-hidden="true"></div>
-  <div class="hero-fade" aria-hidden="true"></div>
-  <a class="scroll-cue" href="#intro" aria-label="Scroll to the introduction">
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </a>
 </section>
 
-<!-- the metrics, between the hero and the intro -->
-<div class="after-hero hero-metrics">
+<!-- ============================================================
+     THE HANDBILL
+     ============================================================ -->
+<!-- the toolkit band, its foot on the fold (2026-10-27): no weft edges -->
+<div class="after-hero">
+  <div class="marquee tools-band" role="img" aria-label="My AI-native toolkit: VS Code, Claude, Figma, Framer, Lovable, Notion, Wispr Flow">
+    <div class="tools-row" aria-hidden="true">
+      <span class="tools-label">My AI-native toolkit</span>
+      <div class="tools-view"><div class="marquee-track tools-track"><span class="tools-set"><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>VS Code</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></svg>Framer</span><span class="tool"><svg viewBox="0 0 37 38" aria-hidden="true"><path fill-rule="evenodd" d="M11.3017 0.696625C17.2674 0.696625 22.1034 5.54547 22.1034 11.5268V15.643H25.6983C31.6639 15.643 36.5 20.4918 36.5 26.4732C36.5 32.4545 31.6639 37.3034 25.6983 37.3034H0.5V11.5268C0.5 5.54547 5.3361 0.696625 11.3017 0.696625Z"/></svg>Lovable</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>Notion</span><span class="tool"><svg viewBox="50 56 156 144" aria-hidden="true"><rect x="54" y="60" width="22" height="136" rx="11"/><rect x="86" y="118" width="22" height="64" rx="11"/><rect x="117" y="80" width="22" height="94" rx="11"/><rect x="148" y="118" width="22" height="64" rx="11"/><rect x="180" y="60" width="22" height="136" rx="11"/></svg>Wispr Flow</span></span><span class="tools-set"><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>VS Code</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></svg>Framer</span><span class="tool"><svg viewBox="0 0 37 38" aria-hidden="true"><path fill-rule="evenodd" d="M11.3017 0.696625C17.2674 0.696625 22.1034 5.54547 22.1034 11.5268V15.643H25.6983C31.6639 15.643 36.5 20.4918 36.5 26.4732C36.5 32.4545 31.6639 37.3034 25.6983 37.3034H0.5V11.5268C0.5 5.54547 5.3361 0.696625 11.3017 0.696625Z"/></svg>Lovable</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>Notion</span><span class="tool"><svg viewBox="50 56 156 144" aria-hidden="true"><rect x="54" y="60" width="22" height="136" rx="11"/><rect x="86" y="118" width="22" height="64" rx="11"/><rect x="117" y="80" width="22" height="94" rx="11"/><rect x="148" y="118" width="22" height="64" rx="11"/><rect x="180" y="60" width="22" height="136" rx="11"/></svg>Wispr Flow</span></span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- the metrics band: hidden 2026-10-26, the numbers now sit in the landing under the work -->
+<div class="after-hero hero-metrics" hidden>
   <dl class="stats">
     <div class="stat" tabindex="0"><dt><span class="stat-fig">51%</span> Faster</dt><dd>claim submission</dd></div>
     <div class="stat" tabindex="0"><dt><span class="stat-fig">87%</span> Fewer</dt><dd>support tickets</dd></div>
@@ -2366,145 +2401,8 @@
   </dl>
 </div>
 
-<!-- ============================================================
-     THE HANDBILL
-     ============================================================ -->
 <div class="sheet">
 
-<section class="dossier" id="intro" aria-labelledby="intro-h">
-  <div class="stack-col">
-  <div class="stack">
-    <!-- the paper clip: its outer loop runs BEHIND the top sheet and shows only above the
-         edge; the inner loop lies on the front of the sheet, so it reads as gripping it -->
-    <svg class="clip paperclip back" viewBox="0 0 34 96" fill="none" aria-hidden="true">
-      <defs><linearGradient id="pcMetalB" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E5E5E"/><stop offset="0.28" stop-color="#F4F4F2"/><stop offset="0.5" stop-color="#A3A3A0"/><stop offset="0.72" stop-color="#E6E6E3"/><stop offset="1" stop-color="#606060"/></linearGradient></defs>
-      <path d="M6 44 V13 A11 11 0 0 1 28 13 V64" stroke="url(#pcMetalB)" stroke-width="3.2" stroke-linecap="round"/>
-    </svg>
-    <svg class="clip paperclip front" viewBox="0 0 34 96" fill="none" aria-hidden="true">
-      <defs><linearGradient id="pcMetalF" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E5E5E"/><stop offset="0.28" stop-color="#F4F4F2"/><stop offset="0.5" stop-color="#A3A3A0"/><stop offset="0.72" stop-color="#E6E6E3"/><stop offset="1" stop-color="#606060"/></linearGradient></defs>
-      <path d="M12 64 V21 A5 5 0 0 1 22 21 V77 A8 8 0 0 1 6 77 V44" stroke="url(#pcMetalF)" stroke-width="3.2" stroke-linecap="round"/>
-    </svg>
-    <!-- the binder clip: a black steel jaw clamped over the right edge, spine on the edge,
-         its two wire handles folded out past the paper -->
-    <svg class="clip binder" viewBox="0 0 96 72" fill="none" aria-hidden="true">
-      <defs>
-        <linearGradient id="bcFace" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A4A4A"/><stop offset="0.18" stop-color="#1E1E1E"/><stop offset="0.8" stop-color="#0B0B0B"/><stop offset="1" stop-color="#2A2A2A"/></linearGradient>
-        <linearGradient id="bcSpine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2B2B2B"/><stop offset="0.5" stop-color="#050505"/><stop offset="1" stop-color="#1A1A1A"/></linearGradient>
-        <linearGradient id="bcWire" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E5E5E"/><stop offset="0.28" stop-color="#F4F4F2"/><stop offset="0.5" stop-color="#A3A3A0"/><stop offset="0.72" stop-color="#E6E6E3"/><stop offset="1" stop-color="#606060"/></linearGradient>
-      </defs>
-      <path d="M50 14 L84 6 Q92 4.5 92 12 V60 Q92 67.5 84 66 L50 58" stroke="url(#bcWire)" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/>
-      <path d="M50 20 L78 15 Q84 14 84 20 V52 Q84 58 78 57 L50 52" stroke="url(#bcWire)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" opacity="0.85"/>
-      <path d="M6 10 Q6 6 10 6 H46 V66 H10 Q6 66 6 62 Z" fill="url(#bcFace)"/>
-      <path d="M10 9.5 H44" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="1.4" stroke-linecap="round"/>
-      <path d="M46 6 Q54 6 54 15 V57 Q54 66 46 66 Z" fill="url(#bcSpine)"/>
-      <rect x="47" y="12" width="5" height="4" rx="1" fill="#8E8E8E"/>
-      <rect x="47" y="56" width="5" height="4" rx="1" fill="#8E8E8E"/>
-    </svg>
-    <img class="brain" src="images/intro-brain.webp" width="333" height="261" alt="" aria-hidden="true" />
-    <div class="computer" aria-hidden="true">
-      <img src="images/intro-computer.webp" width="499" height="551" alt="" />
-      <div class="screen-map" aria-hidden="true"><p class="computer-screen">Mental Model</p></div>
-    </div>
-    <div class="paper">
-      <h2 class="lead" id="intro-h">I design for how people <span class="nw"><span class="mark">actually behave</span>,</span> even inside the most <span class="nw"><span class="mark alt">complex systems</span>.</span></h2>
-      <p class="note">I am a sucker for human behaviour and psychology. <a class="note-link" href="about.html#books">These are some of the books which have changed the way I look at people.</a></p>
-    </div>
-  </div>
-  </div>
-</section>
-
-<!-- the loom band, between the intro and Selected work -->
-<div class="after-hero">
-  <div class="marquee tools-band" role="img" aria-label="My AI-native toolkit: VS Code, Claude, Figma, Framer, Lovable, Notion, Wispr Flow">
-    <div class="weave" aria-hidden="true"></div>
-    <div class="tools-row" aria-hidden="true">
-      <span class="tools-label">My AI-native toolkit</span>
-      <div class="tools-view"><div class="marquee-track tools-track"><span class="tools-set"><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>VS Code</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></svg>Framer</span><span class="tool"><svg viewBox="0 0 37 38" aria-hidden="true"><path fill-rule="evenodd" d="M11.3017 0.696625C17.2674 0.696625 22.1034 5.54547 22.1034 11.5268V15.643H25.6983C31.6639 15.643 36.5 20.4918 36.5 26.4732C36.5 32.4545 31.6639 37.3034 25.6983 37.3034H0.5V11.5268C0.5 5.54547 5.3361 0.696625 11.3017 0.696625Z"/></svg>Lovable</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>Notion</span><span class="tool"><svg viewBox="50 56 156 144" aria-hidden="true"><rect x="54" y="60" width="22" height="136" rx="11"/><rect x="86" y="118" width="22" height="64" rx="11"/><rect x="117" y="80" width="22" height="94" rx="11"/><rect x="148" y="118" width="22" height="64" rx="11"/><rect x="180" y="60" width="22" height="136" rx="11"/></svg>Wispr Flow</span></span><span class="tools-set"><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>VS Code</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></svg>Framer</span><span class="tool"><svg viewBox="0 0 37 38" aria-hidden="true"><path fill-rule="evenodd" d="M11.3017 0.696625C17.2674 0.696625 22.1034 5.54547 22.1034 11.5268V15.643H25.6983C31.6639 15.643 36.5 20.4918 36.5 26.4732C36.5 32.4545 31.6639 37.3034 25.6983 37.3034H0.5V11.5268C0.5 5.54547 5.3361 0.696625 11.3017 0.696625Z"/></svg>Lovable</span><span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>Notion</span><span class="tool"><svg viewBox="50 56 156 144" aria-hidden="true"><rect x="54" y="60" width="22" height="136" rx="11"/><rect x="86" y="118" width="22" height="64" rx="11"/><rect x="117" y="80" width="22" height="94" rx="11"/><rect x="148" y="118" width="22" height="64" rx="11"/><rect x="180" y="60" width="22" height="136" rx="11"/></svg>Wispr Flow</span></span></div></div>
-    </div>
-    <div class="weave back" aria-hidden="true"></div>
-  </div>
-</div>
-
-<section id="work" class="files" aria-labelledby="work-h">
-  <div class="wrap">
-    <h2 id="work-h" class="pass">Selected Works</h2>
-    <div class="file-desk">
-      <a class="file" href="ihx_tpa_ops_.html">
-        <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-tpa-ops-cover.mp4" poster="images/ihx-tpa-ops-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Ops dashboard claims listing screen"></video></div>
-          <div class="file-body">
-            <span class="file-no">01</span> <span class="file-tag tag-fast">Making workflows faster</span>
-            <h3><span class="sel">51% faster claim submission for 900+ hospitals</span></h3>
-            <p class="file-org">IHX · Nucleus Ops dashboard</p>
-            <span class="file-go">Read case study</span>
-          </div>
-        </div>
-      </a>
-
-      <a class="file" href="ihx-user-management-case-study.html">
-        <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-user-mgmt-cover.mp4" poster="images/ihx-user-mgmt-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX user management case study screen"></video></div>
-          <div class="file-body">
-            <span class="file-no">02</span> <span class="file-tag tag-support">Reducing support load</span>
-            <h3><span class="sel">87% fewer support tickets</span></h3>
-            <p class="file-org">IHX · In-product user management</p>
-            <span class="file-go">Read case study</span>
-          </div>
-        </div>
-      </a>
-
-      <a class="file" href="ihx-ai-features-case-study.html">
-        <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-ai-features-cover.mp4" poster="images/ihx-ai-features-cover-poster.webp" muted loop playsinline preload="none" aria-label="AI at the point of friction case study screen"></video></div>
-          <div class="file-body">
-            <span class="file-no">03</span> <span class="file-tag tag-fast">Making workflows faster</span>
-            <h3><span class="sel">Pre-auth submission cut from 5 to 2 minutes</span></h3>
-            <p class="file-org">IHX · Agentic workflow design</p>
-            <span class="file-go">Read case study</span>
-          </div>
-        </div>
-      </a>
-
-      <a class="file" href="ihx-nucleus-mobile-case-study.html">
-        <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-nucleus-mobile-cover-v2.mp4" poster="images/ihx-nucleus-mobile-cover-v2-poster.webp" muted loop playsinline preload="none" aria-label="IHX Nucleus Mobile app screen"></video></div>
-          <div class="file-body">
-            <span class="file-no">04</span> <span class="file-tag tag-adopt">Driving adoption</span>
-            <h3><span class="sel">9,500+ daily users, shipped in three weeks</span></h3>
-            <p class="file-org">IHX · Hospital-facing mobile app</p>
-            <span class="file-go">Read case study</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- HIDDEN 2026-10-25 (her call: show only the four IHX case studies). Restore by removing this comment wrapper.
-      <a class="file" href="wisewomen-case-study.html">
-        <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="wisewoman-cover.mp4" poster="images/wisewoman-cover-poster.webp" muted loop playsinline preload="none" aria-label="WiseWoman cycle-aware planner app screen"></video></div>
-          <div class="file-body">
-            <span class="file-no">05</span> <span class="file-tag tag-side">Side project</span>
-            <h3><span class="sel">Idea to Shipped in Five Days</span></h3>
-            <p class="file-org">WiseWoman · Cycle-aware planner</p>
-            <span class="file-go">Read case study</span>
-          </div>
-        </div>
-      </a>
-
-      <div class="file is-soon" data-cursor="Case study in progress">
-        <div class="file-sheet">
-          <div class="file-photo"><i class="file-tape" aria-hidden="true"></i><video src="ihx-onehealth-phr-cover.mp4" poster="images/ihx-onehealth-phr-cover-poster.webp" muted loop playsinline preload="none" aria-label="IHX OneHealth patient health record app screen"></video></div>
-          <div class="file-body">
-            <span class="file-no">06</span>
-            <h3><span class="sel">A Secure Way for Patients to Share Health Records</span></h3>
-            <p class="file-org">IHX OneHealth · B2C patient health record</p>
-            <span class="file-soon">Case study in progress</span>
-          </div>
-        </div>
-      </div>
-      -->
-    </div>
-  </div>
-</section>
 
 <section id="approach" class="ways" aria-label="How I look at design and how I design" hidden>
   <div class="wrap">
@@ -3173,7 +3071,8 @@
   // one rect read per scroll event, applied straight away: cheap enough for a single element,
   // and it keeps the bar correct on the very first frame instead of a rAF later
   function apply() {
-    bar.classList.toggle("solid", hero.getBoundingClientRect().bottom <= barH + 8);
+    // the landing is light and long, so the bar turns solid as soon as the page moves
+    bar.classList.toggle("solid", hero.getBoundingClientRect().top < -8);
   }
   window.addEventListener("scroll", apply, { passive: true });
   window.addEventListener("resize", function () { barH = bar.offsetHeight; apply(); });
@@ -3288,18 +3187,19 @@
   setTimeout(next, offset + 3200);
 })();
 
-(function () {
-  // PEERS DECK: drag the top card past a threshold and it flies off and joins the back;
-  // the arrows and arrow keys do the same, and "previous" brings the back card forward.
-  var deck = document.querySelector(".pr-deck");
+// DECKS: the peers testimonials and the landing's case files move the same way. Drag the top
+// card past a threshold and it flies off and joins the back; the arrows and arrow keys do the
+// same, and "previous" brings the back card forward.
+function makeDeck(deck, cardSel, ctrl, onPaint) {
   if (!deck) return;
-  var cards = [].slice.call(deck.querySelectorAll(".pr-card"));
-  var count = document.querySelector(".pr-count b");
+  var cards = [].slice.call(deck.querySelectorAll(cardSel));
+  var count = ctrl && ctrl.querySelector(".pr-count b");
   var order = cards.slice(), busy = false;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   function paint() {
-    order.forEach(function (c, i) { c.setAttribute("data-pos", i); c.style.transform = ""; c.setAttribute("aria-hidden", i ? "true" : "false"); });
+    order.forEach(function (c, i) { c.setAttribute("data-pos", i); c.style.transform = ""; c.setAttribute("aria-hidden", i ? "true" : "false"); if (c.tagName === "A") c.tabIndex = i ? -1 : 0; });
     if (count) count.textContent = ("0" + (cards.indexOf(order[0]) + 1)).slice(-2);
+    if (onPaint) onPaint(order);
   }
   function next(dir, dx) {
     if (busy) return; busy = true;
@@ -3321,23 +3221,25 @@
       order.unshift(order.pop()); paint(); busy = false;
     }
   }
-  document.querySelectorAll(".pr-btn").forEach(function (b) {
+  if (ctrl) ctrl.querySelectorAll(".pr-btn").forEach(function (b) {
     b.addEventListener("click", function () { next(Number(b.dataset.go)); });
   });
   deck.addEventListener("keydown", function (e) {
     if (e.key === "ArrowRight") { next(1); e.preventDefault(); }
     if (e.key === "ArrowLeft") { next(-1); e.preventDefault(); }
   });
-  var sx = 0, sy = 0, dx = 0, drag = null;
+  // a card that is itself a link can be dragged too; a drag never counts as a click on it
+  var sx = 0, sy = 0, dx = 0, drag = null, moved = false;
   deck.addEventListener("pointerdown", function (e) {
-    var c = e.target.closest(".pr-card");
-    if (!c || c !== order[0] || busy || e.target.closest("a")) return;
-    drag = c; sx = e.clientX; sy = e.clientY; dx = 0;
+    var c = e.target.closest(cardSel), a = e.target.closest("a");
+    if (!c || c !== order[0] || busy || (a && a !== c) || e.button > 0) return;
+    drag = c; sx = e.clientX; sy = e.clientY; dx = 0; moved = false;
     c.classList.add("dragging"); c.setPointerCapture(e.pointerId);
   });
   deck.addEventListener("pointermove", function (e) {
     if (!drag) return;
     dx = e.clientX - sx; var dy = (e.clientY - sy) * 0.35;
+    if (Math.abs(dx) > 6) moved = true;
     drag.style.transform = "translate(" + dx + "px," + dy + "px) rotate(" + dx * 0.04 + "deg)";
   });
   function release() {
@@ -3347,7 +3249,59 @@
   }
   deck.addEventListener("pointerup", release);
   deck.addEventListener("pointercancel", release);
+  deck.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+  deck.addEventListener("dragstart", function (e) { e.preventDefault(); });
   paint();
+}
+
+makeDeck(document.querySelector(".pr-deck"), ".pr-card", document.querySelector(".pr-side .pr-ctrl"));
+
+(function () {
+  // THE WORK DECK. Only the top card's cover plays, and only once the page has loaded and the
+  // deck is on screen, so the landing never queues video ahead of the name and the posters.
+  var deck = document.querySelector(".ld-deck");
+  if (!deck) return;
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var ready = false, seen = true, order = [];
+  function sync() {
+    order.forEach(function (c, i) {
+      var v = c.querySelector("video");
+      if (!v) return;
+      if (i === 0 && ready && seen && !still) { v.preload = "auto"; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else if (!v.paused) v.pause();
+    });
+  }
+  makeDeck(deck, ".file", document.querySelector(".ld-ctrl"), function (o) { order = o; sync(); });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) { seen = es[0].isIntersecting; sync(); }, { rootMargin: "200px 0px" }).observe(deck);
+  }
+  function go() { ready = true; sync(); }
+  if (document.readyState === "complete") go(); else window.addEventListener("load", go);
+})();
+
+(function () {
+  // the size readout under the selected name, measured live
+  var f = document.querySelector(".ld-frame"), z = document.querySelector(".ld-size");
+  function put() { if (f && z) z.textContent = Math.round(f.offsetWidth) + " \u00d7 " + Math.round(f.offsetHeight); }
+  put(); window.addEventListener("resize", put);
+})();
+
+(function () {
+  // THE NUMBERS count up from zero once, as the page opens. Each figure's box is held at its
+  // final width first, so nothing beside it shifts while it counts.
+  var figs = document.querySelectorAll(".ld-fig[data-to]");
+  if (!figs.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  figs.forEach(function (f) {
+    var to = parseFloat(f.dataset.to), dec = Number(f.dataset.dec || 0), suf = f.dataset.suf || "", fin = f.textContent;
+    f.style.minWidth = f.getBoundingClientRect().width + "px";
+    f.textContent = (0).toFixed(dec) + suf;
+    var t0 = performance.now() + 250, dur = 1500;
+    requestAnimationFrame(function tick(now) {
+      var p = Math.max(0, Math.min(1, (now - t0) / dur)), e = 1 - Math.pow(1 - p, 3);
+      f.textContent = p < 1 ? (to * e).toFixed(dec) + suf : fin;
+      if (p < 1) requestAnimationFrame(tick);
+    });
+  });
 })();
 
 (function () {
@@ -3454,15 +3408,6 @@
     });
   });
   group.addEventListener("pointerleave", function () { delete group.dataset.closed; });
-})();
-
-(function () {
-  // the screen layer is drawn at the photo's own 499px width; scale it to the computer
-  var pc = document.querySelector(".computer"), map = pc && pc.querySelector(".screen-map");
-  if (!map) return;
-  function fit() { map.style.setProperty("--s", (pc.offsetWidth / 499).toFixed(4)); }
-  if ("ResizeObserver" in window) new ResizeObserver(fit).observe(pc);
-  window.addEventListener("resize", fit); fit();
 })();
 
 (function () {
@@ -3597,12 +3542,6 @@ function startMotion() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   if (!window.gsap || !window.ScrollTrigger) return;   // scripts failed: the name stays still
   gsap.registerPlugin(ScrollTrigger);
-  var trigger = document.querySelector("[data-parallax-layers]");
-  var sheet = document.querySelector(".hero-metrics");
-  if (!trigger || !sheet) return;
-  var tl = gsap.timeline({ scrollTrigger: { trigger: sheet, start: "top bottom", end: "top top", scrub: 0 } });
-  // (the illustration plates were removed; only the name layer moves now)
-  tl.to(trigger.querySelectorAll('[data-parallax-layer="2"]'), { yPercent: 32, ease: "none" }, 0);
   if (window.Lenis) {
     var lenis = new Lenis();
     window.__lenis = lenis;
@@ -3631,24 +3570,6 @@ function startMotion() {
   });
 })();
 
-// The case cover videos (12.5MB between them) download only when their card is about to
-// scroll into view, and pause when it leaves. Until then each shows its tiny poster, so the
-// first load carries none of them. Reduced motion: posters only, the videos never play.
-(function () {
-  var vids = document.querySelectorAll(".file-photo video");
-  if (!vids.length) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-  if (!("IntersectionObserver" in window)) { Array.prototype.forEach.call(vids, play); return; }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      var v = e.target;
-      if (e.isIntersecting) { v.preload = "auto"; play(v); }
-      else if (!v.paused) v.pause();
-    });
-  }, { rootMargin: "200px 0px" });
-  Array.prototype.forEach.call(vids, function (v) { io.observe(v); });
-})();
 
 (function () {
   // The Theyyam illustration draws itself only once the section is on screen. With the
@@ -3802,144 +3723,5 @@ function startMotion() {
 <!-- first-party analytics, see design-context section 13 --><script src="/analytics.js" defer></script>
 <!-- Cloudflare Web Analytics --><script>/* only the real domain is counted: Vercel's preview robot (it visits every deploy on a *.vercel.app address) and localhost are left out */
 if (/(^|\.)shabnamraghavan\.com$/.test(location.hostname)) { var cfb = document.createElement("script"); cfb.type = "module"; cfb.src = "https://static.cloudflareinsights.com/beacon.min.js"; cfb.setAttribute("data-cf-beacon", '{"token": "f26ea28c97844cfabcd844e4d335180a"}'); document.body.appendChild(cfb); }</script><!-- End Cloudflare Web Analytics -->
-<script>
-/* HERO: per-letter tilt with painted depth, and a red projector glow that follows the cursor */
-(function () {
-  var hero = document.querySelector(".hero"), name = document.querySelector(".giant");
-  if (!hero || !name) return;
-  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  var L = [].slice.call(name.querySelectorAll(".l")), spot = hero.querySelector(".spot");
-  // ENTRANCE. First visit: each letter pulls into focus from the middle of its word, then the red
-  // depth is painted on letter by letter. Returning in the same tab, or after skipping the curtain,
-  // the name simply fades in, because the visitor has already seen it or asked not to wait.
-  var depthAt = 0, depthDur = 1800, letterGap = 90, perLetter = true, curtainAt = 0, anims = [];
-  function startEntrance(offset, quick) {
-    anims.forEach(function (a) { a.cancel(); }); anims = [];
-    var t = performance.now();
-    if (still) { depthAt = t; depthDur = 1; letterGap = 0; curtainAt = t; return; }
-    var extra = [document.querySelector(".hero-role"), document.querySelector(".hero-line")].filter(Boolean);
-    if (quick) {
-      L.forEach(function (l, i) { anims.push(l.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, delay: 80 + i * 25, easing: "ease-out", fill: "backwards" })); });
-      extra.forEach(function (el) { anims.push(el.animate([{ opacity: 0 }, { opacity: getComputedStyle(el).opacity }], { duration: 700, delay: 120, easing: "ease-out", fill: "backwards" })); });
-      depthAt = t + 450; depthDur = 900; letterGap = 40; curtainAt = t + 800; return;
-    }
-    var base = offset + 300;
-    L.forEach(function (l, i) {
-      var d = Math.abs(i - (i < 7 ? 3 : 10.5));   // distance from the middle of its own word
-      anims.push(l.animate([{ opacity: 0, filter: "blur(18px)", transform: "scale(1.35)" }, { opacity: 0.6, filter: "blur(6px)", offset: 0.5 }, { opacity: 1, filter: "blur(0)", transform: "none" }],
-        { duration: 2800, delay: base + d * 150 + (i > 6 ? 300 : 0), easing: "cubic-bezier(0.25,0.1,0.25,1)", fill: "backwards" }));
-    });
-    // the role line above and the hero line below pull into focus with the name, the same way
-    extra.forEach(function (el, k) {
-      anims.push(el.animate([{ opacity: 0, filter: "blur(14px)", transform: "scale(1.15)" }, { opacity: 0.5, filter: "blur(5px)", offset: 0.5 }, { opacity: getComputedStyle(el).opacity, filter: "blur(0)", transform: "none" }],
-        { duration: 2800, delay: base + 150 + k * 300, easing: "cubic-bezier(0.25,0.1,0.25,1)", fill: "backwards" }));
-    });
-    depthAt = t + base + 2600; depthDur = 2400; letterGap = 110;
-    curtainAt = t + base + 3.5 * 150 + 300 + 2800;   // twigs wait until the last letter of the name is sharp
-  }
-  var offset0 = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--intro-offset")) || 0;
-  startEntrance(offset0, false);   // the full focus-and-paint on every visit, refresh included; only a skip is quick
-  // TEXTURE: ?tex=twigs (default) | dots | both | none
-  var tex = (new URLSearchParams(location.search).get("tex") || "twigs");
-  if (tex === "both") hero.classList.add("tex-on-dots", "tex-on-twigs");
-  else if (tex !== "none") hero.classList.add("tex-on-" + tex);
-  var svg = hero.querySelector(".tex-twigs");
-  var twigsDrawn = false, twigT;
-  // the twigs fade in behind the name once the curtain has fully parted, never while it is opening
-  function showTwigs() { clearTimeout(twigT); twigT = setTimeout(function () {
-      if (svg.classList.contains("ready")) return;
-      svg.classList.add("ready");
-      // a slow fade up from nothing, behind the name
-      svg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: still ? 1 : 3200, easing: "cubic-bezier(0.4,0,0.2,1)", fill: "forwards" });
-    }, Math.max(0, curtainAt - performance.now())); }
-  function drawTwigs() {
-    if (!svg || !hero.classList.contains("tex-on-twigs")) return;
-    var _t0 = performance.now();
-    var W = hero.clientWidth, H = hero.clientHeight, seed = 7;
-    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
-    var out = [], NS = "http://www.w3.org/2000/svg";
-    function branch(x, y, ang, len, w, d) {
-      if (d === 0 || len < 6) { // a leaf at the tip
-        var la = ang * 180 / Math.PI + (rnd() - 0.5) * 60;
-        out.push('<ellipse cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="' + (5 + rnd() * 5).toFixed(1) + '" ry="' + (2 + rnd() * 2).toFixed(1) + '" transform="rotate(' + la.toFixed(0) + ' ' + x.toFixed(1) + ' ' + y.toFixed(1) + ')" fill="rgba(225,74,32,0.42)"/>');
-        return;
-      }
-      var bend = (rnd() - 0.5) * 0.6, x2 = x + Math.cos(ang) * len, y2 = y + Math.sin(ang) * len;
-      var qx = x + Math.cos(ang + bend) * len * 0.55, qy = y + Math.sin(ang + bend) * len * 0.55;
-      out.push('<path d="M' + x.toFixed(1) + ' ' + y.toFixed(1) + 'Q' + qx.toFixed(1) + ' ' + qy.toFixed(1) + ' ' + x2.toFixed(1) + ' ' + y2.toFixed(1) + '" stroke="rgba(240,230,210,' + (0.18 + w * 0.05).toFixed(2) + ')" stroke-width="' + w.toFixed(2) + '" fill="none" stroke-linecap="round"/>');
-      if (d < 5 && rnd() < 0.5) branch(x2, y2, ang + (rnd() - 0.5) * 1.4, len * 0.35, w * 0.6, 0);
-      branch(x2, y2, ang - 0.32 - rnd() * 0.3, len * (0.7 + rnd() * 0.12), w * 0.72, d - 1);
-      branch(x2, y2, ang + 0.32 + rnd() * 0.3, len * (0.7 + rnd() * 0.12), w * 0.72, d - 1);
-    }
-    var roots = Math.max(5, Math.round(W / 240));
-    for (var i = 0; i < roots; i++) {
-      var fromTop = i % 2, x0 = (i + 0.5) / roots * W + (rnd() - 0.5) * 80;
-      branch(x0, fromTop ? -10 : H + 10, (fromTop ? 1 : -1) * Math.PI / 2 + (rnd() - 0.5) * 0.7, H * (0.16 + rnd() * 0.06), 2.4, 8);
-    }
-    // drawn once into a single image, so moving the glow never redraws 1,500 shapes
-    var markup = '<svg xmlns="' + NS + '" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '">' + out.join("") + '</svg>';
-    // painted onto a canvas (not a background image), so it never counts as the page's largest paint
-    var url = URL.createObjectURL(new Blob([markup], { type: "image/svg+xml" })), img = new Image();
-    img.onload = function () {
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      svg.width = W * dpr; svg.height = H * dpr;
-      var ctx = svg.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.drawImage(img, 0, 0, W, H);
-      URL.revokeObjectURL(url); window.__twigMs = Math.round(performance.now() - _t0);
-      twigsDrawn = true; showTwigs();
-    };
-    img.src = url;
-  }
-  // twigs come last
-  // the twigs download nothing (they are drawn on the device), so the connection speed does not matter:
-  // skip them only when the visitor asked to save data, or on a very low-memory device
-  var c = navigator.connection || {}, slow = c.saveData || (navigator.deviceMemory && navigator.deviceMemory < 2);
-  if (!slow) {
-    var go = function () { (window.requestIdleCallback || function (f) { setTimeout(f, 300); })(drawTwigs, { timeout: 2500 }); };
-    if (document.readyState === "complete") go(); else window.addEventListener("load", go);
-    var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(drawTwigs, 200); });
-  }
-  var mx = -1, my = -1, gx = 0.5, gy = 0.4, tgx = 0.5, tgy = 0.4, state = L.map(function () { return { rx: 0, ry: 0 }; }), last = "";
-  if (fine && !still) {
-    hero.addEventListener("pointermove", function (e) { var r = hero.getBoundingClientRect(); mx = e.clientX; my = e.clientY; tgx = (e.clientX - r.left) / r.width; tgy = (e.clientY - r.top) / r.height; kick(); });
-    hero.addEventListener("pointerleave", function () { mx = -1; tgx = 0.5; tgy = 0.4; kick(); });
-  }
-  window.addEventListener("scroll", kick, { passive: true });
-  var running = false;
-  function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
-  function frame() {
-    var H = hero.clientHeight, W = hero.clientWidth, p = Math.max(0, Math.min(1, window.scrollY / (H * 0.6)));
-    var now = performance.now(), last = perLetter ? (L.length - 1) * letterGap : 0;
-    function dk(i) { if (still) return 1; var t = (now - depthAt - (perLetter ? i * letterGap : 0)) / depthDur; t = Math.max(0, Math.min(1, t)); return 1 - Math.pow(1 - t, 3); }
-    var fs = parseFloat(getComputedStyle(name).fontSize), moving = !still && now < depthAt + last + depthDur;
-    gx += (tgx - gx) * 0.06; gy += (tgy - gy) * 0.06;
-    if (spot) spot.style.transform = "translate(" + (gx * W).toFixed(0) + "px," + (gy * H).toFixed(0) + "px)";
-    hero.style.setProperty("--gx", (gx * 100).toFixed(2) + "%"); hero.style.setProperty("--gy", (gy * 100).toFixed(2) + "%");
-    if (Math.abs(tgx - gx) > 0.001 || Math.abs(tgy - gy) > 0.001) moving = true;
-    L.forEach(function (l, i) {
-      var r = l.getBoundingClientRect(), cxl = r.left + r.width / 2, cyl = r.top + r.height / 2, trx = 0, try_ = 0;
-      if (mx >= 0) {
-        // only the letter under the cursor: angle from where the cursor sits on that letter
-        var ux = (mx - cxl) / (r.width / 2), uy = (my - cyl) / (r.height / 2);
-        var k = (Math.abs(ux) <= 1.05 && Math.abs(uy) <= 1.1) ? 1 : 0;
-        try_ = Math.max(-1, Math.min(1, ux)) * 32 * k; trx = -Math.max(-1, Math.min(1, uy)) * 26 * k;
-      }
-      trx += p * 24;
-      var st = state[i]; st.rx += (trx - st.rx) * 0.12; st.ry += (try_ - st.ry) * 0.12;
-      if (Math.abs(trx - st.rx) > 0.05 || Math.abs(try_ - st.ry) > 0.05) moving = true;
-      l.style.transform = "rotateX(" + st.rx.toFixed(2) + "deg) rotateY(" + st.ry.toFixed(2) + "deg)";
-      var depth = fs * 0.07 * dk(i), sx = 0.45 - st.ry / 30, sy = 0.9 + st.rx / 40, parts = [];
-      for (var k2 = 1; k2 <= 10; k2++) parts.push((sx * depth * k2 / 10).toFixed(1) + "px " + (sy * depth * k2 / 10).toFixed(1) + "px 0 " + (k2 < 10 ? "#A3240A" : "#5E1405"));
-      parts.push((sx * depth * 1.4).toFixed(1) + "px " + (sy * depth * 1.4 + 6).toFixed(1) + "px 18px rgba(0,0,0,0.55)");
-      l.style.textShadow = parts.join(",");
-    });
-    if (moving && !still) requestAnimationFrame(frame); else running = false;
-  }
-  // nothing to draw while the intro curtain is down: start when the letters arrive
-  setTimeout(kick, still ? 0 : Math.max(0, depthAt - performance.now() - 200));
-  document.addEventListener("intro:skip", function () { startEntrance(0, true); if (twigsDrawn) showTwigs(); kick(); });
-  window.addEventListener("resize", kick);
-})();
-</script>
 </body>
 </html>

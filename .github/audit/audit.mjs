@@ -18,7 +18,7 @@ const SITE = (process.env.SITE || "https://www.shabnamraghavan.com").replace(/\/
 const PAGES = process.env.PAGES ? process.env.PAGES.split(",") : [
   "/", "/about.html", "/resume.html",
   "/ihx-user-management-case-study.html", "/ihx-ai-features-case-study.html",
-  "/ihx_tpa_ops_.html", "/ihx-nucleus-mobile-case-study.html", "/wisewomen-case-study.html",
+  "/ihx_tpa_ops_.html", "/ihx_tpa_ops_-story.html", "/ihx-nucleus-mobile-case-study.html", "/wisewomen-case-study.html",
 ];
 const VIEWPORTS = [
   { name: "desktop", viewport: { width: 1440, height: 900 } },
@@ -40,8 +40,6 @@ for (const vp of VIEWPORTS) {
   for (const path of PAGES) {
     const where = `${vp.name} ${path}`;
     const ctx = await browser.newContext({ ...vp, name: undefined });
-    // skip the curtain intro here (it plays once per tab session); it gets its own check below
-    await ctx.addInitScript(() => { try { sessionStorage.setItem("shab-intro-seen", "1"); } catch (e) {} });
     const page = await ctx.newPage();
     await page.route("**/*", (r) => {
       const u = r.request().url();
@@ -112,18 +110,17 @@ for (const vp of VIEWPORTS) {
   }
 }
 
-// the curtain intro must open onto the name within 12 seconds (it takes ~3.9s)
+// the landing must show her name within 5 seconds (the curtain intro was removed 2026-10-26)
 {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
   await page.route("**/*", (r) => (BLOCK.test(r.request().url()) || /\.mp4/.test(r.request().url()) ? r.abort() : r.continue()));
   await page.goto(SITE + "/", { waitUntil: "load", timeout: 60000 });
-  const opened = await page.waitForFunction(() => {
-    const h = document.querySelector("h1.giant span");
-    const c = document.querySelector(".intro-content");
-    return h && parseFloat(getComputedStyle(h).opacity) > 0.9 && (!c || getComputedStyle(c).visibility === "hidden");
-  }, null, { timeout: 12000 }).then(() => true).catch(() => false);
-  if (!opened) fail("desktop / intro", "curtain intro did not open onto the name within 12s");
+  const shown = await page.waitForFunction(() => {
+    const h = document.querySelector(".hero h1");
+    return h && h.getBoundingClientRect().height > 0 && parseFloat(getComputedStyle(h).opacity) > 0.9;
+  }, null, { timeout: 5000 }).then(() => true).catch(() => false);
+  if (!shown) fail("desktop / landing", "the landing did not show her name within 5s");
   await ctx.close();
 }
 await browser.close();

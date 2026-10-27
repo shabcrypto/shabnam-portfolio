@@ -193,7 +193,7 @@
 
   /* chapters: a rail (dot + thread) beside the story */
   .st-ch { --thread: var(--vermillion); --dot-bg: var(--vermillion); --dot-fg: var(--bone); color: var(--ink); }
-  .st-dark { background: var(--ink); color: var(--bone); }
+  .st-dark { background: repeating-linear-gradient(to right, rgba(240, 230, 210, 0.07) 0 1px, transparent 1px 56px), repeating-linear-gradient(to bottom, rgba(240, 230, 210, 0.05) 0 1px, transparent 1px 56px), var(--ink); color: var(--bone); }
   .st-red { --thread: var(--bone); --dot-bg: var(--bone); --dot-fg: var(--vermillion);
     background:
       repeating-linear-gradient(to right, rgba(240, 230, 210, 0.14) 0 1px, transparent 1px 56px),
@@ -506,7 +506,7 @@
    out here because this page does not share the home page's tokens.
    --------------------------------------------------------------------- */
 .sc-wrap{max-width:1500px;margin:0 auto;padding:0 clamp(18px,4.6vw,64px);position:relative;}
-section.contact-sec.sc{background:#C02D0C;color:#F0E6D2;padding:clamp(80px,9vw,140px) 0;border-radius:0 0 var(--frame,24px) var(--frame,24px);}
+section.contact-sec.sc{background:repeating-linear-gradient(to right,rgba(240,230,210,0.14) 0 1px,transparent 1px 56px),repeating-linear-gradient(to bottom,rgba(240,230,210,0.1) 0 1px,transparent 1px 56px),#C02D0C;color:#F0E6D2;padding:clamp(80px,9vw,140px) 0;border-radius:0 0 var(--frame,24px) var(--frame,24px);}
 .sc .contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:78px;align-items:center;}
 .sc h2.contact-call{margin:0;font-family:"Staatliches","Impact","Arial Narrow",sans-serif;font-weight:400;font-size:clamp(1.9rem,1.2rem + 2.6vw,3.4rem);line-height:1.02;letter-spacing:0.02em;color:#F0E6D2;max-width:17ch;text-transform:uppercase;}
 .sc .contact-talk{display:block;margin-top:0.55em;}
@@ -552,6 +552,95 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 .sc-foot .foot2-privacy a{color:inherit;text-decoration:underline;text-underline-offset:2px;}
 @media (max-width:900px){.sc .contact{grid-template-columns:1fr;gap:52px;} .sc .bcard{transform:none;}}
 @media (prefers-reduced-motion:reduce){.sc .bc-caret{animation:none;}}
+  /* ---------------------------------------------------------------------
+     HOW I DESIGN (moved here from the home page, 2026-10-26)
+     The stack of papers clipped together on her red grid, her line on the top
+     sheet, the knitting brain and the old computer. Scoped to .ab-intro and
+     carrying its own values, since this page's tokens differ from home's.
+     --------------------------------------------------------------------- */
+  .ab-intro {
+    --paint: cubic-bezier(0.22, 1, 0.36, 1);
+    --gut: clamp(18px, 4.6vw, 64px);
+    --i-ink: #16130F; --i-ink-soft: #5D584E;
+    --cw: clamp(117px, 11.25vw, 171px); --ch: calc(var(--cw) * 1.3);
+    --line: rgba(240, 230, 210, 0.16);
+    position: relative; display: grid; justify-items: center; overflow: hidden;
+    /* Coconut with the site's small grid: after the black "dots connect" and before the red contact */
+    background: repeating-linear-gradient(to right, rgba(48, 47, 44, 0.07) 0 1px, transparent 1px 56px), repeating-linear-gradient(to bottom, rgba(48, 47, 44, 0.05) 0 1px, transparent 1px 56px), #F4F3EF;
+  }
+  .ab-intro .stack-col { position: relative; z-index: 2; width: min(100%, 760px); padding: 78px var(--gut) 118px; pointer-events: none; }
+  .ab-intro .stack { position: relative; width: min(660px, 100%); margin: 0 auto; zoom: 0.75; --z: 0.75; pointer-events: auto; }
+  /* the two sheets underneath */
+  .ab-intro .stack::before, .ab-intro .stack::after {
+    content: ""; position: absolute; inset: 0;
+    background: #ECE7DC; box-shadow: 0 10px 26px rgba(40, 8, 0, 0.28);
+    transition: transform 900ms var(--paint);
+  }
+  .ab-intro .stack::before { transform: rotate(-4deg) translate(-10px, 8px); }
+  .ab-intro .stack::after  { transform: rotate(2.6deg) translate(12px, 4px); background: #E4DED1; }
+  .ab-intro .paper {
+    position: relative; z-index: 1;
+    background-color: #CDC9B6; background-image: var(--paper-tex); background-position: center; background-size: cover; background-repeat: no-repeat;
+    border-radius: 10px; aspect-ratio: 1 / 1.46;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    color: var(--i-ink); box-shadow: 0 16px 40px rgba(40, 8, 0, 0.34);
+    padding: clamp(96px, 11vw, 124px) clamp(22px, 6vw, 64px) clamp(46px, 7vw, 70px);
+    text-align: center;
+    transition: transform 700ms var(--paint), box-shadow 700ms var(--paint);
+  }
+  .ab-intro .lead { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.3rem, 5.6vw, 4.6rem); line-height: 1.02; letter-spacing: 0.005em; color: var(--i-ink); }
+  .ab-intro .nw { white-space: nowrap; }
+  /* "actually behave" is selected, like text in an editor: a lilac fill with a handle dot at
+     the top left and the bottom right; "complex systems" the same in the highlighter yellow */
+  .ab-intro .mark { position: relative; display: inline-block; padding: 0 0.1em; margin-right: 0.1em; background: #C9C2DC; box-shadow: inset 2px 0 #7461C1, inset -2px 0 #7461C1; }
+  .ab-intro .mark::before, .ab-intro .mark::after { content: ""; position: absolute; width: 0.16em; height: 0.16em; min-width: 8px; min-height: 8px; border-radius: 50%; background: #7461C1; }
+  .ab-intro .mark::before { left: 0; top: 0; transform: translate(-40%, -60%); }
+  .ab-intro .mark::after  { right: 0; bottom: 0; transform: translate(40%, 60%); }
+  .ab-intro .mark.alt { background: #F2D987; box-shadow: inset 2px 0 #C99A12, inset -2px 0 #C99A12; }
+  .ab-intro .mark.alt::before, .ab-intro .mark.alt::after { background: #C99A12; }
+  .ab-intro .note { max-width: 44ch; margin: 34px auto 0; font-family: var(--font-body); font-weight: 500; font-size: clamp(0.9rem, 1.3vw, 1rem); line-height: 1.55; color: var(--i-ink-soft); }
+  .ab-intro .note-link { color: inherit; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; pointer-events: auto; }
+  .ab-intro .note-link:hover { text-decoration-color: #C02D0C; }
+  .ab-intro .note-link:focus-visible { outline: 2px solid #C02D0C; outline-offset: 3px; border-radius: 2px; }
+  /* the brain, knitting itself, in the paper's top-left corner */
+  .ab-intro .brain { position: absolute; z-index: 3; left: 5%; top: 22px; width: clamp(62px, 5.6vw, 82px); height: auto; transform: rotate(-7deg); pointer-events: none; }
+  /* an old computer on the paper's bottom-right corner, with a line on its screen */
+  .ab-intro .computer { position: absolute; z-index: 4; right: -86px; bottom: -58px; width: clamp(132px, 10vw, 152px); container-type: inline-size; }
+  .ab-intro .computer img { display: block; width: 100%; height: auto; }
+  /* the words are drawn in the screen's own plane: a 240x180 box mapped onto the glass of the
+     499x551 photo, then the photo-sized layer is scaled to the computer's width */
+  .ab-intro .screen-map { position: absolute; left: 0; top: 0; width: 499px; height: 551px; transform-origin: 0 0; transform: scale(var(--s, 0.4)); pointer-events: none; }
+  .ab-intro .computer-screen {
+    position: absolute; left: 0; top: 0; width: 240px; height: 180px; margin: 0;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    transform-origin: 0 0;
+    transform: matrix3d(0.937178,-0.060043,0.000000,0.000129,0.071393,0.967608,0.000000,0.000205,0.000000,0.000000,1.000000,0.000000,159.600000,93.880000,0.000000,1.000000);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 44px; line-height: 1.2;
+    color: #9BE58A; text-shadow: 0 0 6px rgba(155, 229, 138, 0.45);
+  }
+  .ab-intro .clip { position: absolute; z-index: 4; pointer-events: none; }
+  .ab-intro .clip.paperclip { left: 26%; top: -30px; width: 34px; transform: rotate(-6deg); }
+  .ab-intro .clip.paperclip.back { z-index: 0; filter: brightness(0.82); }
+  .ab-intro .clip.paperclip.front { filter: drop-shadow(1px 2px 1.4px rgba(40, 20, 8, 0.38)); }
+  /* the binder's spine sits exactly on the paper's right edge: half on the sheet, half off */
+  .ab-intro .clip.binder { --bw: 84px; right: calc(var(--bw) * -0.44); top: 44%; width: var(--bw); filter: drop-shadow(2px 4px 3px rgba(40, 20, 8, 0.42)); }
+  /* the fan: pointing at the stack spreads the back sheets and lifts the top one */
+  @media (hover: hover) {
+    .ab-intro .stack:hover::before { transform: rotate(-11deg) translate(-46px, 18px); }
+    .ab-intro .stack:hover::after  { transform: rotate(8deg) translate(48px, 10px); }
+    .ab-intro .stack:hover .paper  { transform: translateY(-6px) rotate(-0.6deg); box-shadow: 0 30px 60px rgba(40, 8, 0, 0.4); }
+  }
+  @media (max-width: 900px) {
+    .ab-intro { --cw: 25vw; }
+    .ab-intro .stack-col { padding: 52px var(--gut) 118px; }
+    .ab-intro .stack { zoom: 0.72; --z: 0.72; width: 78%; }
+    .ab-intro .clip.binder { --bw: 56px; }
+    .ab-intro .paper { padding-bottom: 84px; }
+    .ab-intro .lead { font-size: clamp(2rem, 9vw, 3.8rem); }
+    .ab-intro .computer { right: -4%; width: clamp(118px, 31vw, 160px); bottom: calc(clamp(118px, 31vw, 160px) * -0.3); }
+    .ab-intro .brain { left: 4%; top: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ab-intro .stack::before, .ab-intro .stack::after, .ab-intro .paper { transition: none; } }
 </style>
 </head>
 <body>
@@ -560,7 +649,7 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 
 <header class="topbar">
   <a class="wordmark" href="index.html" aria-label="Shabnam Raghavan home">
-    <span class="mark"><img src="logo_nobg_black.svg" width="986" height="1008" alt="" /></span>
+    <span class="name">Shabnam Raghavan</span>
   </a>
   <nav aria-label="Primary">
     <a href="index.html#work">Work</a>
@@ -757,6 +846,49 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
 </section>
 
 
+<!-- How I design: moved here from the home page, 2026-10-26 -->
+<section class="ab-intro" id="how-i-design" aria-labelledby="intro-h">
+  <div class="stack-col">
+  <div class="stack">
+    <!-- the paper clip: its outer loop runs BEHIND the top sheet and shows only above the
+         edge; the inner loop lies on the front of the sheet, so it reads as gripping it -->
+    <svg class="clip paperclip back" viewBox="0 0 34 96" fill="none" aria-hidden="true">
+      <defs><linearGradient id="pcMetalB" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E5E5E"/><stop offset="0.28" stop-color="#F4F4F2"/><stop offset="0.5" stop-color="#A3A3A0"/><stop offset="0.72" stop-color="#E6E6E3"/><stop offset="1" stop-color="#606060"/></linearGradient></defs>
+      <path d="M6 44 V13 A11 11 0 0 1 28 13 V64" stroke="url(#pcMetalB)" stroke-width="3.2" stroke-linecap="round"/>
+    </svg>
+    <svg class="clip paperclip front" viewBox="0 0 34 96" fill="none" aria-hidden="true">
+      <defs><linearGradient id="pcMetalF" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E5E5E"/><stop offset="0.28" stop-color="#F4F4F2"/><stop offset="0.5" stop-color="#A3A3A0"/><stop offset="0.72" stop-color="#E6E6E3"/><stop offset="1" stop-color="#606060"/></linearGradient></defs>
+      <path d="M12 64 V21 A5 5 0 0 1 22 21 V77 A8 8 0 0 1 6 77 V44" stroke="url(#pcMetalF)" stroke-width="3.2" stroke-linecap="round"/>
+    </svg>
+    <!-- the binder clip: a black steel jaw clamped over the right edge, spine on the edge,
+         its two wire handles folded out past the paper -->
+    <svg class="clip binder" viewBox="0 0 96 72" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="bcFace" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A4A4A"/><stop offset="0.18" stop-color="#1E1E1E"/><stop offset="0.8" stop-color="#0B0B0B"/><stop offset="1" stop-color="#2A2A2A"/></linearGradient>
+        <linearGradient id="bcSpine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2B2B2B"/><stop offset="0.5" stop-color="#050505"/><stop offset="1" stop-color="#1A1A1A"/></linearGradient>
+        <linearGradient id="bcWire" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E5E5E"/><stop offset="0.28" stop-color="#F4F4F2"/><stop offset="0.5" stop-color="#A3A3A0"/><stop offset="0.72" stop-color="#E6E6E3"/><stop offset="1" stop-color="#606060"/></linearGradient>
+      </defs>
+      <path d="M50 14 L84 6 Q92 4.5 92 12 V60 Q92 67.5 84 66 L50 58" stroke="url(#bcWire)" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M50 20 L78 15 Q84 14 84 20 V52 Q84 58 78 57 L50 52" stroke="url(#bcWire)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" opacity="0.85"/>
+      <path d="M6 10 Q6 6 10 6 H46 V66 H10 Q6 66 6 62 Z" fill="url(#bcFace)"/>
+      <path d="M10 9.5 H44" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M46 6 Q54 6 54 15 V57 Q54 66 46 66 Z" fill="url(#bcSpine)"/>
+      <rect x="47" y="12" width="5" height="4" rx="1" fill="#8E8E8E"/>
+      <rect x="47" y="56" width="5" height="4" rx="1" fill="#8E8E8E"/>
+    </svg>
+    <img class="brain" src="images/intro-brain.webp" width="333" height="261" alt="" aria-hidden="true" />
+    <div class="computer" aria-hidden="true">
+      <img src="images/intro-computer.webp" width="499" height="551" alt="" />
+      <div class="screen-map" aria-hidden="true"><p class="computer-screen">Mental Model</p></div>
+    </div>
+    <div class="paper">
+      <h2 class="lead" id="intro-h">I design for how people <span class="nw"><span class="mark">actually behave</span>,</span> even inside the most <span class="nw"><span class="mark alt">complex systems</span>.</span></h2>
+      <p class="note">I am a sucker for human behaviour and psychology. <a class="note-link" href="#books">These are some of the books which have changed the way I look at people.</a></p>
+    </div>
+  </div>
+  </div>
+</section>
+
 <div class="ribbon"></div>
 
 <section class="contact-sec sc" id="contact" aria-label="Contact">
@@ -848,6 +980,16 @@ footer.sc-foot{background:transparent;color:#F0E6D2;padding:52px 0 34px;}
   window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(grow); } }, { passive: true });
   window.addEventListener("resize", grow);
   grow();
+})();
+</script>
+<script>
+(function () {
+  // the screen layer is drawn at the photo's own 499px width; scale it to the computer
+  var pc = document.querySelector(".computer"), map = pc && pc.querySelector(".screen-map");
+  if (!map) return;
+  function fit() { map.style.setProperty("--s", (pc.offsetWidth / 499).toFixed(4)); }
+  if ("ResizeObserver" in window) new ResizeObserver(fit).observe(pc);
+  window.addEventListener("resize", fit); fit();
 })();
 </script>
 <!-- first-party analytics, see design-context section 13 --><script src="/analytics.js" defer></script>
