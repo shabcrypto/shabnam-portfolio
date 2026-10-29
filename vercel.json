@@ -23,12 +23,12 @@
     },
     {
       "source": "/ihx-user-management-case-study-full",
-      "destination": "/user-management",
+      "destination": "/user-management-detailed",
       "permanent": true
     },
     {
       "source": "/ihx-user-management-case-study-full.html",
-      "destination": "/user-management",
+      "destination": "/user-management-detailed",
       "permanent": true
     },
     {
