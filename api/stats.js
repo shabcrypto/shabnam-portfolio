@@ -6,17 +6,20 @@
 
 const S = require("./_store");
 
+// The case studies' clean addresses (2026-10-27). Counters written before then sit under the old
+// addresses, so each case study reads both and adds them up ("paths").
 const PAGES = [
-  { path: "/",                                 name: "Home" },
-  { path: "/ihx-nucleus-mobile-case-study",    name: "Nucleus Mobile" },
-  { path: "/ihx_tpa_ops_",                     name: "TPA Ops" },
-  { path: "/ihx-ai-features-case-study",       name: "AI Features" },
-  { path: "/ihx-user-management-case-study",   name: "User Management" },
-  { path: "/wisewomen-case-study",             name: "WiseWoman" },
-  { path: "/about",                            name: "About" },
-  { path: "/resume",                           name: "Resume" },
+  { path: "/",                         name: "Home" },
+  { path: "/nucleus-mobile",           name: "Nucleus Mobile",   paths: ["/nucleus-mobile", "/ihx-nucleus-mobile-case-study"] },
+  { path: "/tpa-ops",                  name: "TPA Ops",          paths: ["/tpa-ops", "/ihx_tpa_ops_"] },
+  { path: "/ai-features",              name: "AI Features",      paths: ["/ai-features", "/ihx-ai-features-case-study"] },
+  { path: "/user-management",          name: "User Management",  paths: ["/user-management", "/ihx-user-management-case-study"] },
+  { path: "/wisewoman",                name: "WiseWoman",        paths: ["/wisewoman", "/wisewomen-case-study"] },
+  { path: "/about",                    name: "About" },
+  { path: "/resume",                   name: "Resume" },
 ];
-const CASES = PAGES.slice(1, 6);
+PAGES.forEach((p) => { if (!p.paths) p.paths = [p.path]; });
+const CASES = PAGES.filter((p) => p.path !== "/" && p.path !== "/about" && p.path !== "/resume");
 const DEVICES = ["phone", "tablet", "desktop"];
 const SOURCES = ["Direct", "LinkedIn", "Google", "Behance", "Read.cv", "Dribbble", "GitHub", "Medium", "Search", "Other"];
 const EVENT_LABEL = {
@@ -25,6 +28,7 @@ const EVENT_LABEL = {
   linkedin_click: "LinkedIn clicked",
   email_click: "Email clicked",
   case_study_open: "Case study opened",
+  detailed_open: "Detailed case study opened",
 };
 const BIN = 15, BINS = 40;
 
@@ -99,18 +103,18 @@ module.exports = async function handler(req, res) {
   days.forEach((d) => {
     push(`views|${d}`,  ["GET", `d:${d}:views`]);
     push(`uniq|${d}`,   ["PFCOUNT", `d:${d}:uniq`]);
-    push(`bounce|${d}`, ["GET", `d:${d}:bounce`]);
-    push(`sess|${d}`,   ["GET", `d:${d}:sessions`]);
     SOURCES.forEach((s) => push(`src|${d}|${s}`, ["GET", `d:${d}:src:${s}`]));
     DEVICES.forEach((v) => push(`dev|${d}|${v}`, ["GET", `d:${d}:dev:${v}`]));
     Object.keys(EVENT_LABEL).forEach((e) => push(`ev|${d}|${e}`, ["GET", `d:${d}:ev:${e}`]));
-    PAGES.forEach((p) => push(`pv|${d}|${p.path}`, ["GET", `d:${d}:p:${p.path}`]));
-    CASES.forEach((p) => {
-      ["25", "50", "75", "90"].forEach((b) => push(`dep|${d}|${p.path}|${b}`, ["GET", `d:${d}:depth:${p.path}:${b}`]));
-      push(`plays|${d}|${p.path}`, ["GET", `d:${d}:evp:video_play:${p.path}`]);
-      for (let i = 0; i < BINS; i++) push(`dur|${d}|${p.path}|${i}`, ["GET", `d:${d}:dur:${p.path}:${i}`]);
-    });
-    ["landed", "case", "finished", "resume"].forEach((f) => push(`fun|${d}|${f}`, ["PFCOUNT", `d:${d}:f:${f}`]));
+    // every address a page has had: labels carry the address the counter was written under
+    PAGES.forEach((p) => p.paths.forEach((q) => push(`pv|${d}|${q}`, ["GET", `d:${d}:p:${q}`])));
+    CASES.forEach((p) => p.paths.forEach((q) => {
+      ["25", "50", "75", "90"].forEach((b) => push(`dep|${d}|${q}|${b}`, ["GET", `d:${d}:depth:${q}:${b}`]));
+      push(`plays|${d}|${q}`, ["GET", `d:${d}:evp:video_play:${q}`]);
+      for (let i = 0; i < BINS; i++) push(`dur|${d}|${q}|${i}`, ["GET", `d:${d}:dur:${q}:${i}`]);
+    }));
+    ["landed", "case", "detailed", "resume"].forEach((f) => push(`fun|${d}|${f}`, ["PFCOUNT", `d:${d}:f:${f}`]));
+    push(`vt|${d}`, ["HVALS", `d:${d}:vt`]);       // each visitor's total visible seconds that day
   });
 
   const CHUNK = 4000;
@@ -124,7 +128,19 @@ module.exports = async function handler(req, res) {
   } catch (e) {
     return res.status(502).json({ error: "store unreachable", detail: String(e.message || e) });
   }
-  const g = (label) => { const a = at[label]; return n(a.g !== undefined ? gets[a.g] : rest[a.c]); };
+  const g1 = (label) => { const a = at[label]; return n(a.g !== undefined ? gets[a.g] : rest[a.c]); };
+  // a page label ("pv|day|/tpa-ops", "dur|day|/tpa-ops|3") reads the same counter under each of
+  // the page's addresses and adds them; every other label is a single counter
+  const PATHS_OF = {}; PAGES.forEach((p) => { PATHS_OF[p.path] = p.paths; });
+  // the raw list behind a label (HVALS returns an array, which g1 would turn into 0)
+  const raw = (label) => { const a = at[label]; const v = a.g !== undefined ? gets[a.g] : rest[a.c]; return Array.isArray(v) ? v.map(Number) : []; };
+  const medianOf = (xs) => { if (!xs.length) return 0; const s = xs.slice().sort((a, b) => a - b); return s[Math.floor((s.length - 1) / 2)]; };
+  const g = (label) => {
+    const parts = label.split("|");
+    const ps = parts.length >= 3 && PATHS_OF[parts[2]];
+    if (!ps || ps.length < 2) return g1(label);
+    return sum(ps.map((q) => { parts[2] = q; const l = parts.join("|"); return at[l] ? g1(l) : 0; }));
+  };
 
   // a range is r days ending `off` days ago: Today = (1,0), Yesterday = (1,1), Last 3 days = (3,0)
   const inRange = (r, off = 0) => days.slice(Math.max(0, days.length - off - r), days.length - off);
@@ -145,7 +161,7 @@ module.exports = async function handler(req, res) {
   const funnel = [
     { name: "Landed on the site",   v: fun("landed", 90) },
     { name: "Opened a case study",  v: fun("case", 90) },
-    { name: "Read one to the end",  v: fun("finished", 90) },
+    { name: "Opened a detailed case study", v: fun("detailed", 90) },
     { name: "Downloaded the resume", v: fun("resume", 90) },
   ];
 
@@ -154,13 +170,10 @@ module.exports = async function handler(req, res) {
     const bins = [];
     for (let i = 0; i < BINS; i++) bins.push(sum(last90.map((d) => g(`dur|${d}|${p.path}|${i}`))));
     const views = sum(last90.map((d) => g(`pv|${d}|${p.path}`)));
-    const reach90 = sum(last90.map((d) => g(`dep|${d}|${p.path}|90`)));
     return {
       name: p.name,
       views,
       median: medianFromBins(bins),
-      // clamped: a reload re-fires the depth beacon, so a share can otherwise exceed 100
-      finished: views ? Math.min(100, Math.round((reach90 / views) * 100)) : 0,
       plays: sum(last90.map((d) => g(`plays|${d}|${p.path}`))),
     };
   }).sort((a, b) => b.views - a.views);
@@ -180,16 +193,14 @@ module.exports = async function handler(req, res) {
   const funnelFor = (L) => [
     { name: "Landed on the site",    v: sum(L.map((d) => g(`fun|${d}|landed`))) },
     { name: "Opened a case study",   v: sum(L.map((d) => g(`fun|${d}|case`))) },
-    { name: "Read one to the end",   v: sum(L.map((d) => g(`fun|${d}|finished`))) },
+    { name: "Opened a detailed case study", v: sum(L.map((d) => g(`fun|${d}|detailed`))) },
     { name: "Downloaded the resume", v: sum(L.map((d) => g(`fun|${d}|resume`))) },
   ];
   const pagesFor = (L) => CASES.map((p) => {
     const bins = [];
     for (let i = 0; i < BINS; i++) bins.push(sum(L.map((d) => g(`dur|${d}|${p.path}|${i}`))));
     const views = sum(L.map((d) => g(`pv|${d}|${p.path}`)));
-    const reach90 = sum(L.map((d) => g(`dep|${d}|${p.path}|90`)));
     return { name: p.name, views, median: medianFromBins(bins),
-      finished: views ? Math.min(100, Math.round((reach90 / views) * 100)) : 0,
       plays: sum(L.map((d) => g(`plays|${d}|${p.path}`))) };
   }).sort((a, b) => b.views - a.views);
   const depthFor = (L) => CASES.map((p) => {
@@ -204,23 +215,19 @@ module.exports = async function handler(req, res) {
     const cur = inRange(r, off), prv = prevRange(r, off);
     const visitors = sum(cur.map((d) => g(`uniq|${d}`)));
     const downloads = sum(cur.map((d) => g(`ev|${d}|resume_download`)));
-    const plays = sum(cur.map((d) => g(`ev|${d}|video_play`)));
-    const sessions = sum(cur.map((d) => g(`sess|${d}`)));
-    const bounced = sum(cur.map((d) => g(`bounce|${d}`)));
-    const bounce = sessions ? Math.min(100, Math.round((bounced / sessions) * 100)) : 0;
 
     const bins = [];
     for (let i = 0; i < BINS; i++) {
       bins.push(sum(cur.map((d) => sum(CASES.map((p) => g(`dur|${d}|${p.path}|${i}`))))));
     }
     const median = medianFromBins(bins);
+    // time on the whole portfolio: the median of each visitor's daily total
+    const siteTime = medianOf([].concat(...cur.map((d) => raw(`vt|${d}`))));
+    const pSiteTime = medianOf([].concat(...prv.map((d) => raw(`vt|${d}`))));
+    const dailySite = cur.map((d) => medianOf(raw(`vt|${d}`)));
 
     const pVisitors = sum(prv.map((d) => g(`uniq|${d}`)));
     const pDownloads = sum(prv.map((d) => g(`ev|${d}|resume_download`)));
-    const pPlays = sum(prv.map((d) => g(`ev|${d}|video_play`)));
-    const pSessions = sum(prv.map((d) => g(`sess|${d}`)));
-    const pBounced = sum(prv.map((d) => g(`bounce|${d}`)));
-    const pBounce = pSessions ? Math.round((pBounced / pSessions) * 100) : 0;
     const pBins = [];
     for (let i = 0; i < BINS; i++) {
       pBins.push(sum(prv.map((d) => sum(CASES.map((p) => g(`dur|${d}|${p.path}|${i}`))))));
@@ -232,26 +239,20 @@ module.exports = async function handler(req, res) {
       for (let i = 0; i < BINS; i++) b.push(sum(CASES.map((p) => g(`dur|${d}|${p.path}|${i}`))));
       return medianFromBins(b);
     });
-    const dailyBounce = cur.map((d) => {
-      const s = g(`sess|${d}`);
-      return s ? Math.round((g(`bounce|${d}`) / s) * 100) : 0;
-    });
 
     // page views by device type, for this range (counted from 2026-10-26)
     const devices = DEVICES.map((v) => ({ name: v, v: sum(cur.map((d) => g(`dev|${d}|${v}`))) }));
     return {
-      visitors, downloads, median, bounce, plays, devices,
+      visitors, downloads, median, siteTime, devices,
       sources: sourcesFor(cur), funnel: funnelFor(cur), pages: pagesFor(cur), depth: depthFor(cur), events: eventsFor(cur),
       dVisitors: pct(visitors, pVisitors),
       dDownloads: pct(downloads, pDownloads),
       dMedian: pct(median, medianFromBins(pBins)),
-      dBounce: pct(bounce, pBounce),
-      dPlays: pct(plays, pPlays),
+      dSiteTime: pct(siteTime, pSiteTime),
       sparks: {
         downloads: spark(cur.map((d) => g(`ev|${d}|resume_download`)), "count"),
         median: spark(dailyMedian, "rate"),
-        bounce: spark(dailyBounce, "rate"),
-        plays: spark(cur.map((d) => g(`ev|${d}|video_play`)), "count"),
+        siteTime: spark(dailySite, "rate"),
       },
     };
   }

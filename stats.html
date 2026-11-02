@@ -409,7 +409,7 @@
       <div class="panel-head">
         <h2>Actions taken</h2>
       </div>
-      <p class="desc">Direct clicks, so these counts are close to exact. Walkthrough plays count only videos a visitor pressed play on (before 26 October they also counted card previews).</p>
+      <p class="desc">Direct clicks, so these counts are close to exact. Case study clicks were not counted from 27 October to 2 November (the new page addresses were not recognised).</p>
       <div class="chart-wrap" id="events"></div>
     </section>
 
@@ -667,9 +667,8 @@ function renderHead() {
 
   const tiles = [
     { label: 'Resume downloads', value: num(s.downloads), d: s.dDownloads, goodUp: true,  spark: s.sparks.downloads },
+    { label: 'Median time on the portfolio', value: dur(s.siteTime || 0), d: s.dSiteTime || 0, goodUp: true, spark: (s.sparks && s.sparks.siteTime) || new Array(12).fill(0) },
     { label: 'Median time on a case study', value: dur(s.median), d: s.dMedian, goodUp: true,  spark: s.sparks.median },
-    { label: 'Bounce rate', value: s.bounce + '%', d: s.dBounce, goodUp: false, spark: s.sparks.bounce },
-    { label: 'Walkthrough plays', value: num(s.plays), d: s.dPlays, goodUp: true,  spark: s.sparks.plays },
   ];
 
   const wrap = $('#kpis');
@@ -887,7 +886,6 @@ function renderPages() {
         <th class="num">Views</th>
         <th class="num">Median time</th>
         <th class="num">Video plays</th>
-        <th class="num">Read to the end</th>
       </tr></thead>
       <tbody>` +
     cur('pages').map(p =>
@@ -896,12 +894,6 @@ function renderPages() {
         <td class="num">${num(p.views)}</td>
         <td class="num">${dur(p.median)}</td>
         <td class="num">${num(p.plays)}</td>
-        <td class="num">
-          <div class="meter">
-            <span class="track"><span class="fill" style="width:${p.finished}%"></span></span>
-            <span class="n">${p.finished}%</span>
-          </div>
-        </td>
       </tr>`).join('') +
     `</tbody></table>`;
 }

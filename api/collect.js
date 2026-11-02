@@ -11,7 +11,7 @@ const S = require("./_store");
 
 const MAX_BODY = 4096;
 const EVENTS = new Set([
-  "resume_download", "video_play", "linkedin_click", "email_click", "case_study_open",
+  "resume_download", "video_play", "linkedin_click", "email_click", "case_study_open", "detailed_open",
 ]);
 const DEPTHS = new Set(["25", "50", "75", "90"]);
 const DEVICES = new Set(["phone", "tablet", "desktop"]);
@@ -35,18 +35,34 @@ function source(ref, host) {
 }
 
 // Only paths this site actually has. An unknown path is dropped rather than stored, which keeps
-// junk and scanner traffic out of the numbers.
-const KNOWN = new Set([
-  "/", "/about", "/resume", "/stats",
-  "/ihx-nucleus-mobile-case-study", "/ihx_tpa_ops_", "/ihx-ai-features-case-study",
-  "/ihx-user-management-case-study", "/wisewomen-case-study",
-]);
+// junk and scanner traffic out of the numbers. Since the clean URLs (2026-10-27) the case studies
+// live at short addresses; until 2026-11-02 this list still held only the old ones, so every case
+// study beacon in between was dropped. Old addresses redirect to the new ones, so a beacon
+// arriving with an old path is folded into the new one.
+// The short case studies are the ones the dashboard reports on; the detailed pages are counted
+// only as a funnel step (a click on "Read the detailed case study") and as page views.
+const SHORT_PATHS = ["/tpa-ops", "/user-management", "/ai-features", "/nucleus-mobile", "/wisewoman"];
+const CASE_PATHS = SHORT_PATHS.concat(["/tpa-ops-detailed", "/user-management-detailed"]);
+const OLD = {
+  "/ihx_tpa_ops_": "/tpa-ops", "/ihx_tpa_ops_-full": "/tpa-ops-detailed",
+  "/ihx-user-management-case-study": "/user-management", "/ihx-user-management-case-study-full": "/user-management-detailed",
+  "/ihx-ai-features-case-study": "/ai-features", "/ihx-nucleus-mobile-case-study": "/nucleus-mobile",
+  "/wisewomen-case-study": "/wisewoman",
+};
+const KNOWN = new Set(["/", "/about", "/resume", "/stats"].concat(CASE_PATHS));
+const IS_SHORT = new Set(SHORT_PATHS);
+
+// Upstash's free plan allows 500,000 commands a month and every command in a pipeline counts.
+// So only what the dashboard shows is written (2026-11-02): no bounce or session counters, no
+// "read to the end", and scroll depth and read time only for the short case studies. A short
+// case study visit costs about 24 commands; any other page view about 12.
 
 function cleanPath(p) {
   if (typeof p !== "string") return null;
   let s = p.split("?")[0].split("#")[0].replace(/\.html$/, "");
   if (s.length > 1) s = s.replace(/\/+$/, "");
   if (s === "/index" || s === "") s = "/";
+  if (OLD[s]) s = OLD[s];
   return KNOWN.has(s) ? s : null;
 }
 
@@ -96,23 +112,23 @@ module.exports = async function handler(req, res) {
     if (vid) {
       cmds.push(["PFADD", `d:${day}:uniq`, vid]); touch(`d:${day}:uniq`);
       cmds.push(["PFADD", `d:${day}:f:landed`, vid]); touch(`d:${day}:f:landed`);
-      if (path !== "/" && path !== "/about" && path !== "/resume" && path !== "/stats") {
+      if (IS_SHORT.has(path)) {
         cmds.push(["PFADD", `d:${day}:f:case`, vid]); touch(`d:${day}:f:case`);
       }
     }
   } else if (type === "depth") {
     const d = String(body.d);
-    if (!DEPTHS.has(d)) return res.status(204).end();
+    if (!DEPTHS.has(d) || !IS_SHORT.has(path)) return res.status(204).end();
     const key = `d:${day}:depth:${path}:${d}`;
     cmds.push(["INCR", key]); touch(key);
-    if (d === "90" && vid) { cmds.push(["PFADD", `d:${day}:f:finished`, vid]); touch(`d:${day}:f:finished`); }
   } else if (type === "dur") {
     const sec = Math.max(0, Math.min(3600, Number(body.s) || 0));
-    const key = `d:${day}:dur:${path}:${bin(sec)}`;
-    cmds.push(["INCR", key]); touch(key);
-    // Bounce is defined, not measured: one page, under 15 seconds. Stated on the dashboard.
-    if (body.first && sec < 15) { cmds.push(["INCR", `d:${day}:bounce`]); touch(`d:${day}:bounce`); }
-    if (body.first) { cmds.push(["INCR", `d:${day}:sessions`]); touch(`d:${day}:sessions`); }
+    // time on the whole portfolio: one running total per visitor id per day, every page adding
+    // its visible seconds (2 commands a page view). The dashboard reads the median of these totals.
+    if (vid && sec > 0) { const tk = `d:${day}:vt`; cmds.push(["HINCRBY", tk, vid, sec]); touch(tk); }
+    // read time per case study, for the short case studies only
+    if (IS_SHORT.has(path)) { const key = `d:${day}:dur:${path}:${bin(sec)}`; cmds.push(["INCR", key]); touch(key); }
+    if (!cmds.length) return res.status(204).end();
   } else if (type === "event") {
     const name = String(body.n || "");
     if (!EVENTS.has(name)) return res.status(204).end();
@@ -123,6 +139,9 @@ module.exports = async function handler(req, res) {
     cmds.push(["INCR", pk]); touch(pk);
     if (name === "resume_download" && vid) {
       cmds.push(["PFADD", `d:${day}:f:resume`, vid]); touch(`d:${day}:f:resume`);
+    }
+    if (name === "detailed_open" && vid) {
+      cmds.push(["PFADD", `d:${day}:f:detailed`, vid]); touch(`d:${day}:f:detailed`);
     }
   } else if (type === "error") {
     // Errors are capped and de-duplicated by message plus path, so a loop cannot flood the store.

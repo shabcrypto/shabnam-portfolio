@@ -57,16 +57,14 @@
   /* ---- pageview ---- */
   send({ t: "view", r: document.referrer || "", dv: device });
 
+  // Scroll depth is reported for the short case studies only: that is all the dashboard shows,
+  // and every beacon costs database commands on a capped free plan. Visible time is reported
+  // from every page, because the dashboard adds it up into time on the whole portfolio.
+  var isShort = /^\/(tpa-ops|user-management|ai-features|nucleus-mobile|wisewoman)\/?$/.test(path);
+
   /* ---- dwell time, counted only while the tab is actually visible ---- */
   var visible = document.visibilityState === "visible";
   var mark = Date.now(), acc = 0, sent = false;
-  var firstOfSession = (function () {
-    try {
-      if (sessionStorage.getItem("shab-sess")) return false;
-      sessionStorage.setItem("shab-sess", "1");
-      return true;
-    } catch (e) { return false; }
-  })();
 
   function accrue() { if (visible) { acc += Date.now() - mark; } mark = Date.now(); }
   document.addEventListener("visibilitychange", function () {
@@ -77,7 +75,7 @@
     if (sent) return;
     accrue();
     sent = true;
-    send({ t: "dur", s: Math.round(acc / 1000), first: firstOfSession });
+    send({ t: "dur", s: Math.round(acc / 1000) });
   }
   window.addEventListener("pagehide", flush);
   document.addEventListener("visibilitychange", function () {
@@ -87,6 +85,7 @@
   /* ---- scroll depth, one beacon per threshold per page ---- */
   var hit = {};
   function depth() {
+    if (!isShort) return;
     var h = document.documentElement;
     var reach = (h.scrollTop + window.innerHeight) / Math.max(1, h.scrollHeight);
     [25, 50, 75, 90].forEach(function (d) {
@@ -110,7 +109,12 @@
     if (/\.pdf($|[?#])/i.test(href) || a.hasAttribute("download")) return ev("resume_download");
     if (/linkedin\.com|lnkd\.in/i.test(href)) return ev("linkedin_click");
     if (/^mailto:/i.test(href)) return ev("email_click");
-    if (/case-study|tpa_ops/i.test(href) && !/^#/.test(href)) return ev("case_study_open");
+    // "Read the detailed case study", and any other link into a detailed page
+    if (/^\/(tpa-ops|user-management)-detailed\/?($|[?#])/i.test(href)) return ev("detailed_open");
+    // case study links: the clean addresses since 2026-10-27, and the old ones for any stale link
+    if (/^\/(tpa-ops|user-management|ai-features|nucleus-mobile|wisewoman)\/?($|[?#])/i.test(href) || /case-study|tpa_ops/i.test(href)) {
+      if (href.replace(/[?#].*$/, "") !== location.pathname) return ev("case_study_open");
+    }
   }, true);
 
   document.addEventListener("play", function (e) {
