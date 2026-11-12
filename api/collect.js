@@ -11,7 +11,7 @@ const S = require("./_store");
 
 const MAX_BODY = 4096;
 const EVENTS = new Set([
-  "resume_download", "video_play", "linkedin_click", "email_click", "case_study_open", "detailed_open",
+  "resume_download", "video_play", "linkedin_click", "email_click", "case_study_open", "detailed_open", "resume_open",
 ]);
 const DEPTHS = new Set(["25", "50", "75", "90"]);
 const DEVICES = new Set(["phone", "tablet", "desktop"]);

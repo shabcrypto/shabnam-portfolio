@@ -113,7 +113,10 @@
     var a = e.target && e.target.closest && e.target.closest("a");
     if (!a) return;
     var href = a.getAttribute("href") || "";
-    if (/\.pdf($|[?#])/i.test(href) || a.hasAttribute("download")) return ev("resume_download");
+    // a download button carries the download attribute; the page images on /resume open the PDF in a
+    // new tab to zoom, which is reading, not downloading (counted as downloads until 2026-11-12)
+    if (a.hasAttribute("download")) return ev("resume_download");
+    if (/\.pdf($|[?#])/i.test(href)) return ev("resume_open");
     if (/linkedin\.com|lnkd\.in/i.test(href)) return ev("linkedin_click");
     if (/^mailto:/i.test(href)) return ev("email_click");
     // "Read the detailed case study", and any other link into a detailed page

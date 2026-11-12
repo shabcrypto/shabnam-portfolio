@@ -29,6 +29,7 @@ const EVENT_LABEL = {
   email_click: "Email clicked",
   case_study_open: "Case study opened",
   detailed_open: "Detailed case study opened",
+  resume_open: "Resume opened to zoom",
 };
 const BIN = 15, BINS = 40;
 
