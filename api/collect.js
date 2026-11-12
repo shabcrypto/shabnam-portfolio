@@ -112,6 +112,8 @@ module.exports = async function handler(req, res) {
     if (vid) {
       cmds.push(["PFADD", `d:${day}:uniq`, vid]); touch(`d:${day}:uniq`);
       cmds.push(["PFADD", `d:${day}:f:landed`, vid]); touch(`d:${day}:f:landed`);
+      // a device that first visited on an earlier day (the browser remembers only that date)
+      if (body.rt === 1) { cmds.push(["PFADD", `d:${day}:ret`, vid]); touch(`d:${day}:ret`); }
       if (IS_SHORT.has(path)) {
         cmds.push(["PFADD", `d:${day}:f:case`, vid]); touch(`d:${day}:f:case`);
       }

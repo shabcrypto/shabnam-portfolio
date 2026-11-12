@@ -103,6 +103,7 @@ module.exports = async function handler(req, res) {
   days.forEach((d) => {
     push(`views|${d}`,  ["GET", `d:${d}:views`]);
     push(`uniq|${d}`,   ["PFCOUNT", `d:${d}:uniq`]);
+    push(`ret|${d}`,    ["PFCOUNT", `d:${d}:ret`]);
     SOURCES.forEach((s) => push(`src|${d}|${s}`, ["GET", `d:${d}:src:${s}`]));
     DEVICES.forEach((v) => push(`dev|${d}|${v}`, ["GET", `d:${d}:dev:${v}`]));
     Object.keys(EVENT_LABEL).forEach((e) => push(`ev|${d}|${e}`, ["GET", `d:${d}:ev:${e}`]));
@@ -115,6 +116,20 @@ module.exports = async function handler(req, res) {
     }));
     ["landed", "case", "detailed", "resume"].forEach((f) => push(`fun|${d}|${f}`, ["PFCOUNT", `d:${d}:f:${f}`]));
     push(`vt|${d}`, ["HVALS", `d:${d}:vt`]);       // each visitor's total visible seconds that day
+  });
+
+  // Unique and returning visitors per range: one PFCOUNT over all the range's days merges the
+  // daily HyperLogLogs, so a device seen on several days counts once (ids persist since 2026-11-02).
+  const RANGES = { 1: [1, 0], y: [1, 1], 3: [3, 0], 7: [7, 0] };
+  const sliceDays = (r, off) => days.slice(Math.max(0, days.length - off - r), days.length - off);
+  const prevDays = (r, off) => days.slice(Math.max(0, days.length - off - r * 2), Math.max(0, days.length - off - r));
+  Object.keys(RANGES).forEach((k) => {
+    const [r, off] = RANGES[k];
+    [["cur", sliceDays(r, off)], ["prv", prevDays(r, off)]].forEach(([w, L]) => {
+      if (!L.length) return;
+      push(`runiq|${k}|${w}`, ["PFCOUNT", ...L.map((d) => `d:${d}:uniq`)]);
+      push(`rret|${k}|${w}`, ["PFCOUNT", ...L.map((d) => `d:${d}:ret`)]);
+    });
   });
 
   const CHUNK = 4000;
@@ -211,9 +226,11 @@ module.exports = async function handler(req, res) {
   const eventsFor = (L) => Object.keys(EVENT_LABEL).map((e) => ({ name: EVENT_LABEL[e], v: sum(L.map((d) => g(`ev|${d}|${e}`))) })).sort((a, b) => b.v - a.v);
 
   // ---- headline tiles, per range ----
-  function block(r, off = 0) {
+  function block(r, off = 0, key) {
     const cur = inRange(r, off), prv = prevRange(r, off);
-    const visitors = sum(cur.map((d) => g(`uniq|${d}`)));
+    const rg = (label) => (at[label] ? g1(label) : 0);
+    const visitors = rg(`runiq|${key}|cur`);
+    const returning = rg(`rret|${key}|cur`);
     const downloads = sum(cur.map((d) => g(`ev|${d}|resume_download`)));
 
     const bins = [];
@@ -226,7 +243,8 @@ module.exports = async function handler(req, res) {
     const pSiteTime = medianOf([].concat(...prv.map((d) => raw(`vt|${d}`))));
     const dailySite = cur.map((d) => medianOf(raw(`vt|${d}`)));
 
-    const pVisitors = sum(prv.map((d) => g(`uniq|${d}`)));
+    const pVisitors = rg(`runiq|${key}|prv`);
+    const pReturning = rg(`rret|${key}|prv`);
     const pDownloads = sum(prv.map((d) => g(`ev|${d}|resume_download`)));
     const pBins = [];
     for (let i = 0; i < BINS; i++) {
@@ -243,16 +261,18 @@ module.exports = async function handler(req, res) {
     // page views by device type, for this range (counted from 2026-10-26)
     const devices = DEVICES.map((v) => ({ name: v, v: sum(cur.map((d) => g(`dev|${d}|${v}`))) }));
     return {
-      visitors, downloads, median, siteTime, devices,
+      visitors, returning, downloads, median, siteTime, devices,
       sources: sourcesFor(cur), funnel: funnelFor(cur), pages: pagesFor(cur), depth: depthFor(cur), events: eventsFor(cur),
       dVisitors: pct(visitors, pVisitors),
       dDownloads: pct(downloads, pDownloads),
+      dReturning: pct(returning, pReturning),
       dMedian: pct(median, medianFromBins(pBins)),
       dSiteTime: pct(siteTime, pSiteTime),
       sparks: {
         downloads: spark(cur.map((d) => g(`ev|${d}|resume_download`)), "count"),
         median: spark(dailyMedian, "rate"),
         siteTime: spark(dailySite, "rate"),
+        returning: spark(cur.map((d) => g(`ret|${d}`)), "count"),
       },
     };
   }
@@ -274,7 +294,7 @@ module.exports = async function handler(req, res) {
     days: daysOut, sources, funnel, pages, depth,
     depthLabels: ["25%", "50%", "75%", "90%"],
     events, errors,
-    stats: { 1: block(1), y: block(1, 1), 3: block(3), 7: block(7) },
+    stats: { 1: block(1, 0, "1"), y: block(1, 1, "y"), 3: block(3, 0, "3"), 7: block(7, 0, "7") },
   });
 };
 

@@ -19,15 +19,22 @@
 
   var ENDPOINT = "/api/collect";
 
-  // A visitor id is one device on one day. It is regenerated at midnight, so nothing links
-  // today's visit to tomorrow's and this cannot follow anyone over time.
+  // A visitor id is one device: random letters kept in this browser, nothing about the person.
+  // Since 2026-11-02 it no longer resets at midnight, so a visitor who comes back on another day
+  // counts once in a week's unique visitors and is marked as returning. The collector only adds
+  // ids to HyperLogLog counters, which can be counted but never listed or read back.
+  var today = new Date().toISOString().slice(0, 10);
+  var returning = false;
   var vid = (function () {
     try {
-      var today = new Date().toISOString().slice(0, 10);
-      var raw = localStorage.getItem("shab-vid");
-      if (raw) { var p = raw.split("|"); if (p[0] === today) return p[1]; }
-      var id = (Math.random().toString(36) + Math.random().toString(36)).replace(/[^a-z0-9]/g, "").slice(0, 16);
-      localStorage.setItem("shab-vid", today + "|" + id);
+      var first = localStorage.getItem("shab-first");
+      if (!first) { first = today; localStorage.setItem("shab-first", today); }
+      returning = first < today;
+      var id = localStorage.getItem("shab-id");
+      if (!id) {
+        id = (Math.random().toString(36) + Math.random().toString(36)).replace(/[^a-z0-9]/g, "").slice(0, 16);
+        localStorage.setItem("shab-id", id);
+      }
       return id;
     } catch (e) { return null; }
   })();
@@ -55,7 +62,7 @@
   })();
 
   /* ---- pageview ---- */
-  send({ t: "view", r: document.referrer || "", dv: device });
+  send({ t: "view", r: document.referrer || "", dv: device, rt: returning ? 1 : 0 });
 
   // Scroll depth is reported for the short case studies only: that is all the dashboard shows,
   // and every beacon costs database commands on a capped free plan. Visible time is reported

@@ -335,7 +335,7 @@
 
   <!-- ============ HERO FIGURE: exactly one per view ============ -->
   <section class="hero-fig">
-    <p class="label">Visitors</p>
+    <p class="label">Unique visitors</p>
     <p class="value" id="hero-value">0</p>
     <p class="meta" id="hero-meta"></p>
   </section>
@@ -666,6 +666,7 @@ function renderHead() {
     `<b>${num(cur('funnel')[1].v)}</b> case study opens · <b>${num(s.downloads)}</b> resume downloads`;
 
   const tiles = [
+    { label: 'Returning visitors', value: num(s.returning || 0), d: s.dReturning || 0, goodUp: true, spark: (s.sparks && s.sparks.returning) || new Array(12).fill(0) },
     { label: 'Resume downloads', value: num(s.downloads), d: s.dDownloads, goodUp: true,  spark: s.sparks.downloads },
     { label: 'Median time on the portfolio', value: dur(s.siteTime || 0), d: s.dSiteTime || 0, goodUp: true, spark: (s.sparks && s.sparks.siteTime) || new Array(12).fill(0) },
     { label: 'Median time on a case study', value: dur(s.median), d: s.dMedian, goodUp: true,  spark: s.sparks.median },
