@@ -2322,7 +2322,7 @@ html body .page-card .sx-page .sx-embed .jm-pain li{margin:0 0 5px;font-size:0.7
   </section>
 
   <!-- 08 · the design: her features film, with its steps as a list -->
-  <section class="sx sx-design" aria-label="The design">
+  <section class="sx sx-design" id="design" aria-label="The design">
     <div class="sx-in">
       <div class="sx-head"><p class="sx-k"><b>10</b> High-fidelity design and prototype</p></div>
       <p class="sx-did" data-a="fade" data-t="0.2"><b>What I did</b>I designed the user table, the create-user flow, the role branch and the inactive alerts, and took them through review with PM and engineering.</p>
@@ -2434,12 +2434,21 @@ window.UMF = function (root) {
     for (var i = 1; i < CAM.length; i++) if (t <= CAM[i][0]) { var a = CAM[i - 1], b = CAM[i], p = eio(seg(t, a[0], b[0])); return [0, lerp(a[1], b[1], p), lerp(a[2], b[2], p), Math.exp(lerp(Math.log(a[3]), Math.log(b[3]), p))]; }
     return CAM[CAM.length - 1];
   };
-  var CUR = [[0, 900, 600, 's'], [4.25, 545, 32, 'c'], [4.9, 580, 108, 'c'], [5.2, 575, 140, 'c'], [5.45, 580, 108, 'c'], [6.75, 1260, 214, 'c'], [7.5, 413, 269, 's'], [7.95, 413, 420, 's'], [8.55, 769, 528, 's'], [9.25, 765, 628, 's'], [9.9, 1000, 700, 's'], [15.55, 133, 637, 'c'], [16.4, 299, 637, 'c'], [16.9, 299, 637, 'c'], [17.95, 1076, 637, 'c'], [18.7, 850, 442, 's'], [19.4, 1150, 735, 's'], [21.75, 957, 427, 'c'], [22.9, 1170, 738, 's'], [25, 1170, 738, 's']];
-  var CLICKS = [[4.3, 545, 32, 'c'], [5.5, 580, 108, 'c'], [6.8, 1260, 214, 'c'], [8.0, 413, 420, 's'], [8.6, 769, 528, 's'], [9.3, 765, 628, 's'], [16.45, 299, 637, 'c'], [18.0, 1076, 637, 'c'], [18.75, 850, 442, 's'], [21.8, 957, 427, 'c']];
-  var CAPS = [[-1, 3.1, 'Group login', 'A group admin manages users across every center'], [3.1, 6.6, 'Single hospital', 'A center admin manages users for one center'], [6.6, 9.4, 'Group login', 'Switch between all centers or just one'], [9.4, 12.7, 'Create user', 'Group admins choose: a group user or a center user'], [12.7, 15.4, 'Create user', 'Then set permissions, module by module'], [15.4, 17.3, 'Create user', 'Locked modules stay visible, not hidden'], [17.3, 19.1, 'Create user', 'Every device on the login, and one click to remove access'], [19.1, 20.5, 'Single hospital', 'A center admin sees only their own center'], [20.5, 22.0, 'Deactivation', 'Inactive for 4 weeks? The row flags it'], [22.0, 23.4, 'Deactivation', 'Deactivating keeps the row. The status flips to Inactive'], [23.4, 26.3, 'Delete', 'Deleting is separate: the trash icon in Actions'], [26.3, 29.3, 'SSO', 'Single sign-on, switched per user'], [29.3, 32.3, 'Impact', '87% fewer support tickets']];
+  var CUR = [[0, 900, 600, 's'], [4.25, 545, 32, 'c'], [4.9, 580, 108, 'c'], [5.2, 575, 140, 'c'], [5.45, 580, 108, 'c'], [6.75, 1260, 214, 'c'], [7.5, 413, 269, 's'], [7.95, 413, 420, 's'], [8.55, 769, 528, 's'], [9.25, 765, 628, 's'], [9.9, 1000, 700, 's'], [15.55, 133, 637, 'c'], [16.4, 299, 637, 'c'], [16.9, 299, 637, 'c'], [17.95, 1076, 679, 'c'], [18.7, 850, 442, 's'], [19.4, 1150, 735, 's'], [21.75, 957, 427, 'c'], [22.9, 1170, 738, 's'], [25, 1170, 738, 's']];
+  var CLICKS = [[4.3, 545, 32, 'c'], [5.5, 580, 108, 'c'], [6.8, 1260, 214, 'c'], [8.0, 413, 420, 's'], [8.6, 769, 528, 's'], [9.3, 765, 628, 's'], [16.45, 299, 637, 'c'], [18.0, 1076, 679, 'c'], [18.75, 850, 442, 's'], [21.8, 957, 427, 'c']];
+  var CAPS = [[-1, 3.1, 'Group login', 'A group admin manages users across every center'], [3.1, 6.6, 'Single hospital', 'A center admin manages users for one center'], [6.6, 9.4, 'Group login', 'Switch between all centers or just one'], [9.4, 12.7, 'Create user', 'Group admins choose: a group user or a center user'], [12.7, 15.4, 'Create user', 'Then set permissions, module by module'], [15.4, 17.3, 'Create user', 'Locked modules stay visible, not hidden'], [17.3, 19.1, 'Create user', 'Every device on the login, and one click to remove access'], [19.1, 20.5, 'Single hospital', 'A center admin sees only their own center'], [20.5, 22.0, 'Deactivation', 'Inactive for 4 weeks? The row flags it'], [22.0, 23.4, 'Deactivation', 'The status flips to Inactive. The row dims and moves to the end'], [23.4, 26.3, 'Delete', 'Deleting is separate: the trash icon in Actions'], [26.3, 29.3, 'SSO', 'Single sign-on, switched per user'], [29.3, 32.3, 'Impact', '87% fewer support tickets']];
   var capBox = q('.um-caps');
   var caps = CAPS.map(function (c) { var d = document.createElement('div'); d.className = 'um-cap'; var s = document.createElement('span'); s.textContent = c[2]; var b = document.createElement('b'); b.textContent = c[3]; d.appendChild(s); d.appendChild(b); capBox.appendChild(d); return d; });
   caps[8].classList.add('uf-right');
+  // 2026-11-16 (her ask): a deactivated row dims and moves to the end of the list. Raghu's row
+  // (stage y 616) and Rajesh's (658) are cut from the same screen and swap places over a white cover.
+  var mk = function (css) { var d = document.createElement('div'); d.className = 'abs'; d.style.cssText = css; q('.um-cover').parentNode.insertBefore(d, q('.um-cover')); return d; };
+  var RBG = 'background-image:url(images/um-feat/single.webp);background-size:1366px 770px;';
+  var mvC = mk('left:76px;top:616px;width:1266px;height:84px;background:#fff;opacity:0');
+  var mvA = mk('left:76px;top:616px;width:1266px;height:42px;opacity:0;' + RBG + 'background-position:-76px -616px');   // slides under Rajesh's row
+  var mvB = mk('left:76px;top:658px;width:1266px;height:42px;opacity:0;' + RBG + 'background-position:-76px -658px');
+  var mvF = mk('left:76px;top:658px;width:1290px;height:70px;opacity:0;' + RBG + 'background-position:-76px -700px');   // the table's bottom edge and the space under it: slides up when a row is deleted, so no blank row is left
+  var mvT = document.createElement('div'); mvT.style.cssText = 'position:absolute;left:192px;top:9px;width:63px;height:24px;' + RBG + 'background-position:-268px -667px'; mvA.appendChild(mvT);   // its toggle, now Inactive
   var S = function (s) { return q(s).style; };
   var el = { st: S('.um-st'), strg: S('.um-strg'), trg: S('.um-trg'), single: S('.i-single'), centers: S('.um-centers'), col: S('.um-col'), cover: S('.um-cover'), row10: S('.um-row10'), tip: S('.um-tip'), sso: S('.um-sso'), knob: S('.um-knob'), dim: S('.um-dim'), role: S('.m-role'), rolesel: S('.m-rolesel'), list: S('.m-list'), form: S('.m-form'), inactive: S('.m-inactive'), confirm: S('.m-confirm'), deleted: S('.m-deleted'), panel: S('.um-panel'), ring: S('.um-ring'), cur: S('.um-cur') };
   var ssoText = q('.um-ssot');
@@ -2481,16 +2490,23 @@ window.UMF = function (root) {
     el.inactive.opacity = 0;
     // deactivate: the status toggle flips, the row stays
     var sk = eio(seg(t, 16.5, 16.75));
-    el.st.opacity = t > 16.45 && t < 19.9 ? sk : 0; el.st.transform = 'scale(' + (1 + .12 * Math.sin(Math.PI * sk)) + ')';
-    el.strg.opacity = eo(seg(t, 16.55, 16.75)) * (1 - ei(seg(t, 17.3, 17.6)));
+    el.st.opacity = t > 16.45 && t < 16.8 ? sk : 0; el.st.transform = 'scale(' + (1 + .12 * Math.sin(Math.PI * sk)) + ')';
+    el.strg.opacity = eo(seg(t, 16.55, 16.75)) * (1 - ei(seg(t, 16.8, 16.95)));
+    var mvOn = t >= 16.8 && t < 25.4, mvP = eio(seg(t, 17.0, 17.45));
+    mvC.style.opacity = mvB.style.opacity = mvOn ? 1 : 0;
+    mvA.style.opacity = mvOn ? lerp(1, .42, eio(seg(t, 16.8, 17.0))) * (1 - eo(seg(t, 19.85, 20.15))) : 0;   // dims, then goes with the delete
+    mvA.style.transform = 'translateY(' + (42 * mvP) + 'px)'; mvB.style.transform = 'translateY(' + (-42 * mvP) + 'px)';
+    el.trg.top = '663px';   // the trash icon on its new, last row
+    mvF.style.opacity = t >= 19.85 && t < 25.4 ? 1 : 0;
+    mvF.style.transform = 'translateY(' + (42 * (1 - eio(seg(t, 19.9, 20.35)))) + 'px)';
     // delete is a separate action: the trash icon in Actions
     el.trg.opacity = eo(seg(t, 17.75, 17.95)) * (1 - ei(seg(t, 18.15, 18.3)));
     pop(el.confirm, t, 18.15, 18.9, 1.25);
     var dl = eo(seg(t, 18.85, 18.95)), dlo = ei(seg(t, 19.5, 19.75));
     el.deleted.opacity = dl * (1 - dlo); el.deleted.transform = 'scale(' + (1.25 * lerp(1, .96, dlo)) + ')';
     var rm = t > 19.85 && t < 25.4 ? 1 : 0;
-    el.cover.opacity = rm; el.row10.opacity = rm;
-    el.row10.transform = 'translateY(' + (-42 * eio(seg(t, 20.0, 20.4))) + 'px)';
+    el.cover.opacity = 0; el.row10.opacity = 0;   // the swap rows and the closing table edge (mvA/mvB/mvF) do this now
+    el.row10.transform = 'translateY(-42px)';   // already moved up by the swap
     // SSO toggle
     var on = t > 20.9 && t < 25.4;
     var k = eio(seg(t, 21.85, 22.1));
